@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import Office3D from "./components/Office3D";
+import Portfolio from "./components/Portfolio";
 
 const Experience = () => {
 	return (
@@ -11,7 +11,7 @@ const Experience = () => {
 				far: 200,
 				position: [2.5, 4, 6],
 			}}>
-			<Office3D />
+			<Portfolio />
 			<OrbitControls />
 		</Canvas>
 	);
