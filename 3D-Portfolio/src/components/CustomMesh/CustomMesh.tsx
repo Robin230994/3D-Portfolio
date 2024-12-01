@@ -1,9 +1,9 @@
-import * as THREE from "three";
+import { Mesh } from "three";
 import CustomMeshUI from "./CustomMeshUI";
 
 interface CustomMeshProps {
 	objectName: string;
-	object: THREE.Mesh;
+	object: Mesh;
 }
 
 const CustomMesh: React.FC<CustomMeshProps> = ({ objectName, object }): JSX.Element | null => {

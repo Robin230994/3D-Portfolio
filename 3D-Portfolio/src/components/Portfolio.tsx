@@ -1,6 +1,4 @@
 import { useGLTF } from "@react-three/drei";
-import { DirectionalLight } from "three";
-import { GLTF } from "three-stdlib";
 
 import CustomMesh from "./CustomMesh/CustomMesh";
 import * as THREE from "three";
@@ -18,7 +16,7 @@ function Portfolio() {
 		<>
 			{/************ Office Room ************/}
 			<group name="office-room">
-				{/************ Walls ************/}
+				{/************ BASE (Walls + Roof + Floor) ************/}
 				<group name="base">
 					<CustomMesh objectName="LeftWall" object={nodes["LeftWall"]} />
 
