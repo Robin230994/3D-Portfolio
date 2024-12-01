@@ -652,6 +652,9 @@ export default function OfficeRoom(props: JSX.IntrinsicElements["group"]) {
 	const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
 	const { nodes, materials } = useGraph(clone) as GLTFResult;
 	const { actions } = useAnimations(animations, group);
+
+
+	console.log(nodes);
 	return (
 		<group ref={group} {...props} dispose={null}>
 			<group name="Scene">
@@ -2188,15 +2191,15 @@ export default function OfficeRoom(props: JSX.IntrinsicElements["group"]) {
 					position={[-1.442, 2.01, 0.167]}
 					rotation={[-0.01, -1.543, -0.01]}
 				/>
-				{/* <directionalLight
-					intensity={68300}
+				<directionalLight
+					intensity={10}
 					decay={2}
 					color="#ffd395"
 					position={[15.66, 5.009, 2.589]}
 					rotation={[-0.793, 1.206, -2.776]}
 					target={nodes.Sun.target}>
 					<primitive object={nodes.Sun.target} position={[0, 0, -1]} />
-				</directionalLight> */}
+				</directionalLight>
 				<mesh name="Room" geometry={nodes.Room.geometry} material={nodes.Room.material} />
 				<mesh name="Floor" geometry={nodes.Floor.geometry} material={materials.Floor_Mat_Textures} position={[0, 0.01, 0]} />
 				<mesh name="BackWall" geometry={nodes.BackWall.geometry} material={materials.Back_Wall_Mat_Textures} />
