@@ -29,7 +29,7 @@ export default class MaterialCreator {
 		return MaterialCreator.instance;
 	}
 
-	public createStandardMaterial(materialName: string, textures: StandardTextureParams): Material {
+	public createStandardMaterial(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
 		const diffuseTexture = this.textureLoader.load(textures.diffuseT);
 		const roughnessTexture = textures.roughnessT ? this.textureLoader.load(textures.roughnessT) : undefined;
 		const normalTexture = textures.normalT ? this.textureLoader.load(textures.normalT) : undefined;

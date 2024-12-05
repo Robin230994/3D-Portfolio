@@ -8,7 +8,6 @@ interface CustomMeshProps {
 }
 
 const CustomMesh: React.FC<CustomMeshProps> = ({ objectName, object, material }): JSX.Element | null => {
-	console.log(material);
 	if (!object) {
 		console.error(`Unable to load unknown mesh with name "${objectName}"`);
 		return null;
