@@ -2,6 +2,7 @@ import { useGLTF } from "@react-three/drei";
 
 import CustomMesh from "./CustomMesh/CustomMesh";
 import * as THREE from "three";
+import MaterialCreator from "../classes/MaterialCreator";
 
 type GLTFResult = {
 	nodes: {
@@ -9,11 +10,17 @@ type GLTFResult = {
 	};
 };
 
+const materialCreator = MaterialCreator.getInstance();
+const floorMaterial = materialCreator.createStandardMaterial("FloorMat", {
+	diffuseT: "/baked-textures/Floor/floor_baked_color.jpg",
+}) as THREE.MeshStandardMaterial;
+
 function Portfolio() {
 	const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 
 	return (
 		<>
+			<ambientLight intensity={1.5} />
 			{/************ Office Room ************/}
 			<group name="office-room">
 				{/************ BASE (Walls + Roof + Floor) ************/}
@@ -28,7 +35,7 @@ function Portfolio() {
 
 					<CustomMesh objectName="Roof" object={nodes["Roof"]} />
 
-					<CustomMesh objectName="Floor" object={nodes["Floor"]} />
+					<CustomMesh objectName="Floor" object={nodes["Floor"]} material={floorMaterial} />
 				</group>
 			</group>
 		</>

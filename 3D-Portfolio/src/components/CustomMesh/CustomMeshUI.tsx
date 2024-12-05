@@ -1,9 +1,9 @@
-import { Mesh } from "three";
+import { Material, Mesh } from "three";
 import { IUIComponentProps } from "../../interfaces/GLlnterfaces";
 
 interface CustomMeshUIProps extends IUIComponentProps {
 	props: {
-		data: { objectName: string; object: Mesh };
+		data: { objectName: string; object: Mesh; material?: Material };
 		functions: object;
 		refs: object;
 	};
@@ -11,11 +11,7 @@ interface CustomMeshUIProps extends IUIComponentProps {
 
 const CustomMeshUI: React.FC<CustomMeshUIProps> = ({ props }) => {
 	const { data } = props;
-	return (
-		<mesh name={data.objectName} geometry={data.object.geometry}>
-			<meshStandardMaterial color={"blue"} />
-		</mesh>
-	);
+	return <mesh name={data.objectName} geometry={data.object.geometry} material={data.material}></mesh>;
 };
 
 export default CustomMeshUI;
