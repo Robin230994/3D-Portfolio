@@ -1,8 +1,10 @@
 import { Center, useGLTF } from "@react-three/drei";
 import { MeshStandardMaterial, Mesh } from "three";
+import { useControls } from "leva";
 
 import CustomMesh from "./CustomMesh/CustomMesh";
 import MaterialCreator from "../classes/MaterialCreator";
+import useDebug from "../hooks/useDebug";
 
 type GLTFResult = {
 	nodes: {
@@ -19,6 +21,7 @@ const floorMaterial: MeshStandardMaterial = materialCreator.createStandardMateri
 
 function Portfolio() {
 	const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
+	useDebug(materialCreator);
 
 	return (
 		<>

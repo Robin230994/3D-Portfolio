@@ -92,4 +92,13 @@ export default class MaterialCreator {
 		}
 		return null; // Return null if the material is not found
 	}
+
+	public getMaterialName(material: Material): string | null {
+		for (const [name, storedMaterial] of this.storedMaterials.entries()) {
+			if (storedMaterial === material) {
+				return name;
+			}
+		}
+		return null; // Return null if the material is not found
+	}
 }
