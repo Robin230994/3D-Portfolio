@@ -1,6 +1,6 @@
 import { Center, useGLTF } from "@react-three/drei";
 import { Mesh } from "three";
-import { floorMaterial } from "../Helper/materials";
+import { floorMaterial, frontWallMaterial } from "../Helper/materials";
 
 import CustomMesh from "./CustomMesh/CustomMesh";
 import MaterialCreator from "../classes/MaterialCreator";
@@ -30,7 +30,7 @@ function Portfolio() {
 
 						<CustomMesh objectName="WindowWall" object={nodes["WindowWall"]} />
 
-						<CustomMesh objectName="FrontWall" object={nodes["FrontWall"]} />
+						<CustomMesh objectName="FrontWall" object={nodes["FrontWall"]} material={frontWallMaterial} />
 
 						<CustomMesh objectName="BackWall" object={nodes["BackWall"]} />
 

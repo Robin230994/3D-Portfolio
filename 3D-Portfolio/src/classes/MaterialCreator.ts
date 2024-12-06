@@ -11,7 +11,7 @@ type StandardTextureParams = {
 };
 
 type MaterialUpdateParams = {
-	[key: string]: unknown; // Allow for future extensions
+	[key: string]: unknown;
 };
 
 export default class MaterialCreator {
