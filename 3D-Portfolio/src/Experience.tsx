@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Portfolio from "./components/Portfolio";
+import { Perf } from "r3f-perf";
 
 const Experience = () => {
 	return (
@@ -11,6 +12,7 @@ const Experience = () => {
 				far: 200,
 				position: [2.5, 4, 6],
 			}}>
+			<Perf position="top-left" />
 			<Portfolio />
 			<OrbitControls />
 		</Canvas>
