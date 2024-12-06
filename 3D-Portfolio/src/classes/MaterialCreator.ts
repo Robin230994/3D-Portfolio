@@ -1,4 +1,5 @@
 import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters } from "three";
+import NullMaterialException from "../Exceptions/NullMaterialException";
 
 type StandardTextureParams = {
 	diffuseT: string;
@@ -7,6 +8,10 @@ type StandardTextureParams = {
 	aoT?: string;
 	displacementT?: string;
 	metallnessT?: string;
+};
+
+type MaterialUpdateParams = {
+	[key: string]: unknown; // Allow for future extensions
 };
 
 export default class MaterialCreator {
@@ -48,6 +53,31 @@ export default class MaterialCreator {
 		const createdMaterial = new MeshStandardMaterial(materialParams);
 		this.storedMaterials.set(materialName, createdMaterial);
 		return createdMaterial;
+	}
+
+	public tweakMaterial(name: string, updates: MaterialUpdateParams): boolean {
+		try {
+			const material = this.getMaterialByName(name);
+			if (!material) {
+				throw new NullMaterialException("Unable to extract material by name");
+			}
+
+			Object.keys(updates).forEach((key) => {
+				if (key in material) {
+					(material as any)[key] = updates[key];
+				}
+			});
+			material.needsUpdate = true;
+			return true;
+		} catch (error: unknown) {
+			if (error instanceof NullMaterialException) {
+				console.error(error.getExceptionMessage());
+			} else {
+				console.error(error);
+			}
+		}
+
+		return false;
 	}
 
 	public getStoredMaterial(): Map<string, Material> {
