@@ -14,3 +14,21 @@ export const frontWallMaterial: MeshStandardMaterial = materialCreator.createSta
 	roughnessT: "/baked-textures/Walls/Front/walls_roughness.jpg",
 	normalT: "/baked-textures/Walls/Front/walls_normal.jpg",
 });
+
+export const backWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("BackWallMat", {
+	diffuseT: "/baked-textures/Walls/Back/walls_color.jpg",
+	roughnessT: "/baked-textures/Walls/Back/walls_roughness.jpg",
+	normalT: "/baked-textures/Walls/Back/walls_normal.jpg",
+});
+
+export const leftWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("LeftWallMat", {
+	diffuseT: "/baked-textures/Walls/Left/walls_color.jpg",
+	roughnessT: "/baked-textures/Walls/Left/walls_roughness.jpg",
+	normalT: "/baked-textures/Walls/Left/walls_normal.jpg",
+});
+
+export const windowWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("WindowWallMat", {
+	diffuseT: "/baked-textures/Walls/Window/walls_color.jpg",
+	roughnessT: "/baked-textures/Walls/Window/walls_roughness.jpg",
+	normalT: "/baked-textures/Walls/Window/walls_normal.jpg",
+});

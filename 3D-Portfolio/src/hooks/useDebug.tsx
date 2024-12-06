@@ -1,8 +1,21 @@
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
+import { FolderSettings } from "leva/dist/declarations/src/types";
 import MaterialCreator from "../classes/MaterialCreator";
 
 type DebugParams = {
-	[label: string]: Record<string, number>;
+	Floor: {
+		roughness: number;
+		metalness: number;
+	};
+	FrontWall: {
+		roughness: number;
+		metalness: number;
+	};
+	Lights: {
+		AmbientLight: {
+			intensity: number;
+		};
+	};
 };
 
 const useDebug = (materialCreatorInstance: MaterialCreator): DebugParams => {
@@ -16,12 +29,23 @@ const useDebug = (materialCreatorInstance: MaterialCreator): DebugParams => {
 		metalness: { value: 0.1, min: 0, max: 1, step: 0.1 },
 	});
 
+	const { ambientLightIntensity } = useControls("Lights", {
+		AmbientLight: folder({
+			ambientLightIntensity: { value: 1.5, min: 1, max: 10, step: 0.1 },
+		}),
+	});
+
 	materialCreatorInstance.tweakMaterial("FloorMat", floorParams);
 	materialCreatorInstance.tweakMaterial("WallMat", wallParams);
 
 	return {
 		Floor: floorParams,
-		Wall: wallParams,
+		FrontWall: wallParams,
+		Lights: {
+			AmbientLight: {
+				intensity: ambientLightIntensity,
+			},
+		},
 	};
 };
 
