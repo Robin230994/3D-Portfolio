@@ -1,6 +1,6 @@
 import { Center, useGLTF } from "@react-three/drei";
-import { MeshStandardMaterial, Mesh } from "three";
-import { useControls } from "leva";
+import { Mesh } from "three";
+import { floorMaterial } from "../Helper/materials";
 
 import CustomMesh from "./CustomMesh/CustomMesh";
 import MaterialCreator from "../classes/MaterialCreator";
@@ -13,11 +13,6 @@ type GLTFResult = {
 };
 
 const materialCreator = MaterialCreator.getInstance();
-const floorMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("FloorMat", {
-	diffuseT: "/baked-textures/Floor/floor_baked_color.jpg",
-	roughnessT: "/baked-textures/Floor/floor_baked_roughness.jpg",
-	normalT: "/baked-textures/Floor/floor_baked_normal.png",
-});
 
 function Portfolio() {
 	const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
