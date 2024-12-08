@@ -1,6 +1,5 @@
 import { folder, useControls } from "leva";
-import { useEffect, useMemo } from "react";
-import { MaterialUpdateParams } from "../types/GLTypes";
+import { useEffect } from "react";
 
 import MaterialCreator from "../classes/MaterialCreator";
 
