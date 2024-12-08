@@ -1,4 +1,6 @@
 import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters } from "three";
+import { MaterialUpdateParams } from "../types/GLTypes";
+
 import NullMaterialException from "../Exceptions/NullMaterialException";
 
 type StandardTextureParams = {
@@ -8,10 +10,6 @@ type StandardTextureParams = {
 	aoT?: string;
 	displacementT?: string;
 	metallnessT?: string;
-};
-
-type MaterialUpdateParams = {
-	[key: string]: unknown;
 };
 
 export default class MaterialCreator {
