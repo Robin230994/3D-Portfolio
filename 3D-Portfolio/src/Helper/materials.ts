@@ -17,7 +17,7 @@ export const frontWallMaterial: MeshStandardMaterial = materialCreator.createSta
 
 export const backWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("BackWall", {
 	diffuseT: "/baked-textures/Walls/Back/back_wall_color.webp",
-	roughnessT: "/baked-textures/Walls/Back/back_wall_roughness.jpwebpg",
+	roughnessT: "/baked-textures/Walls/Back/back_wall_roughness.webp",
 	normalT: "/baked-textures/Walls/Back/back_wall_normal.png",
 });
 

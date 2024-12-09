@@ -1,7 +1,8 @@
-import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace } from "three";
+import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace, Texture } from "three";
 import { MaterialUpdateParams } from "../types/GLTypes";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
+import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
 
 type StandardTextureParams = {
 	diffuseT: string;
@@ -30,6 +31,29 @@ export default class MaterialCreator {
 			MaterialCreator.instance = new MaterialCreator();
 		}
 		return MaterialCreator.instance;
+	}
+
+	public loadTexture(path: string): Texture | null {
+		try {
+			const textureToLoad = this.textureLoader.load(
+				path,
+				() => {},
+				() => {},
+				() => {
+					throw new NonAccessibleTexturePathException(`Unable to access given texture path: ${path}`);
+				}
+			);
+
+			return textureToLoad;
+		} catch (error) {
+			if (error instanceof NonAccessibleTexturePathException) {
+				console.error(error.getExceptionMessage());
+			} else {
+				console.error(error);
+			}
+		}
+
+		return null;
 	}
 
 	public createStandardMaterial(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
