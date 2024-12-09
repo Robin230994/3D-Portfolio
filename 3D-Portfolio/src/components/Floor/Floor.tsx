@@ -1,12 +1,15 @@
-import { MeshStandardMaterial } from "three";
+import { MeshStandardMaterial, Texture } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 
 import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
+const diffuseFloorTexture = materialCreator.loadTexture("/baked-textures/Floor/floor_baked_color.jpg") as Texture;
+diffuseFloorTexture.flipY = false;
+
 const floorMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("Floor", {
-	diffuseT: "/baked-textures/Floor/floor_baked_color.jpg",
+	diffuseT: diffuseFloorTexture,
 	roughnessT: "/baked-textures/Floor/floor_baked_roughness.jpg",
 	normalT: "/baked-textures/Floor/floor_baked_normal.png",
 });
