@@ -1,4 +1,4 @@
-import { glassMaterial } from "../../Helper/materials";
+import { glassMaterial } from "../../Helper/GLMaterials";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 
 const Window: React.FC<CustomMeshProps> = ({ name, object }) => {
