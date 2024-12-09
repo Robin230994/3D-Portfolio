@@ -43,7 +43,7 @@ const useDebugControls = (): DebugParams => {
 		SunLight: folder({
 			sunlightIntensity: { value: 1, min: 0, max: 10, step: 0.1 },
 			sunlightColor: { value: "#ffffff" },
-			sunlightPosition: { value: { x: 1.54, y: 1, z: 1 }, step: 0.01, joystick: "invertY" },
+			sunlightPosition: { value: { x: 15.6, y: 5.1, z: 2.6 }, step: 0.01, joystick: "invertY" },
 		}),
 	});
 

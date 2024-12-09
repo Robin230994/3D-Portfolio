@@ -38,3 +38,18 @@ export const roofMaterial: MeshStandardMaterial = materialCreator.createStandard
 	roughnessT: "/baked-textures/Roof/roof_baked_roughness.jpg",
 	normalT: "/baked-textures/Roof/roof_baked_normal.png",
 });
+
+export const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("Filing", {
+	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.jpg",
+	roughnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Roughness.jpg",
+	displacementT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Displacement.jpg",
+	metallnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Metallic.jpg",
+	normalT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Normal.jpg",
+	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.jpg",
+});
+
+export const cupMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("Cup", {
+	diffuseT: "/baked-textures/Cup/Tasse-Textur.jpg",
+});
+
+export const glassMaterial: MeshStandardMaterial = new MeshStandardMaterial({ color: "#ffffff", roughness: 0, metalness: 0, opacity: 0.3, transparent: true });
