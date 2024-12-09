@@ -1,16 +1,16 @@
-import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace, Texture } from "three";
+import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace, Texture, RepeatWrapping } from "three";
 import { MaterialUpdateParams } from "../types/GLTypes";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
 
 type StandardTextureParams = {
-	diffuseT: string;
-	roughnessT?: string;
-	normalT?: string;
-	aoT?: string;
-	displacementT?: string;
-	metallnessT?: string;
+	diffuseT: string | Texture;
+	roughnessT?: string | Texture;
+	normalT?: string | Texture;
+	aoT?: string | Texture;
+	displacementT?: string | Texture;
+	metallnessT?: string | Texture;
 };
 
 export default class MaterialCreator {
@@ -37,7 +37,9 @@ export default class MaterialCreator {
 		try {
 			const textureToLoad = this.textureLoader.load(
 				path,
-				() => {},
+				(loadedTexture) => {
+					loadedTexture.colorSpace = SRGBColorSpace;
+				},
 				() => {},
 				() => {
 					throw new NonAccessibleTexturePathException(`Unable to access given texture path: ${path}`);
@@ -57,15 +59,32 @@ export default class MaterialCreator {
 	}
 
 	public createStandardMaterial(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
-		const diffuseTexture = this.textureLoader.load(textures.diffuseT);
+		const diffuseTexture: Texture = typeof textures.diffuseT === "string" ? this.textureLoader.load(textures.diffuseT) : textures.diffuseT;
 		diffuseTexture.colorSpace = SRGBColorSpace;
-		diffuseTexture.repeat.x = 1;
+		diffuseTexture.wrapS = RepeatWrapping;
+		diffuseTexture.wrapT = RepeatWrapping;
 
-		const roughnessTexture = textures.roughnessT ? this.textureLoader.load(textures.roughnessT) : undefined;
-		const normalTexture = textures.normalT ? this.textureLoader.load(textures.normalT) : undefined;
-		const aoTexture = textures.aoT ? this.textureLoader.load(textures.aoT) : undefined;
-		const displacementTexture = textures.displacementT ? this.textureLoader.load(textures.displacementT) : undefined;
-		const metalnessTexture = textures.metallnessT ? this.textureLoader.load(textures.metallnessT) : undefined;
+		const roughnessTexture = textures.roughnessT
+			? typeof textures.roughnessT === "string"
+				? this.textureLoader.load(textures.roughnessT)
+				: textures.roughnessT
+			: undefined;
+
+		const normalTexture = textures.normalT ? (typeof textures.normalT === "string" ? this.textureLoader.load(textures.normalT) : textures.normalT) : undefined;
+
+		const aoTexture = textures.aoT ? (typeof textures.aoT === "string" ? this.textureLoader.load(textures.aoT) : textures.aoT) : undefined;
+
+		const displacementTexture = textures.displacementT
+			? typeof textures.displacementT === "string"
+				? this.textureLoader.load(textures.displacementT)
+				: textures.displacementT
+			: undefined;
+
+		const metalnessTexture = textures.metallnessT
+			? typeof textures.metallnessT === "string"
+				? this.textureLoader.load(textures.metallnessT)
+				: textures.metallnessT
+			: undefined;
 
 		const materialParams: MeshStandardMaterialParameters = {
 			map: diffuseTexture,

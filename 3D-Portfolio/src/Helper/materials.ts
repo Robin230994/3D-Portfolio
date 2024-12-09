@@ -48,8 +48,4 @@ export const filingMaterial: MeshStandardMaterial = materialCreator.createStanda
 	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.jpg",
 });
 
-export const cupMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("Cup", {
-	diffuseT: "/baked-textures/Cup/Tasse-Textur.jpg",
-});
-
 export const glassMaterial: MeshStandardMaterial = new MeshStandardMaterial({ color: "#ffffff", roughness: 0, metalness: 0, opacity: 0.3, transparent: true });
