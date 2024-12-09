@@ -6,7 +6,7 @@ const materialCreator = MaterialCreator.getInstance();
 const cupDiffuseTexture = materialCreator.loadTexture("/baked-textures/Cup/Tasse-Textur.jpg") as Texture;
 cupDiffuseTexture.flipY = false;
 
-const cupMaterial = materialCreator.createStandardMaterial("Cup", { diffuseT: cupDiffuseTexture });
+const cupMaterial = materialCreator.createStandardMaterialFromTexture("Cup", { diffuseT: cupDiffuseTexture });
 cupMaterial.roughness = 0;
 cupMaterial.metalness = 0;
 

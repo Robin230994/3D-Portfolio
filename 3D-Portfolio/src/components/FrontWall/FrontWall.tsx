@@ -5,7 +5,7 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
-const frontWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("FrontWall", {
+const frontWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("FrontWall", {
 	diffuseT: "/baked-textures/Walls/Front/walls_color.webp",
 	roughnessT: "/baked-textures/Walls/Front/walls_roughness.webp",
 	normalT: "/baked-textures/Walls/Front/walls_normal.jpg",

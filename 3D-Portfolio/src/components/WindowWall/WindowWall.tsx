@@ -5,7 +5,7 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
-const windowWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("WindowWall", {
+const windowWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("WindowWall", {
 	diffuseT: "/baked-textures/Walls/Window/window_wall_color.webp",
 	roughnessT: "/baked-textures/Walls/Window/window_wall_roughness.webp",
 	normalT: "/baked-textures/Walls/Window/window_wall_normal.png",

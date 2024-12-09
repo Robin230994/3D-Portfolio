@@ -5,7 +5,7 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
-const roofMaterial: MeshStandardMaterial = materialCreator.createStandardMaterial("Roof", {
+const roofMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Roof", {
 	diffuseT: "/baked-textures/Roof/roof_baked_color.jpg",
 	roughnessT: "/baked-textures/Roof/roof_baked_roughness.jpg",
 	normalT: "/baked-textures/Roof/roof_baked_normal.png",

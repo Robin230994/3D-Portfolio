@@ -58,7 +58,7 @@ export default class MaterialCreator {
 		return null;
 	}
 
-	public createStandardMaterial(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
+	public createStandardMaterialFromTexture(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
 		const diffuseTexture: Texture = typeof textures.diffuseT === "string" ? this.textureLoader.load(textures.diffuseT) : textures.diffuseT;
 		diffuseTexture.colorSpace = SRGBColorSpace;
 		diffuseTexture.wrapS = RepeatWrapping;
