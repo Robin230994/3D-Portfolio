@@ -1,11 +1,15 @@
 import { Center, useGLTF, useHelper } from "@react-three/drei";
 import { DirectionalLight, DirectionalLightHelper, Mesh } from "three";
-import { backWallMaterial, floorMaterial, frontWallMaterial, leftWallMaterial, windowWallMaterial } from "../Helper/materials";
+import { MutableRefObject, useRef } from "react";
 
-import CustomMesh from "./CustomMesh/CustomMesh";
 import MaterialCreator from "../classes/MaterialCreator";
 import useDebug from "../hooks/useDebug";
-import { MutableRefObject, useRef } from "react";
+import LeftWall from "./LeftWall/LeftWall";
+import FrontWall from "./FrontWall/FrontWall";
+import WindowWall from "./WindowWall/WindowWall";
+import BackWall from "./BackWall/BackWall";
+import Floor from "./Floor/Floor";
+import Roof from "./Roof/Roof";
 
 type GLTFResult = {
 	nodes: {
@@ -30,22 +34,28 @@ function Portfolio() {
 		<>
 			<Center>
 				<ambientLight intensity={Lights.AmbientLight.intensity} />
-				<directionalLight intensity={1} position={Sun.position} rotation={Sun.rotation} color={Sun.color} ref={sunlightRef} />
+				<directionalLight
+					intensity={Lights.SunLight.intensity}
+					position={Lights.SunLight.position}
+					rotation={Sun.rotation}
+					color={Sun.color}
+					ref={sunlightRef}
+				/>
 				{/************ Office Room ************/}
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
 					<group name="base">
-						<CustomMesh objectName="LeftWall" object={nodes["LeftWall"] as Mesh} material={leftWallMaterial} />
+						<LeftWall name="LeftWall" object={nodes["LeftWall"] as Mesh} />
 
-						<CustomMesh objectName="WindowWall" object={nodes["WindowWall"] as Mesh} material={windowWallMaterial} />
+						<WindowWall name="WindowWall" object={nodes["WindowWall"] as Mesh} />
 
-						<CustomMesh objectName="FrontWall" object={nodes["FrontWall"] as Mesh} material={frontWallMaterial} />
+						<FrontWall name="FrontWall" object={nodes["FrontWall"] as Mesh} />
 
-						<CustomMesh objectName="BackWall" object={nodes["BackWall"] as Mesh} material={backWallMaterial} />
+						<BackWall name="BackWall" object={nodes["BackWall"] as Mesh} />
 
-						<CustomMesh objectName="Roof" object={nodes["Roof"] as Mesh} />
+						<Roof name="Roof" object={nodes["Roof"] as Mesh} />
 
-						<CustomMesh objectName="Floor" object={nodes["Floor"] as Mesh} material={floorMaterial} />
+						<Floor name="Floor" object={nodes["Floor"] as Mesh} />
 					</group>
 				</group>
 			</Center>

@@ -1,4 +1,4 @@
-import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters } from "three";
+import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace } from "three";
 import { MaterialUpdateParams } from "../types/GLTypes";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
@@ -34,6 +34,9 @@ export default class MaterialCreator {
 
 	public createStandardMaterial(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
 		const diffuseTexture = this.textureLoader.load(textures.diffuseT);
+		diffuseTexture.colorSpace = SRGBColorSpace;
+		diffuseTexture.repeat.x = 1;
+
 		const roughnessTexture = textures.roughnessT ? this.textureLoader.load(textures.roughnessT) : undefined;
 		const normalTexture = textures.normalT ? this.textureLoader.load(textures.normalT) : undefined;
 		const aoTexture = textures.aoT ? this.textureLoader.load(textures.aoT) : undefined;

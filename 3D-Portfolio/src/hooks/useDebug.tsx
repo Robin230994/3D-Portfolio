@@ -1,5 +1,6 @@
 import { folder, useControls } from "leva";
 import { useEffect } from "react";
+import { Vector3 } from "three";
 
 import MaterialCreator from "../classes/MaterialCreator";
 
@@ -15,6 +16,11 @@ type DebugParams = {
 	Lights: {
 		AmbientLight: {
 			intensity: number;
+		};
+		SunLight: {
+			intensity: number;
+			color: string;
+			position: Vector3;
 		};
 	};
 };
@@ -32,7 +38,12 @@ const useDebugControls = (): DebugParams => {
 
 	const lightParams = useControls("Lights", {
 		AmbientLight: folder({
-			ambientLightIntensity: { value: 3, min: 1, max: 10, step: 0.1 },
+			ambientLightIntensity: { value: 1.5, min: 1, max: 10, step: 0.1 },
+		}),
+		SunLight: folder({
+			sunlightIntensity: { value: 1, min: 0, max: 10, step: 0.1 },
+			sunlightColor: { value: "#ffffff" },
+			sunlightPosition: { value: { x: 1.54, y: 1, z: 1 }, step: 0.01, joystick: "invertY" },
 		}),
 	});
 
@@ -42,6 +53,11 @@ const useDebugControls = (): DebugParams => {
 		Lights: {
 			AmbientLight: {
 				intensity: lightParams.ambientLightIntensity,
+			},
+			SunLight: {
+				intensity: lightParams.sunlightIntensity,
+				color: lightParams.sunlightColor,
+				position: lightParams.sunlightPosition as Vector3,
 			},
 		},
 	};

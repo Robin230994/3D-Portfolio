@@ -1,7 +1,6 @@
-export type IUIComponentProps = {
-	props: {
-		data: object;
-		functions: object;
-		refs: object;
-	};
-};
+import { Mesh } from "three";
+
+export interface CustomMeshProps {
+	name: string;
+	object: Mesh;
+}
