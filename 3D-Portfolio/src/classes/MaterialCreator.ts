@@ -63,6 +63,7 @@ export default class MaterialCreator {
 		diffuseTexture.colorSpace = SRGBColorSpace;
 		diffuseTexture.wrapS = RepeatWrapping;
 		diffuseTexture.wrapT = RepeatWrapping;
+		diffuseTexture.flipY = false;
 
 		const roughnessTexture = textures.roughnessT
 			? typeof textures.roughnessT === "string"
