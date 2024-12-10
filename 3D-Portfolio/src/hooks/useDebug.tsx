@@ -5,10 +5,6 @@ import { Euler, Vector3 } from "three";
 import MaterialCreator from "../classes/MaterialCreator";
 
 type DebugParams = {
-	Floor: {
-		roughness: number;
-		metalness: number;
-	};
 	FrontWall: {
 		roughness: number;
 		metalness: number;
@@ -37,11 +33,6 @@ type DebugParams = {
 };
 
 const useDebugControls = (): DebugParams => {
-	const floorParams = useControls("Floor", {
-		roughness: { value: 0.5, min: 0, max: 1, step: 0.1 },
-		metalness: { value: 0.5, min: 0, max: 1, step: 0.1 },
-	});
-
 	const frontWallParams = useControls("FrontWall", {
 		roughness: { value: 0.2, min: 0, max: 1, step: 0.1 },
 		metalness: { value: 0.1, min: 0, max: 1, step: 0.1 },
@@ -62,17 +53,16 @@ const useDebugControls = (): DebugParams => {
 	const cupParams = useControls("Cup", {
 		roughness: { value: 0, min: 0, max: 1, step: 0.01 },
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
-		flatShading: true,
+		flatShading: false,
 	});
 
 	const cupHolderParams = useControls("CupHolder", {
 		roughness: { value: 0, min: 0, max: 1, step: 0.01 },
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
-		flatShading: true,
+		flatShading: false,
 	});
 
 	return {
-		Floor: floorParams,
 		FrontWall: frontWallParams,
 		Cup: cupParams,
 		CupHolder: cupHolderParams,
@@ -94,7 +84,6 @@ const useDebug = (materialCreatorInstance: MaterialCreator): DebugParams => {
 	const controls = useDebugControls();
 
 	useEffect(() => {
-		materialCreatorInstance.tweakMaterial("Floor", controls.Floor);
 		materialCreatorInstance.tweakMaterial("FrontWall", controls.FrontWall);
 		materialCreatorInstance.tweakMaterial("Cup", controls.Cup);
 		materialCreatorInstance.tweakMaterial("CupHolder", controls.CupHolder);

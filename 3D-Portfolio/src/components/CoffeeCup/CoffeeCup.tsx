@@ -1,5 +1,6 @@
 import { Texture } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+
 import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -13,7 +14,7 @@ cupMaterial.flatShading = true;
 
 const CoffeeCup: React.FC<CustomMeshProps> = ({ name, object }) => {
 	return (
-		<mesh name={name} geometry={object.geometry} position={object.position} rotation={object.rotation}>
+		<mesh name={name} geometry={object.geometry} position={object.position} rotation={object.rotation} receiveShadow castShadow>
 			<meshStandardMaterial {...cupMaterial} />
 		</mesh>
 	);

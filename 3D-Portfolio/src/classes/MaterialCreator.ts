@@ -1,4 +1,15 @@
-import { Material, LoadingManager, TextureLoader, MeshStandardMaterial, MeshStandardMaterialParameters, SRGBColorSpace, Texture, RepeatWrapping } from "three";
+import {
+	Material,
+	LoadingManager,
+	TextureLoader,
+	MeshStandardMaterial,
+	MeshStandardMaterialParameters,
+	SRGBColorSpace,
+	Texture,
+	RepeatWrapping,
+	MeshPhongMaterialParameters,
+	MeshPhongMaterial,
+} from "three";
 import { MaterialUpdateParams } from "../types/GLTypes";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
@@ -11,6 +22,17 @@ type StandardTextureParams = {
 	aoT?: string | Texture;
 	displacementT?: string | Texture;
 	metallnessT?: string | Texture;
+};
+
+type PhongTextureParamas = {
+	diffuseT: string | Texture;
+	bumpT?: string | Texture;
+	aoT?: string | Texture;
+	displacementT?: string | Texture;
+	emmisiveT?: string | Texture;
+	lightT?: string | Texture;
+	normalT?: string | Texture;
+	specularT?: string | Texture;
 };
 
 export default class MaterialCreator {
@@ -104,6 +126,46 @@ export default class MaterialCreator {
 		const emptyStandardMaterial = new MeshStandardMaterial();
 		this.storedMaterials.set(materialName, emptyStandardMaterial);
 		return emptyStandardMaterial;
+	}
+
+	public createPhongMaterialFromTexture(materialName: string, textures: PhongTextureParamas): MeshPhongMaterial {
+		const diffuseTexture: Texture = typeof textures.diffuseT === "string" ? this.textureLoader.load(textures.diffuseT) : textures.diffuseT;
+		diffuseTexture.colorSpace = SRGBColorSpace;
+		diffuseTexture.wrapS = RepeatWrapping;
+		diffuseTexture.wrapT = RepeatWrapping;
+		diffuseTexture.flipY = false;
+
+		const displacementTexture = textures.displacementT
+			? typeof textures.displacementT === "string"
+				? this.textureLoader.load(textures.displacementT)
+				: textures.displacementT
+			: undefined;
+
+		const specularTexture = textures.specularT
+			? typeof textures.specularT === "string"
+				? this.textureLoader.load(textures.specularT)
+				: textures.specularT
+			: undefined;
+
+		const bumpTexture = textures.bumpT ? (typeof textures.bumpT === "string" ? this.textureLoader.load(textures.bumpT) : textures.bumpT) : undefined;
+		const aoTexture = textures.aoT ? (typeof textures.aoT === "string" ? this.textureLoader.load(textures.aoT) : textures.aoT) : undefined;
+		const normalTexture = textures.normalT ? (typeof textures.normalT === "string" ? this.textureLoader.load(textures.normalT) : textures.normalT) : undefined;
+		const lightTexture = textures.lightT ? (typeof textures.lightT === "string" ? this.textureLoader.load(textures.lightT) : textures.lightT) : undefined;
+
+		const materialParams: MeshPhongMaterialParameters = {
+			map: diffuseTexture,
+			displacementMap: displacementTexture,
+			specularMap: specularTexture,
+			bumpMap: bumpTexture,
+			aoMap: aoTexture,
+			normalMap: normalTexture,
+			lightMap: lightTexture,
+		};
+
+		const createdMaterial = new MeshPhongMaterial(materialParams);
+		this.storedMaterials.set(materialName, createdMaterial);
+
+		return createdMaterial;
 	}
 
 	public tweakMaterial(name: string, updates: MaterialUpdateParams): boolean {
