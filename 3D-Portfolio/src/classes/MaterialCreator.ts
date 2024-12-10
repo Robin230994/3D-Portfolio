@@ -100,11 +100,17 @@ export default class MaterialCreator {
 		return createdMaterial;
 	}
 
+	public createEmptyStandardMaterial(materialName: string): MeshStandardMaterial {
+		const emptyStandardMaterial = new MeshStandardMaterial();
+		this.storedMaterials.set(materialName, emptyStandardMaterial);
+		return emptyStandardMaterial;
+	}
+
 	public tweakMaterial(name: string, updates: MaterialUpdateParams): boolean {
 		try {
 			const material = this.getMaterialByName(name);
 			if (!material) {
-				throw new NullMaterialException("Unable to extract material by name");
+				throw new NullMaterialException(`Unable to extract material by name: ${name}`);
 			}
 
 			Object.keys(updates).forEach((key) => {
@@ -145,5 +151,23 @@ export default class MaterialCreator {
 			}
 		}
 		return null; // Return null if the material is not found
+	}
+
+	public getTypeOfMaterial(materialName: string): string | null {
+		try {
+			const material = this.storedMaterials.get(materialName);
+			if (!material) {
+				throw new NullMaterialException(`Unable to extract material by name: ${materialName}`);
+			}
+			return material.type;
+		} catch (error) {
+			if (error instanceof NullMaterialException) {
+				console.error(error.getExceptionMessage());
+			} else {
+				console.error(error);
+			}
+		}
+
+		return null;
 	}
 }

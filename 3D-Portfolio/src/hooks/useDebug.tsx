@@ -1,6 +1,6 @@
 import { folder, useControls } from "leva";
 import { useEffect } from "react";
-import { Vector3 } from "three";
+import { Euler, Vector3 } from "three";
 
 import MaterialCreator from "../classes/MaterialCreator";
 
@@ -13,6 +13,16 @@ type DebugParams = {
 		roughness: number;
 		metalness: number;
 	};
+	Cup: {
+		roughness: number;
+		metalness: number;
+		flatShading: boolean;
+	};
+	CupHolder: {
+		roughness: number;
+		metalness: number;
+		flatShading: boolean;
+	};
 	Lights: {
 		AmbientLight: {
 			intensity: number;
@@ -21,6 +31,7 @@ type DebugParams = {
 			intensity: number;
 			color: string;
 			position: Vector3;
+			rotation: Euler;
 		};
 	};
 };
@@ -44,12 +55,27 @@ const useDebugControls = (): DebugParams => {
 			sunlightIntensity: { value: 1, min: 0, max: 10, step: 0.1 },
 			sunlightColor: { value: "#ffffff" },
 			sunlightPosition: { value: { x: 15.6, y: 5.1, z: 2.6 }, step: 0.01, joystick: "invertY" },
+			sunlightRotation: { value: { x: -0.8, y: 1.2, z: -2.8 }, joystick: "invertY" },
 		}),
+	});
+
+	const cupParams = useControls("Cup", {
+		roughness: { value: 0, min: 0, max: 1, step: 0.01 },
+		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
+		flatShading: true,
+	});
+
+	const cupHolderParams = useControls("CupHolder", {
+		roughness: { value: 0, min: 0, max: 1, step: 0.01 },
+		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
+		flatShading: true,
 	});
 
 	return {
 		Floor: floorParams,
 		FrontWall: frontWallParams,
+		Cup: cupParams,
+		CupHolder: cupHolderParams,
 		Lights: {
 			AmbientLight: {
 				intensity: lightParams.ambientLightIntensity,
@@ -58,6 +84,7 @@ const useDebugControls = (): DebugParams => {
 				intensity: lightParams.sunlightIntensity,
 				color: lightParams.sunlightColor,
 				position: lightParams.sunlightPosition as Vector3,
+				rotation: lightParams.sunlightRotation as Euler,
 			},
 		},
 	};
@@ -69,6 +96,8 @@ const useDebug = (materialCreatorInstance: MaterialCreator): DebugParams => {
 	useEffect(() => {
 		materialCreatorInstance.tweakMaterial("Floor", controls.Floor);
 		materialCreatorInstance.tweakMaterial("FrontWall", controls.FrontWall);
+		materialCreatorInstance.tweakMaterial("Cup", controls.Cup);
+		materialCreatorInstance.tweakMaterial("CupHolder", controls.CupHolder);
 	}, [materialCreatorInstance, controls]);
 
 	return controls;

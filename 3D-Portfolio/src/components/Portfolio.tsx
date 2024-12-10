@@ -14,6 +14,7 @@ import Window from "./Window/Window";
 import WindowBorder from "./Window/WindowBorder";
 import Filling from "./Filling/Filling";
 import CoffeeCup from "./CoffeeCup/CoffeeCup";
+import CoffeeCupHolder from "./CoffeeCup/CoffeeCupHolder";
 
 type GLTFResult = {
 	nodes: {
@@ -40,10 +41,12 @@ function Portfolio() {
 			<directionalLight
 				intensity={Lights.SunLight.intensity}
 				position={[Lights.SunLight.position.x, Lights.SunLight.position.y, Lights.SunLight.position.z]}
-				rotation={Sun.rotation}
+				rotation={[Lights.SunLight.rotation.x, Lights.SunLight.rotation.y, Lights.SunLight.rotation.z]}
 				color={Sun.color}
+				castShadow
 				ref={sunlightRef}
 			/>
+
 			{/************ Office Room ************/}
 			<group name="office-room">
 				{/************ BASE (Walls + Roof + Floor) ************/}
@@ -70,6 +73,7 @@ function Portfolio() {
 					<Filling name="Filing" object={nodes["Filing"] as Mesh} />
 
 					<CoffeeCup name="CoffeeCup" object={nodes["Cup"] as Mesh} />
+					<CoffeeCupHolder name="CoffeeCupHolder" object={nodes["CupHolder"] as Mesh} />
 				</group>
 			</group>
 		</Center>

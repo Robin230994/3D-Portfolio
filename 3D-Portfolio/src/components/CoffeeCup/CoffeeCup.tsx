@@ -9,6 +9,7 @@ cupDiffuseTexture.flipY = false;
 const cupMaterial = materialCreator.createStandardMaterialFromTexture("Cup", { diffuseT: cupDiffuseTexture });
 cupMaterial.roughness = 0;
 cupMaterial.metalness = 0;
+cupMaterial.flatShading = true;
 
 const CoffeeCup: React.FC<CustomMeshProps> = ({ name, object }) => {
 	return (

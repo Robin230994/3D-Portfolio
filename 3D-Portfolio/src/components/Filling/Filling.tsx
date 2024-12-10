@@ -6,7 +6,6 @@ const materialCreator = MaterialCreator.getInstance();
 
 const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Filing", {
 	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.jpg",
-	roughnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Roughness.jpg",
 	displacementT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Displacement.jpg",
 	metallnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Metallic.jpg",
 	normalT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Normal.jpg",
@@ -15,7 +14,7 @@ const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMater
 
 const Filling: React.FC<CustomMeshProps> = ({ name, object }) => {
 	return (
-		<mesh name={name} geometry={object.geometry} position={object.position}>
+		<mesh name={name} geometry={object.geometry} position={object.position} receiveShadow>
 			<meshStandardMaterial {...filingMaterial} />
 		</mesh>
 	);
