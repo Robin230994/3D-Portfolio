@@ -17,6 +17,8 @@ import CoffeeCup from "./CoffeeCup/CoffeeCup";
 import CoffeeCupHolder from "./CoffeeCup/CoffeeCupHolder";
 import Filing from "./Filling/Filing";
 import CoffeCupStand from "./CoffeeCup/CoffeeCupStand";
+import Door from "./Door/Door";
+import DoorHandle from "./Door/DoorHandle";
 
 type GLTFResult = {
 	nodes: {
@@ -61,9 +63,9 @@ function Portfolio() {
 
 	return (
 		<>
-			<EffectComposer>
+			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
-			</EffectComposer>
+			</EffectComposer> */}
 
 			{perfParams.visible && <Perf position="top-left" />}
 
@@ -110,6 +112,13 @@ function Portfolio() {
 							<CoffeeCup name="CoffeeCup" object={nodes["Cup"] as Mesh} />
 							<CoffeeCupHolder name="CoffeeCupHolder" object={nodes["CupHolder"] as Mesh} />
 							<CoffeCupStand name="CoffeeCupStand" object={nodes["CoffeCupStand"] as Mesh} />
+						</group>
+
+						{/** Door */}
+						<group name="Door">
+							<Door name="Door" object={nodes["DoorBase"] as Mesh} />
+							<DoorHandle name="DoorHandleFF" object={nodes["DoorHandleFF"] as Mesh} />
+							<DoorHandle name="DoorHandleMain" object={nodes["MainHandle"] as Mesh} />
 						</group>
 					</group>
 				</group>
