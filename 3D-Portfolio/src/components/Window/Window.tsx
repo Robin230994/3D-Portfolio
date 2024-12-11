@@ -1,11 +1,29 @@
+import { Color, Mesh } from "three";
 import { glassMaterial } from "../../Helper/GLMaterials";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 
-const Window: React.FC<CustomMeshProps> = ({ name, object }) => {
+import MaterialCreator from "../../classes/MaterialCreator";
+
+const materialCreator = MaterialCreator.getInstance();
+const windowBorderMaterial = materialCreator.createEmptyStandardMaterial("WindowBorder");
+windowBorderMaterial.color = new Color("#000000");
+
+const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+	const Window: Mesh = nodes["WindowGlass"] as Mesh;
+	const WindowBorder: Mesh = nodes["WindowBorder"] as Mesh;
+
 	return (
-		<mesh name={name} geometry={object.geometry} position={object.position}>
-			<meshStandardMaterial {...glassMaterial} />
-		</mesh>
+		<group name={name}>
+			{/** Glass */}
+			<mesh name={name} geometry={Window.geometry} position={Window.position}>
+				<meshStandardMaterial {...glassMaterial} />
+			</mesh>
+
+			{/** Window border */}
+			<mesh geometry={WindowBorder.geometry} position={WindowBorder.position}>
+				<meshStandardMaterial {...windowBorderMaterial} />
+			</mesh>
+		</group>
 	);
 };
 

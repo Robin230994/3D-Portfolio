@@ -6,14 +6,7 @@ import { Perf } from "r3f-perf";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
 
-import LeftWall from "./LeftWall/LeftWall";
-import FrontWall from "./FrontWall/FrontWall";
-import WindowWall from "./WindowWall/WindowWall";
-import BackWall from "./BackWall/BackWall";
-import Floor from "./Floor/Floor";
-import Roof from "./Roof/Roof";
 import Window from "./Window/Window";
-import WindowBorder from "./Window/WindowBorder";
 import CoffeeCup from "./CoffeeCup/CoffeeCup";
 import CoffeeCupHolder from "./CoffeeCup/CoffeeCupHolder";
 import Filing from "./Filling/Filing";
@@ -85,10 +78,10 @@ function Portfolio() {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					{/* <group name="objects">
-						<Window name="Window" object={nodes["WindowGlass"] as Mesh} />
+					{/* {/* <group name="objects"> */}
+					<Window name="Window" nodes={nodes} />
 
-						<WindowBorder name="WindowBorder" object={nodes["WindowBorder"] as Mesh} />
+					{/* <WindowBorder name="WindowBorder" object={nodes["WindowBorder"] as Mesh} />
 
 						<Filing name="Filing" object={nodes["Filing"] as Mesh} /> */}
 
