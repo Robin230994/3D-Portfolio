@@ -1,6 +1,7 @@
-import { Mesh } from "three";
+import { DoubleSide, Mesh, MeshStandardMaterial } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
+import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Sit: Mesh = nodes["Sit"] as Mesh;
@@ -14,8 +15,25 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ChairSitHolder: Mesh = nodes["ChairSitHolder"] as Mesh;
 	const RightBackrestStrap: Mesh = nodes["RightBackrestStrap"] as Mesh;
 	const LeftBackrestStrap: Mesh = nodes["LeftBackrestStrap"] as Mesh;
+	const Roll: Mesh = nodes["Rolls"] as Mesh;
 
-	const officeChairParams = useControls("OfficeChair", {}, { collapsed: true });
+	const officeChairParams = useControls(
+		"OfficeChair",
+		{
+			Rolls: folder({
+				position: { value: { x: 5.94, y: 0.1, z: -0.95 }, step: 0.01 },
+				rotation: { value: { x: 0, y: 136, z: 0 }, step: 10 },
+			}),
+		},
+		{ collapsed: true }
+	);
+
+	const chairRollInstances = [
+		{
+			position: [5.94, 0.1, -0.95] as [number, number, number],
+			rotation: [0, 136, 0] as [number, number, number],
+		},
+	];
 
 	return (
 		<group name={name}>
@@ -62,6 +80,8 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh geometry={LeftBackrestStrap.geometry} rotation={LeftBackrestStrap.rotation} position={LeftBackrestStrap.position}>
 				<meshStandardMaterial />
 			</mesh>
+
+			<InstantiatedMesh geometry={Roll.geometry} material={new MeshStandardMaterial({ side: DoubleSide })} instance={chairRollInstances} />
 		</group>
 	);
 };
