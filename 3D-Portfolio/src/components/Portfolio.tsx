@@ -56,7 +56,6 @@ function Portfolio() {
 			{perfParams.visible && <Perf position="top-left" />}
 
 			<Environment background={false} preset="dawn" />
-
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<directionalLight
