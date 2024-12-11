@@ -1,6 +1,6 @@
-import { Mesh } from "three";
+import { BufferGeometry, DirectionalLight, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
 
 export interface CustomMeshProps {
 	name: string;
-	object: Mesh;
+	nodes: { [key: string]: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | DirectionalLight };
 }

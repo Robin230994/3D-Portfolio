@@ -4,6 +4,7 @@ import { MutableRefObject, useRef } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import { GLTFResult } from "../types/GLTypes";
 
 import LeftWall from "./LeftWall/LeftWall";
 import FrontWall from "./FrontWall/FrontWall";
@@ -19,12 +20,8 @@ import Filing from "./Filling/Filing";
 import CoffeCupStand from "./CoffeeCup/CoffeeCupStand";
 import Door from "./Door/Door";
 import DoorHandle from "./Door/DoorHandle";
-
-type GLTFResult = {
-	nodes: {
-		[key: string]: Mesh | DirectionalLight; // Index signature for dynamic access
-	};
-};
+import MainDesk from "./MainDesk/MainDesk";
+import Foundation from "./Foundation/Foundation";
 
 function Portfolio() {
 	/** Nodes / Meshes */
@@ -85,42 +82,35 @@ function Portfolio() {
 				{/************ Office Room ************/}
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
-					<group name="base">
-						<LeftWall name="LeftWall" object={nodes["LeftWall"] as Mesh} />
-
-						<WindowWall name="WindowWall" object={nodes["WindowWall"] as Mesh} />
-
-						<FrontWall name="FrontWall" object={nodes["FrontWall"] as Mesh} />
-
-						<BackWall name="BackWall" object={nodes["BackWall"] as Mesh} />
-
-						<Roof name="Roof" object={nodes["Roof"] as Mesh} />
-
-						<Floor name="Floor" object={nodes["Floor"] as Mesh} />
-					</group>
+					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					<group name="objects">
+					{/* <group name="objects">
 						<Window name="Window" object={nodes["WindowGlass"] as Mesh} />
 
 						<WindowBorder name="WindowBorder" object={nodes["WindowBorder"] as Mesh} />
 
-						<Filing name="Filing" object={nodes["Filing"] as Mesh} />
+						<Filing name="Filing" object={nodes["Filing"] as Mesh} /> */}
 
-						{/** Coffee cup with holder and stand */}
-						<group name="CoffeeCup">
+					{/** Coffee cup with holder and stand */}
+					{/* <group name="CoffeeCup">
 							<CoffeeCup name="CoffeeCup" object={nodes["Cup"] as Mesh} />
 							<CoffeeCupHolder name="CoffeeCupHolder" object={nodes["CupHolder"] as Mesh} />
 							<CoffeCupStand name="CoffeeCupStand" object={nodes["CoffeCupStand"] as Mesh} />
-						</group>
+						</group> */}
 
-						{/** Door */}
-						<group name="Door">
+					{/** Door */}
+					{/* <group name="Door">
 							<Door name="Door" object={nodes["DoorBase"] as Mesh} />
-							<DoorHandle name="DoorHandleFF" object={nodes["DoorHandleFF"] as Mesh} />
-							<DoorHandle name="DoorHandleMain" object={nodes["MainHandle"] as Mesh} />
+							{/* <DoorHandle name="DoorHandleFF" object={nodes["DoorHandleFF"] as Mesh} />
+							<DoorHandle name="DoorHandleMain" object={nodes["MainHandle"] as Mesh} /> */}
+					{/* </group> */}
+					{/* 
+						<group name="mainDesk">
+							<MainDesk name="MainDesk" object={nodes["WorkingAreaMD"] as Mesh} />
 						</group>
 					</group>
+					*/}
 				</group>
 			</Center>
 		</>
