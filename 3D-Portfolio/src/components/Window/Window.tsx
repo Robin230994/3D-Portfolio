@@ -15,7 +15,7 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Glass */}
-			<mesh name={name} geometry={Window.geometry} position={Window.position}>
+			<mesh geometry={Window.geometry} position={Window.position}>
 				<meshStandardMaterial {...glassMaterial} />
 			</mesh>
 

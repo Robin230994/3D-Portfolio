@@ -7,10 +7,7 @@ import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
 
 import Window from "./Window/Window";
-import CoffeeCup from "./CoffeeCup/CoffeeCup";
-import CoffeeCupHolder from "./CoffeeCup/CoffeeCupHolder";
 import Filing from "./Filling/Filing";
-import CoffeCupStand from "./CoffeeCup/CoffeeCupStand";
 import Door from "./Door/Door";
 import DoorHandle from "./Door/DoorHandle";
 import MainDesk from "./MainDesk/MainDesk";
@@ -78,32 +75,29 @@ function Portfolio() {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					{/* {/* <group name="objects"> */}
-					<Window name="Window" nodes={nodes} />
+					<group name="objects">
+						<Window name="Window" nodes={nodes} />
+						<Filing name="Filing" nodes={nodes} />
 
-					{/* <WindowBorder name="WindowBorder" object={nodes["WindowBorder"] as Mesh} />
-
-						<Filing name="Filing" object={nodes["Filing"] as Mesh} /> */}
-
-					{/** Coffee cup with holder and stand */}
-					{/* <group name="CoffeeCup">
+						{/** Coffee cup with holder and stand */}
+						{/* <group name="CoffeeCup">
 							<CoffeeCup name="CoffeeCup" object={nodes["Cup"] as Mesh} />
 							<CoffeeCupHolder name="CoffeeCupHolder" object={nodes["CupHolder"] as Mesh} />
 							<CoffeCupStand name="CoffeeCupStand" object={nodes["CoffeCupStand"] as Mesh} />
 						</group> */}
 
-					{/** Door */}
-					{/* <group name="Door">
+						{/** Door */}
+						{/* <group name="Door">
 							<Door name="Door" object={nodes["DoorBase"] as Mesh} />
 							{/* <DoorHandle name="DoorHandleFF" object={nodes["DoorHandleFF"] as Mesh} />
 							<DoorHandle name="DoorHandleMain" object={nodes["MainHandle"] as Mesh} /> */}
-					{/* </group> */}
-					{/* 
+						{/* </group> */}
+						{/* 
 						<group name="mainDesk">
 							<MainDesk name="MainDesk" object={nodes["WorkingAreaMD"] as Mesh} />
 						</group>
+						*/}
 					</group>
-					*/}
 				</group>
 			</Center>
 		</>
