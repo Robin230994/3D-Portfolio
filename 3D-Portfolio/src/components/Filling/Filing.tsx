@@ -1,4 +1,4 @@
-import { Color, Mesh, MeshPhongMaterial, Vector2 } from "three";
+import { Color, Mesh, MeshPhongMaterial, MeshStandardMaterial, Vector2 } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { useControls } from "leva";
 
@@ -6,8 +6,9 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
-const filingMaterial: MeshPhongMaterial = materialCreator.createPhongMaterialFromTexture("Filing", {
+const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Filing", {
 	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.jpg",
+	roughnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Roughness.jpg",
 	displacementT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Displacement.jpg",
 	normalT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Normal.jpg",
 	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.jpg",
@@ -60,16 +61,7 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		<group name={name}>
 			{/** Filing base */}
 			<mesh geometry={Filing.geometry} position={Filing.position} receiveShadow>
-				<meshPhongMaterial
-					{...filingMaterial}
-					aoMapIntensity={filingParams.aoMapIntensity}
-					displacementScale={filingParams.displacementScale}
-					displacementBias={filingParams.displacementBias}
-					normalScale={new Vector2(filingParams.normalScale.x, filingParams.normalScale.y)}
-					reflectivity={filingParams.reflectivity}
-					shininess={filingParams.shininess}
-					flatShading={filingParams.flatShading}
-				/>
+				<meshStandardMaterial {...filingMaterial} />
 			</mesh>
 
 			{/** Coffee cup + Cofee holder + Cofee stand */}

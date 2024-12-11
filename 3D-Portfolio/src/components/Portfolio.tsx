@@ -78,12 +78,7 @@ function Portfolio() {
 						<Window name="Window" nodes={nodes} />
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
-
-						{/*
-						<group name="mainDesk">
-							<MainDesk name="MainDesk" object={nodes["WorkingAreaMD"] as Mesh} />
-						</group>
-						*/}
+						<MainDesk name="MainDesk" nodes={nodes} />
 					</group>
 				</group>
 			</Center>
