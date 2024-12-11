@@ -11,6 +11,7 @@ import Filing from "./Filling/Filing";
 import Door from "./Door/Door";
 import MainDesk from "./MainDesk/MainDesk";
 import Foundation from "./Foundation/Foundation";
+import OfficeChair from "./OfficeChair/OfficeChair";
 
 function Portfolio() {
 	/** Nodes / Meshes */
@@ -78,6 +79,7 @@ function Portfolio() {
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
 						<MainDesk name="MainDesk" nodes={nodes} />
+						<OfficeChair name="OfficeChair" nodes={nodes} />
 					</group>
 				</group>
 			</Center>
