@@ -12,7 +12,7 @@ type Instances = {
 	material: Material | Material[] | undefined;
 };
 
-const InstancedRolls = (props: Instances) => {
+const InstantiatedMesh = (props: Instances) => {
 	const instancedMeshRef = useRef<InstancedMesh>(null);
 
 	useEffect(() => {
@@ -37,4 +37,4 @@ const InstancedRolls = (props: Instances) => {
 	);
 };
 
-export default InstancedRolls;
+export default InstantiatedMesh;
