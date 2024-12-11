@@ -1,4 +1,4 @@
-import { DoubleSide } from "three";
+import { DoubleSide, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 
 import MaterialCreator from "../../classes/MaterialCreator";
@@ -9,12 +9,22 @@ import MaterialCreator from "../../classes/MaterialCreator";
 //     diffuseT: "/baked-textures/"
 // })
 
-const Door: React.FC<CustomMeshProps> = ({ name, object }) => {
+const Door: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+	const Door: Mesh = nodes["DoorBase"] as Mesh;
+	const DoorHandleFP: Mesh = nodes["DoorHandleFF"] as Mesh;
+	const DoorHandleSP: Mesh = nodes["MainHandle"] as Mesh;
+
 	return (
-		/** Main Door */
-		<mesh name={name} geometry={object.geometry} position={object.position} rotation={object.rotation}>
-			<meshStandardMaterial color={"#7d5030"} side={DoubleSide} />
-		</mesh>
+		<group name={name}>
+			{/** Main Door */}
+			<mesh name={name} geometry={Door.geometry} position={Door.position} rotation={Door.rotation}>
+				<meshStandardMaterial color={"#7d5030"} side={DoubleSide} />
+			</mesh>
+
+			{/** DoorHandle */}
+			<mesh geometry={DoorHandleFP.geometry} position={DoorHandleFP.position} rotation={DoorHandleFP.rotation}></mesh>
+			<mesh geometry={DoorHandleSP.geometry} position={DoorHandleSP.position} rotation={DoorHandleSP.rotation}></mesh>
+		</group>
 	);
 };
 

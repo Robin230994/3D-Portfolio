@@ -9,7 +9,6 @@ import { GLTFResult } from "../types/GLTypes";
 import Window from "./Window/Window";
 import Filing from "./Filling/Filing";
 import Door from "./Door/Door";
-import DoorHandle from "./Door/DoorHandle";
 import MainDesk from "./MainDesk/MainDesk";
 import Foundation from "./Foundation/Foundation";
 
@@ -78,21 +77,9 @@ function Portfolio() {
 					<group name="objects">
 						<Window name="Window" nodes={nodes} />
 						<Filing name="Filing" nodes={nodes} />
+						<Door name="Door" nodes={nodes} />
 
-						{/** Coffee cup with holder and stand */}
-						{/* <group name="CoffeeCup">
-							<CoffeeCup name="CoffeeCup" object={nodes["Cup"] as Mesh} />
-							<CoffeeCupHolder name="CoffeeCupHolder" object={nodes["CupHolder"] as Mesh} />
-							<CoffeCupStand name="CoffeeCupStand" object={nodes["CoffeCupStand"] as Mesh} />
-						</group> */}
-
-						{/** Door */}
-						{/* <group name="Door">
-							<Door name="Door" object={nodes["DoorBase"] as Mesh} />
-							{/* <DoorHandle name="DoorHandleFF" object={nodes["DoorHandleFF"] as Mesh} />
-							<DoorHandle name="DoorHandleMain" object={nodes["MainHandle"] as Mesh} /> */}
-						{/* </group> */}
-						{/* 
+						{/*
 						<group name="mainDesk">
 							<MainDesk name="MainDesk" object={nodes["WorkingAreaMD"] as Mesh} />
 						</group>
