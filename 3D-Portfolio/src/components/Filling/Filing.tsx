@@ -1,10 +1,12 @@
 import { Color, Mesh, MeshStandardMaterial } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
 
 import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
+
+/** Materials */
 
 const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Filing", {
 	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.jpg",
@@ -14,18 +16,38 @@ const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMater
 	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.jpg",
 });
 
+/** Cup material */
+
 const cupMaterial = materialCreator.createStandardMaterialFromTexture("Cup", { diffuseT: "/baked-textures/Cup/Tasse-Textur.jpg" });
-cupMaterial.roughness = 0;
+cupMaterial.roughness = 0.09;
 cupMaterial.metalness = 0;
-cupMaterial.flatShading = true;
+cupMaterial.flatShading = false;
+
+/** Cup holder material */
 
 const coffeeCupHolderMaterial = materialCreator.createEmptyStandardMaterial("CupHolder");
 coffeeCupHolderMaterial.color = new Color("#ffffff");
-coffeeCupHolderMaterial.roughness = 0;
+coffeeCupHolderMaterial.roughness = 0.09;
 coffeeCupHolderMaterial.metalness = 0;
-coffeeCupHolderMaterial.flatShading = true;
+coffeeCupHolderMaterial.flatShading = false;
+
+/** Cup stand material */
 
 const coffeeCupStandMaterial = materialCreator.createEmptyStandardMaterial("CupStand");
+coffeeCupStandMaterial.metalness = 1;
+coffeeCupStandMaterial.roughness = 0.2;
+coffeeCupStandMaterial.color = new Color("#bbbbbb");
+
+/** Vase material */
+
+const vaseMaterial = materialCreator.createEmptyStandardMaterial("Vase");
+vaseMaterial.roughness = 0;
+vaseMaterial.color = new Color("#266972");
+
+/** Flower material */
+
+const flowerMaterial = materialCreator.createEmptyStandardMaterial("Flower");
+flowerMaterial.color = new Color("#ba8c4f");
 
 const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Filing: Mesh = nodes["Filing"] as Mesh;
@@ -41,38 +63,44 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const filingParams = useControls(
 		"Filing",
 		{
-			aoMapIntensity: { value: 0, min: 0, max: 1, step: 0.1 },
-			displacementScale: { value: 0, min: 0, max: 1, step: 0.1 },
-			displacementBias: { value: 0, min: 0, max: 1, step: 0.1 },
-			normalScale: { value: { x: 0, y: 0 }, min: 0, max: 1, step: 0.1 },
-			reflectivity: { value: 0.5, min: 0, max: 1, step: 0.1 },
-			shininess: { value: 30, min: 0, max: 50, step: 1 },
-			flatShading: false,
-		},
-		{ collapsed: true }
-	);
+			Base: folder(
+				{
+					aoMapIntensity: { value: 0, min: 0, max: 1, step: 0.1 },
+					displacementScale: { value: 0, min: 0, max: 1, step: 0.1 },
+					displacementBias: { value: 0, min: 0, max: 1, step: 0.1 },
+					normalScale: { value: { x: 0, y: 0 }, min: 0, max: 1, step: 0.1 },
+					reflectivity: { value: 0.5, min: 0, max: 1, step: 0.1 },
+					shininess: { value: 30, min: 0, max: 50, step: 1 },
+					flatShading: false,
+				},
+				{ collapsed: true }
+			),
+			Cup: folder(
+				{
+					cupRoughness: { value: 0.09, min: 0, max: 1, step: 0.01 },
+					holderScale: { value: { x: 1, y: 3.5, z: 1 }, step: 0.01 },
+				},
+				{ collapsed: true } // Optional, to collapse the folder
+			),
 
-	const coffeeCupStandParams = useControls(
-		"CoffeeCupStand",
-		{
-			roughness: { value: 0.1, min: 0, max: 1, step: 0.01 },
-			metalness: { value: 1, min: 0, max: 1, step: 0.1 },
-			color: "#ffffff",
-		},
-		{ collapsed: true }
-	);
-
-	const vaseParams = useControls(
-		"Vase",
-		{
-			position: { value: { x: 7.6, y: 1.45, z: 0.87 }, step: 0.01 },
-			flower1Position: { value: { x: 7.5, y: 1.87, z: 0.86 }, step: 0.01 },
-			flower1Rotation: { value: { x: 0, y: -45, z: 0 }, step: 1 },
-			flower2Position: { value: { x: 7.6, y: 1.87, z: 0.66 }, step: 0.01 },
-			flower3Position: { value: { x: 7.46, y: 1.87, z: 0.97 }, step: 0.01 },
-			flower3Rotation: { value: { x: 0, y: 128, z: 0 }, step: 10 },
-			flower4Position: { value: { x: 7.68, y: 1.87, z: 0.83 }, step: 0.01 },
-			flower4Rotation: { value: { x: 0, y: 90, z: 0 }, step: 10 },
+			Vase: folder(
+				{
+					vaseColor: "#266972",
+					vaseRoughness: { value: 0, min: 0, max: 1, step: 0.1 },
+					vasePosition: { value: { x: 7.6, y: 1.45, z: 0.87 }, step: 0.01 },
+					Flowers: folder({
+						flowerColor: "#ba8c4f",
+						flower1Position: { value: { x: 7.5, y: 1.87, z: 0.86 }, step: 0.01 },
+						flower1Rotation: { value: { x: 0, y: -45, z: 0 }, step: 1 },
+						flower2Position: { value: { x: 7.6, y: 1.87, z: 0.66 }, step: 0.01 },
+						flower3Position: { value: { x: 7.46, y: 1.87, z: 0.97 }, step: 0.01 },
+						flower3Rotation: { value: { x: 0, y: 128, z: 0 }, step: 10 },
+						flower4Position: { value: { x: 7.68, y: 1.87, z: 0.83 }, step: 0.01 },
+						flower4Rotation: { value: { x: 0, y: 90, z: 0 }, step: 10 },
+					}),
+				},
+				{ collapsed: true }
+			),
 		},
 		{ collapsed: true }
 	);
@@ -88,11 +116,15 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<group name="CoffeeCup">
 				{/** Coffee Cup */}
 				<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation}>
-					<meshStandardMaterial {...cupMaterial} />
+					<meshStandardMaterial {...cupMaterial} roughness={filingParams.cupRoughness} />
 				</mesh>
 
 				{/** Coffee Cup Holder */}
-				<mesh geometry={CoffeeCupHolder.geometry} position={CoffeeCupHolder.position} rotation={CoffeeCupHolder.rotation}>
+				<mesh
+					geometry={CoffeeCupHolder.geometry}
+					position={CoffeeCupHolder.position}
+					rotation={CoffeeCupHolder.rotation}
+					scale={[filingParams.holderScale.x, filingParams.holderScale.y, filingParams.holderScale.z]}>
 					<meshStandardMaterial {...coffeeCupHolderMaterial} />
 				</mesh>
 
@@ -105,37 +137,37 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			{/** Vase + Flowers */}
 			<group name="Vase">
 				{/** Vase */}
-				<mesh geometry={Vase.geometry} position={[vaseParams.position.x, vaseParams.position.y, vaseParams.position.z]}>
-					<meshStandardMaterial />
+				<mesh geometry={Vase.geometry} position={[filingParams.vasePosition.x, filingParams.vasePosition.y, filingParams.vasePosition.z]}>
+					<meshStandardMaterial {...vaseMaterial} color={filingParams.vaseColor} roughness={filingParams.vaseRoughness} />
 				</mesh>
 
 				{/** Flower 1 */}
 				<mesh
 					geometry={Flower1.geometry}
-					position={[vaseParams.flower1Position.x, vaseParams.flower1Position.y, vaseParams.flower1Position.z]}
-					rotation={[vaseParams.flower1Rotation.x, vaseParams.flower1Rotation.y, vaseParams.flower1Rotation.z]}>
-					<meshStandardMaterial />
+					position={[filingParams.flower1Position.x, filingParams.flower1Position.y, filingParams.flower1Position.z]}
+					rotation={[filingParams.flower1Rotation.x, filingParams.flower1Rotation.y, filingParams.flower1Rotation.z]}>
+					<meshStandardMaterial color={filingParams.flowerColor} />
 				</mesh>
 
 				{/** Flower 2*/}
-				<mesh geometry={Flower2.geometry} position={[vaseParams.flower2Position.x, vaseParams.flower2Position.y, vaseParams.flower2Position.z]}>
-					<meshStandardMaterial />
+				<mesh geometry={Flower2.geometry} position={[filingParams.flower2Position.x, filingParams.flower2Position.y, filingParams.flower2Position.z]}>
+					<meshStandardMaterial color={filingParams.flowerColor} />
 				</mesh>
 
 				{/** Flower 3*/}
 				<mesh
 					geometry={Flower3.geometry}
-					position={[vaseParams.flower3Position.x, vaseParams.flower3Position.y, vaseParams.flower3Position.z]}
-					rotation={[vaseParams.flower3Rotation.x, vaseParams.flower3Rotation.y, vaseParams.flower3Rotation.z]}>
-					<meshStandardMaterial />
+					position={[filingParams.flower3Position.x, filingParams.flower3Position.y, filingParams.flower3Position.z]}
+					rotation={[filingParams.flower3Rotation.x, filingParams.flower3Rotation.y, filingParams.flower3Rotation.z]}>
+					<meshStandardMaterial color={filingParams.flowerColor} />
 				</mesh>
 
 				{/** Flower 4*/}
 				<mesh
 					geometry={Flower4.geometry}
-					position={[vaseParams.flower4Position.x, vaseParams.flower4Position.y, vaseParams.flower4Position.z]}
-					rotation={[vaseParams.flower4Rotation.x, vaseParams.flower4Rotation.y, vaseParams.flower4Rotation.z]}>
-					<meshStandardMaterial />
+					position={[filingParams.flower4Position.x, filingParams.flower4Position.y, filingParams.flower4Position.z]}
+					rotation={[filingParams.flower4Rotation.x, filingParams.flower4Rotation.y, filingParams.flower4Rotation.z]}>
+					<meshStandardMaterial color={filingParams.flowerColor} />
 				</mesh>
 			</group>
 		</group>
