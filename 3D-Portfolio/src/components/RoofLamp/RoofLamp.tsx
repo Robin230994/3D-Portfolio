@@ -1,8 +1,8 @@
 import { Color, Mesh, MeshLambertMaterial } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { deskMaterial } from "../../Helper/GLMaterials";
-import MaterialCreator from "../../classes/MaterialCreator";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 

@@ -17,6 +17,7 @@ import CupboardFW from "./CupboardFW/CupboardFW";
 import CupboardLW from "./CupboardLW/CupboardLW";
 import CupboardSmall from "./CupboardSmall/CupboardSmall";
 import RoofLamp from "./RoofLamp/RoofLamp";
+import FloorLamp from "./FloorLamp/FloorLamp";
 
 function Portfolio() {
 	/** Nodes / Meshes */
@@ -81,6 +82,7 @@ function Portfolio() {
 					{/************ All objects inside the room ************/}
 					<group name="objects">
 						<RoofLamp name="RoofLamp" nodes={nodes} />
+						<FloorLamp name="FloorLamp" nodes={nodes} />
 						<Window name="Window" nodes={nodes} />
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
