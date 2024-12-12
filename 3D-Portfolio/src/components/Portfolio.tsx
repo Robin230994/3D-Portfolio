@@ -14,6 +14,7 @@ import Foundation from "./Foundation/Foundation";
 import OfficeChair from "./OfficeChair/OfficeChair";
 import SecondDesk from "./SecondDesk/SecondDesk";
 import CupboardFW from "./CupboardFW/CupboardFW";
+import CupboardLW from "./CupboardLW/CupboardLW";
 
 function Portfolio() {
 	/** Nodes / Meshes */
@@ -84,6 +85,7 @@ function Portfolio() {
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 						<SecondDesk name="SecondDesk" nodes={nodes} />
 						<CupboardFW name="CupboardFW" nodes={nodes} />
+						<CupboardLW name="CupboardLW" nodes={nodes} />
 					</group>
 				</group>
 			</Center>

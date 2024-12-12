@@ -2,7 +2,7 @@ import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { Mesh } from "three";
 import { DirectionalLight } from "three";
-import { cupboardDoorMaterial, deskMaterial } from "../../Helper/GLMaterials";
+import { cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 interface CupboardFWUIProps extends IUIComponentProps {
 	props: {
@@ -32,7 +32,7 @@ const CupboardFWUI: React.FC<CupboardFWUIProps> = ({ props }) => {
 
 			<mesh geometry={CupboardFWSplit.geometry} position={CupboardFWSplit.position} rotation={CupboardFWSplit.rotation}></mesh>
 
-			<mesh geometry={CupboardFWOpeners.geometry} position={CupboardFWOpeners.position} rotation={CupboardFWOpeners.rotation}></mesh>
+			<mesh geometry={CupboardFWOpeners.geometry} position={CupboardFWOpeners.position} rotation={CupboardFWOpeners.rotation} material={metalMaterial}></mesh>
 		</group>
 	);
 };
