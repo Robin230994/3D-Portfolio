@@ -1,4 +1,4 @@
-import { Color } from "three";
+import { Color, DoubleSide } from "three";
 import MaterialCreator from "../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -15,5 +15,16 @@ const deskMaterial = materialCreator.createEmptyStandardMaterial("Desk");
 deskMaterial.roughness = 0.75;
 deskMaterial.metalness = 0;
 deskMaterial.color = new Color("#b4b9b2");
-
 export { deskMaterial };
+
+const blackPlasticMaterial = materialCreator.createEmptyStandardMaterial("BlackPlastic");
+blackPlasticMaterial.color = new Color("#000000");
+blackPlasticMaterial.side = DoubleSide;
+export { blackPlasticMaterial };
+
+const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
+metalMaterial.color = new Color("#ffffff");
+metalMaterial.roughness = 0;
+metalMaterial.metalness = 1;
+metalMaterial.side = DoubleSide;
+export { metalMaterial };
