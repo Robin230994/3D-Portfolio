@@ -32,5 +32,5 @@ export { metalMaterial };
 
 const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("CupboardDoors");
 cupboardDoorMaterial.color = new Color("#3F3F3F");
-cupboardDoorMaterial.roughness = 0.08;
+cupboardDoorMaterial.roughness = 0.0;
 export { cupboardDoorMaterial };
