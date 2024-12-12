@@ -2,7 +2,7 @@ import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
-import { deskMaterial } from "../../Helper/GLMaterials";
+import { deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 interface MainDeskUIProps extends IUIComponentProps {
 	props: {
@@ -25,6 +25,7 @@ const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
 	const { name, nodes } = myData;
 
 	const MainDesk: Mesh = nodes["WorkingAreaMD"] as Mesh;
+	const MainDeskStands: Mesh = nodes["StandsMD"] as Mesh;
 
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
@@ -34,8 +35,14 @@ const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
 
 	return (
 		<group name={name}>
+			{/** Working area */}
 			<mesh geometry={MainDesk.geometry} position={MainDesk.position} rotation={MainDesk.rotation}>
 				<meshStandardMaterial {...deskMaterial} color={deskParams.color} metalness={deskParams.metalness} roughness={deskParams.roughness} />
+			</mesh>
+
+			{/** Desk stands */}
+			<mesh geometry={MainDeskStands.geometry} position={MainDeskStands.position} rotation={MainDeskStands.rotation}>
+				<meshStandardMaterial {...metalMaterial} roughness={0.1} />
 			</mesh>
 		</group>
 	);
