@@ -73,49 +73,41 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Sit */}
-			<mesh geometry={Sit.geometry} rotation={Sit.rotation} position={Sit.position}>
-				<meshStandardMaterial {...chairSitMaterial} />
-			</mesh>
+			<mesh geometry={Sit.geometry} rotation={Sit.rotation} position={Sit.position} material={chairSitMaterial} />
 
 			{/** Backrest */}
-			<mesh geometry={Backrest.geometry} rotation={Backrest.rotation} position={Backrest.position}>
-				<meshStandardMaterial {...chairBackrestMaterial} />
-			</mesh>
+			<mesh geometry={Backrest.geometry} rotation={Backrest.rotation} position={Backrest.position} material={chairBackrestMaterial} />
 
 			{/** BackrestController */}
-			<mesh geometry={BackrestController.geometry} rotation={BackrestController.rotation} position={BackrestController.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh
+				geometry={BackrestController.geometry}
+				rotation={BackrestController.rotation}
+				position={BackrestController.position}
+				material={blackPlasticMaterial}
+			/>
 
 			{/** BackrestSide */}
-			<mesh geometry={BackrestSide.geometry} rotation={BackrestSide.rotation} position={BackrestSide.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh geometry={BackrestSide.geometry} rotation={BackrestSide.rotation} position={BackrestSide.position} material={blackPlasticMaterial} />
 
 			{/** BackrestAmature */}
-			<mesh geometry={BackrestAmature.geometry} rotation={BackrestAmature.rotation} position={BackrestAmature.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh geometry={BackrestAmature.geometry} rotation={BackrestAmature.rotation} position={BackrestAmature.position} material={blackPlasticMaterial} />
 
 			{/** BackrestStrapHolder */}
-			<mesh geometry={BackrestStrapHolder.geometry} rotation={BackrestStrapHolder.rotation} position={BackrestStrapHolder.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh
+				geometry={BackrestStrapHolder.geometry}
+				rotation={BackrestStrapHolder.rotation}
+				position={BackrestStrapHolder.position}
+				material={blackPlasticMaterial}
+			/>
 
 			{/** BackrestPillow */}
-			<mesh geometry={BackrestPillow.geometry} rotation={BackrestPillow.rotation} position={BackrestPillow.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh geometry={BackrestPillow.geometry} rotation={BackrestPillow.rotation} position={BackrestPillow.position} material={blackPlasticMaterial} />
 
 			{/** ChairStand */}
-			<mesh geometry={ChairStand.geometry} rotation={ChairStand.rotation} position={ChairStand.position}>
-				<meshStandardMaterial {...metalMaterial} />
-			</mesh>
+			<mesh geometry={ChairStand.geometry} rotation={ChairStand.rotation} position={ChairStand.position} material={metalMaterial} />
 
 			{/** ChairSitHolder */}
-			<mesh geometry={ChairSitHolder.geometry} rotation={ChairSitHolder.rotation} position={ChairSitHolder.position}>
-				<meshStandardMaterial {...blackPlasticMaterial} />
-			</mesh>
+			<mesh geometry={ChairSitHolder.geometry} rotation={ChairSitHolder.rotation} position={ChairSitHolder.position} material={blackPlasticMaterial} />
 
 			{/** Rolls */}
 			<InstantiatedMesh geometry={Roll.geometry} material={blackPlasticMaterial} instance={chairRollInstances} />

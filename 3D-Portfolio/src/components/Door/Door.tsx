@@ -23,12 +23,8 @@ const Door: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			</mesh>
 
 			{/** DoorHandle */}
-			<mesh geometry={DoorHandleFP.geometry} position={DoorHandleFP.position} rotation={DoorHandleFP.rotation}>
-				<meshStandardMaterial {...metalMaterial} />
-			</mesh>
-			<mesh geometry={DoorHandleSP.geometry} position={DoorHandleSP.position} rotation={DoorHandleSP.rotation}>
-				<meshStandardMaterial {...metalMaterial} />
-			</mesh>
+			<mesh geometry={DoorHandleFP.geometry} position={DoorHandleFP.position} rotation={DoorHandleFP.rotation} material={metalMaterial} />
+			<mesh geometry={DoorHandleSP.geometry} position={DoorHandleSP.position} rotation={DoorHandleSP.rotation} material={metalMaterial} />
 		</group>
 	);
 };

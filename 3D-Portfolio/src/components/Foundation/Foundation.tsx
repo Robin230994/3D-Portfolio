@@ -52,34 +52,22 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** LeftWall */}
-			<mesh geometry={LeftWall.geometry} position={LeftWall.position}>
-				<meshStandardMaterial {...leftWallMaterial} />
-			</mesh>
+			<mesh geometry={LeftWall.geometry} position={LeftWall.position} material={leftWallMaterial} />
 
 			{/** BackWall */}
-			<mesh geometry={BackWall.geometry} position={BackWall.position}>
-				<meshStandardMaterial {...backWallMaterial} />
-			</mesh>
+			<mesh geometry={BackWall.geometry} position={BackWall.position} material={backWallMaterial} />
 
 			{/** FrontWall */}
-			<mesh geometry={FrontWall.geometry} position={FrontWall.position}>
-				<meshStandardMaterial {...frontWallMaterial} />
-			</mesh>
+			<mesh geometry={FrontWall.geometry} position={FrontWall.position} material={frontWallMaterial} />
 
 			{/** WindowWall */}
-			<mesh geometry={WindowWall.geometry} position={WindowWall.position}>
-				<meshStandardMaterial {...windowWallMaterial} />
-			</mesh>
+			<mesh geometry={WindowWall.geometry} position={WindowWall.position} material={windowWallMaterial} />
 
 			{/** Roof */}
-			<mesh geometry={Roof.geometry} position={Roof.position}>
-				<meshStandardMaterial {...roofMaterial} />
-			</mesh>
+			<mesh geometry={Roof.geometry} position={Roof.position} material={roofMaterial} />
 
 			{/** Floor */}
-			<mesh geometry={Floor.geometry} position={Floor.position}>
-				<meshStandardMaterial {...floorMaterial} />
-			</mesh>
+			<mesh geometry={Floor.geometry} position={Floor.position} material={floorMaterial} />
 		</group>
 	);
 };

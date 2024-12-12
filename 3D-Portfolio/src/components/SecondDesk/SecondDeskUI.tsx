@@ -24,9 +24,8 @@ const SecondDeskUI: React.FC<SecondDeskUIProps> = ({ props }) => {
 
 	return (
 		<group name={name}>
-			<mesh geometry={SecondDesk.geometry} position={SecondDesk.position} rotation={SecondDesk.rotation}>
-				<meshStandardMaterial {...deskMaterial} />
-			</mesh>
+			<mesh geometry={SecondDesk.geometry} position={SecondDesk.position} rotation={SecondDesk.rotation} material={deskMaterial} />
+
 			<mesh geometry={SecondDeskStands.geometry} position={SecondDeskStands.position} rotation={SecondDeskStands.rotation}>
 				<meshStandardMaterial {...metalMaterial} roughness={0.1} />
 			</mesh>

@@ -15,6 +15,7 @@ const deskMaterial = materialCreator.createEmptyStandardMaterial("Desk");
 deskMaterial.roughness = 0.75;
 deskMaterial.metalness = 0;
 deskMaterial.color = new Color("#b4b9b2");
+deskMaterial.side = DoubleSide;
 export { deskMaterial };
 
 const blackPlasticMaterial = materialCreator.createEmptyStandardMaterial("BlackPlastic");
@@ -28,3 +29,8 @@ metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
 metalMaterial.side = DoubleSide;
 export { metalMaterial };
+
+const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("CupboardDoors");
+cupboardDoorMaterial.color = new Color("#3F3F3F");
+cupboardDoorMaterial.roughness = 0;
+export { cupboardDoorMaterial };

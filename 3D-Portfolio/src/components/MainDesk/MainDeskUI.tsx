@@ -36,9 +36,7 @@ const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
 	return (
 		<group name={name}>
 			{/** Working area */}
-			<mesh geometry={MainDesk.geometry} position={MainDesk.position} rotation={MainDesk.rotation}>
-				<meshStandardMaterial {...deskMaterial} color={deskParams.color} metalness={deskParams.metalness} roughness={deskParams.roughness} />
-			</mesh>
+			<mesh geometry={MainDesk.geometry} position={MainDesk.position} rotation={MainDesk.rotation} material={deskMaterial} />
 
 			{/** Desk stands */}
 			<mesh geometry={MainDeskStands.geometry} position={MainDeskStands.position} rotation={MainDeskStands.rotation}>

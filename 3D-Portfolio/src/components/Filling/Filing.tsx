@@ -108,67 +108,65 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Filing base */}
-			<mesh geometry={Filing.geometry} position={Filing.position} receiveShadow>
-				<meshStandardMaterial {...filingMaterial} />
-			</mesh>
+			<mesh geometry={Filing.geometry} position={Filing.position} receiveShadow material={filingMaterial} />
 
 			{/** Coffee cup + Cofee holder + Cofee stand */}
 			<group name="CoffeeCup">
 				{/** Coffee Cup */}
-				<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation}>
-					<meshStandardMaterial {...cupMaterial} roughness={filingParams.cupRoughness} />
-				</mesh>
+				<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation} material={cupMaterial} />
 
 				{/** Coffee Cup Holder */}
 				<mesh
 					geometry={CoffeeCupHolder.geometry}
 					position={CoffeeCupHolder.position}
 					rotation={CoffeeCupHolder.rotation}
-					scale={[filingParams.holderScale.x, filingParams.holderScale.y, filingParams.holderScale.z]}>
-					<meshStandardMaterial {...coffeeCupHolderMaterial} />
-				</mesh>
+					scale={[filingParams.holderScale.x, filingParams.holderScale.y, filingParams.holderScale.z]}
+					material={coffeeCupHolderMaterial}
+				/>
 
 				{/** Coffee Cup Stand */}
-				<mesh geometry={CoffeeCupStand.geometry} position={CoffeeCupStand.position} rotation={CoffeeCupStand.rotation}>
-					<meshStandardMaterial {...coffeeCupStandMaterial} />
-				</mesh>
+				<mesh geometry={CoffeeCupStand.geometry} position={CoffeeCupStand.position} rotation={CoffeeCupStand.rotation} material={coffeeCupStandMaterial} />
 			</group>
 
 			{/** Vase + Flowers */}
 			<group name="Vase">
 				{/** Vase */}
-				<mesh geometry={Vase.geometry} position={[filingParams.vasePosition.x, filingParams.vasePosition.y, filingParams.vasePosition.z]}>
-					<meshStandardMaterial {...vaseMaterial} color={filingParams.vaseColor} roughness={filingParams.vaseRoughness} />
-				</mesh>
+				<mesh
+					geometry={Vase.geometry}
+					position={[filingParams.vasePosition.x, filingParams.vasePosition.y, filingParams.vasePosition.z]}
+					material={vaseMaterial}
+				/>
 
 				{/** Flower 1 */}
 				<mesh
 					geometry={Flower1.geometry}
 					position={[filingParams.flower1Position.x, filingParams.flower1Position.y, filingParams.flower1Position.z]}
-					rotation={[filingParams.flower1Rotation.x, filingParams.flower1Rotation.y, filingParams.flower1Rotation.z]}>
-					<meshStandardMaterial color={filingParams.flowerColor} />
-				</mesh>
+					rotation={[filingParams.flower1Rotation.x, filingParams.flower1Rotation.y, filingParams.flower1Rotation.z]}
+					material={flowerMaterial}
+				/>
 
 				{/** Flower 2*/}
-				<mesh geometry={Flower2.geometry} position={[filingParams.flower2Position.x, filingParams.flower2Position.y, filingParams.flower2Position.z]}>
-					<meshStandardMaterial color={filingParams.flowerColor} />
-				</mesh>
+				<mesh
+					geometry={Flower2.geometry}
+					position={[filingParams.flower2Position.x, filingParams.flower2Position.y, filingParams.flower2Position.z]}
+					material={flowerMaterial}
+				/>
 
 				{/** Flower 3*/}
 				<mesh
 					geometry={Flower3.geometry}
 					position={[filingParams.flower3Position.x, filingParams.flower3Position.y, filingParams.flower3Position.z]}
-					rotation={[filingParams.flower3Rotation.x, filingParams.flower3Rotation.y, filingParams.flower3Rotation.z]}>
-					<meshStandardMaterial color={filingParams.flowerColor} />
-				</mesh>
+					rotation={[filingParams.flower3Rotation.x, filingParams.flower3Rotation.y, filingParams.flower3Rotation.z]}
+					material={flowerMaterial}
+				/>
 
 				{/** Flower 4*/}
 				<mesh
 					geometry={Flower4.geometry}
 					position={[filingParams.flower4Position.x, filingParams.flower4Position.y, filingParams.flower4Position.z]}
-					rotation={[filingParams.flower4Rotation.x, filingParams.flower4Rotation.y, filingParams.flower4Rotation.z]}>
-					<meshStandardMaterial color={filingParams.flowerColor} />
-				</mesh>
+					rotation={[filingParams.flower4Rotation.x, filingParams.flower4Rotation.y, filingParams.flower4Rotation.z]}
+					material={flowerMaterial}
+				/>
 			</group>
 		</group>
 	);
