@@ -27,7 +27,6 @@ const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
 metalMaterial.color = new Color("#ffffff");
 metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
-metalMaterial.side = DoubleSide;
 export { metalMaterial };
 
 const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("CupboardDoors");

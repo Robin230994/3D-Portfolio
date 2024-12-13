@@ -18,6 +18,7 @@ import CupboardLW from "./CupboardLW/CupboardLW";
 import CupboardSmall from "./CupboardSmall/CupboardSmall";
 import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
+import OcculusQuest from "./OccolusQuest/OcculusQuest";
 
 function Portfolio() {
 	/** Nodes / Meshes */
@@ -87,6 +88,7 @@ function Portfolio() {
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
 						<MainDesk name="MainDesk" nodes={nodes} />
+						<OcculusQuest name="Occulus" nodes={nodes} />
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 						<SecondDesk name="SecondDesk" nodes={nodes} />
 						<CupboardFW name="CupboardFW" nodes={nodes} />
