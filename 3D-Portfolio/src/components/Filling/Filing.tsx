@@ -9,12 +9,10 @@ const materialCreator = MaterialCreator.getInstance();
 /** Materials */
 
 const filingMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Filing", {
-	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.jpg",
-	roughnessT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Roughness.jpg",
-	displacementT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Displacement.jpg",
-	normalT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_Normal.jpg",
-	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.jpg",
+	diffuseT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_BaseColor.webp",
+	aoT: "/baked-textures/Filling/Poliigon_StoneQuartzite_8060_AmbientOcclusion.webp",
 });
+filingMaterial.roughness = 0;
 
 /** Cup material */
 

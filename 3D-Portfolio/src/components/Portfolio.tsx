@@ -1,5 +1,5 @@
 import { Center, Environment, useGLTF, useHelper } from "@react-three/drei";
-import { DirectionalLight, DirectionalLightHelper, Mesh, ACESFilmicToneMapping } from "three";
+import { DirectionalLight, DirectionalLightHelper, Mesh, ACESFilmicToneMapping, PerspectiveCamera, CameraHelper } from "three";
 import { MutableRefObject, useRef } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -27,6 +27,8 @@ function Portfolio() {
 	/** REFS */
 	const sunlightRef = useRef<DirectionalLight | null>(null);
 	useHelper(sunlightRef as MutableRefObject<DirectionalLight>, DirectionalLightHelper, 1, "red");
+
+	const cameraRef = useRef<PerspectiveCamera>(null);
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -57,6 +59,8 @@ function Portfolio() {
 
 	return (
 		<>
+			<perspectiveCamera ref={cameraRef} fov={45} near={0.1} far={14} position={[-6, 0, 0]} rotation={[0, -1.6, 0]} />
+
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
 			</EffectComposer> */}

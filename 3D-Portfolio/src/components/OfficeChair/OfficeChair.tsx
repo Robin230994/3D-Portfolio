@@ -8,12 +8,12 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 const chairBackrestMaterial = materialCreator.createStandardMaterialFromTexture("ChairBackrest", {
-	diffuseT: "/baked-textures/Desk/Chair/desk_chair_baked_color.jpg",
+	diffuseT: "/baked-textures/Desk/Chair/desk_chair_baked_color.webp",
 });
 chairBackrestMaterial.roughness = 0.15;
 
 const chairSitMaterial = materialCreator.createStandardMaterialFromTexture("ChairSit", {
-	diffuseT: "/baked-textures/Desk/Chair/desk_chair_sit_color.jpg",
+	diffuseT: "/baked-textures/Desk/Chair/desk_chair_sit_color.webp",
 });
 chairSitMaterial.roughness = 0.31;
 
