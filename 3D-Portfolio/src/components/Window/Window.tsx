@@ -5,8 +5,8 @@ import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
-const windowBorderMaterial = materialCreator.createEmptyStandardMaterial("WindowBorder");
-windowBorderMaterial.color = new Color("#efefef");
+const windowBorderMaterial = materialCreator.createEmptyLambertMaterial("WindowBorder");
+windowBorderMaterial.color = new Color("#ffffff");
 
 const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Window: Mesh = nodes["WindowGlass"] as Mesh;
@@ -15,14 +15,10 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Glass */}
-			<mesh geometry={Window.geometry} position={Window.position}>
-				<meshStandardMaterial {...glassMaterial} />
-			</mesh>
+			<mesh geometry={Window.geometry} position={Window.position} material={glassMaterial} />
 
 			{/** Window border */}
-			<mesh geometry={WindowBorder.geometry} position={WindowBorder.position}>
-				<meshStandardMaterial {...windowBorderMaterial} />
-			</mesh>
+			<mesh geometry={WindowBorder.geometry} position={WindowBorder.position} material={windowBorderMaterial} />
 		</group>
 	);
 };

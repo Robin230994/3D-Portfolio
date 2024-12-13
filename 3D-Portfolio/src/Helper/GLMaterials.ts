@@ -18,7 +18,7 @@ deskMaterial.color = new Color("#b4b9b2");
 deskMaterial.side = DoubleSide;
 export { deskMaterial };
 
-const blackPlasticMaterial = materialCreator.createEmptyStandardMaterial("BlackPlastic");
+const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");
 blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
