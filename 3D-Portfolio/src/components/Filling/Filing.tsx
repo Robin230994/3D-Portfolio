@@ -55,8 +55,6 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Vase: Mesh = nodes["vase"] as Mesh;
 	const Flower1: Mesh = nodes["Flower1"] as Mesh;
 	const Flower2: Mesh = nodes["Flower2"] as Mesh;
-	const Flower3: Mesh = nodes["Flower3"] as Mesh;
-	const Flower4: Mesh = nodes["Flower4"] as Mesh;
 
 	const filingParams = useControls(
 		"Filing",
@@ -152,7 +150,7 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 				{/** Flower 3*/}
 				<mesh
-					geometry={Flower3.geometry}
+					geometry={Flower2.geometry}
 					position={[filingParams.flower3Position.x, filingParams.flower3Position.y, filingParams.flower3Position.z]}
 					rotation={[filingParams.flower3Rotation.x, filingParams.flower3Rotation.y, filingParams.flower3Rotation.z]}
 					material={flowerMaterial}
@@ -160,7 +158,7 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 				{/** Flower 4*/}
 				<mesh
-					geometry={Flower4.geometry}
+					geometry={Flower1.geometry}
 					position={[filingParams.flower4Position.x, filingParams.flower4Position.y, filingParams.flower4Position.z]}
 					rotation={[filingParams.flower4Rotation.x, filingParams.flower4Rotation.y, filingParams.flower4Rotation.z]}
 					material={flowerMaterial}
