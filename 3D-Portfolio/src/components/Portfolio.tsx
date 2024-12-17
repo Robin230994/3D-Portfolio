@@ -11,16 +11,11 @@ import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import Window from "./Window/Window";
 import Filing from "./Filling/Filing";
 import Door from "./Door/Door";
-import MainDesk from "./MainDesk/MainDesk";
 import Foundation from "./Foundation/Foundation";
-import OfficeChair from "./OfficeChair/OfficeChair";
-import SecondDesk from "./SecondDesk/SecondDesk";
-import CupboardFW from "./CupboardFW/CupboardFW";
-import CupboardLW from "./CupboardLW/CupboardLW";
-import CupboardSmall from "./CupboardSmall/CupboardSmall";
 import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import OcculusQuest from "./OccolusQuest/OcculusQuest";
+import Desks from "./MainDesk/Desks";
 
 function Portfolio() {
 	// const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
@@ -93,20 +88,20 @@ function Portfolio() {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					{/* <group name="objects">
+					<group name="objects">
 						<RoofLamp name="RoofLamp" nodes={nodes} />
 						<FloorLamp name="FloorLamp" nodes={nodes} />
 						<Window name="Window" nodes={nodes} />
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
-						<MainDesk name="MainDesk" nodes={nodes} />
-						<OcculusQuest name="Occulus" nodes={nodes} />
+						<Desks name="MainDesk" nodes={nodes} />
+						{/* <OcculusQuest name="Occulus" nodes={nodes} />
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 						<SecondDesk name="SecondDesk" nodes={nodes} />
 						<CupboardFW name="CupboardFW" nodes={nodes} />
 						<CupboardLW name="CupboardLW" nodes={nodes} />
-						<CupboardSmall name={"CupboardSmall"} nodes={nodes} />
-					</group> */}
+						<CupboardSmall name={"CupboardSmall"} nodes={nodes} /> */}
+					</group>
 				</group>
 			</Center>
 		</>

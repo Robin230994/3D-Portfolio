@@ -2,9 +2,9 @@ import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
-import { blackPlasticMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
+import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
-interface MainDeskUIProps extends IUIComponentProps {
+interface DesksUIProps extends IUIComponentProps {
 	props: {
 		data: {
 			myData: {
@@ -17,24 +17,21 @@ interface MainDeskUIProps extends IUIComponentProps {
 	};
 }
 
-const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
+const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
 
-	const MainDesk: Mesh = nodes["WorkingAreaMD"] as Mesh;
-	const MainDeskStands: Mesh = nodes["StandsMD"] as Mesh;
+	const DeskWorkingAreas: Mesh = nodes["DeskWorkingAreas"] as Mesh;
+	const DeskStands: Mesh = nodes["DeskStands"] as Mesh;
+	const DeskDoors: Mesh = nodes["CupboardDoors"] as Mesh;
+	const DeskOpeners: Mesh = nodes["CupboardOpeners"] as Mesh;
 	const Organizer: Mesh = nodes["Organizer"] as Mesh;
 	const Paper: Mesh = nodes["Paper"] as Mesh;
-	const NotebookPages: Mesh = nodes["Cube091"] as Mesh;
-	const NotebookBorders: Mesh = nodes["Cube091_1"] as Mesh;
-	const Notebooks: Mesh = nodes["Cube091_2"] as Mesh;
-	const PenholderCase: Mesh = nodes["Cube096"] as Mesh;
-	const PenholderPaper: Mesh = nodes["Cube096_1"] as Mesh;
-	const PenholderClamps: Mesh = nodes["Cube096_3"] as Mesh;
-	const Penholder: Mesh = nodes["Cube096_5"] as Mesh;
+	const Notebooks: Mesh = nodes["Books"] as Mesh;
+	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
 
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
@@ -44,13 +41,19 @@ const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
 
 	return (
 		<group name={name}>
-			{/** Working area */}
-			<mesh geometry={MainDesk.geometry} position={MainDesk.position} rotation={MainDesk.rotation} material={deskMaterial} />
+			{/** Working areas */}
+			<mesh geometry={DeskWorkingAreas.geometry} position={DeskWorkingAreas.position} rotation={DeskWorkingAreas.rotation} material={deskMaterial} />
 
 			{/** Desk stands */}
-			<mesh geometry={MainDeskStands.geometry} position={MainDeskStands.position} rotation={MainDeskStands.rotation}>
+			<mesh geometry={DeskStands.geometry} position={DeskStands.position} rotation={DeskStands.rotation}>
 				<meshStandardMaterial {...metalMaterial} roughness={0.1} />
 			</mesh>
+
+			{/** Desk doors */}
+			<mesh geometry={DeskDoors.geometry} position={DeskDoors.position} rotation={DeskDoors.rotation} material={cupboardDoorMaterial} />
+
+			{/** Desk door openers */}
+			<mesh geometry={DeskOpeners.geometry} position={DeskOpeners.position} rotation={DeskOpeners.rotation} material={metalMaterial} />
 
 			{/** Organizer */}
 			<group name="organizer">
@@ -65,29 +68,16 @@ const MainDeskUI: React.FC<MainDeskUIProps> = ({ props }) => {
 
 			{/** Notebooks */}
 			<group name="Notebooks" position={[3.812, 1.18, -2.692]}>
-				<mesh geometry={NotebookPages.geometry} rotation={NotebookPages.rotation}>
-					<meshStandardMaterial />
-				</mesh>
-
-				<mesh geometry={NotebookBorders.geometry} rotation={NotebookBorders.rotation}>
-					<meshStandardMaterial color={"#ffffff"} />
-				</mesh>
-
 				<mesh geometry={Notebooks.geometry} rotation={Notebooks.rotation}>
 					<meshStandardMaterial color={"#ffffff"} />
 				</mesh>
 			</group>
 
 			<group name="Penholder" position={[4.768, 1.22, -2.744]}>
-				<mesh geometry={PenholderCase.geometry} rotation={PenholderCase.rotation}>
-					<meshStandardMaterial color="black" />
-				</mesh>
-				<mesh geometry={PenholderPaper.geometry} rotation={PenholderPaper.rotation} />
-				<mesh geometry={PenholderClamps.geometry} rotation={PenholderClamps.rotation} />
 				<mesh geometry={Penholder.geometry} rotation={Penholder.rotation} />
 			</group>
 		</group>
 	);
 };
 
-export default MainDeskUI;
+export default DesksUI;

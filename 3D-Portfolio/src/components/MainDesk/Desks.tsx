@@ -1,7 +1,7 @@
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import MainDeskUI from "./MainDeskUI";
+import DesksUI from "./DesksUI";
 
-const MainDesk: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+const Desks: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const uiComponentProps = {
 		data: {
 			myData: {
@@ -13,7 +13,7 @@ const MainDesk: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		refs: { myRefs: {} },
 	};
 
-	return <MainDeskUI props={uiComponentProps} />;
+	return <DesksUI props={uiComponentProps} />;
 };
 
-export default MainDesk;
+export default Desks;
