@@ -21,12 +21,8 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Sit: Mesh = nodes["Sit"] as Mesh;
 	const Backrest: Mesh = nodes["Backrest"] as Mesh;
 	const BackrestController: Mesh = nodes["BackrestController"] as Mesh;
-	const BackrestSide: Mesh = nodes["BackrestSide"] as Mesh;
-	const BackrestAmature: Mesh = nodes["BackrestAmature"] as Mesh;
-	const BackrestStrapHolder: Mesh = nodes["BackrestStrapHolder"] as Mesh;
 	const BackrestPillow: Mesh = nodes["BackrestPillow"] as Mesh;
 	const ChairStand: Mesh = nodes["ChairStand"] as Mesh;
-	const ChairSitHolder: Mesh = nodes["ChairSitHolder"] as Mesh;
 	const Roll: Mesh = nodes["Rolls"] as Mesh;
 
 	const officeChairParams = useControls(
@@ -86,28 +82,11 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				material={blackPlasticMaterial}
 			/>
 
-			{/** BackrestSide */}
-			<mesh geometry={BackrestSide.geometry} rotation={BackrestSide.rotation} position={BackrestSide.position} material={blackPlasticMaterial} />
-
-			{/** BackrestAmature */}
-			<mesh geometry={BackrestAmature.geometry} rotation={BackrestAmature.rotation} position={BackrestAmature.position} material={blackPlasticMaterial} />
-
-			{/** BackrestStrapHolder */}
-			<mesh
-				geometry={BackrestStrapHolder.geometry}
-				rotation={BackrestStrapHolder.rotation}
-				position={BackrestStrapHolder.position}
-				material={blackPlasticMaterial}
-			/>
-
 			{/** BackrestPillow */}
 			<mesh geometry={BackrestPillow.geometry} rotation={BackrestPillow.rotation} position={BackrestPillow.position} material={blackPlasticMaterial} />
 
 			{/** ChairStand */}
 			<mesh geometry={ChairStand.geometry} rotation={ChairStand.rotation} position={ChairStand.position} material={metalMaterial} />
-
-			{/** ChairSitHolder */}
-			<mesh geometry={ChairSitHolder.geometry} rotation={ChairSitHolder.rotation} position={ChairSitHolder.position} material={blackPlasticMaterial} />
 
 			{/** Rolls */}
 			<InstantiatedMesh geometry={Roll.geometry} material={blackPlasticMaterial} instance={chairRollInstances} />

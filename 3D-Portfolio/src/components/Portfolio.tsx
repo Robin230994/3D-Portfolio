@@ -16,6 +16,7 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import OcculusQuest from "./OccolusQuest/OcculusQuest";
 import Desks from "./MainDesk/Desks";
+import OfficeChair from "./OfficeChair/OfficeChair";
 
 function Portfolio() {
 	// const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
@@ -95,12 +96,8 @@ function Portfolio() {
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
 						<Desks name="MainDesk" nodes={nodes} />
-						{/* <OcculusQuest name="Occulus" nodes={nodes} />
+						<OcculusQuest name="Occulus" nodes={nodes} />
 						<OfficeChair name="OfficeChair" nodes={nodes} />
-						<SecondDesk name="SecondDesk" nodes={nodes} />
-						<CupboardFW name="CupboardFW" nodes={nodes} />
-						<CupboardLW name="CupboardLW" nodes={nodes} />
-						<CupboardSmall name={"CupboardSmall"} nodes={nodes} /> */}
 					</group>
 				</group>
 			</Center>
