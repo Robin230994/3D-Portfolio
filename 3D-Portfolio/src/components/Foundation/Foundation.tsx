@@ -5,28 +5,10 @@ import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 
-const backWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("BackWall", {
-	diffuseT: "/baked-textures/Walls/Back/back_wall_color.webp",
-	roughnessT: "/baked-textures/Walls/Back/back_wall_roughness.webp",
-	normalT: "/baked-textures/Walls/Back/back_wall_normal.png",
-});
-
-const leftWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("LeftWall", {
+const wallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("LeftWall", {
 	diffuseT: "/baked-textures/Walls/Left/left_wall_color.webp",
 	roughnessT: "/baked-textures/Walls/Left/left_wall_roughness.webp",
 	normalT: "/baked-textures/Walls/Left/left_wall_normal.png",
-});
-
-const frontWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("FrontWall", {
-	diffuseT: "/baked-textures/Walls/Front/walls_color.webp",
-	roughnessT: "/baked-textures/Walls/Front/walls_roughness.webp",
-	normalT: "/baked-textures/Walls/Front/walls_normal.jpg",
-});
-
-const windowWallMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("WindowWall", {
-	diffuseT: "/baked-textures/Walls/Window/window_wall_color.webp",
-	roughnessT: "/baked-textures/Walls/Window/window_wall_roughness.webp",
-	normalT: "/baked-textures/Walls/Window/window_wall_normal.png",
 });
 
 const roofMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Roof", {
@@ -52,16 +34,16 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** LeftWall */}
-			<mesh geometry={LeftWall.geometry} position={LeftWall.position} material={leftWallMaterial} />
+			<mesh geometry={LeftWall.geometry} position={LeftWall.position} material={wallMaterial} />
 
 			{/** BackWall */}
-			<mesh geometry={BackWall.geometry} position={BackWall.position} material={backWallMaterial} />
+			<mesh geometry={BackWall.geometry} position={BackWall.position} material={wallMaterial} />
 
 			{/** FrontWall */}
-			<mesh geometry={FrontWall.geometry} position={FrontWall.position} material={frontWallMaterial} />
+			<mesh geometry={FrontWall.geometry} position={FrontWall.position} material={wallMaterial} />
 
 			{/** WindowWall */}
-			<mesh geometry={WindowWall.geometry} position={WindowWall.position} material={windowWallMaterial} />
+			<mesh geometry={WindowWall.geometry} position={WindowWall.position} material={wallMaterial} />
 
 			{/** Roof */}
 			<mesh geometry={Roof.geometry} position={Roof.position} material={roofMaterial} />

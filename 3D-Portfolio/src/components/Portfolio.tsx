@@ -93,7 +93,7 @@ function Portfolio() {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					<group name="objects">
+					{/* <group name="objects">
 						<RoofLamp name="RoofLamp" nodes={nodes} />
 						<FloorLamp name="FloorLamp" nodes={nodes} />
 						<Window name="Window" nodes={nodes} />
@@ -106,7 +106,7 @@ function Portfolio() {
 						<CupboardFW name="CupboardFW" nodes={nodes} />
 						<CupboardLW name="CupboardLW" nodes={nodes} />
 						<CupboardSmall name={"CupboardSmall"} nodes={nodes} />
-					</group>
+					</group> */}
 				</group>
 			</Center>
 		</>
