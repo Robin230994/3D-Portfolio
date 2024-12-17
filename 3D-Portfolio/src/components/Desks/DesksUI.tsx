@@ -1,12 +1,13 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { DirectionalLight, Mesh } from "three";
+import { DirectionalLight, DoubleSide, Mesh } from "three";
 import { useControls } from "leva";
 import { cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import Macbook from "../Macbook/Macbook";
 import MaterialCreator from "../../classes/MaterialCreator";
+import IPhone from "../iPhone/iPhone";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskStandMaterial = materialCreator.createEmptyStandardMaterial("DeskStands");
@@ -67,9 +68,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<group name="organizer">
 				<mesh geometry={Organizer.geometry} position={Organizer.position} rotation={Organizer.rotation} material={greenPlasticMaterial} />
 
-				{/* <mesh geometry={Paper.geometry} position={[4.33, 1.255, -2.509]} rotation={Paper.rotation} scale-y={0.01}>
+				<mesh geometry={Paper.geometry} position={[4.33, 1.255, -2.509]} rotation={Paper.rotation} scale-y={0.01}>
 					<meshStandardMaterial />
-				</mesh> */}
+				</mesh>
 			</group>
 
 			{/** Notebooks */}
@@ -88,6 +89,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** Macbook */}
 			<Macbook name="Macbook" nodes={nodes} />
+
+			{/** Phone */}
+			<IPhone name="iPhone" nodes={nodes} />
 		</group>
 	);
 };
