@@ -1,4 +1,4 @@
-import { Color, DoubleSide } from "three";
+import { Color, DoubleSide, MeshPhongMaterial } from "three";
 import MaterialCreator from "../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -22,6 +22,12 @@ const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlas
 blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
+
+const greenPlasticMaterial = materialCreator.createEmptyPhongMaterial("WhitePlastic");
+greenPlasticMaterial.color = new Color("#3C857D");
+greenPlasticMaterial.side = DoubleSide;
+greenPlasticMaterial.shininess = 100;
+export { greenPlasticMaterial };
 
 const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
 metalMaterial.color = new Color("#ffffff");

@@ -19,14 +19,15 @@ import Desks from "./MainDesk/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
 
 function Portfolio() {
-	// const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
-	// 	const dracoLoader = new DRACOLoader();
-	// 	dracoLoader.setDecoderPath("./draco/");
-	// 	loader.setDRACOLoader(dracoLoader);
-	// });
+	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
+		const dracoLoader = new DRACOLoader();
+		dracoLoader.setDecoderPath("./draco/");
+		loader.setDRACOLoader(dracoLoader);
+	});
 
 	/** Nodes / Meshes */
-	const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
+	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
+	const { nodes } = officeModel as unknown as GLTFResult;
 
 	/** REFS */
 	const sunlightRef = useRef<DirectionalLight | null>(null);
@@ -96,7 +97,7 @@ function Portfolio() {
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
 						<Desks name="MainDesk" nodes={nodes} />
-						<OcculusQuest name="Occulus" nodes={nodes} />
+						{/* <OcculusQuest name="Occulus" nodes={nodes} /> */}
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 					</group>
 				</group>

@@ -9,6 +9,7 @@ import {
 	RepeatWrapping,
 	MeshBasicMaterial,
 	MeshLambertMaterial,
+	MeshPhongMaterial,
 } from "three";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
@@ -126,6 +127,12 @@ export default class MaterialCreator {
 		const emptyLambertMaterial = new MeshLambertMaterial();
 		this.storedMaterials.set(materialName, emptyLambertMaterial);
 		return emptyLambertMaterial;
+	}
+
+	public createEmptyPhongMaterial(materialName: string): MeshPhongMaterial {
+		const emptyPhongMaterial = new MeshPhongMaterial();
+		this.storedMaterials.set(materialName, emptyPhongMaterial);
+		return emptyPhongMaterial;
 	}
 
 	public getStoredMaterial(): Map<string, Material> {
