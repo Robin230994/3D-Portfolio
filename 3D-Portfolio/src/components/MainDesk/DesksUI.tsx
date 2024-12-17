@@ -1,10 +1,18 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { DirectionalLight, Mesh, MeshStandardMaterial } from "three";
+import { DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
 import { cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
+
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import Macbook from "../Macbook/Macbook";
+import MaterialCreator from "../../classes/MaterialCreator";
+
+const materialCreator = MaterialCreator.getInstance();
+const deskStandMaterial = materialCreator.createEmptyStandardMaterial("DeskStands");
+deskStandMaterial.color = metalMaterial.color;
+deskStandMaterial.metalness = metalMaterial.metalness;
+deskStandMaterial.roughness = 0.5;
 
 interface DesksUIProps extends IUIComponentProps {
 	props: {
@@ -34,14 +42,6 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const Paper: Mesh = nodes["Paper"] as Mesh;
 	const Notebooks: Mesh = nodes["Books"] as Mesh;
 	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
-
-	const deskStandMaterial: MeshStandardMaterial = useMemo(() => {
-		return new MeshStandardMaterial({
-			color: metalMaterial.color,
-			metalness: metalMaterial.metalness,
-			roughness: 0.5,
-		});
-	}, []);
 
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },

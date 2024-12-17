@@ -135,6 +135,10 @@ export default class MaterialCreator {
 		return emptyPhongMaterial;
 	}
 
+	public addInstanciatedMaterial<T extends Material>(materialName: string, material: T) {
+		this.storedMaterials.set(materialName, material);
+	}
+
 	public getStoredMaterial(): Map<string, Material> {
 		return this.storedMaterials;
 	}
