@@ -5,6 +5,8 @@ import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
+import { useLoader } from "@react-three/fiber";
+import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
 import Window from "./Window/Window";
 import Filing from "./Filling/Filing";
@@ -21,6 +23,12 @@ import FloorLamp from "./FloorLamp/FloorLamp";
 import OcculusQuest from "./OccolusQuest/OcculusQuest";
 
 function Portfolio() {
+	// const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
+	// 	const dracoLoader = new DRACOLoader();
+	// 	dracoLoader.setDecoderPath("./draco/");
+	// 	loader.setDRACOLoader(dracoLoader);
+	// });
+
 	/** Nodes / Meshes */
 	const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 
