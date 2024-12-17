@@ -1,6 +1,6 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { DirectionalLight, DoubleSide, Mesh, MeshStandardMaterial } from "three";
+import { Color, DirectionalLight, DoubleSide, Mesh, MeshStandardMaterial } from "three";
 import { useControls } from "leva";
 import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
@@ -64,9 +64,55 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 		{
 			position: [0.027, 0.1, 0.017] as [number, number, number],
 			rotation: [1.571, 0.003, -1.57] as [number, number, number],
-			color: [1, 1, 0] as [number, number, number],
+			color: new Color("#5C8408"),
 		},
-		{ position: [0.027, 0.1, 0.017] as [number, number, number], rotation: [1.571, 0.003, -1.57] as [number, number, number] },
+		{
+			position: [0.049, 0.1, 0.006] as [number, number, number],
+			rotation: [1.571, 0.003, -1.57] as [number, number, number],
+			color: new Color("#000000"),
+		},
+		{
+			position: [0.075, 0.1, 0.006] as [number, number, number],
+			rotation: [1.571, 0.1, -1.57] as [number, number, number],
+			scale: [1, 0.5, 1] as [number, number, number],
+			color: new Color("#ffffff"),
+		},
+		{
+			position: [0.09, 0.1189, 0.006] as [number, number, number],
+			rotation: [1.57, 0.18, -1.57] as [number, number, number],
+			scale: [1, 0.5, 1.2] as [number, number, number],
+			color: new Color("#867972"),
+		},
+		{
+			position: [0.13, 0.1189, 0.006] as [number, number, number],
+			rotation: [1.57, 0.003, -1.57] as [number, number, number],
+			scale: [1, 1.3, 1.2] as [number, number, number],
+			color: new Color("#522F0C"),
+		},
+		{
+			position: [0.165, 0.1089, 0.006] as [number, number, number],
+			rotation: [1.57, 0.003, -1.57] as [number, number, number],
+			scale: [1, 2, 1.1] as [number, number, number],
+			color: new Color("#4A3D39"),
+		},
+		{
+			position: [0.201, 0.1, 0.006] as [number, number, number],
+			rotation: [1.57, 0.08, -1.57] as [number, number, number],
+			scale: [1, 0.7, 1] as [number, number, number],
+			color: new Color("#6E2032"),
+		},
+		{
+			position: [0.222, 0.1089, 0.006] as [number, number, number],
+			rotation: [1.57, 0.13, -1.57] as [number, number, number],
+			scale: [1, 0.7, 1.1] as [number, number, number],
+			color: new Color("#867972"),
+		},
+		{
+			position: [0.237, 0.1189, 0.006] as [number, number, number],
+			rotation: [1.57, 0.13, -1.57] as [number, number, number],
+			scale: [1, 0.7, 1.2] as [number, number, number],
+			color: new Color("#000000"),
+		},
 	];
 
 	return (

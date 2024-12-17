@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
-import { BufferAttribute } from "three";
+import { Color } from "three";
 import { BoxGeometry, BufferGeometry, InstancedMesh, Material, MeshStandardMaterial, NormalBufferAttributes, Object3D } from "three";
 
 type Instances = {
 	instance: Array<{
 		position: [number, number, number];
 		rotation?: [number, number, number];
-		color?: [number, number, number];
+		scale?: [number, number, number];
+		color?: Color;
 	}>;
 	geometry: BufferGeometry<NormalBufferAttributes> | undefined;
 	material?: Material | Material[] | undefined;
@@ -18,12 +19,16 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material })
 	useEffect(() => {
 		if (!instancedMeshRef.current) return;
 		const dummy = new Object3D();
-		const colorArray = new Float32Array(instance.length * 3); // Assign a color array which takes 3 values for each color (RGB).
 
-		instance.forEach(({ position, rotation, color }, index) => {
+		instance.forEach(({ position, rotation, scale, color }, index) => {
 			dummy.position.set(...position);
 			if (rotation) {
 				dummy.rotation.set(...rotation);
+			}
+			if (scale) {
+				dummy.scale.set(...scale);
+			} else {
+				dummy.scale.set(1, 1, 1);
 			}
 			dummy.updateMatrix();
 
@@ -31,26 +36,23 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material })
 
 			// Set the color when given as prop
 			if (color) {
-				colorArray.set(color, index * 3);
+				instancedMeshRef.current!.setColorAt(index, color);
 			} else {
-				// Set the default color to white
-				colorArray.set([1, 1, 1], index * 3);
+				instancedMeshRef.current!.setColorAt(index, new Color("#ffffff"));
 			}
 		});
 
 		instancedMeshRef.current.instanceMatrix.needsUpdate = true;
 
-		// Update the color buffer
-		instancedMeshRef.current.geometry.setAttribute(
-			"instanceColor",
-			new BufferAttribute(colorArray, 3) // 3 values per color (R, G, B)
-		);
+		if (instancedMeshRef.current.instanceColor) {
+			instancedMeshRef.current.instanceColor.needsUpdate = true;
+		}
 	}, [instance]);
 
 	return (
 		<instancedMesh
 			ref={instancedMeshRef}
-			args={[geometry || new BoxGeometry(), material || new MeshStandardMaterial({ vertexColors: true }), instance.length]}
+			args={[geometry ? geometry : new BoxGeometry(), material ? material : new MeshStandardMaterial({ vertexColors: true }), instance.length]}
 		/>
 	);
 };
