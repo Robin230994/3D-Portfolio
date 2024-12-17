@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { DirectionalLight, DoubleSide, Mesh } from "three";
+import { DirectionalLight, Mesh, MeshStandardMaterial } from "three";
 import { useControls } from "leva";
 import { cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
@@ -33,6 +33,14 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const Notebooks: Mesh = nodes["Books"] as Mesh;
 	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
 
+	const deskStandMaterial: MeshStandardMaterial = useMemo(() => {
+		return new MeshStandardMaterial({
+			color: metalMaterial.color,
+			metalness: metalMaterial.metalness,
+			roughness: 0.5,
+		});
+	}, []);
+
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
 		roughness: { value: 0.75, min: 0, max: 1, step: 0.01 },
@@ -45,9 +53,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<mesh geometry={DeskWorkingAreas.geometry} position={DeskWorkingAreas.position} rotation={DeskWorkingAreas.rotation} material={deskMaterial} />
 
 			{/** Desk stands */}
-			<mesh geometry={DeskStands.geometry} position={DeskStands.position} rotation={DeskStands.rotation}>
-				<meshStandardMaterial {...metalMaterial} roughness={0.1} />
-			</mesh>
+			<mesh geometry={DeskStands.geometry} position={DeskStands.position} rotation={DeskStands.rotation} material={deskStandMaterial} />
 
 			{/** Desk doors */}
 			<mesh geometry={DeskDoors.geometry} position={DeskDoors.position} rotation={DeskDoors.rotation} material={cupboardDoorMaterial} />

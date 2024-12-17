@@ -96,8 +96,8 @@ function Portfolio() {
 						<Window name="Window" nodes={nodes} />
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
-						<Desks name="MainDesk" nodes={nodes} />
-						{/* <OcculusQuest name="Occulus" nodes={nodes} /> */}
+						<Desks name="Desks" nodes={nodes} />
+						<OcculusQuest name="Occulus" nodes={nodes} />
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 					</group>
 				</group>
