@@ -1,6 +1,6 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { DirectionalLight, DoubleSide, Mesh } from "three";
+import { DirectionalLight, DoubleSide, Mesh, MeshStandardMaterial } from "three";
 import { useControls } from "leva";
 import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
@@ -40,11 +40,12 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const DeskStands: Mesh = nodes["DeskStands"] as Mesh;
 	const DeskDoors: Mesh = nodes["CupboardDoors"] as Mesh;
 	const DeskOpeners: Mesh = nodes["CupboardOpeners"] as Mesh;
-	const DeskRolls: Mesh = nodes["Rolls"] as Mesh;
+	const DeskRoll: Mesh = nodes["Rolls"] as Mesh;
 	const Organizer: Mesh = nodes["Organizer"] as Mesh;
 	const Paper: Mesh = nodes["Paper"] as Mesh;
 	const Notebooks: Mesh = nodes["Books"] as Mesh;
 	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
+	const Book: Mesh = nodes["GreenBook"] as Mesh;
 
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
@@ -57,6 +58,15 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 		{ position: [1.53, 0.1, 1.95] as [number, number, number], rotation: [0, -1.5, 0] as [number, number, number] },
 		{ position: [1.53, 0.1, 2.6] as [number, number, number], rotation: [0, -1.5, 0] as [number, number, number] },
 		{ position: [2.35, 0.1, 2.7] as [number, number, number], rotation: [0, -2.6, 0] as [number, number, number] },
+	];
+
+	const bookInstances = [
+		{
+			position: [0.027, 0.1, 0.017] as [number, number, number],
+			rotation: [1.571, 0.003, -1.57] as [number, number, number],
+			color: [1, 1, 0] as [number, number, number],
+		},
+		{ position: [0.027, 0.1, 0.017] as [number, number, number], rotation: [1.571, 0.003, -1.57] as [number, number, number] },
 	];
 
 	return (
@@ -74,7 +84,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<mesh geometry={DeskOpeners.geometry} position={DeskOpeners.position} rotation={DeskOpeners.rotation} material={metalMaterial} />
 
 			{/** Small Desk Rolls */}
-			<InstantiatedMesh geometry={DeskRolls.geometry} material={blackPlasticMaterial} instance={rollInstances} />
+			<InstantiatedMesh geometry={DeskRoll.geometry} material={blackPlasticMaterial} instance={rollInstances} />
 
 			{/** Organizer */}
 			<group name="organizer">
@@ -104,6 +114,11 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** Phone */}
 			<IPhone name="iPhone" nodes={nodes} />
+
+			{/** Desk books */}
+			<group name="DeskBooks" position={[-0.415, 0.953, -2.344]} scale={1.743}>
+				<InstantiatedMesh geometry={Book.geometry} instance={bookInstances} />
+			</group>
 		</group>
 	);
 };
