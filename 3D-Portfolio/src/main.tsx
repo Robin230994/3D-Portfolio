@@ -6,6 +6,6 @@ import Experience from "./Experience";
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
-		<Experience />{" "}
+		<Experience />
 	</StrictMode>
 );

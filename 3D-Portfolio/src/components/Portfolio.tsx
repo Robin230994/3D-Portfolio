@@ -1,5 +1,6 @@
-import { Center, Environment, useGLTF, useHelper } from "@react-three/drei";
-import { DirectionalLight, DirectionalLightHelper, Mesh, ACESFilmicToneMapping, PerspectiveCamera, CameraHelper } from "three";
+import { Center, Environment, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping } from "three";
+import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
 import { MutableRefObject, useRef } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
@@ -33,7 +34,8 @@ function Portfolio() {
 	const sunlightRef = useRef<DirectionalLight | null>(null);
 	useHelper(sunlightRef as MutableRefObject<DirectionalLight>, DirectionalLightHelper, 1, "red");
 
-	const cameraRef = useRef<PerspectiveCamera>(null);
+	const cameraRef = useRef<THREEPerspectiveCamera>(null);
+	// useHelper(cameraRef as MutableRefObject<THREEPerspectiveCamera>, CameraHelper);
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -64,7 +66,7 @@ function Portfolio() {
 
 	return (
 		<>
-			<perspectiveCamera ref={cameraRef} fov={45} near={0.1} far={14} position={[-6, 0, 0]} rotation={[0, -1.6, 0]} />
+			<PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} />
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -97,7 +99,6 @@ function Portfolio() {
 						<Filing name="Filing" nodes={nodes} />
 						<Door name="Door" nodes={nodes} />
 						<Desks name="Desks" nodes={nodes} />
-						<OcculusQuest name="Occulus" nodes={nodes} />
 						<OfficeChair name="OfficeChair" nodes={nodes} />
 					</group>
 				</group>

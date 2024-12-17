@@ -3,6 +3,7 @@ import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh, MeshStandardMaterial } from "three";
 import { useControls } from "leva";
 import { cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
+import OcculusQuest from "../OccolusQuest/OcculusQuest";
 
 interface DesksUIProps extends IUIComponentProps {
 	props: {
@@ -80,6 +81,8 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			{/* <group name="Penholder" position={[4.768, 1.22, -2.744]}>
 				<mesh geometry={Penholder.geometry} rotation={Penholder.rotation} material={penHolderMaterial} />
 			</group> */}
+
+			<OcculusQuest name="Occulus" nodes={nodes} />
 		</group>
 	);
 };
