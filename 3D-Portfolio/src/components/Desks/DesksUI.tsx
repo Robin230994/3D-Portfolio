@@ -46,6 +46,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const Notebooks: Mesh = nodes["Books"] as Mesh;
 	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
 	const Book: Mesh = nodes["GreenBook"] as Mesh;
+	const Folders: Mesh = nodes["FolderDocuments"] as Mesh;
 
 	const deskParams = useControls("Desk", {
 		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
@@ -160,6 +161,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** Phone */}
 			<IPhone name="iPhone" nodes={nodes} />
+
+			{/** Folders */}
+			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={greenPlasticMaterial} />
 
 			{/** Desk books */}
 			<group name="DeskBooks" position={[-0.415, 0.953, -2.344]} scale={1.743}>
