@@ -8,7 +8,7 @@ const Experience = () => {
 	return (
 		<>
 			<Leva collapsed />
-			<Canvas>
+			<Canvas frameloop="demand">
 				<Portfolio />
 				<OrbitControls />
 			</Canvas>

@@ -15,7 +15,6 @@ import Door from "./Door/Door";
 import Foundation from "./Foundation/Foundation";
 import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
-import OcculusQuest from "./OccolusQuest/OcculusQuest";
 import Desks from "./MainDesk/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
 
