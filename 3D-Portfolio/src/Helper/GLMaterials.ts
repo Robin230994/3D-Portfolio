@@ -7,7 +7,7 @@ const glassMaterial = materialCreator.createEmptyStandardMaterial("Glass");
 glassMaterial.color = new Color("#ffffff");
 glassMaterial.roughness = 0;
 glassMaterial.metalness = 0;
-glassMaterial.opacity = 0;
+glassMaterial.opacity = 0.35;
 glassMaterial.transparent = true;
 export { glassMaterial };
 
@@ -34,6 +34,12 @@ metalMaterial.color = new Color("#ffffff");
 metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
 export { metalMaterial };
+
+const goldMetalMaterial = materialCreator.createEmptyStandardMaterial("GoldMetal");
+goldMetalMaterial.color = new Color("#D4AF37");
+goldMetalMaterial.roughness = 0;
+goldMetalMaterial.metalness = 1;
+export { goldMetalMaterial };
 
 const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("CupboardDoors");
 cupboardDoorMaterial.color = new Color("#3F3F3F");

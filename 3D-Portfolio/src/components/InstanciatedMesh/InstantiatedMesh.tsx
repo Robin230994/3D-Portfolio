@@ -52,6 +52,7 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material })
 	return (
 		<instancedMesh
 			ref={instancedMeshRef}
+			frustumCulled={false}
 			args={[geometry ? geometry : new BoxGeometry(), material ? material : new MeshStandardMaterial({ vertexColors: true }), instance.length]}
 		/>
 	);

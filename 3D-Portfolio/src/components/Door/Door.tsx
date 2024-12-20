@@ -1,6 +1,6 @@
 import { DoubleSide, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { metalMaterial } from "../../Helper/GLMaterials";
+import { goldMetalMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 import MaterialCreator from "../../classes/MaterialCreator";
 
@@ -23,7 +23,7 @@ const Door: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh name={name} geometry={Door.geometry} position={Door.position} rotation={Door.rotation} material={doorMaterial} />
 
 			{/** DoorHandle */}
-			<mesh geometry={DoorHandleSP.geometry} position={DoorHandleSP.position} rotation={DoorHandleSP.rotation} material={metalMaterial} />
+			<mesh geometry={DoorHandleSP.geometry} position={DoorHandleSP.position} rotation={DoorHandleSP.rotation} material={goldMetalMaterial} />
 		</group>
 	);
 };

@@ -7,8 +7,9 @@ import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticM
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import Macbook from "../Macbook/Macbook";
 import MaterialCreator from "../../classes/MaterialCreator";
-import IPhone from "../iPhone/iPhone";
+import IPhone from "../iPhone/IPhone";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
+import BambuLab from "../BambuLab/BambuLab";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskStandMaterial = materialCreator.createEmptyStandardMaterial("DeskStands");
@@ -169,6 +170,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<group name="DeskBooks" position={[-0.415, 0.953, -2.344]} scale={1.743}>
 				<InstantiatedMesh geometry={Book.geometry} instance={bookInstances} />
 			</group>
+
+			{/** BambuLab Printer */}
+			<BambuLab name="BambuLab" nodes={nodes} />
 		</group>
 	);
 };
