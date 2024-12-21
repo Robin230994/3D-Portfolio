@@ -1,11 +1,11 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { Color, DirectionalLight, DoubleSide, Mesh, MeshStandardMaterial } from "three";
+import { Color, DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
 import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
-import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import Macbook from "../Macbook/Macbook";
+import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
 import IPhone from "../iPhone/IPhone";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";

@@ -1,4 +1,4 @@
-import { Color, DoubleSide, MeshPhongMaterial } from "three";
+import { Color, DoubleSide, MeshPhongMaterial, Vector2 } from "three";
 import MaterialCreator from "../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -7,8 +7,9 @@ const glassMaterial = materialCreator.createEmptyStandardMaterial("Glass");
 glassMaterial.color = new Color("#ffffff");
 glassMaterial.roughness = 0;
 glassMaterial.metalness = 0;
-glassMaterial.opacity = 0.35;
+glassMaterial.opacity = 0.3;
 glassMaterial.transparent = true;
+glassMaterial.normalScale = new Vector2(1, -1);
 export { glassMaterial };
 
 const deskMaterial = materialCreator.createEmptyStandardMaterial("Desk");

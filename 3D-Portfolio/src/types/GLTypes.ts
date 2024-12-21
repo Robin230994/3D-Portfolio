@@ -1,4 +1,4 @@
-import { DirectionalLight, Mesh } from "three";
+import { DirectionalLight, Material, Mesh, Scene } from "three";
 
 export type MaterialUpdateParams = {
 	[key: string]: unknown;
@@ -16,4 +16,6 @@ export type GLTFResult = {
 	nodes: {
 		[key: string]: Mesh | DirectionalLight; // Index signature for dynamic access
 	};
+	scene?: Scene;
+	materials?: { [key: string]: Material };
 };
