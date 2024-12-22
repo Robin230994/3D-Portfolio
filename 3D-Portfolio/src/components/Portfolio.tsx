@@ -1,4 +1,4 @@
-import { Center, Environment, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
 import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping } from "three";
 import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
 import { MutableRefObject, useRef } from "react";
@@ -6,7 +6,7 @@ import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
-import { useLoader } from "@react-three/fiber";
+import { useLoader, useThree } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
 import Window from "./Window/Window";
@@ -19,6 +19,9 @@ import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
 
 function Portfolio() {
+	// Use regression to optimize performance
+	const regress = useThree((state) => state.performance.regress);
+
 	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
@@ -65,6 +68,11 @@ function Portfolio() {
 
 	return (
 		<>
+			{/* <PerformanceMonitor onDecline={() => console.log("Performance dropped!")} onIncline={() => console.log("Performance improved")} /> */}
+			{/** Scale pixel ratio based on performance */}
+			<AdaptiveDpr pixelated />
+
+			<OrbitControls regress />
 			<PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} />
 
 			{/* <EffectComposer>

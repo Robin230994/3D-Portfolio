@@ -7,7 +7,6 @@ import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticM
 import Macbook from "../Macbook/Macbook";
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
-import IPhone from "../iPhone/IPhone";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 import BambuLab from "../BambuLab/BambuLab";
 
