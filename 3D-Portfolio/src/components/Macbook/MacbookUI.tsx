@@ -1,10 +1,11 @@
 import React from "react";
 import { GLTFResult, IUIComponentProps } from "../../types/GLTypes";
-import { Color, Material, Mesh } from "three";
+import { Color, Mesh } from "three";
 import { DirectionalLight } from "three";
-import { blackPlasticMaterial, glassMaterial, metalMaterial } from "../../Helper/GLMaterials";
-import MaterialCreator from "../../classes/MaterialCreator";
+import { blackPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 import { useGLTF } from "@react-three/drei";
+
+import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
 const macbookHousingMaterial = materialCreator.createEmptyStandardMaterial("MacbookHousing");

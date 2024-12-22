@@ -161,7 +161,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<Macbook name="Macbook" nodes={nodes} />
 
 			{/** Phone */}
-			<IPhone name="iPhone" nodes={nodes} />
+			{/* <IPhone name="iPhone" nodes={nodes} /> */}
 
 			{/** Folders */}
 			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={greenPlasticMaterial} />

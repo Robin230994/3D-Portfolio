@@ -18,8 +18,8 @@ const roofMaterial: MeshStandardMaterial = materialCreator.createStandardMateria
 });
 
 const floorMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Floor", {
-	diffuseT: "/baked-textures/Floor/floor_baked_color.jpg",
-	roughnessT: "/baked-textures/Floor/floor_baked_roughness.jpg",
+	diffuseT: "/baked-textures/Floor/floor_baked_color.webp",
+	roughnessT: "/baked-textures/Floor/floor_baked_roughness.webp",
 	normalT: "/baked-textures/Floor/floor_baked_normal.png",
 });
 
@@ -49,7 +49,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh geometry={Roof.geometry} position={Roof.position} material={roofMaterial} />
 
 			{/** Floor */}
-			<mesh geometry={Floor.geometry} position={Floor.position} material={floorMaterial} />
+			<mesh geometry={Floor.geometry} position={Floor.position} material={floorMaterial} receiveShadow />
 		</group>
 	);
 };
