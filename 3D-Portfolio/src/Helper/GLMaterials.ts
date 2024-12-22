@@ -1,5 +1,7 @@
-import { Color, DoubleSide, MeshPhongMaterial, Vector2 } from "three";
+import { Color, ColorManagement, DoubleSide, Vector2 } from "three";
 import MaterialCreator from "../classes/MaterialCreator";
+
+ColorManagement.enabled = true;
 
 const materialCreator = MaterialCreator.getInstance();
 
