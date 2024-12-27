@@ -1,7 +1,6 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { Color, DirectionalLight, Mesh } from "three";
-import { useControls } from "leva";
 import { blackPlasticMaterial, cupboardDoorMaterial, deskMaterial, greenPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 import Macbook from "../Macbook/Macbook";
@@ -9,6 +8,7 @@ import OcculusQuest from "../OccolusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 import BambuLab from "../BambuLab/BambuLab";
+import FCBox from "../FCBox/FCBox";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskStandMaterial = materialCreator.createEmptyStandardMaterial("DeskStands");
@@ -43,16 +43,8 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const DeskRoll: Mesh = nodes["Rolls"] as Mesh;
 	const Organizer: Mesh = nodes["Organizer"] as Mesh;
 	const Paper: Mesh = nodes["Paper"] as Mesh;
-	const Notebooks: Mesh = nodes["Books"] as Mesh;
-	const Penholder: Mesh = nodes["PenHolderMesh"] as Mesh;
 	const Book: Mesh = nodes["GreenBook"] as Mesh;
 	const Folders: Mesh = nodes["FolderDocuments"] as Mesh;
-
-	const deskParams = useControls("Desk", {
-		metalness: { value: 0, min: 0, max: 1, step: 0.01 },
-		roughness: { value: 0.75, min: 0, max: 1, step: 0.01 },
-		color: "#b4b9b2",
-	});
 
 	const rollInstances = [
 		{ position: [2.35, 0.1, 2.0] as [number, number, number], rotation: [0, -2.6, 0] as [number, number, number] },
@@ -142,25 +134,11 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 				</mesh>
 			</group>
 
-			{/** Notebooks */}
-			{/* <group name="Notebooks" position={[3.812, 1.18, -2.692]}>
-				<mesh geometry={Notebooks.geometry} rotation={Notebooks.rotation}>
-					<meshStandardMaterial color={"brown"} />
-				</mesh>
-			</group> */}
-
-			{/* <group name="Penholder" position={[4.768, 1.22, -2.744]}>
-				<mesh geometry={Penholder.geometry} rotation={Penholder.rotation} material={penHolderMaterial} />
-			</group> */}
-
 			{/** Occulus Quest */}
 			<OcculusQuest name="Occulus" nodes={nodes} />
 
 			{/** Macbook */}
 			<Macbook name="Macbook" nodes={nodes} />
-
-			{/** Phone */}
-			{/* <IPhone name="iPhone" nodes={nodes} /> */}
 
 			{/** Folders */}
 			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={greenPlasticMaterial} />
@@ -169,6 +147,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<group name="DeskBooks" position={[-0.415, 0.953, -2.344]} scale={1.743}>
 				<InstantiatedMesh geometry={Book.geometry} instance={bookInstances} />
 			</group>
+
+			{/** Franconian coolness box */}
+			<FCBox name="Franconian Coolness" nodes={nodes} />
 
 			{/** BambuLab Printer */}
 			<BambuLab name="BambuLab" nodes={nodes} />

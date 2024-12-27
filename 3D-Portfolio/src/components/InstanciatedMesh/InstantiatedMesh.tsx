@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Color } from "three";
+import { Color, ColorManagement } from "three";
 import { BoxGeometry, BufferGeometry, InstancedMesh, Material, MeshStandardMaterial, NormalBufferAttributes, Object3D } from "three";
+
+ColorManagement.enabled = true;
 
 type Instances = {
 	instance: Array<{
@@ -11,9 +13,10 @@ type Instances = {
 	}>;
 	geometry: BufferGeometry<NormalBufferAttributes> | undefined;
 	material?: Material | Material[] | undefined;
+	name?: string;
 };
 
-const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material }) => {
+const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, name }) => {
 	const instancedMeshRef = useRef<InstancedMesh>(null);
 
 	useEffect(() => {
@@ -51,9 +54,10 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material })
 
 	return (
 		<instancedMesh
+			name={name ? name : ""}
 			ref={instancedMeshRef}
 			frustumCulled={false}
-			args={[geometry ? geometry : new BoxGeometry(), material ? material : new MeshStandardMaterial({ vertexColors: true }), instance.length]}
+			args={[geometry ? geometry : new BoxGeometry(), material === undefined ? new MeshStandardMaterial({ vertexColors: true }) : material, instance.length]}
 		/>
 	);
 };

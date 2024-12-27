@@ -1,6 +1,6 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { Color, Mesh } from "three";
+import { Color, Mesh, MeshPhongMaterial } from "three";
 import { DirectionalLight } from "three";
 import { blackPlasticMaterial, deskMaterial, glassMaterial, goldMetalMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
@@ -51,15 +51,34 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	];
 
 	const plaMaterialInstances = [
-		{ position: [-2.759, 2.269, 2.375] as [number, number, number], rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-2.99, 2.269, 2.375] as [number, number, number], rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-3.217, 2.269, 2.375] as [number, number, number], rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-3.446, 2.269, 2.375] as [number, number, number], rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number] },
+		{
+			position: [-2.759, 2.269, 2.375] as [number, number, number],
+			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
+			color: new Color("green"),
+		},
+		{
+			position: [-2.99, 2.269, 2.375] as [number, number, number],
+			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
+			color: new Color("red"),
+		},
+		{
+			position: [-3.217, 2.269, 2.375] as [number, number, number],
+			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
+			color: new Color("white"),
+		},
+		{
+			position: [-3.446, 2.269, 2.375] as [number, number, number],
+			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
+			color: new Color("black"),
+		},
 	];
 
 	return (
 		<group name={name}>
+			{/** BambuLab Printer */}
 			<mesh geometry={BambuLab.geometry} position={[-2.564, 1.624, 2.522]} rotation={BambuLab.rotation} scale={BambuLab.scale} material={bambuMaterial} />
+
+			{/** BambuLab Logo on Printer */}
 			<mesh
 				geometry={BambuLabLogo.geometry}
 				position={BambuLabLogo.position}
@@ -68,14 +87,19 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={blackPlasticMaterial}
 			/>
 
+			{/** BambuLab UI */}
+			<mesh geometry={BambuLabUI.geometry} position={[-2.985, 2.243, 2.234]} rotation={BambuLabUI.rotation} scale={BambuLabUI.scale} material={bambuMaterial} />
+
+			{/** BambuLab UI Touchscreen */}
 			<mesh
-				geometry={BambuLabUI.geometry}
+				geometry={BambuLabUIDisplay.geometry}
 				position={[-2.985, 2.243, 2.234]}
-				rotation={BambuLabUI.rotation}
-				scale={BambuLabUI.scale}
+				rotation={BambuLabUIDisplay.rotation}
+				scale={BambuLabUIDisplay.scale}
 				material={blackPlasticMaterial}
 			/>
-			<mesh geometry={BambuLabUIDisplay.geometry} position={[-2.985, 2.243, 2.234]} rotation={BambuLabUIDisplay.rotation} scale={BambuLabUIDisplay.scale} />
+
+			{/** BambuLab Nozzle housing*/}
 			<mesh
 				geometry={BambuLabNozzle.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -83,6 +107,8 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				scale={BambuLabNozzle.scale}
 				material={deskMaterial}
 			/>
+
+			{/** BambuLab Nozzle spike */}
 			<mesh
 				geometry={BambuLabNozzleSpike.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -91,6 +117,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={goldMetalMaterial}
 			/>
 
+			{/** BambuLab Nozzle housing hole */}
 			<mesh
 				geometry={BambuLabNozzleHole.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -99,6 +126,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={blackPlasticMaterial}
 			/>
 
+			{/** BambuLab Front Door */}
 			<mesh
 				geometry={BambuLabFrontDoor.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -107,6 +135,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={glassMaterial}
 			/>
 
+			{/** BambuLab Nozzle rods */}
 			<mesh
 				geometry={BambuLabRods.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -115,6 +144,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={metalMaterial}
 			/>
 
+			{/** BambuLab AMS */}
 			<mesh
 				geometry={BambuLabAMS.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -122,6 +152,8 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				scale={BambuLabAMS.scale}
 				material={blackPlasticMaterial}
 			/>
+
+			{/** BambuLab AMS Opener door */}
 			<mesh
 				geometry={BambuLabAMSTop.geometry}
 				position={[-2.985, 2.243, 2.234]}
@@ -130,8 +162,11 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				material={glassMaterial}
 			/>
 
+			{/** BambuLab Materials Rolls */}
 			<InstantiatedMesh geometry={PLAMaterialRoll.geometry} material={metalMaterial} instance={plaMaterialRollInstances} />
-			<InstantiatedMesh geometry={PLAMaterial.geometry} instance={plaMaterialInstances} />
+
+			{/** BambuLab Material on Rolls */}
+			<InstantiatedMesh geometry={PLAMaterial.geometry} material={new MeshPhongMaterial()} instance={plaMaterialInstances} name="PLAMaterial" />
 		</group>
 	);
 };
