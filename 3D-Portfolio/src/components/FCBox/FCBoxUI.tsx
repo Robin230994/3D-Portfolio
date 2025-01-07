@@ -46,7 +46,7 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 	return (
 		<group name={name} position={[0.552, 2.297, -2.164]}>
-			<group name="Head" rotation={[Math.PI / 2, 0, 0]} position={[0, 0.25, -0.35]}>
+			<group name="Head" rotation={[Math.PI / 2, 0, 0]} position={[0, 0.2, -0.35]}>
 				<mesh geometry={FCBoxHeadBottomPart.geometry} scale={0.01} material={fcBoxHeadMaterial} />
 			</group>
 

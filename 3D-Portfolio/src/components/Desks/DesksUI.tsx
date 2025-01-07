@@ -9,6 +9,7 @@ import MaterialCreator from "../../classes/MaterialCreator";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 import BambuLab from "../BambuLab/BambuLab";
 import FCBox from "../FCBox/FCBox";
+import Musterbox from "../Musterbox/Musterbox";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskStandMaterial = materialCreator.createEmptyStandardMaterial("DeskStands");
@@ -153,6 +154,9 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** BambuLab Printer */}
 			<BambuLab name="BambuLab" nodes={nodes} />
+
+			{/** Musterbox */}
+			<Musterbox name="Musterbox" nodes={nodes} />
 		</group>
 	);
 };
