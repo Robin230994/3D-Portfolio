@@ -1,4 +1,4 @@
-import { AdaptiveDpr, Center, Environment, OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping } from "three";
 import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
 import { MutableRefObject, useRef } from "react";

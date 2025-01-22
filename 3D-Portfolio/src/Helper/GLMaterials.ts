@@ -26,11 +26,11 @@ blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
 
-const greenPlasticMaterial = materialCreator.createEmptyPhongMaterial("GreenPlastic");
-greenPlasticMaterial.color = new Color("#3C857D");
-greenPlasticMaterial.side = DoubleSide;
-greenPlasticMaterial.shininess = 100;
-export { greenPlasticMaterial };
+const bluePlasticMaterial = materialCreator.createEmptyPhongMaterial("BluePlastic");
+bluePlasticMaterial.color = new Color("#AEC5CF");
+bluePlasticMaterial.side = DoubleSide;
+bluePlasticMaterial.shininess = 100;
+export { bluePlasticMaterial };
 
 const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
 metalMaterial.color = new Color("#ffffff");

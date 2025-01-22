@@ -9,11 +9,7 @@ const materialCreator = MaterialCreator.getInstance();
 const musterboxBottomMaterial = materialCreator.createStandardMaterialFromTexture("MusterboxBottom", {
 	diffuseT: "/baked-textures/Musterbox/musterbox_back_combined_baked_color.jpg",
 });
-
-const musterboxFrontMaterial = materialCreator.createStandardMaterialFromTexture("MusterboxFront", {
-	diffuseT: "/baked-textures/Musterbox/musterbox_front_combined_baked_color.jpg",
-});
-musterboxFrontMaterial.side = DoubleSide;
+musterboxBottomMaterial.roughness = 0.32;
 
 const musterbox01Material = materialCreator.createStandardMaterialFromTexture("Musterbox01", {
 	diffuseT: "/baked-textures/Musterbox/musterbox_box_01_baked_color.jpg",
@@ -143,9 +139,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 
 			<mesh geometry={MusterboxInside.geometry} position={[0, 0.14, -0]} rotation={[0, 0, -Math.PI / 2]} scale={0.009} material={musterboxBottomMaterial} />
 
-			<mesh geometry={MusterboxDeckel.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxFrontMaterial} />
+			<mesh geometry={MusterboxDeckel.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxBottomMaterial} />
 
-			<mesh geometry={MusterboxLasche.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxFrontMaterial} />
+			<mesh geometry={MusterboxLasche.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxBottomMaterial} />
 
 			<mesh geometry={MusterboxGriff.geometry} position={[0.1, 0.14, 0.13]} rotation={[-Math.PI / 2, 0, 0]} scale={0.009} material={blackPlasticMaterial} />
 
