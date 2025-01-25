@@ -73,6 +73,8 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 		},
 	];
 
+	console.log(BambuLab.scale);
+
 	return (
 		<group name={name}>
 			{/** BambuLab Printer */}

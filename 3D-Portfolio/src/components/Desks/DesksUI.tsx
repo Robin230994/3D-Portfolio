@@ -1,7 +1,7 @@
 import React from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { Color, DirectionalLight, Mesh } from "three";
-import { blackPlasticMaterial, bluePlasticMaterial, cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
+import { blackPlasticMaterial, brownPlasticMaterial, cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 import Macbook from "../Macbook/Macbook";
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
@@ -128,7 +128,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** Organizer */}
 			<group name="organizer">
-				<mesh geometry={Organizer.geometry} position={Organizer.position} rotation={Organizer.rotation} material={bluePlasticMaterial} />
+				<mesh geometry={Organizer.geometry} position={Organizer.position} rotation={Organizer.rotation} material={brownPlasticMaterial} />
 
 				<mesh geometry={Paper.geometry} position={[4.33, 1.255, -2.509]} rotation={Paper.rotation} scale-y={0.01}>
 					<meshStandardMaterial />
@@ -142,7 +142,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<Macbook name="Macbook" nodes={nodes} />
 
 			{/** Folders */}
-			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={bluePlasticMaterial} />
+			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={brownPlasticMaterial} />
 
 			{/** Desk books */}
 			<group name="DeskBooks" position={[-0.415, 0.953, -2.344]} scale={1.743}>

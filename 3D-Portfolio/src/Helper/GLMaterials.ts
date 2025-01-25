@@ -27,7 +27,7 @@ blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
 
 const bluePlasticMaterial = materialCreator.createEmptyPhongMaterial("BluePlastic");
-bluePlasticMaterial.color = new Color("#AEC5CF");
+bluePlasticMaterial.color = new Color("#8b7f7e");
 bluePlasticMaterial.side = DoubleSide;
 bluePlasticMaterial.shininess = 100;
 export { bluePlasticMaterial };
