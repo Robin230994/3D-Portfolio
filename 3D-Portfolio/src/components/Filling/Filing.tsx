@@ -1,4 +1,4 @@
-import { Color, Mesh, MeshStandardMaterial } from "three";
+import { CircleGeometry, Color, Mesh, MeshStandardMaterial, PlaneGeometry } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { folder, useControls } from "leva";
 
@@ -46,6 +46,10 @@ vaseMaterial.color = new Color("#266972");
 
 const flowerMaterial = materialCreator.createEmptyStandardMaterial("Flower");
 flowerMaterial.color = new Color("#ba8c4f");
+
+const coffeeMaterial = materialCreator.createStandardMaterialFromTexture("Coffee", {
+	diffuseT: "/baked-textures/Filling/coffee-texture.jpg",
+});
 
 const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Filing: Mesh = nodes["Filing"] as Mesh;
@@ -110,6 +114,9 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<group name="CoffeeCup">
 				{/** Coffee Cup */}
 				<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation} material={cupMaterial} />
+
+				{/** Coffee texture */}
+				<mesh geometry={new CircleGeometry(10, 32)} position={[7.53, 1.4, -0.86]} rotation={[-Math.PI / 2, 0, 0]} scale={0.0065} material={coffeeMaterial} />
 
 				{/** Coffee Cup Holder */}
 				<mesh

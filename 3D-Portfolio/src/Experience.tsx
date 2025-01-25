@@ -7,7 +7,7 @@ const Experience = () => {
 	return (
 		<>
 			<Leva collapsed />
-			<Canvas frameloop="demand" performance={{ min: 0.4, max: 1, debounce: 100 }}>
+			<Canvas frameloop="demand" performance={{ min: 0.3, max: 1, debounce: 200 }}>
 				<Portfolio />
 			</Canvas>
 		</>
