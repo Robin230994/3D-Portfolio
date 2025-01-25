@@ -3,6 +3,7 @@ import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, DoubleSide, Mesh } from "three";
 import { blackPlasticMaterial } from "../../Helper/GLMaterials";
 import MaterialCreator from "../../classes/MaterialCreator";
+import { useControls } from "leva";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -127,23 +128,43 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const MusterboxGriff: Mesh = nodes["MusterboxGriff"] as Mesh;
 	const MusterboxBox01: Mesh = nodes["MusterboxBox01"] as Mesh;
 	const MusterboxFaecher: Mesh = nodes["MusterboxFaecher"] as Mesh;
+
+	const { musterboxDeckelRotation, musterboxDeckelPosition, musterboxLaschePosition, musterboxLascheRotation } = useControls("Musterbox", {
+		musterboxDeckelRotation: { value: { x: 3.93, y: 0, z: 0 }, min: 0, max: Math.PI * 2, step: 0.01 },
+		musterboxDeckelPosition: { value: { x: 0, y: -0.43, z: 0.17 }, min: -Math.PI * 2, max: Math.PI * 2, step: 0.01 },
+		musterboxLascheRotation: { value: { x: Math.PI, y: 0, z: 0 }, min: -Math.PI * 2, max: Math.PI * 2, step: 0.01 },
+		musterboxLaschePosition: { value: { x: 0, y: -0.22, z: 0.76 }, min: -Math.PI * 2, max: Math.PI * 2, step: 0.01 },
+	});
+
 	return (
 		<group name={name} position={[-3.183, 2.3, -2.625]} rotation={[-Math.PI / 2, 0, Math.PI]}>
 			<mesh
 				geometry={MusterboxBottom.geometry}
 				position={MusterboxBottom.position}
 				rotation={MusterboxBottom.rotation}
-				scale={0.009}
+				scale={0.008}
 				material={musterboxBottomMaterial}
 			/>
 
-			<mesh geometry={MusterboxInside.geometry} position={[0, 0.14, -0]} rotation={[0, 0, -Math.PI / 2]} scale={0.009} material={musterboxBottomMaterial} />
+			<mesh geometry={MusterboxInside.geometry} position={[0, 0.12, -0]} rotation={[0, 0, -Math.PI / 2]} scale={0.008} material={musterboxBottomMaterial} />
 
-			<mesh geometry={MusterboxDeckel.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxBottomMaterial} />
+			<mesh
+				geometry={MusterboxDeckel.geometry}
+				position={[musterboxDeckelPosition.x, musterboxDeckelPosition.y, musterboxDeckelPosition.z]}
+				rotation={[musterboxDeckelRotation.x, musterboxDeckelRotation.y, musterboxDeckelRotation.z]}
+				scale={0.008}
+				material={musterboxBottomMaterial}
+			/>
 
-			<mesh geometry={MusterboxLasche.geometry} position={[0, -0.25, -0.03]} rotation={[-1, 0, 0]} scale={0.009} material={musterboxBottomMaterial} />
+			<mesh
+				geometry={MusterboxLasche.geometry}
+				position={[musterboxLaschePosition.x, musterboxLaschePosition.y, musterboxLaschePosition.z]}
+				rotation={[musterboxLascheRotation.x, musterboxLascheRotation.y, musterboxLascheRotation.z]}
+				scale={0.008}
+				material={musterboxBottomMaterial}
+			/>
 
-			<mesh geometry={MusterboxGriff.geometry} position={[0.1, 0.14, 0.13]} rotation={[-Math.PI / 2, 0, 0]} scale={0.009} material={blackPlasticMaterial} />
+			<mesh geometry={MusterboxGriff.geometry} position={[0.1, 0.12, 0.11]} rotation={[-Math.PI / 2, 0, 0]} scale={0.008} material={blackPlasticMaterial} />
 
 			{/* <mesh geometry={MusterboxFaecher.geometry} position={[0, 0, 0]} rotation={[0, 0, 0]} scale={0.009} /> */}
 
