@@ -1,8 +1,11 @@
-import { CircleGeometry, Color, Mesh, MeshStandardMaterial, PlaneGeometry } from "three";
+import { CircleGeometry, Color, Mesh, MeshStandardMaterial, ShaderMaterial, DoubleSide, PlaneGeometry, Uniform } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { folder, useControls } from "leva";
 
 import MaterialCreator from "../../classes/MaterialCreator";
+import vertexShader from "../../shaders/vertex.glsl";
+import fragmentShader from "../../shaders/fragment.glsl";
+import { useFrame } from "@react-three/fiber";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -49,6 +52,20 @@ flowerMaterial.color = new Color("#ba8c4f");
 
 const coffeeMaterial = materialCreator.createStandardMaterialFromTexture("Coffee", {
 	diffuseT: "/baked-textures/Filling/coffee-texture.jpg",
+});
+
+const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Filling/perlin-noise-coffee.jpg");
+
+const coffeeSmokeMaterial = new ShaderMaterial({
+	vertexShader: vertexShader,
+	fragmentShader: fragmentShader,
+	uniforms: {
+		uTime: new Uniform(0),
+		perlinNoise: new Uniform(perlinNoiseCoffeeTexture),
+	},
+	depthWrite: false,
+	side: DoubleSide,
+	transparent: true,
 });
 
 const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
@@ -105,6 +122,10 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		{ collapsed: true }
 	);
 
+	useFrame((state, delta) => {
+		coffeeSmokeMaterial.uniforms.uTime.value = delta;
+	});
+
 	return (
 		<group name={name}>
 			{/** Filing base */}
@@ -117,6 +138,15 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 				{/** Coffee texture */}
 				<mesh geometry={new CircleGeometry(10, 32)} position={[7.53, 1.4, -0.86]} rotation={[-Math.PI / 2, 0, 0]} scale={0.0065} material={coffeeMaterial} />
+
+				{/** Coffee smoke */}
+				<mesh
+					geometry={new PlaneGeometry(1, 1, 16, 64)}
+					material={coffeeSmokeMaterial}
+					position={[7.53, 1.6, -0.86]}
+					rotation={[0, Math.PI / 2, 0]}
+					scale={[0.12, 0.4, 0.12]}
+				/>
 
 				{/** Coffee Cup Holder */}
 				<mesh
