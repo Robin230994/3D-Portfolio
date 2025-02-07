@@ -67,7 +67,6 @@ function Portfolio() {
 		<>
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-
 			<OrbitControls regress />
 			<PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} />
 
@@ -77,7 +76,7 @@ function Portfolio() {
 
 			{perfParams.visible && <Perf position="top-left" />}
 
-			<Environment background={false} preset="dawn" />
+			<Environment background={false} files={"./environment/environment_map.hdr"} environmentIntensity={1} />
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<directionalLight
