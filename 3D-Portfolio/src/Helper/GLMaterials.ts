@@ -1,5 +1,11 @@
-import { Color, ColorManagement, DoubleSide, Vector2 } from "three";
+import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2 } from "three";
+import { ShaderMaterial } from "three";
+import { shaderMaterial } from "@react-three/drei";
+import { extend } from "@react-three/fiber";
+
 import MaterialCreator from "../classes/MaterialCreator";
+import vertexShader from "./../shaders/vertex.glsl";
+import fragmentShader from "./../shaders/fragment.glsl";
 
 ColorManagement.enabled = true;
 
@@ -48,3 +54,22 @@ const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("Cupboa
 cupboardDoorMaterial.color = new Color("#3F3F3F");
 cupboardDoorMaterial.roughness = 0.0;
 export { cupboardDoorMaterial };
+
+const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Filling/perlin-noise-coffee.png", (loadedTexture) => {
+	loadedTexture.wrapS = RepeatWrapping;
+	loadedTexture.wrapT = RepeatWrapping;
+	loadedTexture.needsUpdate = true;
+});
+
+// Create custom shader material using Drei's shaderMaterial
+const CoffeeSmokeMaterial: ShaderMaterial = shaderMaterial(
+	{
+		uTime: 0,
+		uPerlinTexture: perlinNoiseCoffeeTexture,
+	},
+	vertexShader,
+	fragmentShader
+) as unknown as ShaderMaterial;
+
+extend({ CoffeeSmokeMaterial });
+export { CoffeeSmokeMaterial };

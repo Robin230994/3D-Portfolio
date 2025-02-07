@@ -44,12 +44,14 @@ export default class MaterialCreator {
 		return MaterialCreator.instance;
 	}
 
-	public loadTexture(path: string): Texture | null {
+	public loadTexture(path: string, callback?: (texture: Texture) => void): Texture | null {
 		try {
 			const textureToLoad = this.textureLoader.load(
 				path,
 				(loadedTexture) => {
-					loadedTexture.colorSpace = SRGBColorSpace;
+					if (callback) {
+						callback(loadedTexture);
+					}
 				},
 				() => {},
 				() => {
