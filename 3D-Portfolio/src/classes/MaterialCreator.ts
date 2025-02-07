@@ -10,7 +10,9 @@ import {
 	MeshBasicMaterial,
 	MeshLambertMaterial,
 	MeshPhongMaterial,
+	ShaderMaterial,
 } from "three";
+import { shaderMaterial } from "@react-three/drei";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
@@ -135,6 +137,13 @@ export default class MaterialCreator {
 		const emptyPhongMaterial = new MeshPhongMaterial();
 		this.storedMaterials.set(materialName, emptyPhongMaterial);
 		return emptyPhongMaterial;
+	}
+
+	public createShaderMaterial(materialName: string, uniforms: { [key: string]: any }, vertexShader: string, fragmentShader: string): ShaderMaterial {
+		// Create custom shader material using Drei's shaderMaterial
+		const ShaderMaterial: ShaderMaterial = shaderMaterial(uniforms, vertexShader, fragmentShader) as unknown as ShaderMaterial;
+		this.storedMaterials.set(materialName, ShaderMaterial);
+		return ShaderMaterial;
 	}
 
 	public addInstanciatedMaterial<T extends Material>(materialName: string, material: T) {

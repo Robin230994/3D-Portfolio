@@ -1,4 +1,4 @@
-import { CircleGeometry, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, RepeatWrapping, ShaderMaterial } from "three";
+import { CircleGeometry, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, ShaderMaterial } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
@@ -114,7 +114,6 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		if (coffeeSmokeMatRef.current) {
 			coffeeSmokeMatRef.current.uniforms.uTime.value = clock.getElapsedTime();
 		}
-		//coffeeSmokeMaterial.uniforms.uTime.value = clock.getElapsedTime();
 	});
 
 	return (

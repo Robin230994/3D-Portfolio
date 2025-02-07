@@ -1,11 +1,9 @@
 import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2 } from "three";
-import { ShaderMaterial } from "three";
-import { shaderMaterial } from "@react-three/drei";
-import { extend } from "@react-three/fiber";
 
 import MaterialCreator from "../classes/MaterialCreator";
 import vertexShader from "./../shaders/vertex.glsl";
 import fragmentShader from "./../shaders/fragment.glsl";
+import { extend } from "@react-three/fiber";
 
 ColorManagement.enabled = true;
 
@@ -61,15 +59,14 @@ const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/F
 	loadedTexture.needsUpdate = true;
 });
 
-// Create custom shader material using Drei's shaderMaterial
-const CoffeeSmokeMaterial: ShaderMaterial = shaderMaterial(
+const CoffeeSmokeMaterial = materialCreator.createShaderMaterial(
+	"CoffeeSmoke",
 	{
 		uTime: 0,
 		uPerlinTexture: perlinNoiseCoffeeTexture,
 	},
 	vertexShader,
 	fragmentShader
-) as unknown as ShaderMaterial;
-
+);
 extend({ CoffeeSmokeMaterial });
 export { CoffeeSmokeMaterial };
