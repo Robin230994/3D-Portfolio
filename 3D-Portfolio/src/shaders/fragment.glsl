@@ -25,7 +25,7 @@ void main() {
     smoke *= smoothstep(0.0, 0.1, vUv.y);
     smoke *= smoothstep(1.0, 0.9, vUv.y);
 
-    gl_FragColor = vec4(0.345, 0.216, 0.098, smoke);
+    gl_FragColor = vec4(1, 1, 1, smoke);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }

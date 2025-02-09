@@ -109,6 +109,8 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 		},
 	];
 
+	console.log(DeskWorkingAreas.position);
+
 	return (
 		<group name={name}>
 			{/** Working areas */}

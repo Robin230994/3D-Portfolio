@@ -1,5 +1,5 @@
-import { AdaptiveDpr, Center, Environment, OrbitControls, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
-import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping } from "three";
+import { AdaptiveDpr, BakeShadows, Center, Environment, OrbitControls, OrthographicCamera, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
+import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping, CameraHelper, OrthographicCamera as THREEOrthographicCamera } from "three";
 import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
 import { MutableRefObject, useRef } from "react";
 import { folder, useControls } from "leva";
@@ -33,6 +33,9 @@ function Portfolio() {
 	const sunlightRef = useRef<DirectionalLight | null>(null);
 	useHelper(sunlightRef as MutableRefObject<DirectionalLight>, DirectionalLightHelper, 1, "red");
 
+	const sunlightShadow = useRef<THREEOrthographicCamera | null>(null);
+	useHelper(sunlightShadow as MutableRefObject<THREEOrthographicCamera>, CameraHelper);
+
 	const cameraRef = useRef<THREEPerspectiveCamera>(null);
 	// useHelper(cameraRef as MutableRefObject<THREEPerspectiveCamera>, CameraHelper);
 
@@ -46,16 +49,18 @@ function Portfolio() {
 		{
 			AmbientLight: folder(
 				{
-					ambientLightIntensity: { value: 1.5, min: 1, max: 10, step: 0.1 },
+					ambientLightIntensity: { value: 1, min: 1, max: 10, step: 0.1 },
 				},
 				{ collapsed: true }
 			),
 			SunLight: folder(
 				{
-					sunlightIntensity: { value: 1, min: 0, max: 10, step: 0.1 },
-					sunlightColor: "#ffffff",
-					sunlightPosition: { value: { x: 15.6, y: 5.1, z: 2.6 }, step: 0.01, joystick: "invertY" },
-					sunlightRotation: { value: { x: -0.8, y: 1.2, z: -2.8 }, joystick: "invertY" },
+					sunlightIntensity: { value: 1.2, min: 0, max: 10, step: 0.1 },
+					sunlightColor: "##efd7af",
+					sunlightPosition: { value: { x: 10, y: 5, z: 1.0 }, step: 0.1, joystick: "invertY" },
+					sunlightRotation: { value: { x: -0.8, y: 1.5, z: -2.8 }, step: 0.1, joystick: "invertY" },
+					shadowNear: { value: 0.1, min: 0.1, step: 0.1 },
+					shadowFar: { value: 500, min: 0.1, step: 10 },
 				},
 				{ collapsed: true }
 			),
@@ -63,12 +68,17 @@ function Portfolio() {
 		{ collapsed: true }
 	);
 
+	const { environmentIntensity, environmentRotation } = useControls("Envrionment", {
+		environmentIntensity: { value: 1.4, step: 0.1, min: 1 },
+		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
+	});
+
 	return (
 		<>
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
 			<OrbitControls regress />
-			<PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} />
+			{/* <PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} makeDefault /> */}
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -76,7 +86,16 @@ function Portfolio() {
 
 			{perfParams.visible && <Perf position="top-left" />}
 
-			<Environment background={false} files={"./environment/environment_map.hdr"} environmentIntensity={1} />
+			<Environment
+				background={true}
+				files={"./environment/environment_map.hdr"}
+				environmentIntensity={environmentIntensity}
+				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
+			/>
+
+			{/* bake shadows for performance */}
+			{/* <BakeShadows /> */}
+
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<directionalLight
@@ -84,9 +103,11 @@ function Portfolio() {
 					position={[lightParams.sunlightPosition.x, lightParams.sunlightPosition.y, lightParams.sunlightPosition.z]}
 					rotation={[lightParams.sunlightRotation.x, lightParams.sunlightRotation.y, lightParams.sunlightRotation.z]}
 					color={lightParams.sunlightColor}
-					castShadow
 					ref={sunlightRef}
-				/>
+					castShadow
+					shadow-mapSize={[1024, 1024]}>
+					<orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 25]} ref={sunlightShadow} />
+				</directionalLight>
 
 				{/************ Office Room ************/}
 				<group name="office-room">

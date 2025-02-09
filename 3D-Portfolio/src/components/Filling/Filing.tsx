@@ -123,8 +123,23 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 			{/** Coffee cup + Cofee holder + Cofee stand */}
 			<group name="CoffeeCup">
-				{/** Coffee Cup */}
-				<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation} material={cupMaterial} />
+				<group name="Cup" castShadow receiveShadow>
+					{/** Coffee Cup */}
+					<mesh geometry={CoffeeCup.geometry} position={CoffeeCup.position} rotation={CoffeeCup.rotation} material={cupMaterial} castShadow />
+
+					{/** Coffee Cup Holder */}
+					<mesh
+						geometry={CoffeeCupHolder.geometry}
+						position={CoffeeCupHolder.position}
+						rotation={CoffeeCupHolder.rotation}
+						scale={[filingParams.holderScale.x, filingParams.holderScale.y, filingParams.holderScale.z]}
+						material={coffeeCupHolderMaterial}
+						castShadow
+					/>
+				</group>
+
+				{/** Coffee Cup Stand */}
+				<mesh geometry={CoffeeCupStand.geometry} position={CoffeeCupStand.position} rotation={CoffeeCupStand.rotation} material={coffeeCupStandMaterial} />
 
 				{/** Coffee texture */}
 				<mesh geometry={new CircleGeometry(10, 32)} position={[7.53, 1.4, -0.86]} rotation={[-Math.PI / 2, 0, 0]} scale={0.0065} material={coffeeMaterial} />
@@ -133,18 +148,6 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				<mesh geometry={new PlaneGeometry(1, 1, 16, 64)} position={[7.53, 1.53, -0.86]} rotation={[0, Math.PI / 2, 0]} scale={[0.09, 0.2, 0.09]}>
 					<coffeeSmokeMaterial ref={coffeeSmokeMatRef} side={DoubleSide} transparent />
 				</mesh>
-
-				{/** Coffee Cup Holder */}
-				<mesh
-					geometry={CoffeeCupHolder.geometry}
-					position={CoffeeCupHolder.position}
-					rotation={CoffeeCupHolder.rotation}
-					scale={[filingParams.holderScale.x, filingParams.holderScale.y, filingParams.holderScale.z]}
-					material={coffeeCupHolderMaterial}
-				/>
-
-				{/** Coffee Cup Stand */}
-				<mesh geometry={CoffeeCupStand.geometry} position={CoffeeCupStand.position} rotation={CoffeeCupStand.rotation} material={coffeeCupStandMaterial} />
 			</group>
 
 			{/** Vase + Flowers */}

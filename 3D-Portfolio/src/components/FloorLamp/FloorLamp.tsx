@@ -16,7 +16,7 @@ const FloorLamp: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			<mesh geometry={FloorLampBase.geometry} position={[1.852, 0.687, -2.602]} rotation={FloorLampBase.rotation} material={blackPlasticMaterial} />
-			<mesh geometry={FloorLampCover.geometry} position={[1.852, 2.1, -2.602]} rotation={FloorLampCover.rotation} material={floorLampMaterial} />
+			<mesh geometry={FloorLampCover.geometry} position={[1.852, 2.1, -2.602]} rotation={FloorLampCover.rotation} material={floorLampMaterial} castShadow />
 		</group>
 	);
 };

@@ -7,7 +7,7 @@ const Experience = () => {
 	return (
 		<>
 			<Leva collapsed />
-			<Canvas performance={{ min: 0.3, max: 1, debounce: 200 }}>
+			<Canvas performance={{ min: 0.3, max: 1, debounce: 200 }} shadows>
 				<Portfolio />
 			</Canvas>
 		</>

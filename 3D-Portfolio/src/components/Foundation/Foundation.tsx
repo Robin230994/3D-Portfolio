@@ -43,7 +43,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh geometry={FrontWall.geometry} position={FrontWall.position} material={wallMaterial} />
 
 			{/** WindowWall */}
-			<mesh geometry={WindowWall.geometry} position={WindowWall.position} material={wallMaterial} />
+			<mesh geometry={WindowWall.geometry} position={WindowWall.position} material={wallMaterial} castShadow />
 
 			{/** Roof */}
 			<mesh geometry={Roof.geometry} position={Roof.position} material={roofMaterial} />
