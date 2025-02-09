@@ -94,7 +94,7 @@ function Portfolio() {
 			/>
 
 			{/* bake shadows for performance */}
-			{/* <BakeShadows /> */}
+			<BakeShadows />
 
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
