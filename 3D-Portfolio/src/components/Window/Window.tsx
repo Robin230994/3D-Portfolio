@@ -9,13 +9,13 @@ const windowBorderMaterial = materialCreator.createEmptyLambertMaterial("WindowB
 windowBorderMaterial.color = new Color("#ffffff");
 
 const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const Window: Mesh = nodes["WindowGlass"] as Mesh;
+	//const Window: Mesh = nodes["WindowGlass"] as Mesh;
 	const WindowBorder: Mesh = nodes["WindowBorder"] as Mesh;
 
 	return (
 		<group name={name}>
 			{/** Glass */}
-			<mesh geometry={Window.geometry} position={Window.position} material={glassMaterial} />
+			{/* <mesh geometry={Window.geometry} position={Window.position} material={glassMaterial} /> */}
 
 			{/** Window border */}
 			<mesh geometry={WindowBorder.geometry} position={WindowBorder.position} material={windowBorderMaterial} />

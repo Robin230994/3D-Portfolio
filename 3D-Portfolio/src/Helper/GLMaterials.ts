@@ -18,11 +18,13 @@ glassMaterial.transparent = true;
 glassMaterial.normalScale = new Vector2(1, -1);
 export { glassMaterial };
 
-const deskMaterial = materialCreator.createEmptyStandardMaterial("Desk");
-deskMaterial.roughness = 0.75;
-deskMaterial.metalness = 0;
-deskMaterial.color = new Color("#b4b9b2");
-deskMaterial.side = DoubleSide;
+const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
+	diffuseT: "/baked-textures/Desk/desks_color_lighting_baked.jpg",
+});
+// deskMaterial.roughness = 1;
+// deskMaterial.metalness = 0;
+// deskMaterial.color = new Color("#b4b9b2");
+// deskMaterial.side = DoubleSide;
 export { deskMaterial };
 
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");

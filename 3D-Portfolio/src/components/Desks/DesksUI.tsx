@@ -1,6 +1,6 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { Color, DirectionalLight, Mesh } from "three";
+import { Color, DirectionalLight, Mesh, Group, Object3DEventMap } from "three";
 import { blackPlasticMaterial, brownPlasticMaterial, cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
 
 import Macbook from "../Macbook/Macbook";
@@ -109,12 +109,16 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 		},
 	];
 
-	console.log(DeskWorkingAreas.position);
-
 	return (
 		<group name={name}>
 			{/** Working areas */}
-			<mesh geometry={DeskWorkingAreas.geometry} position={DeskWorkingAreas.position} rotation={DeskWorkingAreas.rotation} material={deskMaterial} />
+			<mesh
+				geometry={DeskWorkingAreas.geometry}
+				position={DeskWorkingAreas.position}
+				rotation={DeskWorkingAreas.rotation}
+				material={deskMaterial}
+				receiveShadow
+			/>
 
 			{/** Desk stands */}
 			<mesh geometry={DeskStands.geometry} position={DeskStands.position} rotation={DeskStands.rotation} material={deskStandMaterial} />

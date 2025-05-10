@@ -119,7 +119,7 @@ const Filing: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Filing base */}
-			<mesh geometry={Filing.geometry} position={Filing.position} receiveShadow material={filingMaterial} />
+			<mesh geometry={Filing.geometry} position={Filing.position} material={filingMaterial} />
 
 			{/** Coffee cup + Cofee holder + Cofee stand */}
 			<group name="CoffeeCup">
