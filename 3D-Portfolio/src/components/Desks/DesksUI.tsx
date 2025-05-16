@@ -162,7 +162,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<BambuLab name="BambuLab" nodes={nodes} />
 
 			{/** Musterbox */}
-			<Musterbox name="Musterbox" nodes={nodes} />
+			{/* <Musterbox name="Musterbox" nodes={nodes} /> */}
 		</group>
 	);
 };

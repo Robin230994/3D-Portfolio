@@ -1,12 +1,11 @@
-import React, { MutableRefObject, useState } from "react";
+import React from "react";
 import { GLTFResult, IUIComponentProps } from "../../types/GLTypes";
 import { Color, Mesh, DirectionalLight } from "three";
 import { blackPlasticMaterial, metalMaterial } from "../../Helper/GLMaterials";
 import { useGLTF } from "@react-three/drei";
-import { EffectComposer, Outline, Selection, Select } from "@react-three/postprocessing";
+import { Select } from "@react-three/postprocessing";
 
 import MaterialCreator from "../../classes/MaterialCreator";
-import { useHoverContext } from "../../Helper/Context/SelectHoverObjectContext";
 
 const materialCreator = MaterialCreator.getInstance();
 const macbookHousingMaterial = materialCreator.createEmptyStandardMaterial("MacbookHousing");
@@ -27,8 +26,8 @@ const macbookKeysMaterial = materialCreator.createStandardMaterialFromTexture("M
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight } } };
-		functions: { myFunctions: object };
+		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		functions: { myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void } };
 		refs: { myRefs: object };
 	};
 }
@@ -38,10 +37,8 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes } = myData;
-
-	/** CONTEXT */
-	const { selectObjectHovered, setSelectObjectHovered } = useHoverContext();
+	const { name, nodes, selectObjectHovered } = myData;
+	const { setSelectObjectHovered } = myFunctions;
 
 	/** Meshes */
 	const Macbook = useGLTF("./macbook.glb") as unknown as GLTFResult;
@@ -57,16 +54,9 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 
 	return (
 		<React.Fragment>
-			<Select enabled={selectObjectHovered}>
-				<group name={name}>
-					<mesh
-						geometry={MacbookHousing.geometry}
-						position={MacbookHousing.position}
-						rotation={MacbookHousing.rotation}
-						material={macbookHousingMaterial}
-						onPointerOver={() => setSelectObjectHovered(true)}
-						onPointerOut={() => setSelectObjectHovered(false)}
-					/>
+			<Select enabled={selectObjectHovered["Macbook"] === true}>
+				<group name={name} onPointerOver={() => setSelectObjectHovered({ Macbook: true })} onPointerOut={() => setSelectObjectHovered({ Macbook: false })}>
+					<mesh geometry={MacbookHousing.geometry} position={MacbookHousing.position} rotation={MacbookHousing.rotation} material={macbookHousingMaterial} />
 					<group position={[5.641, 1.173, -1.776]} rotation={[1.333, 0, 0]}>
 						<mesh geometry={MacbookScreenBackside.geometry} material={macbookHousingMaterial} />
 						<mesh geometry={MacbookFrontScreen.geometry} material={blackPlasticMaterial} />

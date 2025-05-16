@@ -1,7 +1,7 @@
 import { AdaptiveDpr, BakeShadows, Center, Environment, OrbitControls, OrthographicCamera, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
 import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping, CameraHelper, OrthographicCamera as THREEOrthographicCamera } from "three";
 import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
-import { MutableRefObject, useContext, useRef, useState } from "react";
+import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { EffectComposer, Outline, Selection, Select, ToneMapping } from "@react-three/postprocessing";
@@ -17,7 +17,7 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
-import { useHoverContext } from "../Helper/Context/SelectHoverObjectContext";
+import { useHoverContext } from "../hooks/useHoverContext";
 
 function Portfolio() {
 	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
@@ -30,9 +30,6 @@ function Portfolio() {
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 	const { nodes } = officeModel as unknown as GLTFResult;
 
-	/** CONTEXT */
-	const { selectObjectHovered } = useHoverContext();
-
 	/** REFS */
 	const sunlightRef = useRef<DirectionalLight | null>(null);
 	useHelper(sunlightRef as MutableRefObject<DirectionalLight>, DirectionalLightHelper, 1, "red");
@@ -42,6 +39,9 @@ function Portfolio() {
 
 	const cameraRef = useRef<THREEPerspectiveCamera>(null);
 	// useHelper(cameraRef as MutableRefObject<THREEPerspectiveCamera>, CameraHelper);
+
+	/** Contexts */
+	const { isAnyHovered } = useHoverContext();
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -77,11 +77,22 @@ function Portfolio() {
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
 
+	useEffect(() => {
+		const switchCursorStyle = () => {
+			if (isAnyHovered === true) {
+				document.body.style.cursor = "pointer";
+			} else {
+				document.body.style.cursor = "default";
+			}
+		};
+		switchCursorStyle();
+	}, [isAnyHovered]);
+
 	return (
 		<>
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			<OrbitControls regress />
+			<OrbitControls />
 			{/* <PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} makeDefault /> */}
 
 			{/* <EffectComposer>
@@ -121,7 +132,7 @@ function Portfolio() {
 					{/************ All objects inside the room ************/}
 					<Selection>
 						<EffectComposer multisampling={8} autoClear={false}>
-							<Outline blur visibleEdgeColor={0xffffff} edgeStrength={0.8} />
+							<Outline blur visibleEdgeColor={0x7f00ff} edgeStrength={0.8} />
 						</EffectComposer>
 						<group name="objects">
 							<RoofLamp name="RoofLamp" nodes={nodes} />

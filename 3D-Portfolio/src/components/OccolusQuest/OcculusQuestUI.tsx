@@ -1,8 +1,8 @@
 import React from "react";
+import MaterialCreator from "../../classes/MaterialCreator";
+
 import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
-import MaterialCreator from "../../classes/MaterialCreator";
-import { useHoverContext } from "../../Helper/Context/SelectHoverObjectContext";
 import { Select } from "@react-three/postprocessing";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -19,8 +19,8 @@ const occulusControllerMaterial = materialCreator.createStandardMaterialFromText
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight } } };
-		functions: { myFunctions: object };
+		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		functions: { myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void } };
 		refs: { myRefs: object };
 	};
 }
@@ -30,18 +30,16 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes } = myData;
-
-	/** CONTEXT */
-	const { selectObjectHovered, setSelectObjectHovered } = useHoverContext();
+	const { name, nodes, selectObjectHovered } = myData;
+	const { setSelectObjectHovered } = myFunctions;
 
 	const OcculusFront: Mesh = nodes["FrontOcculus"] as Mesh;
 	const OcculusBack: Mesh = nodes["BackOcculus"] as Mesh;
 	const OcculusControler: Mesh = nodes["FirstController"] as Mesh;
 
 	return (
-		<Select enabled={selectObjectHovered}>
-			<group name={name} onPointerOver={() => setSelectObjectHovered(true)} onPointerOut={() => setSelectObjectHovered(false)}>
+		<Select enabled={selectObjectHovered["Occulus"] === true}>
+			<group name={name} onPointerOver={() => setSelectObjectHovered({ Occulus: true })} onPointerOut={() => setSelectObjectHovered({ Occulus: false })}>
 				<mesh geometry={OcculusFront.geometry} position={OcculusFront.position} rotation={OcculusFront.rotation} material={occulusMaterial} />
 				<mesh geometry={OcculusBack.geometry} position={OcculusBack.position} rotation={OcculusBack.rotation} material={occulusMaterial} />
 				<mesh geometry={OcculusControler.geometry} position={[3.575, 1.22, -1.762]} rotation={OcculusControler.rotation} material={occulusControllerMaterial} />
