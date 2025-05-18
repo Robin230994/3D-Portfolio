@@ -8,6 +8,7 @@ import { EffectComposer, Outline, Selection, Select, ToneMapping } from "@react-
 import { GLTFResult } from "../types/GLTypes";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
+import { useHoverContext } from "../hooks/useHoverContext";
 
 import Window from "./Window/Window";
 import Filing from "./Filling/Filing";
@@ -17,10 +18,9 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
-import { useHoverContext } from "../hooks/useHoverContext";
 
 function Portfolio() {
-	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
+	const officeModel = useLoader(GLTFLoader, "./offiice-room.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
 		loader.setDRACOLoader(dracoLoader);
@@ -29,6 +29,8 @@ function Portfolio() {
 	/** Nodes / Meshes */
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 	const { nodes } = officeModel as unknown as GLTFResult;
+
+	console.log(nodes);
 
 	/** REFS */
 	const sunlightRef = useRef<DirectionalLight | null>(null);

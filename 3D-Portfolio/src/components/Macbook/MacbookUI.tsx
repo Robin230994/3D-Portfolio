@@ -48,6 +48,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const MacbookFrontScreen = macbookNodes["Cube033_2"] as Mesh;
 	const MacbookScreenBorder = macbookNodes["Cube033_3"] as Mesh;
 	const MacbookAppleLogo = macbookNodes["Cube033_8"] as Mesh;
+	const MacbookScreen: Mesh = nodes["Screen"] as Mesh;
 	const MacbookHousing: Mesh = nodes["Housing"] as Mesh;
 	const MacbookKeyboard: Mesh = nodes["Keyboard"] as Mesh;
 	const MacbookVentilation: Mesh = nodes["Ventilation"] as Mesh;
@@ -56,7 +57,34 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 		<React.Fragment>
 			<Select enabled={selectObjectHovered["Macbook"] === true}>
 				<group name={name} onPointerOver={() => setSelectObjectHovered({ Macbook: true })} onPointerOut={() => setSelectObjectHovered({ Macbook: false })}>
-					<mesh geometry={MacbookHousing.geometry} position={MacbookHousing.position} rotation={MacbookHousing.rotation} material={macbookHousingMaterial} />
+					{MacbookHousing.children.map((child, index) => {
+						const castedChild = child as Mesh;
+
+						return (
+							<mesh
+								key={index}
+								geometry={castedChild.geometry}
+								position={castedChild.position}
+								rotation={castedChild.rotation}
+								material={castedChild.material}
+								scale={10}
+							/>
+						);
+					})}
+
+					{MacbookScreen.children.map((child, index) => {
+						const castedChild = child as Mesh;
+
+						return (
+							<mesh
+								key={index}
+								geometry={castedChild.geometry}
+								position={castedChild.position}
+								rotation={castedChild.rotation}
+								material={castedChild.material}
+							/>
+						);
+					})}
 					<group position={[5.641, 1.173, -1.776]} rotation={[1.333, 0, 0]}>
 						<mesh geometry={MacbookScreenBackside.geometry} material={macbookHousingMaterial} />
 						<mesh geometry={MacbookFrontScreen.geometry} material={blackPlasticMaterial} />
