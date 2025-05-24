@@ -20,7 +20,7 @@ const useCameraControlsMovement = (cameraRef: RefObject<CameraControls>) => {
 			const targetPolar = MathUtils.clamp(((1 - yNorm) * (maxPolar - minPolar)) / 2 + minPolar, minPolar, maxPolar);
 
 			if (cameraRef.current) {
-				cameraRef.current.rotateTo(targetAzimuth, targetPolar, true); // true = enable transition
+				cameraRef.current.rotateTo(targetAzimuth, targetPolar, true);
 			}
 		};
 
