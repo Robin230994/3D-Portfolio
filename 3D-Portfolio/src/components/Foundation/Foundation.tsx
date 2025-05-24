@@ -1,10 +1,7 @@
-import { DoubleSide, Mesh, MeshStandardMaterial, RepeatWrapping } from "three";
+import { Mesh, MeshStandardMaterial } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { Texture } from "three";
 
 import MaterialCreator from "../../classes/MaterialCreator";
-import { sRGBEncoding } from "@react-three/drei/helpers/deprecated";
-import { ClampToEdgeWrapping } from "three";
 
 const materialCreator = MaterialCreator.getInstance();
 

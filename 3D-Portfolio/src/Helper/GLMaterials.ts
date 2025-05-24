@@ -21,10 +21,6 @@ export { glassMaterial };
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
 	diffuseT: "/baked-textures/Desk/desks_color_lighting_baked.jpg",
 });
-// deskMaterial.roughness = 1;
-// deskMaterial.metalness = 0;
-// deskMaterial.color = new Color("#b4b9b2");
-// deskMaterial.side = DoubleSide;
 export { deskMaterial };
 
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");
@@ -32,7 +28,7 @@ blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
 
-const brownPlasticMaterial = materialCreator.createEmptyPhongMaterial("BluePlastic");
+const brownPlasticMaterial = materialCreator.createEmptyPhongMaterial("BrownPlastic");
 brownPlasticMaterial.color = new Color("#8b7f7e");
 brownPlasticMaterial.side = DoubleSide;
 brownPlasticMaterial.shininess = 100;

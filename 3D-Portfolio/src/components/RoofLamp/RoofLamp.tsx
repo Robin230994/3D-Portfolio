@@ -1,6 +1,6 @@
 import { Color, Mesh, MeshLambertMaterial, SpotLight, SpotLightHelper } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { deskMaterial } from "../../Helper/GLMaterials";
+import { brownPlasticMaterial, deskMaterial } from "../../Helper/GLMaterials";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { MutableRefObject, useRef } from "react";
 
@@ -25,7 +25,7 @@ const RoofLamp: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				<Bloom mipmapBlur luminanceThreshold={1.1} />
 			</EffectComposer> */}
 			<group name={name}>
-				<mesh geometry={RoofLamp.geometry} position={RoofLamp.position} rotation={RoofLamp.rotation} material={deskMaterial} />
+				<mesh geometry={RoofLamp.geometry} position={RoofLamp.position} rotation={RoofLamp.rotation} material={brownPlasticMaterial} />
 				<mesh geometry={RoofLampEmission.geometry} position={RoofLampEmission.position} rotation={RoofLampEmission.rotation} material={lampEmissionMaterial} />
 			</group>
 		</>

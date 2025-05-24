@@ -12,7 +12,7 @@ const Experience = () => {
 			<SelectObjectProvider>
 				<Leva hidden={!isDebugMode} />
 				<Canvas frameloop="demand" performance={{ min: 0.35, max: 1, debounce: 200 }} shadows>
-					<Portfolio />
+					<Portfolio isDebugMode={isDebugMode} />
 				</Canvas>
 			</SelectObjectProvider>
 		</>

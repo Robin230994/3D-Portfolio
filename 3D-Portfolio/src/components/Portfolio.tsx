@@ -1,12 +1,23 @@
-import { AdaptiveDpr, BakeShadows, Center, Environment, OrbitControls, OrthographicCamera, PerspectiveCamera, useGLTF, useHelper } from "@react-three/drei";
-import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping, CameraHelper, OrthographicCamera as THREEOrthographicCamera } from "three";
+import {
+	AdaptiveDpr,
+	BakeShadows,
+	CameraControls,
+	Center,
+	Environment,
+	OrbitControls,
+	OrthographicCamera,
+	PerspectiveCamera,
+	useGLTF,
+	useHelper,
+} from "@react-three/drei";
+import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping, CameraHelper, PerspectiveCamera as TPerspectiveCamera, MathUtils } from "three";
 import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
 import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { EffectComposer, Outline, Selection, Select, ToneMapping } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { useHoverContext } from "../hooks/useHoverContext";
 
@@ -18,8 +29,9 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
+import useCameraControlsMovement from "../hooks/useCameraControlsMovement";
 
-function Portfolio() {
+function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
@@ -30,17 +42,14 @@ function Portfolio() {
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 	const { nodes } = officeModel as unknown as GLTFResult;
 
-	console.log(nodes);
+	/** STATES */
+	const [activeCamera, setActiveCamera] = useState<TPerspectiveCamera | null>();
 
 	/** REFS */
-	const sunlightRef = useRef<DirectionalLight | null>(null);
-	useHelper(sunlightRef as MutableRefObject<DirectionalLight>, DirectionalLightHelper, 1, "red");
+	const cameraControlsRef = useRef<CameraControls | null>(null);
 
-	const sunlightShadow = useRef<THREEOrthographicCamera | null>(null);
-	useHelper(sunlightShadow as MutableRefObject<THREEOrthographicCamera>, CameraHelper);
-
-	const cameraRef = useRef<THREEPerspectiveCamera>(null);
-	// useHelper(cameraRef as MutableRefObject<THREEPerspectiveCamera>, CameraHelper);
+	/** HOOKS */
+	useCameraControlsMovement(cameraControlsRef);
 
 	/** Contexts */
 	const { isAnyHovered } = useHoverContext();
@@ -59,22 +68,22 @@ function Portfolio() {
 				},
 				{ collapsed: true }
 			),
-			SunLight: folder(
-				{
-					sunlightIntensity: { value: 1.2, min: 0, max: 10, step: 0.1 },
-					sunlightColor: "##efd7af",
-					sunlightPosition: { value: { x: 10, y: 5, z: 0 }, step: 0.1, joystick: "invertY" },
-					sunlightRotation: { value: { x: -0.8, y: 1.5, z: -2.8 }, step: 0.1, joystick: "invertY" },
-					shadowNear: { value: 0.1, min: 0.1, step: 0.1 },
-					shadowFar: { value: 500, min: 0.1, step: 10 },
-				},
-				{ collapsed: true }
-			),
+			// SunLight: folder(
+			// 	{
+			// 		sunlightIntensity: { value: 1.2, min: 0, max: 10, step: 0.1 },
+			// 		sunlightColor: "##efd7af",
+			// 		sunlightPosition: { value: { x: 10, y: 5, z: 0 }, step: 0.1, joystick: "invertY" },
+			// 		sunlightRotation: { value: { x: -0.8, y: 1.5, z: -2.8 }, step: 0.1, joystick: "invertY" },
+			// 		shadowNear: { value: 0.1, min: 0.1, step: 0.1 },
+			// 		shadowFar: { value: 500, min: 0.1, step: 10 },
+			// 	},
+			// 	{ collapsed: true }
+			// ),
 		},
 		{ collapsed: true }
 	);
 
-	const { environmentIntensity, environmentRotation } = useControls("Envrionment", {
+	const { environmentIntensity, environmentRotation } = useControls("Environment", {
 		environmentIntensity: { value: 1.4, step: 0.1, min: 1 },
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
@@ -94,8 +103,9 @@ function Portfolio() {
 		<>
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			<OrbitControls />
-			{/* <PerspectiveCamera ref={cameraRef} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} makeDefault /> */}
+			{isDebugMode && <OrbitControls />}
+			<PerspectiveCamera ref={setActiveCamera} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} makeDefault={!isDebugMode} />
+			{activeCamera && <CameraControls ref={cameraControlsRef} camera={activeCamera} />}
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -115,7 +125,7 @@ function Portfolio() {
 
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
-				<directionalLight
+				{/* <directionalLight
 					intensity={lightParams.sunlightIntensity}
 					position={[lightParams.sunlightPosition.x, lightParams.sunlightPosition.y, lightParams.sunlightPosition.z]}
 					rotation={[lightParams.sunlightRotation.x, lightParams.sunlightRotation.y, lightParams.sunlightRotation.z]}
@@ -124,7 +134,7 @@ function Portfolio() {
 					castShadow
 					shadow-mapSize={[1024, 1024]}>
 					<orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 25]} ref={sunlightShadow} />
-				</directionalLight>
+				</directionalLight> */}
 
 				{/************ Office Room ************/}
 				<group name="office-room">
@@ -134,7 +144,7 @@ function Portfolio() {
 					{/************ All objects inside the room ************/}
 					<Selection>
 						<EffectComposer multisampling={8} autoClear={false}>
-							<Outline blur visibleEdgeColor={0x7f00ff} edgeStrength={0.8} />
+							<Outline blur visibleEdgeColor={0xff0000} edgeStrength={2} />
 						</EffectComposer>
 						<group name="objects">
 							<RoofLamp name="RoofLamp" nodes={nodes} />
