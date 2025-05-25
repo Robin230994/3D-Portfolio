@@ -4,7 +4,6 @@ import MaterialCreator from "../../classes/MaterialCreator";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh, Object3D, Group, Vector3 } from "three";
 import { Select } from "@react-three/postprocessing";
-import { invalidate } from "@react-three/fiber";
 
 const materialCreator = MaterialCreator.getInstance();
 

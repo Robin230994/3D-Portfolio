@@ -1,13 +1,11 @@
 import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useControls } from "leva";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect } from "react";
 import { MathUtils, Object3D } from "three";
 
 const useCameraMovement = (cameraRef: RefObject<CameraControls>) => {
 	const { size } = useThree();
-	const lastAzimuth = useRef(0);
-	const lastPolar = useRef(Math.PI / 2.5);
 
 	const { maxAzimuth, minAzimuth, maxPolar, minPolar } = useControls("CameraMovement", {
 		maxAzimuth: { value: 0.4, step: 0.01 },

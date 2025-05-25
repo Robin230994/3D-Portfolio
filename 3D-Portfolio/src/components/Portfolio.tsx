@@ -1,23 +1,10 @@
-import {
-	AdaptiveDpr,
-	BakeShadows,
-	CameraControls,
-	Center,
-	Environment,
-	OrbitControls,
-	OrthographicCamera,
-	PerspectiveCamera,
-	useGLTF,
-	useHelper,
-} from "@react-three/drei";
-import { DirectionalLight, DirectionalLightHelper, ACESFilmicToneMapping, CameraHelper, PerspectiveCamera as TPerspectiveCamera, MathUtils } from "three";
-import { PerspectiveCamera as THREEPerspectiveCamera } from "three";
-import { MutableRefObject, useContext, useEffect, useRef, useState } from "react";
+import { AdaptiveDpr, BakeShadows, CameraControls, Center, Environment, OrbitControls } from "@react-three/drei";
+import { useEffect, useRef } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { EffectComposer, Outline, Selection, Select, ToneMapping } from "@react-three/postprocessing";
+import { EffectComposer, Outline, Selection } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { useHoverContext } from "../hooks/useHoverContext";
 
@@ -29,7 +16,7 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
-import useCameraMovement from "../hooks/useCameraControlsMovement";
+import CameraController from "./CameraController/CameraController";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room.glb", (loader) => {
@@ -45,11 +32,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	/** STATES */
 
 	/** REFS */
-	const cameraControlsRef = useRef<CameraControls | null>(null);
+	const cameraControlsRef = useRef<CameraControls>(null);
 
 	/** HOOKS */
-	useCameraMovement(cameraControlsRef);
-	const { camera } = useThree();
 
 	/** Contexts */
 	const { isAnyHovered } = useHoverContext();
@@ -68,24 +53,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				},
 				{ collapsed: true }
 			),
-			// SunLight: folder(
-			// 	{
-			// 		sunlightIntensity: { value: 1.2, min: 0, max: 10, step: 0.1 },
-			// 		sunlightColor: "##efd7af",
-			// 		sunlightPosition: { value: { x: 10, y: 5, z: 0 }, step: 0.1, joystick: "invertY" },
-			// 		sunlightRotation: { value: { x: -0.8, y: 1.5, z: -2.8 }, step: 0.1, joystick: "invertY" },
-			// 		shadowNear: { value: 0.1, min: 0.1, step: 0.1 },
-			// 		shadowFar: { value: 500, min: 0.1, step: 10 },
-			// 	},
-			// 	{ collapsed: true }
-			// ),
 		},
 		{ collapsed: true }
 	);
-
-	const { minDistance } = useControls("CameraControls", {
-		minDistance: { value: 1, step: 0.1 },
-	});
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
 		environmentIntensity: { value: 1.4, step: 0.1, min: 1 },
@@ -108,7 +78,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
 			{isDebugMode && <OrbitControls />}
-			<CameraControls ref={cameraControlsRef} camera={camera} minDistance={minDistance} />
+			<CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -128,17 +98,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
-				{/* <directionalLight
-					intensity={lightParams.sunlightIntensity}
-					position={[lightParams.sunlightPosition.x, lightParams.sunlightPosition.y, lightParams.sunlightPosition.z]}
-					rotation={[lightParams.sunlightRotation.x, lightParams.sunlightRotation.y, lightParams.sunlightRotation.z]}
-					color={lightParams.sunlightColor}
-					ref={sunlightRef}
-					castShadow
-					shadow-mapSize={[1024, 1024]}>
-					<orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 25]} ref={sunlightShadow} />
-				</directionalLight> */}
-
 				{/************ Office Room ************/}
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
