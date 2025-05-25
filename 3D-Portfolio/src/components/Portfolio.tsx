@@ -29,7 +29,7 @@ import RoofLamp from "./RoofLamp/RoofLamp";
 import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
 import OfficeChair from "./OfficeChair/OfficeChair";
-import useCameraControlsMovement from "../hooks/useCameraControlsMovement";
+import useCameraMovement from "../hooks/useCameraControlsMovement";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room.glb", (loader) => {
@@ -43,13 +43,13 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const { nodes } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
-	const [activeCamera, setActiveCamera] = useState<TPerspectiveCamera | null>();
 
 	/** REFS */
 	const cameraControlsRef = useRef<CameraControls | null>(null);
 
 	/** HOOKS */
-	useCameraControlsMovement(cameraControlsRef);
+	useCameraMovement(cameraControlsRef);
+	const { camera } = useThree();
 
 	/** Contexts */
 	const { isAnyHovered } = useHoverContext();
@@ -83,6 +83,10 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 		{ collapsed: true }
 	);
 
+	const { minDistance } = useControls("CameraControls", {
+		minDistance: { value: 1, step: 0.1 },
+	});
+
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
 		environmentIntensity: { value: 1.4, step: 0.1, min: 1 },
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
@@ -104,8 +108,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
 			{isDebugMode && <OrbitControls />}
-			<PerspectiveCamera ref={setActiveCamera} fov={18} near={0.1} far={20} position={[-6, 0, -0.4]} rotation={[0, -1.6, 0]} makeDefault={!isDebugMode} />
-			{activeCamera && <CameraControls ref={cameraControlsRef} camera={activeCamera} />}
+			<CameraControls ref={cameraControlsRef} camera={camera} minDistance={minDistance} />
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -152,7 +155,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 							<Window name="Window" nodes={nodes} />
 							<Filing name="Filing" nodes={nodes} />
 							<Door name="Door" nodes={nodes} />
-							<Desks name="Desks" nodes={nodes} />
+							<Desks name="Desks" nodes={nodes} cameraControls={cameraControlsRef} />
 							<OfficeChair name="OfficeChair" nodes={nodes} />
 						</group>
 					</Selection>

@@ -1,7 +1,8 @@
-import React, { MutableRefObject } from "react";
+import React, { MutableRefObject, RefObject } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { Color, DirectionalLight, Mesh, Group, Object3DEventMap } from "three";
 import { blackPlasticMaterial, brownPlasticMaterial, cupboardDoorMaterial, deskMaterial, metalMaterial } from "../../Helper/GLMaterials";
+import { CameraControls } from "@react-three/drei";
 
 import Macbook from "../Macbook/Macbook";
 import OcculusQuest from "../OccolusQuest/OcculusQuest";
@@ -26,16 +27,16 @@ interface DesksUIProps extends IUIComponentProps {
 			};
 		};
 		functions: { myFunctions: object };
-		refs: { myRefs: object };
+		refs: { myRefs: { cameraControls: RefObject<CameraControls> } };
 	};
 }
 
 const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const { myData } = props.data;
-	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
+	const { cameraControls } = myRefs;
 
 	const DeskWorkingAreas: Mesh = nodes["DeskWorkingAreas"] as Mesh;
 	const DeskStands: Mesh = nodes["DeskStands"] as Mesh;
@@ -142,10 +143,10 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			</group> */}
 
 			{/** Occulus Quest */}
-			<OcculusQuest name="Occulus" nodes={nodes} />
+			<OcculusQuest name="Occulus" nodes={nodes} cameraControls={cameraControls} />
 
 			{/** Macbook */}
-			<Macbook name="Macbook" nodes={nodes} />
+			<Macbook name="Macbook" nodes={nodes} cameraControls={cameraControls} />
 
 			{/** Folders */}
 			<mesh geometry={Folders.geometry} position={Folders.position} rotation={Folders.rotation} material={brownPlasticMaterial} />
