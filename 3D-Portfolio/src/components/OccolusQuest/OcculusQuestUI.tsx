@@ -4,6 +4,7 @@ import MaterialCreator from "../../classes/MaterialCreator";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { DirectionalLight, Mesh, Object3D, Group, Vector3 } from "three";
 import { Select } from "@react-three/postprocessing";
+import HoverLabel from "../HoverLabel/HoverLabel";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -41,23 +42,26 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const OcculusControler: Mesh = nodes["FirstController"] as Mesh;
 
 	return (
-		<Select enabled={selectObjectHovered["Occulus"] === true}>
-			<group
-				ref={occulusRef}
-				name={name}
-				onPointerOver={() => setSelectObjectHovered({ Occulus: true })}
-				onPointerOut={() => setSelectObjectHovered({ Occulus: false })}
-				onClick={() => {
-					if (occulusRef.current) {
-						handleClickedTarget(occulusRef.current!);
-					}
-				}}>
-				<mesh geometry={OcculusFront.geometry} position={OcculusFront.position} rotation={OcculusFront.rotation} material={occulusMaterial} />
-				<mesh geometry={OcculusBack.geometry} position={OcculusBack.position} rotation={OcculusBack.rotation} material={occulusMaterial} />
-				<mesh geometry={OcculusControler.geometry} position={[3.575, 1.22, -1.762]} rotation={OcculusControler.rotation} material={occulusControllerMaterial} />
-				<mesh geometry={OcculusControler.geometry} position={[3.448, 1.22, -1.962]} rotation={OcculusControler.rotation} material={occulusControllerMaterial} />
-			</group>
-		</Select>
+		// <Select enabled={selectObjectHovered["Occulus"] === true}>
+		<group
+			ref={occulusRef}
+			name={name}
+			onPointerOver={() => setSelectObjectHovered({ Occulus: true })}
+			onPointerOut={() => setSelectObjectHovered({ Occulus: false })}
+			onClick={() => {
+				if (occulusRef.current) {
+					handleClickedTarget(occulusRef.current!);
+				}
+			}}>
+			<mesh geometry={OcculusFront.geometry} position={OcculusFront.position} rotation={OcculusFront.rotation} material={occulusMaterial}>
+				{" "}
+				<HoverLabel visible={selectObjectHovered["Occulus"] === true}>Occulus Quest 2</HoverLabel>
+			</mesh>
+			<mesh geometry={OcculusBack.geometry} position={OcculusBack.position} rotation={OcculusBack.rotation} material={occulusMaterial} />
+			<mesh geometry={OcculusControler.geometry} position={[3.575, 1.22, -1.762]} rotation={OcculusControler.rotation} material={occulusControllerMaterial} />
+			<mesh geometry={OcculusControler.geometry} position={[3.448, 1.22, -1.962]} rotation={OcculusControler.rotation} material={occulusControllerMaterial} />
+		</group>
+		// </Select>
 	);
 };
 

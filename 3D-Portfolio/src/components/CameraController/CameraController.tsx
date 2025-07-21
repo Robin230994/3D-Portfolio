@@ -10,6 +10,7 @@ interface CameraControllerProps {
 
 const CameraController = forwardRef<CameraControls, CameraControllerProps>(({ isDebugMode }, ref) => {
 	const { camera } = useThree();
+
 	useCameraMovement(ref as RefObject<CameraControls>);
 
 	const { minDistance, maxDistance, smoothTime } = useControls("CameraControls", {
@@ -17,6 +18,7 @@ const CameraController = forwardRef<CameraControls, CameraControllerProps>(({ is
 		maxDistance: { value: 2.5, step: 0.1 },
 		smoothTime: { value: 0.5, step: 0.001 },
 	});
+
 	return <CameraControls ref={ref} camera={camera} minDistance={minDistance} maxDistance={maxDistance} smoothTime={smoothTime} makeDefault={!isDebugMode} />;
 });
 

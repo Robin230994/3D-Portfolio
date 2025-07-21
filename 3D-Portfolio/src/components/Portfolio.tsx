@@ -77,8 +77,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 		<>
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			{isDebugMode && <OrbitControls />}
-			<CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />
+			{isDebugMode ? <OrbitControls /> : <CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />}
 
 			{/* <EffectComposer>
 				<ToneMapping mode={ACESFilmicToneMapping} />
@@ -104,20 +103,20 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					<Selection>
-						<EffectComposer multisampling={8} autoClear={false}>
-							<Outline blur visibleEdgeColor={0xff0000} edgeStrength={2} />
-						</EffectComposer>
-						<group name="objects">
-							<RoofLamp name="RoofLamp" nodes={nodes} />
-							<FloorLamp name="FloorLamp" nodes={nodes} />
-							<Window name="Window" nodes={nodes} />
-							<Filing name="Filing" nodes={nodes} />
-							<Door name="Door" nodes={nodes} />
-							<Desks name="Desks" nodes={nodes} cameraControls={cameraControlsRef} />
-							<OfficeChair name="OfficeChair" nodes={nodes} />
-						</group>
-					</Selection>
+					{/* <Selection> */}
+					{/* <EffectComposer multisampling={0} autoClear={false}>
+							<Outline blur={false} visibleEdgeColor={0xff0000} edgeStrength={2} width={window.devicePixelRatio < 2 ? 512 : 1024} />
+						</EffectComposer> */}
+					<group name="objects">
+						<RoofLamp name="RoofLamp" nodes={nodes} />
+						<FloorLamp name="FloorLamp" nodes={nodes} />
+						<Window name="Window" nodes={nodes} />
+						<Filing name="Filing" nodes={nodes} />
+						<Door name="Door" nodes={nodes} />
+						<Desks name="Desks" nodes={nodes} cameraControls={cameraControlsRef} />
+						<OfficeChair name="OfficeChair" nodes={nodes} />
+					</group>
+					{/* </Selection> */}
 				</group>
 			</Center>
 		</>

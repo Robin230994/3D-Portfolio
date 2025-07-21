@@ -11,7 +11,7 @@ const Experience = () => {
 		<>
 			<SelectObjectProvider>
 				<Leva hidden={!isDebugMode} />
-				<Canvas frameloop="demand" performance={{ min: 0.35, max: 1, debounce: 300 }} shadows>
+				<Canvas performance={{ min: 0.35, max: 1, debounce: 300 }} gl={{ antialias: false }} shadows>
 					<Portfolio isDebugMode={isDebugMode} />
 				</Canvas>
 			</SelectObjectProvider>

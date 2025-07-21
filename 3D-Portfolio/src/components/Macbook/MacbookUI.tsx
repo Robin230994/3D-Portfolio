@@ -4,6 +4,7 @@ import { Mesh, DirectionalLight, Object3D, Vector3 } from "three";
 import { useGLTF } from "@react-three/drei";
 import { Select } from "@react-three/postprocessing";
 import { useControls } from "leva";
+import HoverLabel from "../HoverLabel/HoverLabel";
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
@@ -34,13 +35,18 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 
 	return (
 		<React.Fragment>
-			<Select enabled={selectObjectHovered["Macbook"] === true}>
-				<group name={name} onPointerOver={() => setSelectObjectHovered({ Macbook: true })} onPointerOut={() => setSelectObjectHovered({ Macbook: false })}>
-					{Macbook.scene && (
+			{/* <Select enabled={selectObjectHovered["Macbook"] === true}> */}
+			<group
+				name={name}
+				position={[macbookPos.x, macbookPos.y, macbookPos.z]}
+				onPointerOver={() => setSelectObjectHovered({ Macbook: true })}
+				onPointerOut={() => setSelectObjectHovered({ Macbook: false })}>
+				{Macbook.scene && (
+					<>
 						<primitive
 							ref={macbookRef}
 							object={Macbook.scene}
-							position={[macbookPos.x, macbookPos.y, macbookPos.z]}
+							// position={[macbookPos.x, macbookPos.y, macbookPos.z]}
 							scale={macbookScale}
 							onClick={() => {
 								if (macbookRef.current) {
@@ -48,9 +54,11 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 								}
 							}}
 						/>
-					)}
-				</group>
-			</Select>
+						<HoverLabel visible={selectObjectHovered["Macbook"] === true}>Macbook Pro</HoverLabel>
+					</>
+				)}
+			</group>
+			{/* </Select> */}
 		</React.Fragment>
 	);
 };

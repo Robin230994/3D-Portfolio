@@ -8,8 +8,8 @@ const useCameraMovement = (cameraRef: RefObject<CameraControls>) => {
 	const { size } = useThree();
 
 	const { maxAzimuth, minAzimuth, maxPolar, minPolar } = useControls("CameraMovement", {
-		maxAzimuth: { value: 0.4, step: 0.01 },
-		minAzimuth: { value: -0.4, step: 0.01 },
+		maxAzimuth: { value: Math.PI / 2, step: 0.01 },
+		minAzimuth: { value: -Math.PI / 2, step: 0.01 },
 		maxPolar: { value: Math.PI / 2 - 0.2, step: 0.01 },
 		minPolar: { value: Math.PI / 2.5, step: 0.01 },
 	});
@@ -23,6 +23,7 @@ const useCameraMovement = (cameraRef: RefObject<CameraControls>) => {
 
 			const targetAzimuth = MathUtils.clamp(-xNorm * maxAzimuth, minAzimuth, maxAzimuth);
 			const targetPolar = MathUtils.clamp(((1 - yNorm) / 2) * (maxPolar - minPolar) + minPolar, minPolar, maxPolar);
+
 			cameraRef.current.rotateTo(targetAzimuth, targetPolar, true);
 		};
 

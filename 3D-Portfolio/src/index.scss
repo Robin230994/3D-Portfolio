@@ -9,3 +9,22 @@
 html {
 	background: #fff;
 }
+
+.hover-label {
+	background-color: rgba(255, 255, 255, 0.75);
+	padding: 5px;
+	border-radius: 10px;
+	min-width: 50px;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+	white-space: nowrap;
+	opacity: 0;
+	transform: translateY(-5px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+	pointer-events: none;
+}
+
+.hover-label.visible {
+	opacity: 1;
+	transform: translateY(0);
+}

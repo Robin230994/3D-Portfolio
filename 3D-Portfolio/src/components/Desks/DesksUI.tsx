@@ -43,7 +43,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const DeskDoors: Mesh = nodes["CupboardDoors"] as Mesh;
 	const DeskOpeners: Mesh = nodes["CupboardOpeners"] as Mesh;
 	const DeskRoll: Mesh = nodes["Rolls"] as Mesh;
-	// const Organizer: Mesh = nodes["Organizer"] as Mesh;
+	const Organizer: Mesh = nodes["Organizer"] as Mesh;
 	const Paper: Mesh = nodes["Paper"] as Mesh;
 	const Book: Mesh = nodes["GreenBook"] as Mesh;
 	const Folders: Mesh = nodes["FolderDocuments"] as Mesh;
@@ -134,13 +134,13 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<InstantiatedMesh geometry={DeskRoll.geometry} material={blackPlasticMaterial} instance={rollInstances} />
 
 			{/** Organizer */}
-			{/* <group name="organizer">
+			<group name="organizer">
 				<mesh geometry={Organizer.geometry} position={Organizer.position} rotation={Organizer.rotation} material={brownPlasticMaterial} />
 
 				<mesh geometry={Paper.geometry} position={[4.33, 1.255, -2.509]} rotation={Paper.rotation} scale-y={0.01}>
 					<meshStandardMaterial />
 				</mesh>
-			</group> */}
+			</group>
 
 			{/** Occulus Quest */}
 			<OcculusQuest name="Occulus" nodes={nodes} cameraControls={cameraControls} />
@@ -157,10 +157,10 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			</group>
 
 			{/** Franconian coolness box */}
-			<FCBox name="Franconian Coolness" nodes={nodes} />
+			<FCBox name="Franconian Coolness" nodes={nodes} cameraControls={cameraControls} />
 
 			{/** BambuLab Printer */}
-			<BambuLab name="BambuLab" nodes={nodes} />
+			<BambuLab name="BambuLab" nodes={nodes} cameraControls={cameraControls} />
 
 			{/** Musterbox */}
 			{/* <Musterbox name="Musterbox" nodes={nodes} /> */}
