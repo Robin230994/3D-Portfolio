@@ -8,18 +8,19 @@ import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { useHoverContext } from "../hooks/useHoverContext";
 
-import Window from "./Window/Window";
-import Filing from "./Filling/Filing";
-import Door from "./Door/Door";
 import Foundation from "./Foundation/Foundation";
-import RoofLamp from "./RoofLamp/RoofLamp";
-import FloorLamp from "./FloorLamp/FloorLamp";
 import Desks from "./Desks/Desks";
-import OfficeChair from "./OfficeChair/OfficeChair";
+import OfficeChair from "./ObjectT1/ObjectT1";
 import CameraController from "./CameraController/CameraController";
+import ObjectT1 from "./ObjectT1/ObjectT1";
+import ObjectT2 from "./ObjectT2/ObjectT2";
+import ObjectT3 from "./ObjectT3/ObjectT3";
+import ObjectT4 from "./ObjectT4/ObjectT4";
+import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
+import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
-	const officeModel = useLoader(GLTFLoader, "./offiice-room.glb", (loader) => {
+	const officeModel = useLoader(GLTFLoader, "./offiice-room-new.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
 		loader.setDRACOLoader(dracoLoader);
@@ -27,7 +28,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	/** Nodes / Meshes */
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
-	const { nodes } = officeModel as unknown as GLTFResult;
+	const { nodes, materials } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
 
@@ -75,15 +76,14 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	return (
 		<>
+			{perfParams.visible && <Perf position="top-left" />}
+
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			{isDebugMode ? <OrbitControls /> : <CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />}
+			<CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />
 
-			{/* <EffectComposer>
-				<ToneMapping mode={ACESFilmicToneMapping} />
-			</EffectComposer> */}
-
-			{perfParams.visible && <Perf position="top-left" />}
+			{/* bake shadows for performance */}
+			<BakeShadows />
 
 			<Environment
 				background={true}
@@ -91,9 +91,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
-
-			{/* bake shadows for performance */}
-			<BakeShadows />
 
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
@@ -107,15 +104,20 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					{/* <EffectComposer multisampling={0} autoClear={false}>
 							<Outline blur={false} visibleEdgeColor={0xff0000} edgeStrength={2} width={window.devicePixelRatio < 2 ? 512 : 1024} />
 						</EffectComposer> */}
+
 					<group name="objects">
-						<RoofLamp name="RoofLamp" nodes={nodes} />
-						<FloorLamp name="FloorLamp" nodes={nodes} />
-						<Window name="Window" nodes={nodes} />
-						<Filing name="Filing" nodes={nodes} />
-						<Door name="Door" nodes={nodes} />
 						<Desks name="Desks" nodes={nodes} cameraControls={cameraControlsRef} />
-						<OfficeChair name="OfficeChair" nodes={nodes} />
+						<ObjectT1 name="ObjectT1" nodes={nodes} />
+						<ObjectT2 name="ObjectT2" nodes={nodes} />
+						<ObjectT3 name="ObjectT3" nodes={nodes} />
+						<ObjectT4 name="ObjectT4" nodes={nodes} />
 					</group>
+
+					<group name="image-objects">
+						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} />
+						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
+					</group>
+
 					{/* </Selection> */}
 				</group>
 			</Center>

@@ -73,7 +73,7 @@ export default class MaterialCreator {
 		return null;
 	}
 
-	public createStandardMaterialFromTexture(materialName: string, textures: StandardTextureParams): MeshStandardMaterial {
+	public createStandardMaterialFromTexture(materialName: string, textures: StandardTextureParams, transparent?: boolean): MeshStandardMaterial {
 		const diffuseTexture: Texture = typeof textures.diffuseT === "string" ? this.textureLoader.load(textures.diffuseT) : textures.diffuseT;
 		diffuseTexture.colorSpace = SRGBColorSpace;
 		diffuseTexture.wrapS = RepeatWrapping;
@@ -111,6 +111,11 @@ export default class MaterialCreator {
 			metalnessMap: metalnessTexture,
 		};
 		const createdMaterial = new MeshStandardMaterial(materialParams);
+
+		if (transparent) {
+			createdMaterial.transparent = true;
+		}
+
 		this.storedMaterials.set(materialName, createdMaterial);
 		return createdMaterial;
 	}

@@ -28,28 +28,11 @@ blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;
 export { blackPlasticMaterial };
 
-const brownPlasticMaterial = materialCreator.createEmptyPhongMaterial("BrownPlastic");
-brownPlasticMaterial.color = new Color("#8b7f7e");
-brownPlasticMaterial.side = DoubleSide;
-brownPlasticMaterial.shininess = 100;
-export { brownPlasticMaterial };
-
 const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
 metalMaterial.color = new Color("#ffffff");
 metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
 export { metalMaterial };
-
-const goldMetalMaterial = materialCreator.createEmptyStandardMaterial("GoldMetal");
-goldMetalMaterial.color = new Color("#D4AF37");
-goldMetalMaterial.roughness = 0;
-goldMetalMaterial.metalness = 1;
-export { goldMetalMaterial };
-
-const cupboardDoorMaterial = materialCreator.createEmptyStandardMaterial("CupboardDoors");
-cupboardDoorMaterial.color = new Color("#3F3F3F");
-cupboardDoorMaterial.roughness = 0.0;
-export { cupboardDoorMaterial };
 
 const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Filling/perlin-noise-coffee.png", (loadedTexture) => {
 	loadedTexture.wrapS = RepeatWrapping;

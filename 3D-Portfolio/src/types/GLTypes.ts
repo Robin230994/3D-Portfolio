@@ -19,7 +19,7 @@ export type GLTFResult = {
 		[key: string]: Mesh | DirectionalLight; // Index signature for dynamic access
 	};
 	scene?: Scene;
-	materials?: { [key: string]: Material };
+	materials?: { [key: string]: Material | Material[] };
 };
 
 export type Uniform = {

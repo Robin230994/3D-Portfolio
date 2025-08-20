@@ -2,7 +2,7 @@ import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useControls } from "leva";
 import { RefObject, useCallback, useEffect } from "react";
-import { MathUtils, Object3D } from "three";
+import { MathUtils, Object3D, Vector3 } from "three";
 
 const useCameraMovement = (cameraRef: RefObject<CameraControls>) => {
 	const { size } = useThree();

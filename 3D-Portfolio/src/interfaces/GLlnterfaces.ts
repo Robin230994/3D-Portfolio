@@ -5,5 +5,6 @@ import { BufferGeometry, DirectionalLight, Material, Mesh, NormalBufferAttribute
 export interface CustomMeshProps {
 	name: string;
 	nodes: { [key: string]: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | DirectionalLight };
+	materials?: { [key: string]: Material | Material | Material[] };
 	cameraControls?: RefObject<CameraControls>;
 }
