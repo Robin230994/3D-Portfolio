@@ -10,7 +10,6 @@ import { useHoverContext } from "../hooks/useHoverContext";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
-import OfficeChair from "./ObjectT1/ObjectT1";
 import CameraController from "./CameraController/CameraController";
 import ObjectT1 from "./ObjectT1/ObjectT1";
 import ObjectT2 from "./ObjectT2/ObjectT2";

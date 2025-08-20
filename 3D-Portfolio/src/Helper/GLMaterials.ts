@@ -23,6 +23,12 @@ const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
 });
 export { deskMaterial };
 
+const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Material", {
+	diffuseT: "/baked-textures/Objects/TI1/objects_ti1_color.jpg",
+	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",
+});
+export { iot1Material };
+
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");
 blackPlasticMaterial.color = new Color("#000000");
 blackPlasticMaterial.side = DoubleSide;

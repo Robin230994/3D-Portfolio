@@ -1,10 +1,10 @@
 import React from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { InstancedMesh, Material, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { Mesh, Object3D } from "three";
 import { DirectionalLight } from "three";
-import { blackPlasticMaterial, metalMaterial } from "../../../Helper/GLMaterials";
-import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
+import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
 import { useControls } from "leva";
+import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 
 interface OfficeChairUIProps extends IUIComponentProps {
 	props: {
@@ -13,7 +13,6 @@ interface OfficeChairUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectHovered: { [name: string]: boolean };
-				materials?: { [key: string]: Material | Material[] };
 			};
 		};
 		functions: {
@@ -28,13 +27,11 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, materials } = myData;
+	const { name, nodes } = myData;
 
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
 	const LowerOfficeChair: Mesh = nodes["GamingChairLower"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
-
-	console.log(ChairRoll.rotation.x, ChairRoll.rotation.y, ChairRoll.rotation.z);
 
 	const { positionFR, positionSR, positionTR, positionFTR, positionFTH, rotationFR, rotationSR, rotationTR, rotationFTR, rotationFTH } = useControls(
 		"ChairRollsOfficeChair",
@@ -87,7 +84,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 				position={UpperOfficeChair.position}
 				rotation={UpperOfficeChair.rotation}
 				scale={UpperOfficeChair.scale}
-				material={materials ? materials["iot1Material"] : new MeshStandardMaterial()}
+				material={iot1Material}
 			/>
 
 			<mesh
@@ -99,12 +96,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			/>
 
 			{/** Chair roll instances */}
-			<InstantiatedMesh
-				name="Chair-Roll-Instances"
-				geometry={ChairRoll.geometry}
-				instance={chairRollInstances}
-				material={materials ? materials["iot1Material"] : new MeshStandardMaterial({ color: "black" })}
-			/>
+			<InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} />
 		</group>
 	);
 };

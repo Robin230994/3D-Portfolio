@@ -1,15 +1,8 @@
-import { Material, Mesh } from "three";
+import { Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { useEffect } from "react";
+import { iot1Material } from "../../Helper/GLMaterials";
 
-import MaterialCreator from "../../classes/MaterialCreator";
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
-
-const materialCreator = MaterialCreator.getInstance();
-const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Material", {
-	diffuseT: "/baked-textures/Objects/TI1/objects_ti1_color.jpg",
-	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",
-});
 
 const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const IObjectT1: Mesh = nodes["image_object_t1"] as Mesh;
