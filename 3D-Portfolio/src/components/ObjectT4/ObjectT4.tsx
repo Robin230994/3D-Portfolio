@@ -9,15 +9,24 @@ const materialCreator = MaterialCreator.getInstance();
 
 const ObjectT4: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT4: Mesh = nodes["object_t4"] as Mesh;
+	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
 	const t4Material = ObjectT4.material as Material;
 
 	useEffect(() => {
 		materialCreator.addInstanciatedMaterial("t4Material", t4Material);
+		t4Material.transparent = true;
 	}, [t4Material]);
 
 	return (
 		<group name={name}>
 			<mesh geometry={ObjectT4.geometry} position={ObjectT4.position} rotation={ObjectT4.rotation} material={t4Material} scale={ObjectT4.scale} />
+			<mesh
+				geometry={MacbookTopSide.geometry}
+				position={MacbookTopSide.position}
+				rotation={MacbookTopSide.rotation}
+				material={t4Material}
+				scale={MacbookTopSide.scale}
+			/>
 		</group>
 	);
 };
