@@ -1,18 +1,23 @@
-import React, { RefObject } from "react";
-import { GLTFResult, IUIComponentProps } from "../../../types/GLTypes";
-import { Mesh, DirectionalLight, Object3D, Vector3 } from "three";
-import { useGLTF } from "@react-three/drei";
-import { Select } from "@react-three/postprocessing";
-import { useControls } from "leva";
-import HoverLabel from "../../HoverLabel/HoverLabel";
+import React, { useEffect } from "react";
+import { IUIComponentProps } from "../../../types/GLTypes";
+import { Mesh, DirectionalLight, Object3D, Material } from "three";
+import MaterialCreator from "../../../classes/MaterialCreator";
+
+const materialCreator = MaterialCreator.getInstance();
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectHovered: { [name: string]: boolean };
+			};
+		};
 		functions: {
 			myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void; handleClickedTarget: (targetObject: Object3D) => void };
 		};
-		refs: { myRefs: { macbookRef: RefObject<Object3D | null> } };
+		refs: { myRefs: object };
 	};
 }
 
@@ -21,45 +26,26 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, selectObjectHovered } = myData;
-	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
-	const { macbookRef } = myRefs;
+	const { name, nodes, selectObjectHovered } = myData;
 
-	/** Meshes */
-	const Macbook = useGLTF("./macbook-model.gltf") as unknown as GLTFResult;
+	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
+	const macbookTopSideMaterial = MacbookTopSide.material as Material;
 
-	const { macbookPos, macbookScale } = useControls("Macbook", {
-		macbookPos: { value: { x: 5.61, y: 1.04, z: -1.53 } },
-		macbookScale: { value: 0.25, step: 0.01 },
-	});
+	useEffect(() => {
+		macbookTopSideMaterial.alphaTest = 0.5;
+		materialCreator.addInstanciatedMaterial("ot5Material", macbookTopSideMaterial);
+	}, [macbookTopSideMaterial]);
 
 	return (
-		<React.Fragment>
-			{/* <Select enabled={selectObjectHovered["Macbook"] === true}> */}
-			<group
-				name={name}
-				position={[macbookPos.x, macbookPos.y, macbookPos.z]}
-				onPointerOver={() => setSelectObjectHovered({ Macbook: true })}
-				onPointerOut={() => setSelectObjectHovered({ Macbook: false })}>
-				{Macbook.scene && (
-					<>
-						<primitive
-							ref={macbookRef}
-							object={Macbook.scene}
-							// position={[macbookPos.x, macbookPos.y, macbookPos.z]}
-							scale={macbookScale}
-							onClick={() => {
-								if (macbookRef.current) {
-									handleClickedTarget(macbookRef.current);
-								}
-							}}
-						/>
-						<HoverLabel visible={selectObjectHovered["Macbook"] === true}>Macbook Pro</HoverLabel>
-					</>
-				)}
-			</group>
-			{/* </Select> */}
-		</React.Fragment>
+		<group name={name}>
+			<mesh
+				geometry={MacbookTopSide.geometry}
+				position={MacbookTopSide.position}
+				rotation={MacbookTopSide.rotation}
+				scale={MacbookTopSide.scale}
+				material={macbookTopSideMaterial}
+			/>
+		</group>
 	);
 };
 

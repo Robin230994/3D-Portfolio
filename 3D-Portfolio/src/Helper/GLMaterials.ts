@@ -27,6 +27,7 @@ const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Mate
 	diffuseT: "/baked-textures/Objects/TI1/objects_ti1_color.jpg",
 	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",
 });
+iot1Material.transparent = true;
 export { iot1Material };
 
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");

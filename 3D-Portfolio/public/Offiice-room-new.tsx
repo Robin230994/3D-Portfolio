@@ -72,13 +72,14 @@ type GLTFResult = GLTF & {
 		Lamp_Mat: THREE.MeshStandardMaterial;
 		BambuLabLED: THREE.MeshStandardMaterial;
 		ot3: THREE.MeshStandardMaterial;
-		ot4: THREE.MeshStandardMaterial;
+		ot5: THREE.MeshStandardMaterial;
 		iot1: THREE.MeshStandardMaterial;
 		Metallic: THREE.MeshStandardMaterial;
 		iot2: THREE.MeshStandardMaterial;
 		ft1: THREE.MeshStandardMaterial;
 		ot1: THREE.MeshStandardMaterial;
 		ot2: THREE.MeshStandardMaterial;
+		ot4: THREE.MeshStandardMaterial;
 		dt1: THREE.MeshStandardMaterial;
 	};
 };
@@ -120,7 +121,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 				rotation={[Math.PI, 0, Math.PI]}
 				scale={1.113}
 			/>
-			<mesh geometry={nodes.MacbookTopSide.geometry} material={materials.ot4} position={[5.797, 1.171, -1.729]} rotation={[1.309, 0, 0]} scale={0.143} />
+			<mesh geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[5.797, 1.171, -1.729]} rotation={[1.309, 0, 0]} scale={0.143} />
 			<mesh
 				geometry={nodes.OcculusController.geometry}
 				material={materials.iot1}

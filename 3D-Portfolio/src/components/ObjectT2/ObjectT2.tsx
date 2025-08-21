@@ -1,20 +1,19 @@
-import { Mesh } from "three";
+import { Material, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { useEffect } from "react";
 
 import MaterialCreator from "../../classes/MaterialCreator";
 
 const materialCreator = MaterialCreator.getInstance();
-const t2Material = materialCreator.createStandardMaterialFromTexture(
-	"ObjectT2",
-	{
-		diffuseT: "/baked-textures/Objects/T2/objects_t2_color.png",
-		roughnessT: "/baked-textures/Objects/T2/objects_t2_roughness.jpg",
-	},
-	true
-);
 
 const ObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT2: Mesh = nodes["object_t2"] as Mesh;
+	const t2Material = ObjectT2.material as Material;
+
+	useEffect(() => {
+		t2Material.alphaTest = 0.5;
+		materialCreator.addInstanciatedMaterial("T2Material", t2Material);
+	}, [t2Material]);
 
 	return (
 		<group name={name}>

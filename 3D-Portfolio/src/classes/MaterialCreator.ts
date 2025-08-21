@@ -11,16 +11,19 @@ import {
 	MeshLambertMaterial,
 	MeshPhongMaterial,
 	ShaderMaterial,
+	DoubleSide,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
+import { LinearSRGBColorSpace } from "three";
 
 type StandardTextureParams = {
 	diffuseT: string | Texture;
 	roughnessT?: string | Texture;
 	normalT?: string | Texture;
+	alphaT?: string | Texture;
 	aoT?: string | Texture;
 	displacementT?: string | Texture;
 	metallnessT?: string | Texture;
@@ -88,6 +91,11 @@ export default class MaterialCreator {
 
 		const normalTexture = textures.normalT ? (typeof textures.normalT === "string" ? this.textureLoader.load(textures.normalT) : textures.normalT) : undefined;
 
+		const alphaTexture = textures.alphaT ? (typeof textures.alphaT === "string" ? this.textureLoader.load(textures.alphaT) : textures.alphaT) : undefined;
+		if (alphaTexture) {
+			alphaTexture.colorSpace = LinearSRGBColorSpace;
+		}
+
 		const aoTexture = textures.aoT ? (typeof textures.aoT === "string" ? this.textureLoader.load(textures.aoT) : textures.aoT) : undefined;
 
 		const displacementTexture = textures.displacementT
@@ -106,6 +114,7 @@ export default class MaterialCreator {
 			map: diffuseTexture,
 			roughnessMap: roughnessTexture,
 			normalMap: normalTexture,
+			alphaMap: alphaTexture,
 			aoMap: aoTexture,
 			displacementMap: displacementTexture,
 			metalnessMap: metalnessTexture,

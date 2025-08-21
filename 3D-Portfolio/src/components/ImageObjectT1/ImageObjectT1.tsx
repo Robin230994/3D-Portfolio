@@ -10,7 +10,7 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			<mesh geometry={IObjectT1.geometry} position={IObjectT1.position} rotation={IObjectT1.rotation} material={iot1Material} scale={IObjectT1.scale} />
-			<OfficeChair name="Office-Chair" nodes={nodes} materials={{ iot1Material }} />
+			<OfficeChair name="Office-Chair" nodes={nodes} />
 		</group>
 	);
 };
