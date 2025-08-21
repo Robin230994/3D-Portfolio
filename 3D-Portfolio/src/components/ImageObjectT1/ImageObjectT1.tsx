@@ -3,6 +3,7 @@ import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { iot1Material } from "../../Helper/GLMaterials";
 
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
+import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
 
 const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const IObjectT1: Mesh = nodes["image_object_t1"] as Mesh;
@@ -11,6 +12,7 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		<group name={name}>
 			<mesh geometry={IObjectT1.geometry} position={IObjectT1.position} rotation={IObjectT1.rotation} material={iot1Material} scale={IObjectT1.scale} />
 			<OfficeChair name="Office-Chair" nodes={nodes} />
+			<OcculusQuest name="Occulus-Quest" nodes={nodes} />
 		</group>
 	);
 };
