@@ -1,9 +1,7 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
-import { useControls } from "leva";
 import { Group } from "three";
-import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 import { iot2Material } from "../../../Helper/GLMaterials";
 
 interface MusterboxUIProps extends IUIComponentProps {

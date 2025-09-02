@@ -32,6 +32,13 @@ const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
 });
 export { deskMaterial };
 
+const t3Material = materialCreator.createStandardMaterialFromTexture("ObjectT3", {
+	diffuseT: "/baked-textures/Objects/T3/objects_t3_color.png",
+	roughnessT: "/baked-textures/Objects/T3/objects_t3_roughness.jpg",
+	metallnessT: "/baked-textures/Objects/T3/objects_t3_metallic.jpg",
+});
+export { t3Material };
+
 const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Material", {
 	diffuseT: "/baked-textures/Objects/TI1/objects_ti1_color.jpg",
 	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",

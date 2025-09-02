@@ -23,7 +23,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectHovered } = myData;
+	const { name, nodes } = myData;
 	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
