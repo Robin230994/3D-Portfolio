@@ -12,6 +12,7 @@ import {
 	MeshPhongMaterial,
 	ShaderMaterial,
 	DoubleSide,
+	MeshPhysicalMaterial,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
@@ -127,6 +128,12 @@ export default class MaterialCreator {
 
 		this.storedMaterials.set(materialName, createdMaterial);
 		return createdMaterial;
+	}
+
+	public createEmptyPhysicalMaterial(materialName: string): MeshPhysicalMaterial {
+		const emptyPhysicalMaterial = new MeshPhysicalMaterial();
+		this.storedMaterials.set(materialName, emptyPhysicalMaterial);
+		return emptyPhysicalMaterial;
 	}
 
 	public createEmptyStandardMaterial(materialName: string): MeshStandardMaterial {

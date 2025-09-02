@@ -9,12 +9,21 @@ ColorManagement.enabled = true;
 
 const materialCreator = MaterialCreator.getInstance();
 
-const glassMaterial = materialCreator.createEmptyStandardMaterial("Glass");
+const glassMaterial = materialCreator.createEmptyPhysicalMaterial("Glass");
 glassMaterial.color = new Color("#ffffff");
+glassMaterial.transparent = true;
+glassMaterial.transmission = 1;
+glassMaterial.opacity = 1;
 glassMaterial.roughness = 0;
 glassMaterial.metalness = 0;
-glassMaterial.opacity = 0.3;
-glassMaterial.transparent = true;
+glassMaterial.thickness = 0.2;
+glassMaterial.ior = 1.5;
+glassMaterial.specularIntensity = 1;
+glassMaterial.specularColor = new Color("#ffffff");
+glassMaterial.envMapIntensity = 1;
+glassMaterial.clearcoat = 1;
+glassMaterial.clearcoatRoughness = 0;
+
 glassMaterial.normalScale = new Vector2(1, -1);
 export { glassMaterial };
 
@@ -28,7 +37,14 @@ const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Mate
 	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",
 });
 iot1Material.transparent = true;
+iot1Material.side = DoubleSide;
 export { iot1Material };
+
+const iot2Material = materialCreator.createStandardMaterialFromTexture("iot2Material", {
+	diffuseT: "/baked-textures/Objects/TI2/objects_ti2_color.png",
+	roughnessT: "/baked-textures/Objects/TI2/objects_ti2_roughness.jpg",
+});
+export { iot2Material };
 
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");
 blackPlasticMaterial.color = new Color("#000000");
@@ -41,7 +57,7 @@ metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
 export { metalMaterial };
 
-const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Filling/perlin-noise-coffee.png", (loadedTexture) => {
+const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Objects/TI1/perlin-noise-texture.png", (loadedTexture) => {
 	loadedTexture.wrapS = RepeatWrapping;
 	loadedTexture.wrapT = RepeatWrapping;
 	loadedTexture.needsUpdate = true;

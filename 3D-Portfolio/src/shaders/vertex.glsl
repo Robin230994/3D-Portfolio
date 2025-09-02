@@ -10,17 +10,17 @@ void main() {
     vec3 newPosition = position;
 
     //Twist
-    float twistPerlin = texture(uPerlinTexture, vec2(0.5, uv.y * 0.2 - uTime * 0.005)).r; 
-    float angle = twistPerlin * 10.0;
+    float swirl = texture(uPerlinTexture, vec2(uv.y * 0.5, uTime * 0.05)).r;
+    float angle = (swirl - 0.5) * 0.6 * uv.y; 
     newPosition.xz = rotate2D(newPosition.xz, angle);
 
 
     // Wind
     vec2 windOffset = vec2(
-        texture(uPerlinTexture, vec2(0.25, uTime * 0.01)).r -0.5,
-        texture(uPerlinTexture, vec2(0.75, uTime * 0.01)).r -0.5
+        texture(uPerlinTexture, vec2(0.2, uTime * 0.02)).r - 0.5,
+        texture(uPerlinTexture, vec2(0.8, uTime * 0.02)).r - 0.5
     );
-    windOffset *= pow(uv.y, 3.0) * 5.0;
+    windOffset *= pow(uv.y, 2.0) * 0.05; // much smaller than before
     newPosition.xz += windOffset;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);

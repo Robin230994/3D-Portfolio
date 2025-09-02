@@ -1,21 +1,12 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { Color, Mesh, MeshPhongMaterial, Object3D } from "three";
+import { Color, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { DirectionalLight } from "three";
-import { blackPlasticMaterial, deskMaterial, glassMaterial, metalMaterial } from "../../../Helper/GLMaterials";
-import { Select } from "@react-three/postprocessing";
+import { glassMaterial, metalMaterial } from "../../../Helper/GLMaterials";
 import { Group } from "three";
+import { useControls } from "leva";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
-import MaterialCreator from "../../../classes/MaterialCreator";
-import HoverLabel from "../../HoverLabel/HoverLabel";
-
-const materialCreator = MaterialCreator.getInstance();
-const bambuMaterial = materialCreator.createEmptyPhongMaterial("BambuLab");
-bambuMaterial.color = new Color("#909090");
-bambuMaterial.specular = new Color("#666");
-bambuMaterial.reflectivity = 1;
-bambuMaterial.shininess = 50;
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
@@ -36,47 +27,74 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
-	const BambuLab: Mesh = nodes["bambu-lab-x1c"] as Mesh;
-	const BambuLabFrontDoor: Mesh = nodes["bambuLabFrontDoor"] as Mesh;
-	const BambuLabAMS: Mesh = nodes["bambuLabAMS"] as Mesh;
-	const BambuLabAMSTop: Mesh = nodes["bambuLabAMSTop"] as Mesh;
-	const BambuLabUI: Mesh = nodes["bambu-lab-x1c-ui"] as Mesh;
-	const BambuLabUIDisplay: Mesh = nodes["bambu-lab-x1c-ui-display"] as Mesh;
-	const BambuLabRods: Mesh = nodes["bambu-lab-x1c--nozzle-rods"] as Mesh;
-	const BambuLabNozzle: Mesh = nodes["bambu-lab-x1c-nozzle"] as Mesh;
-	const BambuLabNozzleSpike: Mesh = nodes["bambu-lab-x1c-nozzle-spike"] as Mesh;
-	const BambuLabNozzleHole: Mesh = nodes["bambu-lab-x1c-nozzle-hole"] as Mesh;
-	const BambuLabLogo: Mesh = nodes["bambu-lab-x1c-logo"] as Mesh;
-	const PLAMaterialRoll: Mesh = nodes["PLARollHolder"] as Mesh;
-	const PLAMaterial: Mesh = nodes["PLARoll"] as Mesh;
+	const BambuLabAMSOpener: Mesh = nodes["BambuLabAMSOpener"] as Mesh;
+	const BambuLabDoor: Mesh = nodes["BambuLabDoor"] as Mesh;
+	const PLAMaterialHolder: Mesh = nodes["PLAMaterialRollHolder"] as Mesh;
+	const PLARollMaterial: Mesh = nodes["PLARollMaterial"] as Mesh;
 
-	const plaMaterialRollInstances = [
-		{ position: [-2.759, 2.769, 2.466] as [number, number, number], rotation: [0, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-2.99, 2.769, 2.466] as [number, number, number], rotation: [0, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-3.217, 2.769, 2.466] as [number, number, number], rotation: [0, 0, -Math.PI / 2] as [number, number, number] },
-		{ position: [-3.446, 2.769, 2.466] as [number, number, number], rotation: [0, 0, -Math.PI / 2] as [number, number, number] },
+	const { matHolder1Pos, matHolder2Pos, matHolder3Pos, matHolder4Pos, matHolderRot } = useControls("AMSMaterialHolder", {
+		matHolder1Pos: { value: { x: -2.75, y: 2.8, z: 2.45 }, step: 0.01 },
+		matHolder2Pos: { value: { x: -2.97, y: 2.8, z: 2.45 }, step: 0.01 },
+		matHolder3Pos: { value: { x: -3.21, y: 2.8, z: 2.45 }, step: 0.01 },
+		matHolder4Pos: { value: { x: -3.44, y: 2.8, z: 2.45 }, step: 0.01 },
+		matHolderRot: { value: { x: 0, y: 0, z: -Math.PI / 2 } },
+	});
+
+	const { rollMat1Pos, rollMat2Pos, rollMat3Pos, rollMat4Pos, rollMatRot } = useControls("AMSRollMaterial", {
+		rollMat1Pos: { value: { x: -2.75, y: 2.8, z: 2.44 }, step: 0.01 },
+		rollMat2Pos: { value: { x: -2.975, y: 2.8, z: 2.44 }, step: 0.001 },
+		rollMat3Pos: { value: { x: -3.205, y: 2.8, z: 2.44 }, step: 0.001 },
+		rollMat4Pos: { value: { x: -3.435, y: 2.8, z: 2.44 }, step: 0.001 },
+		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
+	});
+
+	const plaMaterialHolderInstances = [
+		{
+			position: [matHolder1Pos.x, matHolder1Pos.y, matHolder1Pos.z] as [number, number, number],
+			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+			scale: [0.8, 0.8, 0.8] as [number, number, number],
+		},
+		{
+			position: [matHolder2Pos.x, matHolder2Pos.y, matHolder2Pos.z] as [number, number, number],
+			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+			scale: [0.8, 0.8, 0.8] as [number, number, number],
+		},
+		{
+			position: [matHolder3Pos.x, matHolder3Pos.y, matHolder3Pos.z] as [number, number, number],
+			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+			scale: [0.8, 0.8, 0.8] as [number, number, number],
+		},
+		{
+			position: [matHolder4Pos.x, matHolder4Pos.y, matHolder4Pos.z] as [number, number, number],
+			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+			scale: [0.8, 0.8, 0.8] as [number, number, number],
+		},
 	];
 
-	const plaMaterialInstances = [
+	const plaRollMaterialInstances = [
 		{
-			position: [-2.759, 2.269, 2.375] as [number, number, number],
-			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
-			color: new Color("green"),
+			position: [rollMat1Pos.x, rollMat1Pos.y, rollMat1Pos.z] as [number, number, number],
+			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+			scale: [1, 1, 1] as [number, number, number],
+			color: new Color("#ffffff"),
 		},
 		{
-			position: [-2.99, 2.269, 2.375] as [number, number, number],
-			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
-			color: new Color("red"),
+			position: [rollMat2Pos.x, rollMat2Pos.y, rollMat2Pos.z] as [number, number, number],
+			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+			scale: [1, 1, 1] as [number, number, number],
+			color: new Color("#000000"),
 		},
 		{
-			position: [-3.217, 2.269, 2.375] as [number, number, number],
-			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
-			color: new Color("white"),
+			position: [rollMat3Pos.x, rollMat3Pos.y, rollMat3Pos.z] as [number, number, number],
+			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+			scale: [1, 1, 1] as [number, number, number],
+			color: new Color("#8b0000"),
 		},
 		{
-			position: [-3.446, 2.269, 2.375] as [number, number, number],
-			rotation: [Math.PI / 2, 0, -Math.PI / 2] as [number, number, number],
-			color: new Color("black"),
+			position: [rollMat4Pos.x, rollMat4Pos.y, rollMat4Pos.z] as [number, number, number],
+			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+			scale: [1, 1, 1] as [number, number, number],
+			color: new Color("#00008b"),
 		},
 	];
 
@@ -93,106 +111,29 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 						handleClickedTarget(bambuLabRef.current);
 					}
 				}}>
-				{/** BambuLab Printer */}
-				<mesh geometry={BambuLab.geometry} position={[-2.564, 1.624, 2.522]} rotation={BambuLab.rotation} scale={BambuLab.scale} material={bambuMaterial}>
-					<HoverLabel visible={selectObjectHovered["BambuLab"] === true}>Bambu Lab X1C</HoverLabel>
-				</mesh>
-
-				{/** BambuLab Logo on Printer */}
+				{/** AMS Opener */}
 				<mesh
-					geometry={BambuLabLogo.geometry}
-					position={BambuLabLogo.position}
-					rotation={BambuLabLogo.rotation}
-					scale={BambuLabLogo.scale}
-					material={blackPlasticMaterial}
-				/>
-
-				{/** BambuLab UI */}
-				<mesh
-					geometry={BambuLabUI.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabUI.rotation}
-					scale={BambuLabUI.scale}
-					material={bambuMaterial}
-				/>
-
-				{/** BambuLab UI Touchscreen */}
-				<mesh
-					geometry={BambuLabUIDisplay.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabUIDisplay.rotation}
-					scale={BambuLabUIDisplay.scale}
-					material={blackPlasticMaterial}
-				/>
-
-				{/** BambuLab Nozzle housing*/}
-				<mesh
-					geometry={BambuLabNozzle.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabNozzle.rotation}
-					scale={BambuLabNozzle.scale}
-					material={deskMaterial}
-				/>
-
-				{/** BambuLab Nozzle spike */}
-				{/* <mesh
-					geometry={BambuLabNozzleSpike.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabNozzleSpike.rotation}
-					scale={BambuLabNozzleSpike.scale}
-					material={goldMetalMaterial}
-				/> */}
-
-				{/** BambuLab Nozzle housing hole */}
-				<mesh
-					geometry={BambuLabNozzleHole.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabNozzleHole.rotation}
-					scale={BambuLabNozzleHole.scale}
-					material={blackPlasticMaterial}
-				/>
-
-				{/** BambuLab Front Door */}
-				<mesh
-					geometry={BambuLabFrontDoor.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabFrontDoor.rotation}
-					scale={BambuLabFrontDoor.scale}
+					geometry={BambuLabAMSOpener.geometry}
+					position={BambuLabAMSOpener.position}
+					rotation={BambuLabAMSOpener.rotation}
 					material={glassMaterial}
+					scale={BambuLabAMSOpener.scale}
 				/>
 
-				{/** BambuLab Nozzle rods */}
+				{/** BambuLab Door */}
 				<mesh
-					geometry={BambuLabRods.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabRods.rotation}
-					scale={BambuLabRods.scale}
-					material={metalMaterial}
-				/>
-
-				{/** BambuLab AMS */}
-				<mesh
-					geometry={BambuLabAMS.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabAMS.rotation}
-					scale={BambuLabAMS.scale}
-					material={blackPlasticMaterial}
-				/>
-
-				{/** BambuLab AMS Opener door */}
-				<mesh
-					geometry={BambuLabAMSTop.geometry}
-					position={[-2.985, 2.243, 2.234]}
-					rotation={BambuLabAMSTop.rotation}
-					scale={BambuLabAMSTop.scale}
+					geometry={BambuLabDoor.geometry}
+					position={BambuLabDoor.position}
+					rotation={BambuLabDoor.rotation}
 					material={glassMaterial}
+					scale={BambuLabDoor.scale}
 				/>
 
-				{/** BambuLab Materials Rolls */}
-				<InstantiatedMesh geometry={PLAMaterialRoll.geometry} material={metalMaterial} instance={plaMaterialRollInstances} />
+				{/** PLA Material holder */}
+				<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLAMaterialHolder.geometry} material={metalMaterial} />
 
-				{/** BambuLab Material on Rolls */}
-				<InstantiatedMesh geometry={PLAMaterial.geometry} material={new MeshPhongMaterial()} instance={plaMaterialInstances} name="PLAMaterial" />
+				{/** PLA Roll Material */}
+				<InstantiatedMesh name="PLARollMaterial" instance={plaRollMaterialInstances} geometry={PLARollMaterial.geometry} material={new MeshBasicMaterial()} />
 			</group>
 			{/* </Select> */}
 		</React.Fragment>

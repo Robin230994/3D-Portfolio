@@ -19,7 +19,7 @@ import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
-	const officeModel = useLoader(GLTFLoader, "./offiice-room-new.glb", (loader) => {
+	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
 		loader.setDRACOLoader(dracoLoader);

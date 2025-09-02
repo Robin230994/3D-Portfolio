@@ -25,7 +25,13 @@ void main() {
     smoke *= smoothstep(0.0, 0.1, vUv.y);
     smoke *= smoothstep(1.0, 0.9, vUv.y);
 
-    gl_FragColor = vec4(1, 1, 1, smoke);
+    vec3 warmColor = vec3(0.9, 0.85, 0.8);  // near coffee (slightly warm)
+    vec3 coolColor = vec3(1.0, 1.0, 1.0);   // further up (pure steam)
+    vec3 smokeColor = mix(warmColor, coolColor, vUv.y);
+
+    float alpha = smoke * 0.6; 
+
+    gl_FragColor = vec4(smokeColor, alpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
