@@ -1,8 +1,6 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { DirectionalLight, DoubleSide, Mesh } from "three";
-import { blackPlasticMaterial, iot2Material } from "../../../Helper/GLMaterials";
-import MaterialCreator from "../../../classes/MaterialCreator";
+import { DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
 import { Group } from "three";
 
@@ -25,6 +23,22 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
 	const MusterboxLasche: Mesh = nodes["MusterboxLasche"] as Mesh;
+	// const Musterbox01: Mesh = nodes["MusterboxBox01"] as Mesh;
+
+	// console.log(Musterbox01.position);
+	// console.log(Musterbox01.rotation);
+
+	const { musterbox01Pos, musterboxRot } = useControls("Musterboxes", {
+		musterbox01Pos: { value: { x: 0, y: 0.0, z: 0 }, step: 0.01 },
+		musterboxRot: { value: { x: 0, y: 0, z: 0 }, step: 0.01 },
+	});
+
+	const musterboxesInstance = [
+		{
+			position: [musterbox01Pos.x, musterbox01Pos.y, musterbox01Pos.z] as [number, number, number],
+			rotation: [musterboxRot.x, musterboxRot.y, musterboxRot.z] as [number, number, number],
+		},
+	];
 
 	return (
 		<group name={name}>

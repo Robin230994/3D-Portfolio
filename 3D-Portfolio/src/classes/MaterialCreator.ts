@@ -11,14 +11,13 @@ import {
 	MeshLambertMaterial,
 	MeshPhongMaterial,
 	ShaderMaterial,
-	DoubleSide,
 	MeshPhysicalMaterial,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
+import { LinearSRGBColorSpace } from "three";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
-import { LinearSRGBColorSpace } from "three";
 
 type StandardTextureParams = {
 	diffuseT: string | Texture;
@@ -171,7 +170,7 @@ export default class MaterialCreator {
 		this.storedMaterials.set(materialName, material);
 	}
 
-	public getStoredMaterial(): Map<string, Material> {
+	public getStoredMaterials(): Map<string, Material> {
 		return this.storedMaterials;
 	}
 

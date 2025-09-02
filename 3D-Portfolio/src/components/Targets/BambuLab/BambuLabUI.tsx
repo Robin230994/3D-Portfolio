@@ -100,7 +100,6 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 
 	return (
 		<React.Fragment>
-			{/* <Select enabled={selectObjectHovered["BambuLab"] === true}> */}
 			<group
 				name={name}
 				ref={bambuLabRef}
