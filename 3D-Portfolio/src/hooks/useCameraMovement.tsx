@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { Euler, Vector3 } from "three";
+import { Euler, Quaternion, Vector3 } from "three";
 import { useFocusContext } from "./useFocusContext";
 import { useControls } from "leva";
 import { useRef, useState } from "react";
@@ -26,9 +26,8 @@ const useCameraMovement = () => {
 	const { selectObjectFocus } = useFocusContext();
 	const { camera, pointer, invalidate } = useThree();
 
-	const targetRotation = useRef(new Euler());
-	console.log(camera.rotation);
-	const currentRotation = useRef(new Euler().copy(camera.rotation));
+	const targetQuaternion = useRef(new Quaternion());
+	const currentQuaternion = useRef(new Quaternion());
 
 	// const { maxAzimuth, minAzimuth, maxPolar, minPolar } = useControls("CameraMovement", {
 	// 	maxAzimuth: { value: Math.PI / 6, step: 0.01 },
@@ -76,26 +75,24 @@ const useCameraMovement = () => {
 		}
 		//if (needsInvalidate) invalidate();
 	});
-
 	const listenToMouseMovement = () => {
-		// normalize pointer (-1..1 → 0..1)
 		const xNorm = (pointer.x + 1) / 2;
 		const yNorm = (pointer.y + 1) / 2;
 
-		// horizontal rotation (360° azimuth)
-		const azimuth = MathUtils.lerp(-Math.PI, Math.PI, -xNorm);
+		// Target rotations in Euler
+		const targetEuler = new Euler(
+			MathUtils.lerp(-Math.PI / 3, Math.PI / 3, yNorm), // pitch (X)
+			MathUtils.lerp(-Math.PI, Math.PI, -xNorm), // yaw (Y)
+			0, // roll (Z)
+			"YXZ"
+		);
 
-		// vertical rotation (polar, e.g. -60°..60°)
-		const polar = MathUtils.lerp(-Math.PI / 3, Math.PI / 3, yNorm);
+		targetQuaternion.current.setFromEuler(targetEuler);
 
-		// apply directly to camera rotation
-		targetRotation.current.set(polar, azimuth, 0, "YXZ"); // Y = horizontal, X = vertical
+		// Smoothly slerp from current rotation to target
+		currentQuaternion.current.slerp(targetQuaternion.current, CAMERA_DAMPING);
 
-		currentRotation.current.x = MathUtils.lerp(currentRotation.current.x, targetRotation.current.x, CAMERA_DAMPING);
-		currentRotation.current.y = MathUtils.lerp(currentRotation.current.y, targetRotation.current.y, CAMERA_DAMPING);
-		currentRotation.current.z = MathUtils.lerp(currentRotation.current.z, targetRotation.current.z, CAMERA_DAMPING);
-
-		camera.rotation.copy(currentRotation.current);
+		camera.quaternion.copy(currentQuaternion.current);
 	};
 };
 
