@@ -46,8 +46,8 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				</mesh>
 			</mesh>
 
-			<OfficeChair name="Office-Chair" nodes={nodes} />
-			<OcculusQuest name="Occulus-Quest" nodes={nodes} />
+			{/* <OfficeChair name="OfficeChair" nodes={nodes} /> */}
+			<OcculusQuest name="OcculusQuest" nodes={nodes} />
 		</group>
 	);
 };

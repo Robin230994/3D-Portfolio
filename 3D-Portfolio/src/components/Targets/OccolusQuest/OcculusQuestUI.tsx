@@ -4,7 +4,7 @@ import MaterialCreator from "../../../classes/MaterialCreator";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh, Object3D, Group, Vector3, Texture } from "three";
 import { Select } from "@react-three/postprocessing";
-import HoverLabel from "../../HoverLabel/HoverLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { useControls } from "leva";
 
 const materialCreator = MaterialCreator.getInstance();
@@ -12,9 +12,17 @@ const normalTOH = materialCreator.loadTexture("/baked-textures/Objects/TI1/objec
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectFocus: { name: string; object: Object3D } | null;
+			};
+		};
 		functions: {
-			myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void; handleClickedTarget: (targetObject: Object3D) => void };
+			myFunctions: {
+				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+			};
 		};
 		refs: { myRefs: { occulusRef: RefObject<Group> } };
 	};
@@ -25,8 +33,8 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectHovered } = myData;
-	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
+	const { name, nodes, selectObjectFocus } = myData;
+	const { setSelectObjectFocus } = myFunctions;
 	const { occulusRef } = myRefs;
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
@@ -43,11 +51,9 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 		<group
 			ref={occulusRef}
 			name={name}
-			onPointerOver={() => setSelectObjectHovered({ Occulus: true })}
-			onPointerOut={() => setSelectObjectHovered({ Occulus: false })}
 			onClick={() => {
 				if (occulusRef.current) {
-					handleClickedTarget(occulusRef.current!);
+					setSelectObjectFocus({ name: name, object: occulusRef.current });
 				}
 			}}>
 			<mesh

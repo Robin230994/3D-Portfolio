@@ -13,8 +13,6 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 
 const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myData } = props.data;
-	const { myFunctions } = props.functions;
-	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
 

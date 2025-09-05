@@ -2,20 +2,19 @@ import React, { useRef } from "react";
 import OcculusQuestUI from "./OcculusQuestUI";
 
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useHoverContext } from "../../../hooks/useHoverContext";
+import { useFocusContext } from "../../../hooks/useFocusContext";
 import { Group } from "three";
 
-import useCameraMovement from "../../../hooks/useCameraControlsMovement";
+import useCameraMovement from "../../../hooks/useCameraMovement";
 
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
-	const { selectObjectHovered, setSelectObjectHovered } = useHoverContext();
-	const { handleClickedTarget } = useCameraMovement(cameraControls!);
+	const { selectObjectFocus, setSelectObjectFocus } = useFocusContext();
 
 	const occulusRef = useRef<Group>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name: name, nodes: nodes, selectObjectHovered: selectObjectHovered } },
-		functions: { myFunctions: { setSelectObjectHovered, handleClickedTarget } },
+		data: { myData: { name, nodes, selectObjectFocus } },
+		functions: { myFunctions: { setSelectObjectFocus } },
 		refs: { myRefs: { occulusRef } },
 	};
 	return <OcculusQuestUI props={uiComponentProps} />;

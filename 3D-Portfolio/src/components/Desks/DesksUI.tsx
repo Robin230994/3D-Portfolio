@@ -1,7 +1,6 @@
-import React, { RefObject, useEffect } from "react";
+import React, { useEffect } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { BoxGeometry, DirectionalLight, Material, Mesh } from "three";
-import { CameraControls } from "@react-three/drei";
 import { useControls } from "leva";
 import { iot1Material } from "../../Helper/GLMaterials";
 import MaterialCreator from "../../classes/MaterialCreator";
@@ -18,7 +17,7 @@ interface DesksUIProps extends IUIComponentProps {
 			};
 		};
 		functions: { myFunctions: object };
-		refs: { myRefs: { cameraControls: RefObject<CameraControls> } };
+		refs: { myRefs: object };
 	};
 }
 
@@ -27,7 +26,6 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
-	const { cameraControls } = myRefs;
 
 	const DeskObjects: Mesh = nodes["desk_objects_t1"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;

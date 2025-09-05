@@ -1,12 +1,11 @@
-import { AdaptiveDpr, BakeShadows, CameraControls, Center, Environment, OrbitControls } from "@react-three/drei";
+import { AdaptiveDpr, CameraControls, Center, Environment } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { EffectComposer, Outline, Selection } from "@react-three/postprocessing";
 import { GLTFResult } from "../types/GLTypes";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
-import { useHoverContext } from "../hooks/useHoverContext";
+import { useFocusContext } from "../hooks/useFocusContext";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -27,17 +26,16 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	/** Nodes / Meshes */
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
-	const { nodes, materials } = officeModel as unknown as GLTFResult;
+	const { nodes } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
 
 	/** REFS */
-	const cameraControlsRef = useRef<CameraControls>(null);
 
 	/** HOOKS */
 
 	/** Contexts */
-	const { isAnyHovered } = useHoverContext();
+	const { isAnyFocused } = useFocusContext();
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -62,16 +60,16 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
 
-	useEffect(() => {
-		const switchCursorStyle = () => {
-			if (isAnyHovered === true) {
-				document.body.style.cursor = "pointer";
-			} else {
-				document.body.style.cursor = "default";
-			}
-		};
-		switchCursorStyle();
-	}, [isAnyHovered]);
+	// useEffect(() => {
+	// 	const switchCursorStyle = () => {
+	// 		if (isAnyHovered === true) {
+	// 			document.body.style.cursor = "pointer";
+	// 		} else {
+	// 			document.body.style.cursor = "default";
+	// 		}
+	// 	};
+	// 	switchCursorStyle();
+	// }, [isAnyHovered]);
 
 	return (
 		<>
@@ -79,10 +77,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			<CameraController isDebugMode={isDebugMode} ref={cameraControlsRef} />
-
-			{/* bake shadows for performance */}
-			<BakeShadows />
+			<CameraController isDebugMode={isDebugMode} />
 
 			<Environment
 				background={true}
@@ -99,13 +94,8 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					<Foundation name="Foundation" nodes={nodes} />
 
 					{/************ All objects inside the room ************/}
-					{/* <Selection> */}
-					{/* <EffectComposer multisampling={0} autoClear={false}>
-							<Outline blur={false} visibleEdgeColor={0xff0000} edgeStrength={2} width={window.devicePixelRatio < 2 ? 512 : 1024} />
-						</EffectComposer> */}
-
 					<group name="objects">
-						<Desks name="Desks" nodes={nodes} cameraControls={cameraControlsRef} />
+						<Desks name="Desks" nodes={nodes} />
 						<ObjectT1 name="ObjectT1" nodes={nodes} />
 						<ObjectT2 name="ObjectT2" nodes={nodes} />
 						<ObjectT3 name="ObjectT3" nodes={nodes} />
@@ -116,8 +106,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} />
 						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
 					</group>
-
-					{/* </Selection> */}
 				</group>
 			</Center>
 		</>

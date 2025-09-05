@@ -10,9 +10,11 @@ import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectFocus: { name: string; object: Object3D } | null } };
 		functions: {
-			myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void; handleClickedTarget: (targetObject: Object3D) => void };
+			myFunctions: {
+				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+			};
 		};
 		refs: { myRefs: { bambuLabRef: RefObject<Group> } };
 	};
@@ -24,7 +26,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
-	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
+	const { setSelectObjectFocus } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
 	const BambuLabAMSOpener: Mesh = nodes["BambuLabAMSOpener"] as Mesh;
@@ -103,11 +105,9 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 			<group
 				name={name}
 				ref={bambuLabRef}
-				onPointerOver={() => setSelectObjectHovered({ BambuLab: true })}
-				onPointerLeave={() => setSelectObjectHovered({ BambuLab: false })}
 				onClick={() => {
 					if (bambuLabRef.current) {
-						handleClickedTarget(bambuLabRef.current);
+						setSelectObjectFocus({ name: name, object: bambuLabRef.current });
 					}
 				}}>
 				{/** AMS Opener */}

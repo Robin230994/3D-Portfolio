@@ -1,26 +1,18 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { DirectionalLight, DoubleSide, Group, Mesh } from "three";
-import { Select } from "@react-three/postprocessing";
-import MaterialCreator from "../../../classes/MaterialCreator";
-import { CameraControls } from "@react-three/drei";
+import { DirectionalLight, Group, Mesh } from "three";
 import { Object3D } from "three";
 import { useControls } from "leva";
-import HoverLabel from "../../HoverLabel/HoverLabel";
 import { iot2Material } from "../../../Helper/GLMaterials";
-
-const materialCreator = MaterialCreator.getInstance();
-
-const fcBoxDividerMaterial = materialCreator.createStandardMaterialFromTexture("FCBoxDivider", {
-	diffuseT: "/baked-textures/FC_Box/fc_box_divider_baked_color.webp",
-});
-fcBoxDividerMaterial.side = DoubleSide;
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectHovered: { [name: string]: boolean } } };
+		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectFocus: { name: string; object: Object3D } | null } };
 		functions: {
-			myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void; handleClickedTarget: (targetObject: Object3D) => void };
+			myFunctions: {
+				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+			};
 		};
 		refs: { myRefs: { fcBoxRef: RefObject<Group> } };
 	};
@@ -31,33 +23,42 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectHovered } = myData;
-	const { setSelectObjectHovered, handleClickedTarget } = myFunctions;
+	const { name, nodes, selectObjectFocus } = myData;
+	const { setSelectObjectFocus } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
 
-	const { fcBoxPos } = useControls("FCBox", {
-		fcBoxPos: { value: { x: 0.552, y: 2.297, z: -2.1 }, step: 0.001 },
+	const { backLabelPos } = useControls("FCBoxLabel", {
+		backLabelPos: { value: { x: 0, y: 0, z: 0 }, step: 0.001 },
 	});
 
 	return (
 		<React.Fragment>
-			{/* <Select enabled={selectObjectHovered["FCBox"] === true}> */}
 			<group
 				name={name}
 				ref={fcBoxRef}
-				onPointerOver={() => setSelectObjectHovered({ FCBox: true })}
-				onPointerOut={() => setSelectObjectHovered({ FCBox: false })}
-				onClick={() => {
+				onClick={(e) => {
 					if (fcBoxRef.current) {
-						handleClickedTarget(fcBoxRef.current);
+						setSelectObjectFocus({ name: name, object: fcBoxRef.current });
 					}
 				}}>
-				<mesh geometry={FCBoxTop.geometry} position={FCBoxTop.position} rotation={FCBoxTop.rotation} material={iot2Material} scale={FCBoxTop.scale} />
-				{/* <HoverLabel visible={selectObjectHovered["FCBox"] === true}>Franconian Coolness Box</HoverLabel> */}
+				<group>
+					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
+						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
+							{/* <Html wrapperClass="hover-label" position={[backLabelPos.x, backLabelPos.y, backLabelPos.z]} occlude={false} center>
+								<button onClick={moveToLatestCameraPos}>Back</button>
+							</Html> */}
+							<InteractionLabel
+								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+								visible={selectObjectFocus !== null}
+								dispatch={() => setSelectObjectFocus(null)}>
+								Back
+							</InteractionLabel>
+						</mesh>
+					</group>
+				</group>
 			</group>
-			{/* </Select> */}
 		</React.Fragment>
 	);
 };

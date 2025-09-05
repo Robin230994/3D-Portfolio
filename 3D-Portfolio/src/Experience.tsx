@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
-import { SelectObjectProvider } from "./Helper/Provider/SelectObjectProvider";
+import { FocusContextProvider } from "./Helper/Provider/FocusContextProvider";
 
 import Portfolio from "./components/Portfolio";
 
@@ -9,12 +9,12 @@ const Experience = () => {
 	const isDebugMode = urlParams.has("debug");
 	return (
 		<>
-			<SelectObjectProvider>
+			<FocusContextProvider>
 				<Leva hidden={!isDebugMode} />
-				<Canvas performance={{ min: 0.35, max: 1, debounce: 300 }} gl={{ antialias: false }} shadows>
+				<Canvas frameloop="demand" performance={{ min: 0.35, max: 1, debounce: 300 }} gl={{ antialias: false }} shadows>
 					<Portfolio isDebugMode={isDebugMode} />
 				</Canvas>
-			</SelectObjectProvider>
+			</FocusContextProvider>
 		</>
 	);
 };

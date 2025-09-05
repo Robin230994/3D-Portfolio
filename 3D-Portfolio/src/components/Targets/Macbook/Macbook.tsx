@@ -1,13 +1,13 @@
 import React from "react";
 import MacbookUI from "./MacbookUI";
-import useCameraMovement from "../../../hooks/useCameraControlsMovement";
+import useCameraMovement from "../../../hooks/useCameraMovement";
 
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useHoverContext } from "../../../hooks/useHoverContext";
+import { useHoverContext } from "../../../hooks/useFocusContext";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
-	const { selectObjectHovered, setSelectObjectHovered } = useHoverContext();
-	const { handleClickedTarget } = useCameraMovement(cameraControls!);
+	const { selectObjectFocus: selectObjectHovered, setSelectObjectFocus: setSelectObjectHovered } = useHoverContext();
+	const { handleClickedTarget } = useCameraMovement();
 
 	const uiComponentProps = {
 		data: {

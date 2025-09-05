@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import MusterboxUI from "./MusterboxUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group } from "three";
-import { useHoverContext } from "../../../hooks/useHoverContext";
+import { useHoverContext } from "../../../hooks/useFocusContext";
 
 const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { setSelectObjectHovered } = useHoverContext();
+	const { setSelectObjectFocus: setSelectObjectHovered } = useHoverContext();
 	const musterboxRef = useRef<Group>(null);
 
 	const uiComponentProps = {

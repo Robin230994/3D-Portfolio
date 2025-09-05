@@ -1,21 +1,20 @@
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useHoverContext } from "../../../hooks/useHoverContext";
+import { useFocusContext } from "../../../hooks/useFocusContext";
 
 import React, { useRef } from "react";
 import FCBoxUI from "./FCBoxUI";
-import useCameraMovement from "../../../hooks/useCameraControlsMovement";
+import useCameraMovement from "../../../hooks/useCameraMovement";
 import { Object3D } from "three";
 import { Group } from "three";
 
 const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
-	const { selectObjectHovered, setSelectObjectHovered } = useHoverContext();
-	const { handleClickedTarget } = useCameraMovement(cameraControls!);
+	const { selectObjectFocus, setSelectObjectFocus } = useFocusContext();
 
 	const fcBoxRef = useRef<Group | null>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name: name, nodes: nodes, selectObjectHovered: selectObjectHovered } },
-		functions: { myFunctions: { setSelectObjectHovered, handleClickedTarget } },
+		data: { myData: { name: name, nodes: nodes, selectObjectFocus: selectObjectFocus } },
+		functions: { myFunctions: { setSelectObjectFocus } },
 		refs: { myRefs: { fcBoxRef } },
 	};
 	return <FCBoxUI props={uiComponentProps} />;

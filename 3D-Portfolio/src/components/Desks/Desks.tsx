@@ -1,7 +1,7 @@
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import DesksUI from "./DesksUI";
 
-const Desks: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
+const Desks: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const uiComponentProps = {
 		data: {
 			myData: {
@@ -10,7 +10,7 @@ const Desks: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
 			},
 		},
 		functions: { myFunctions: {} },
-		refs: { myRefs: { cameraControls: cameraControls! } },
+		refs: { myRefs: {} },
 	};
 
 	return <DesksUI props={uiComponentProps} />;

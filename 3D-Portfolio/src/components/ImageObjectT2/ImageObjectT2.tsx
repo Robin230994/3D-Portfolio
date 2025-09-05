@@ -11,8 +11,8 @@ const ImageObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			<mesh geometry={IObjectT2.geometry} position={IObjectT2.position} rotation={IObjectT2.rotation} material={iot2Material} scale={IObjectT2.scale} />
-			<FCBox name="Franconian-Coolness-Box" nodes={nodes} />
-			<Musterbox name="Musterbox" nodes={nodes} />
+			<FCBox name="FCBox" nodes={nodes} />
+			{/* <Musterbox name="Musterbox" nodes={nodes} /> */}
 		</group>
 	);
 };

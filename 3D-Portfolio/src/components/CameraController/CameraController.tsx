@@ -1,58 +1,38 @@
-import { CameraControls, OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
-import { CameraHelper, PerspectiveCamera as TPerspectiveCamera } from "three";
+import React, { useEffect, useRef } from "react";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { PerspectiveCamera as TPerspectiveCamera } from "three";
 import { useControls } from "leva";
-import { forwardRef, MutableRefObject, RefObject, useEffect, useRef } from "react";
-import ACTION from "camera-controls";
-import useCameraMovement from "../../hooks/useCameraControlsMovement";
+import useCameraMovement from "../../hooks/useCameraMovement";
 
 interface CameraControllerProps {
 	isDebugMode: boolean;
 }
 
-const CameraController = forwardRef<CameraControls, CameraControllerProps>(({ isDebugMode }, ref) => {
+const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 	const cameraRef = useRef<TPerspectiveCamera>(null);
+	useCameraMovement();
 
-	useHelper(cameraRef as MutableRefObject<TPerspectiveCamera>, CameraHelper);
-	useCameraMovement(ref as RefObject<CameraControls>);
-
-	const { minDistance, maxDistance, smoothTime, cameraPos, cameraTarget } = useControls("CameraControls", {
-		minDistance: { value: 1, step: 0.1 },
-		maxDistance: { value: 2.5, step: 0.1 },
+	const { minDistance, maxDistance, smoothTime, cameraPos, cameraTarget, fov } = useControls("CameraControls", {
+		minDistance: { value: 0.1, step: 0.1 },
+		maxDistance: { value: 2, step: 0.1 },
 		smoothTime: { value: 0.5, step: 0.001 },
-		cameraPos: { value: { x: -1, y: 0, z: 0 }, step: 0.1 },
-		cameraTarget: { value: { x: 0, y: 0, z: 0 }, step: 0.1 },
+		cameraPos: { value: { x: 6.0, y: 1.0, z: 0 }, step: 0.1 },
+		cameraTarget: { value: { x: 0, y: 0.9, z: -0.2 }, step: 0.1 },
+		fov: { value: 85, step: 1 },
 	});
 
 	useEffect(() => {
-		const controls = (ref as RefObject<CameraControls>)?.current;
-		if (controls && cameraRef.current) {
-			cameraRef.current.position.set(cameraPos.x, cameraPos.y, cameraPos.z);
-			controls.setLookAt(cameraPos.x, cameraPos.y, cameraPos.z, cameraTarget.x, cameraTarget.y, cameraTarget.z, true);
+		if (cameraRef.current) {
+			cameraRef.current.lookAt(cameraTarget.x, cameraTarget.y, cameraTarget.z);
 		}
-	}, [cameraPos.x, cameraPos.y, cameraPos.z, cameraTarget.x, cameraTarget.y, cameraTarget.z, ref]);
+	}, [cameraPos, cameraTarget]);
 
 	return (
 		<>
+			<PerspectiveCamera ref={cameraRef} makeDefault={!isDebugMode} fov={fov} position={[cameraPos.x, cameraPos.y, cameraPos.z]} />
 			{isDebugMode && <OrbitControls makeDefault />}
-			<PerspectiveCamera makeDefault={!isDebugMode} ref={cameraRef} />
-			{cameraRef.current && (
-				<CameraControls
-					ref={ref}
-					camera={cameraRef.current}
-					minDistance={minDistance}
-					maxDistance={maxDistance}
-					smoothTime={smoothTime}
-					mouseButtons={{
-						left: ACTION.ACTION.NONE,
-						right: ACTION.ACTION.NONE,
-						middle: ACTION.ACTION.NONE,
-						wheel: ACTION.ACTION.DOLLY,
-					}}
-					makeDefault={!isDebugMode}
-				/>
-			)}
 		</>
 	);
-});
+};
 
 export default CameraController;
