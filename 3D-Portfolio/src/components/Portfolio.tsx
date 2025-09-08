@@ -1,11 +1,11 @@
-import { AdaptiveDpr, CameraControls, Center, Environment } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../types/GLTypes";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { useFocusContext } from "../hooks/useFocusContext";
+import { CameraContextProvider } from "../Helper/Provider/CameraContextProvider";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -35,7 +35,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	/** HOOKS */
 
 	/** Contexts */
-	const { isAnyFocused } = useFocusContext();
+	useFocusContext();
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -77,8 +77,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
-			<CameraController isDebugMode={isDebugMode} />
-
 			<Environment
 				background={true}
 				files={"./environment/environment_map.hdr"}
@@ -86,28 +84,31 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
-			<Center>
-				<ambientLight intensity={lightParams.ambientLightIntensity} />
-				{/************ Office Room ************/}
-				<group name="office-room">
-					{/************ BASE (Walls + Roof + Floor) ************/}
-					<Foundation name="Foundation" nodes={nodes} />
+			<CameraContextProvider>
+				<CameraController isDebugMode={isDebugMode} />
+				<Center>
+					<ambientLight intensity={lightParams.ambientLightIntensity} />
+					{/************ Office Room ************/}
+					<group name="office-room">
+						{/************ BASE (Walls + Roof + Floor) ************/}
+						<Foundation name="Foundation" nodes={nodes} />
 
-					{/************ All objects inside the room ************/}
-					<group name="objects">
-						<Desks name="Desks" nodes={nodes} />
-						<ObjectT1 name="ObjectT1" nodes={nodes} />
-						<ObjectT2 name="ObjectT2" nodes={nodes} />
-						<ObjectT3 name="ObjectT3" nodes={nodes} />
-						<ObjectT4 name="ObjectT4" nodes={nodes} />
-					</group>
+						{/************ All objects inside the room ************/}
+						<group name="objects">
+							<Desks name="Desks" nodes={nodes} />
+							<ObjectT1 name="ObjectT1" nodes={nodes} />
+							<ObjectT2 name="ObjectT2" nodes={nodes} />
+							<ObjectT3 name="ObjectT3" nodes={nodes} />
+							<ObjectT4 name="ObjectT4" nodes={nodes} />
+						</group>
 
-					<group name="image-objects">
-						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} />
-						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
+						<group name="image-objects">
+							<ImageObjectT1 name="ImageObjectT1" nodes={nodes} />
+							<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
+						</group>
 					</group>
-				</group>
-			</Center>
+				</Center>
+			</CameraContextProvider>
 		</>
 	);
 }

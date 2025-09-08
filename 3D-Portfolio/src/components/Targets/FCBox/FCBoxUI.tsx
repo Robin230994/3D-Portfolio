@@ -8,7 +8,14 @@ import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectFocus: { name: string; object: Object3D } | null } };
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectFocus: { name: string; object: Object3D } | null;
+				cameraIsMoving: boolean;
+			};
+		};
 		functions: {
 			myFunctions: {
 				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
@@ -23,14 +30,14 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus } = myData;
+	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
 	const { setSelectObjectFocus } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
 
 	const { backLabelPos } = useControls("FCBoxLabel", {
-		backLabelPos: { value: { x: 0, y: 0, z: 0 }, step: 0.001 },
+		backLabelPos: { value: { x: -40, y: 0, z: 9 }, step: 0.1 },
 	});
 
 	return (
@@ -38,7 +45,7 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 			<group
 				name={name}
 				ref={fcBoxRef}
-				onClick={(e) => {
+				onClick={() => {
 					if (fcBoxRef.current) {
 						setSelectObjectFocus({ name: name, object: fcBoxRef.current });
 					}
@@ -46,14 +53,17 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 				<group>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
-							{/* <Html wrapperClass="hover-label" position={[backLabelPos.x, backLabelPos.y, backLabelPos.z]} occlude={false} center>
-								<button onClick={moveToLatestCameraPos}>Back</button>
-							</Html> */}
 							<InteractionLabel
 								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-								visible={selectObjectFocus !== null}
+								visible={!cameraIsMoving && selectObjectFocus?.name === name}
 								dispatch={() => setSelectObjectFocus(null)}>
-								Back
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+									<path
+										fillRule="evenodd"
+										d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+										clipRule="evenodd"
+									/>
+								</svg>
 							</InteractionLabel>
 						</mesh>
 					</group>

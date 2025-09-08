@@ -7,10 +7,18 @@ import { Group } from "three";
 import { useControls } from "leva";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight }; selectObjectFocus: { name: string; object: Object3D } | null } };
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectFocus: { name: string; object: Object3D } | null;
+				cameraIsMoving: boolean;
+			};
+		};
 		functions: {
 			myFunctions: {
 				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
@@ -25,7 +33,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes } = myData;
+	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
 	const { setSelectObjectFocus } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
@@ -48,6 +56,10 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 		rollMat3Pos: { value: { x: -3.205, y: 2.8, z: 2.44 }, step: 0.001 },
 		rollMat4Pos: { value: { x: -3.435, y: 2.8, z: 2.44 }, step: 0.001 },
 		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
+	});
+
+	const { backLabelPos } = useControls("BambuLab", {
+		backLabelPos: { value: { x: -0.3, y: 2.5, z: 6.8 }, step: 0.1 },
 	});
 
 	const plaMaterialHolderInstances = [
@@ -133,6 +145,19 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 
 				{/** PLA Roll Material */}
 				<InstantiatedMesh name="PLARollMaterial" instance={plaRollMaterialInstances} geometry={PLARollMaterial.geometry} material={new MeshBasicMaterial()} />
+
+				<InteractionLabel
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => setSelectObjectFocus(null)}>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+						<path
+							fillRule="evenodd"
+							d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</InteractionLabel>
 			</group>
 			{/* </Select> */}
 		</React.Fragment>

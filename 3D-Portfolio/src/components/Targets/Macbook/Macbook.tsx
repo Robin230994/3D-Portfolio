@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import MacbookUI from "./MacbookUI";
-import useCameraMovement from "../../../hooks/useCameraMovement";
-
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useHoverContext } from "../../../hooks/useFocusContext";
+import { useFocusContext } from "../../../hooks/useFocusContext";
+import { useCameraContext } from "../../../hooks/useCameraContext";
+import { Group } from "three";
 
-const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, cameraControls }) => {
-	const { selectObjectFocus: selectObjectHovered, setSelectObjectFocus: setSelectObjectHovered } = useHoverContext();
-	const { handleClickedTarget } = useCameraMovement();
+const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+	const { selectObjectFocus, setSelectObjectFocus } = useFocusContext();
+	const { cameraIsMoving } = useCameraContext();
+
+	const macbookRef = useRef<Group>(null);
 
 	const uiComponentProps = {
 		data: {
 			myData: {
-				name: name,
-				nodes: nodes,
-				selectObjectHovered: selectObjectHovered,
+				name,
+				nodes,
+				selectObjectFocus,
+				cameraIsMoving,
 			},
 		},
-		functions: { myFunctions: { setSelectObjectHovered, handleClickedTarget } },
-		refs: { myRefs: {} },
+		functions: { myFunctions: { setSelectObjectFocus } },
+		refs: { myRefs: { macbookRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;
 };

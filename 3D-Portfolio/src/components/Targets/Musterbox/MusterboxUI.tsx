@@ -3,11 +3,33 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
 import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
+import { Object3D } from "three";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import { useControls } from "leva";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
-		data: { myData: { name: string; nodes: { [key: string]: Mesh | DirectionalLight } } };
-		functions: { myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void } };
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectFocus: {
+					name: string;
+					object: Object3D;
+				} | null;
+				cameraIsMoving: boolean;
+			};
+		};
+		functions: {
+			myFunctions: {
+				setSelectObjectFocus: React.Dispatch<
+					React.SetStateAction<{
+						name: string;
+						object: Object3D;
+					} | null>
+				>;
+			};
+		};
 		refs: { myRefs: { musterboxRef: RefObject<Group> } };
 	};
 }
@@ -17,8 +39,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes } = myData;
-	const { setSelectObjectHovered } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
+	const { setSelectObjectFocus } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
@@ -48,12 +70,19 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox23: Mesh = nodes["MusterboxBox23"] as Mesh;
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
+	const { backLabelPos } = useControls("Musterbox", {
+		backLabelPos: { value: { x: -14.5, y: -3.8, z: -22 }, step: 0.1 },
+	});
+
 	return (
 		<group name={name}>
 			<group
 				ref={musterboxRef}
-				onPointerOver={() => setSelectObjectHovered({ Musterbox: true })}
-				onPointerOut={() => setSelectObjectHovered({ Musterbox: false })}>
+				onClick={() => {
+					if (musterboxRef.current) {
+						setSelectObjectFocus({ name: name, object: musterboxRef.current });
+					}
+				}}>
 				<mesh
 					geometry={MusterboxDeckel.geometry}
 					position={MusterboxDeckel.position}
@@ -264,6 +293,18 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						material={iot2Material}
 					/>
 				</group>
+				<InteractionLabel
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => setSelectObjectFocus(null)}>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+						<path
+							fillRule="evenodd"
+							d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</InteractionLabel>
 			</group>
 		</group>
 	);

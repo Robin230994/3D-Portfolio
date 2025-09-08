@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import { useControls } from "leva";
+import { useEffect, useState } from "react";
 
 const InteractionLabel = ({
 	visible,
@@ -12,14 +12,24 @@ const InteractionLabel = ({
 	labelPos: [number, number, number];
 	dispatch?: () => void;
 }) => {
-	const { labelPosition } = useControls("HoverLabel", {
-		labelPosition: { value: { x: labelPos[0], y: labelPos[1], z: labelPos[2] }, step: 0.001 },
-	});
+	const [, setShow] = useState(false);
 
-	if (!visible) return null;
+	useEffect(() => {
+		if (visible) {
+			setShow(true);
+		} else {
+			const timer = setTimeout(() => setShow(false), 300);
+			return () => clearTimeout(timer);
+		}
+	}, [visible]);
 
 	return (
-		<Html position={[labelPosition.x, labelPosition.y, labelPosition.z]} wrapperClass={"hover-label"} center occlude={false} style={{ pointerEvents: "auto" }}>
+		<Html
+			position={labelPos}
+			wrapperClass={`hover-label ${visible ? "visible" : ""}`}
+			occlude={false}
+			center
+			style={{ pointerEvents: visible ? "auto" : "none" }}>
 			{dispatch && (
 				<button
 					onClick={(e) => {

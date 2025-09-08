@@ -12,12 +12,9 @@ interface OfficeChairUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectHovered: { [name: string]: boolean };
 			};
 		};
-		functions: {
-			myFunctions: { setSelectObjectHovered: (hovered: { [name: string]: boolean }) => void; handleClickedTarget: (targetObject: Object3D) => void };
-		};
+		functions: { myFunctions: object };
 		refs: { myRefs: object };
 	};
 }
