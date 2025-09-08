@@ -3,8 +3,8 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Group, Mesh } from "three";
 import { t3Material } from "../../../Helper/GLMaterials";
 import { Object3D } from "three";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { useControls } from "leva";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface BillardTriangleUIProps extends IUIComponentProps {
 	props: {
