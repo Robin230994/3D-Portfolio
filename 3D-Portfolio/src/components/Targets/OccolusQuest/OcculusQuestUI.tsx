@@ -18,6 +18,7 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 		functions: {
 			myFunctions: {
 				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { occulusRef: RefObject<Group> } };
@@ -30,7 +31,7 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
 	const { occulusRef } = myRefs;
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
@@ -50,7 +51,11 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				if (occulusRef.current) {
 					setSelectObjectFocus({ name: name, object: occulusRef.current });
 				}
-			}}>
+			}}
+			onPointerOver={() => {
+				if (selectObjectFocus === null) setIsAnyHovered(true);
+			}}
+			onPointerOut={() => setIsAnyHovered(false)}>
 			<mesh
 				geometry={OcculusHeadset.geometry}
 				position={[occulusPosition.x, occulusPosition.y, occulusPosition.z]}

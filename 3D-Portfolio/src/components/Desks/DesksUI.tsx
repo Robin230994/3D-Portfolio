@@ -89,7 +89,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			</mesh>
 
 			{/** Desk chair roll instances  */}
-			<InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} />
+			{/* <InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} /> */}
 		</group>
 	);
 };

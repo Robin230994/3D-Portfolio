@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React, { RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { Color, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { DirectionalLight } from "three";
@@ -22,6 +22,7 @@ interface BambuLabUIProps extends IUIComponentProps {
 		functions: {
 			myFunctions: {
 				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { bambuLabRef: RefObject<Group> } };
@@ -34,7 +35,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
 	const BambuLabAMSOpener: Mesh = nodes["BambuLabAMSOpener"] as Mesh;
@@ -59,58 +60,96 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	});
 
 	const { backLabelPos } = useControls("BambuLab", {
-		backLabelPos: { value: { x: -0.3, y: 2.5, z: 6.8 }, step: 0.1 },
+		backLabelPos: { value: { x: -0.9, y: 0.2, z: 6.8 }, step: 0.1 },
 	});
 
-	const plaMaterialHolderInstances = [
-		{
-			position: [matHolder1Pos.x, matHolder1Pos.y, matHolder1Pos.z] as [number, number, number],
-			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
-			scale: [0.8, 0.8, 0.8] as [number, number, number],
-		},
-		{
-			position: [matHolder2Pos.x, matHolder2Pos.y, matHolder2Pos.z] as [number, number, number],
-			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
-			scale: [0.8, 0.8, 0.8] as [number, number, number],
-		},
-		{
-			position: [matHolder3Pos.x, matHolder3Pos.y, matHolder3Pos.z] as [number, number, number],
-			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
-			scale: [0.8, 0.8, 0.8] as [number, number, number],
-		},
-		{
-			position: [matHolder4Pos.x, matHolder4Pos.y, matHolder4Pos.z] as [number, number, number],
-			rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
-			scale: [0.8, 0.8, 0.8] as [number, number, number],
-		},
-	];
+	const plaMaterialHolderInstances = useMemo(
+		() => [
+			{
+				position: [matHolder1Pos.x, matHolder1Pos.y, matHolder1Pos.z] as [number, number, number],
+				rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+				scale: [0.8, 0.8, 0.8] as [number, number, number],
+			},
+			{
+				position: [matHolder2Pos.x, matHolder2Pos.y, matHolder2Pos.z] as [number, number, number],
+				rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+				scale: [0.8, 0.8, 0.8] as [number, number, number],
+			},
+			{
+				position: [matHolder3Pos.x, matHolder3Pos.y, matHolder3Pos.z] as [number, number, number],
+				rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+				scale: [0.8, 0.8, 0.8] as [number, number, number],
+			},
+			{
+				position: [matHolder4Pos.x, matHolder4Pos.y, matHolder4Pos.z] as [number, number, number],
+				rotation: [matHolderRot.x, matHolderRot.y, matHolderRot.z] as [number, number, number],
+				scale: [0.8, 0.8, 0.8] as [number, number, number],
+			},
+		],
+		[
+			matHolder1Pos.x,
+			matHolder1Pos.y,
+			matHolder1Pos.z,
+			matHolder2Pos.x,
+			matHolder2Pos.y,
+			matHolder2Pos.z,
+			matHolder3Pos.x,
+			matHolder3Pos.y,
+			matHolder3Pos.z,
+			matHolder4Pos.x,
+			matHolder4Pos.y,
+			matHolder4Pos.z,
+			matHolderRot.x,
+			matHolderRot.y,
+			matHolderRot.z,
+		]
+	);
 
-	const plaRollMaterialInstances = [
-		{
-			position: [rollMat1Pos.x, rollMat1Pos.y, rollMat1Pos.z] as [number, number, number],
-			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
-			scale: [1, 1, 1] as [number, number, number],
-			color: new Color("#ffffff"),
-		},
-		{
-			position: [rollMat2Pos.x, rollMat2Pos.y, rollMat2Pos.z] as [number, number, number],
-			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
-			scale: [1, 1, 1] as [number, number, number],
-			color: new Color("#000000"),
-		},
-		{
-			position: [rollMat3Pos.x, rollMat3Pos.y, rollMat3Pos.z] as [number, number, number],
-			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
-			scale: [1, 1, 1] as [number, number, number],
-			color: new Color("#8b0000"),
-		},
-		{
-			position: [rollMat4Pos.x, rollMat4Pos.y, rollMat4Pos.z] as [number, number, number],
-			rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
-			scale: [1, 1, 1] as [number, number, number],
-			color: new Color("#00008b"),
-		},
-	];
+	const plaRollMaterialInstances = useMemo(
+		() => [
+			{
+				position: [rollMat1Pos.x, rollMat1Pos.y, rollMat1Pos.z] as [number, number, number],
+				rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+				scale: [1, 1, 1] as [number, number, number],
+				color: new Color("#ffffff"),
+			},
+			{
+				position: [rollMat2Pos.x, rollMat2Pos.y, rollMat2Pos.z] as [number, number, number],
+				rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+				scale: [1, 1, 1] as [number, number, number],
+				color: new Color("#000000"),
+			},
+			{
+				position: [rollMat3Pos.x, rollMat3Pos.y, rollMat3Pos.z] as [number, number, number],
+				rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+				scale: [1, 1, 1] as [number, number, number],
+				color: new Color("#8b0000"),
+			},
+			{
+				position: [rollMat4Pos.x, rollMat4Pos.y, rollMat4Pos.z] as [number, number, number],
+				rotation: [rollMatRot.x, rollMatRot.y, rollMatRot.z] as [number, number, number],
+				scale: [1, 1, 1] as [number, number, number],
+				color: new Color("#00008b"),
+			},
+		],
+		[
+			rollMat1Pos.x,
+			rollMat1Pos.y,
+			rollMat1Pos.z,
+			rollMat2Pos.x,
+			rollMat2Pos.y,
+			rollMat2Pos.z,
+			rollMat3Pos.x,
+			rollMat3Pos.y,
+			rollMat3Pos.z,
+			rollMat4Pos.x,
+			rollMat4Pos.y,
+			rollMat4Pos.z,
+			rollMatRot.x,
+			rollMatRot.y,
+			rollMatRot.z,
+		]
+	);
 
 	return (
 		<React.Fragment>
@@ -121,7 +160,11 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					if (bambuLabRef.current) {
 						setSelectObjectFocus({ name: name, object: bambuLabRef.current });
 					}
-				}}>
+				}}
+				onPointerOver={() => {
+					if (selectObjectFocus === null) setIsAnyHovered(true);
+				}}
+				onPointerOut={() => setIsAnyHovered(false)}>
 				{/** AMS Opener */}
 				<mesh
 					geometry={BambuLabAMSOpener.geometry}

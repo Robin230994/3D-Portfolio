@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Color, ColorManagement } from "three";
 import { BoxGeometry, BufferGeometry, InstancedMesh, Material, MeshStandardMaterial, NormalBufferAttributes, Object3D } from "three";
 
@@ -18,6 +18,7 @@ type Instances = {
 
 const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, name }) => {
 	const instancedMeshRef = useRef<InstancedMesh>(null);
+	console.log("rendered");
 
 	useEffect(() => {
 		if (!instancedMeshRef.current) return;
@@ -62,4 +63,4 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, n
 	);
 };
 
-export default InstantiatedMesh;
+export default memo(InstantiatedMesh, (prev, next) => prev.instance === next.instance);

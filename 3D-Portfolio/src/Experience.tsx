@@ -3,6 +3,7 @@ import { Leva } from "leva";
 import { FocusContextProvider } from "./Helper/Provider/FocusContextProvider";
 
 import Portfolio from "./components/Portfolio";
+import { HoverContextProvider } from "./Helper/Provider/HoverContextProvider";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
@@ -10,10 +11,12 @@ const Experience = () => {
 	return (
 		<>
 			<FocusContextProvider>
-				<Leva hidden={!isDebugMode} />
-				<Canvas frameloop="demand" performance={{ min: 0.35, max: 1, debounce: 300 }} gl={{ antialias: false }} shadows>
-					<Portfolio isDebugMode={isDebugMode} />
-				</Canvas>
+				<HoverContextProvider>
+					<Leva hidden={!isDebugMode} />
+					<Canvas frameloop="demand" performance={{ min: 0.35, max: 1, debounce: 300 }} gl={{ antialias: false }} shadows>
+						<Portfolio isDebugMode={isDebugMode} />
+					</Canvas>
+				</HoverContextProvider>
 			</FocusContextProvider>
 		</>
 	);

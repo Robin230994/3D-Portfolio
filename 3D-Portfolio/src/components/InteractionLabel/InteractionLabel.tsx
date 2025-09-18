@@ -12,7 +12,7 @@ const InteractionLabel = ({
 	labelPos: [number, number, number];
 	dispatch?: () => void;
 }) => {
-	const [, setShow] = useState(false);
+	const [show, setShow] = useState(false);
 
 	useEffect(() => {
 		if (visible) {
@@ -23,15 +23,12 @@ const InteractionLabel = ({
 		}
 	}, [visible]);
 
-	return (
-		<Html
-			position={labelPos}
-			wrapperClass={`hover-label ${visible ? "visible" : ""}`}
-			occlude={false}
-			center
-			style={{ pointerEvents: visible ? "auto" : "none" }}>
+	return show ? (
+		<Html position={labelPos} wrapperClass={`hover-label ${visible ? "visible" : ""}`} occlude={false} center style={{ pointerEvents: "none" }}>
 			{dispatch && (
 				<button
+					style={{ pointerEvents: "auto" }}
+					onPointerDown={(e) => e.stopPropagation()}
 					onClick={(e) => {
 						e.stopPropagation();
 						dispatch?.();
@@ -40,7 +37,7 @@ const InteractionLabel = ({
 				</button>
 			)}
 		</Html>
-	);
+	) : null;
 };
 
 export default InteractionLabel;

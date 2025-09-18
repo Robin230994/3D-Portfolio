@@ -10,6 +10,13 @@ html {
   background: #fff;
 }
 
+html,
+body,
+canvas {
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
 .hover-label {
   position: absolute;
   opacity: 0;
@@ -42,7 +49,7 @@ html {
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -2px 4px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.25); /* outer drop shadow */
   position: relative;
   transition: all 0.2s ease;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 500;
   color: #333; /* Apple uses subtle dark gray instead of black */
 }

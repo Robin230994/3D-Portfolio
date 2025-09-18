@@ -28,6 +28,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null>
 				>;
+				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { musterboxRef: RefObject<Group> } };
@@ -40,7 +41,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
@@ -71,7 +72,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
 	const { backLabelPos } = useControls("Musterbox", {
-		backLabelPos: { value: { x: -14.5, y: -3.8, z: -22 }, step: 0.1 },
+		backLabelPos: { value: { x: -4.7, y: -8.5, z: -22 }, step: 0.1 },
 	});
 
 	return (
@@ -82,7 +83,11 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					if (musterboxRef.current) {
 						setSelectObjectFocus({ name: name, object: musterboxRef.current });
 					}
-				}}>
+				}}
+				onPointerOver={() => {
+					if (selectObjectFocus === null) setIsAnyHovered(true);
+				}}
+				onPointerOut={() => setIsAnyHovered(false)}>
 				<mesh
 					geometry={MusterboxDeckel.geometry}
 					position={MusterboxDeckel.position}

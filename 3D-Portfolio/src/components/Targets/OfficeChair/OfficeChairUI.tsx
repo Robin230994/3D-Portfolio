@@ -12,9 +12,13 @@ interface OfficeChairUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
+				selectObjectFocus: {
+					name: string;
+					object: Object3D;
+				} | null;
 			};
 		};
-		functions: { myFunctions: object };
+		functions: { myFunctions: { setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>> } };
 		refs: { myRefs: object };
 	};
 }
@@ -24,7 +28,8 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes } = myData;
+	const { name, nodes, selectObjectFocus } = myData;
+	const { setIsAnyHovered } = myFunctions;
 
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
 	const LowerOfficeChair: Mesh = nodes["GamingChairLower"] as Mesh;
@@ -75,7 +80,12 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	];
 
 	return (
-		<group name={name}>
+		<group
+			name={name}
+			onPointerOver={() => {
+				if (selectObjectFocus === null) setIsAnyHovered(true);
+			}}
+			onPointerOut={() => setIsAnyHovered(false)}>
 			<mesh
 				geometry={UpperOfficeChair.geometry}
 				position={UpperOfficeChair.position}
@@ -93,7 +103,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			/>
 
 			{/** Chair roll instances */}
-			<InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} />
+			{/* <InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} /> */}
 		</group>
 	);
 };

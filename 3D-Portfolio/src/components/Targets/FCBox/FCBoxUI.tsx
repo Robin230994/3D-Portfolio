@@ -19,6 +19,7 @@ interface FCBoxUIProps extends IUIComponentProps {
 		functions: {
 			myFunctions: {
 				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
+				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { fcBoxRef: RefObject<Group> } };
@@ -31,13 +32,13 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
 
 	const { backLabelPos } = useControls("FCBoxLabel", {
-		backLabelPos: { value: { x: -40, y: 0, z: 9 }, step: 0.1 },
+		backLabelPos: { value: { x: -31.3, y: 0, z: 11.4 }, step: 0.1 },
 	});
 
 	return (
@@ -49,7 +50,11 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					if (fcBoxRef.current) {
 						setSelectObjectFocus({ name: name, object: fcBoxRef.current });
 					}
-				}}>
+				}}
+				onPointerOver={() => {
+					if (selectObjectFocus === null) setIsAnyHovered(true);
+				}}
+				onPointerOut={() => setIsAnyHovered(false)}>
 				<group>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>

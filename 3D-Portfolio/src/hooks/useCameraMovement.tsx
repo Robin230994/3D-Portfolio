@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { Euler, Quaternion, Vector3 } from "three";
+import { Euler, PerspectiveCamera, Quaternion, Vector3 } from "three";
 import { useFocusContext } from "./useFocusContext";
 import { useRef, useState } from "react";
 import { MathUtils } from "three";
@@ -8,48 +8,53 @@ import { useCameraContext } from "./useCameraContext";
 
 const cameraPresets: Record<string, { position: [number, number, number]; target: [number, number, number] }> = {
 	FCBox: {
-		position: [0.05, 1.2, -1.5],
-		target: [0.1, 0.3, -4.0],
+		position: [0.1, 0.5, -1.2],
+		target: [0.1, 0.3, -2.1],
 	},
 	Musterbox: {
-		position: [-3.7, 1.3, -1.3],
-		target: [-3.5, -0.4, -15.5],
+		position: [-3.7, 0.9, -1.2],
+		target: [-3.6, -1, -5],
 	},
 	OcculusQuest: {
-		position: [3, 0.3, -0.8],
+		position: [3.2, 0, -0.4],
 		target: [0, -7.7, -14],
 	},
 	BambuLab: {
-		position: [-3.6, 1, 0.4],
-		target: [-3.8, -3, 10],
+		position: [-3.7, 0.4, -0.5],
+		target: [-3.8, -2, 10],
 	},
 	Macbook: {
-		position: [5.1, 0.3, -0.8],
-		target: [5.3, -3, -11],
+		position: [5.15, 0, -0.3],
+		target: [5.1, -4.5, -10],
 	},
 	BillardTriangle: {
-		position: [-5.5, 1.7, -2.1],
+		position: [-5.5, 1, -2.1],
 		target: [-30.7, -5, -3],
 	},
 };
 
-const ORIGIN_POINT = { position: new Vector3(3.0, 1.0, 0), target: new Vector3(0, 0.9, -0.2) };
+const ORIGIN_POINT = { position: new Vector3(3.6, 0.5, 0), target: new Vector3(0, 0, 0) };
 const CAMERA_MOVEMENT_SPEED = 0.03;
 const CAMERA_DAMPING = 0.02;
+const CAMERA_ORIGIN_FOV = 50;
 
-const useCameraMovement = () => {
+const useCameraMovement = (isDebugMode: boolean) => {
 	const [lastFocusedTarget, setLastFocusedTarget] = useState<Vector3>(new Vector3());
 
 	const { cameraIsMoving, setCameraIsMoving } = useCameraContext();
 	const { selectObjectFocus } = useFocusContext();
-	const { camera, pointer, invalidate } = useThree();
-
+	const { camera, pointer, invalidate } = useThree() as {
+		camera: PerspectiveCamera;
+		pointer: { x: number; y: number };
+		invalidate: () => void;
+	};
 	const baseQuaternion = new Quaternion();
 	baseQuaternion.setFromRotationMatrix(new Matrix4().lookAt(ORIGIN_POINT.position, ORIGIN_POINT.target, new Vector3(0, 1, 0)));
 	const targetQuaternion = useRef(new Quaternion());
 	const currentQuaternion = useRef(new Quaternion());
 
 	useFrame(() => {
+		if (isDebugMode) return;
 		if (selectObjectFocus !== null) {
 			const preset = cameraPresets[selectObjectFocus.name];
 			if (!preset) return;
@@ -83,7 +88,6 @@ const useCameraMovement = () => {
 				const interpolatedTarget = new Vector3().lerpVectors(lastFocusedTarget || ORIGIN_POINT.target, ORIGIN_POINT.target, t);
 
 				camera.lookAt(interpolatedTarget);
-				//camera.lookAt(ORIGIN_POINT.target);
 				invalidate();
 			} else {
 				if (cameraIsMoving) setCameraIsMoving(false);
@@ -96,6 +100,11 @@ const useCameraMovement = () => {
 			}
 		}
 	});
+
+	const changeFOV = (fov = CAMERA_ORIGIN_FOV) => {
+		camera.fov = MathUtils.lerp(camera.fov, fov, CAMERA_MOVEMENT_SPEED);
+		camera.updateProjectionMatrix();
+	};
 
 	const listenToMouseMovement = () => {
 		const xNorm = (pointer.x + 1) / 2;

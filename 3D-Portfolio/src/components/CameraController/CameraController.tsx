@@ -10,12 +10,12 @@ interface CameraControllerProps {
 
 const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 	const cameraRef = useRef<TPerspectiveCamera>(null);
-	useCameraMovement();
+	useCameraMovement(isDebugMode);
 
 	const { cameraPos, cameraTarget, fov } = useControls("CameraControls", {
 		cameraPos: { value: { x: 6.0, y: 1.0, z: 0 }, step: 0.1 },
 		cameraTarget: { value: { x: 0, y: 0.9, z: -0.2 }, step: 0.1 },
-		fov: { value: 50, step: 1 },
+		fov: { value: 75, step: 1 },
 	});
 
 	useEffect(() => {
@@ -27,8 +27,8 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 
 	return (
 		<>
-			<PerspectiveCamera ref={cameraRef} makeDefault={isDebugMode} fov={fov} position={[cameraPos.x, cameraPos.y, cameraPos.z]} />
-			{/* {isDebugMode && <OrbitControls makeDefault />} */}
+			<PerspectiveCamera ref={cameraRef} makeDefault={!isDebugMode} fov={fov} position={[cameraPos.x, cameraPos.y, cameraPos.z]} />
+			{isDebugMode && <OrbitControls makeDefault />}
 		</>
 	);
 };

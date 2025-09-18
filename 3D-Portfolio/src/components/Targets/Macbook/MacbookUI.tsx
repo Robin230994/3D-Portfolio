@@ -30,6 +30,7 @@ interface MacbookUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null>
 				>;
+				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { macbookRef: RefObject<Group> } };
@@ -42,7 +43,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
 	const { macbookRef } = myRefs;
 
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
@@ -65,7 +66,11 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				if (macbookRef.current) {
 					setSelectObjectFocus({ name: name, object: macbookRef.current });
 				}
-			}}>
+			}}
+			onPointerOver={() => {
+				if (selectObjectFocus === null) setIsAnyHovered(true);
+			}}
+			onPointerOut={() => setIsAnyHovered(false)}>
 			<mesh
 				geometry={MacbookTopSide.geometry}
 				position={MacbookTopSide.position}
