@@ -1,135 +1,161 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Euler, PerspectiveCamera, Quaternion, Vector3 } from "three";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useFocusContext } from "./useFocusContext";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MathUtils } from "three";
 import { Matrix4 } from "three";
 import { useCameraContext } from "./useCameraContext";
+import { useControls } from "leva";
 
-const cameraPresets: Record<string, { position: [number, number, number]; target: [number, number, number] }> = {
+type CameraInfo = {
+	position: [number, number, number];
+	target: [number, number, number];
+	azimuthal: number;
+	polar: number;
+	hdeg2rad: number;
+	vdeg2rad: number;
+};
+
+const cameraPresets: Record<string, CameraInfo> = {
+	RoomPointOne: {
+		position: [1.6, 1.0, 1.58],
+		target: [5.72, -0.89, -0.74],
+		azimuthal: -60.25,
+		polar: 68.25,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
 	FCBox: {
 		position: [0.1, 0.5, -1.2],
 		target: [0.1, 0.3, -2.1],
+		azimuthal: -10.8,
+		polar: 73.2,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
 	},
 	Musterbox: {
 		position: [-3.7, 0.9, -1.2],
 		target: [-3.6, -1, -5],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
 	},
 	OcculusQuest: {
-		position: [3.2, 0, -0.4],
-		target: [0, -7.7, -14],
+		position: [2.9, 0.7, -0.9],
+		target: [2.9, -1.9, -3.5],
+		azimuthal: 1.4,
+		polar: 59.4,
+		hdeg2rad: 0,
+		vdeg2rad: 0,
 	},
 	BambuLab: {
 		position: [-3.7, 0.4, -0.5],
 		target: [-3.8, -2, 10],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
 	},
 	Macbook: {
-		position: [5.15, 0, -0.3],
-		target: [5.1, -4.5, -10],
+		position: [5.2, 0.1, -1],
+		target: [5.15, -4, -10],
+		azimuthal: 0,
+		polar: 68.3,
+		hdeg2rad: 0,
+		vdeg2rad: 0,
 	},
 	BillardTriangle: {
 		position: [-5.5, 1, -2.1],
 		target: [-30.7, -5, -3],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
 	},
 };
 
-const ORIGIN_POINT = { position: new Vector3(3.6, 0.5, 0), target: new Vector3(0, 0, 0) };
 const CAMERA_MOVEMENT_SPEED = 0.03;
-const CAMERA_DAMPING = 0.02;
-const CAMERA_ORIGIN_FOV = 50;
+const DEG2RAD = Math.PI / 180;
 
-const useCameraMovement = (isDebugMode: boolean) => {
-	const [lastFocusedTarget, setLastFocusedTarget] = useState<Vector3>(new Vector3());
-
-	const { cameraIsMoving, setCameraIsMoving } = useCameraContext();
+const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
+	const [currentPlaceInfo, setCurrentPlaceInfo] = useState<CameraInfo>(cameraPresets.RoomPointOne);
 	const { selectObjectFocus } = useFocusContext();
-	const { camera, pointer, invalidate } = useThree() as {
-		camera: PerspectiveCamera;
-		pointer: { x: number; y: number };
-		invalidate: () => void;
-	};
-	const baseQuaternion = new Quaternion();
-	baseQuaternion.setFromRotationMatrix(new Matrix4().lookAt(ORIGIN_POINT.position, ORIGIN_POINT.target, new Vector3(0, 1, 0)));
-	const targetQuaternion = useRef(new Quaternion());
-	const currentQuaternion = useRef(new Quaternion());
+	const { invalidate } = useThree();
 
-	useFrame(() => {
-		if (isDebugMode) return;
-		if (selectObjectFocus !== null) {
-			const preset = cameraPresets[selectObjectFocus.name];
-			if (!preset) return;
-
-			const [px, py, pz] = preset.position;
-			const [tx, ty, tz] = preset.target;
-			setLastFocusedTarget(new Vector3(tx, ty, tz));
-
-			const objectPos = new Vector3(px, py, pz);
-			const lerpDone = camera.position.distanceTo(objectPos) < 0.01;
-
-			if (!lerpDone) {
-				setCameraIsMoving(true);
-				camera.position.lerp(objectPos, CAMERA_MOVEMENT_SPEED);
-				camera.lookAt(tx, ty, tz);
-				invalidate();
-			} else {
-				if (cameraIsMoving) setCameraIsMoving(false);
-				camera.position.copy(objectPos);
-				camera.lookAt(tx, ty, tz);
-			}
-		} else {
-			const distanceToOrigin = camera.position.distanceTo(ORIGIN_POINT.position);
-			const movingToOrigin = distanceToOrigin > 0.01;
-
-			if (movingToOrigin) {
-				setCameraIsMoving(true);
-				camera.position.lerp(ORIGIN_POINT.position, CAMERA_MOVEMENT_SPEED);
-				const t = 1 - Math.min(distanceToOrigin / ORIGIN_POINT.position.distanceTo(lastFocusedTarget || ORIGIN_POINT.target), 1);
-
-				const interpolatedTarget = new Vector3().lerpVectors(lastFocusedTarget || ORIGIN_POINT.target, ORIGIN_POINT.target, t);
-
-				camera.lookAt(interpolatedTarget);
-				invalidate();
-			} else {
-				if (cameraIsMoving) setCameraIsMoving(false);
-				setLastFocusedTarget(new Vector3());
-				camera.position.copy(ORIGIN_POINT.position);
-				//camera.lookAt(ORIGIN_POINT.target);
-
-				listenToMouseMovement();
-				invalidate();
-			}
-		}
+	const { cameraPos, cameraTarget, cameraAzimuthal, cameraPolar, hdeg, vdeg } = useControls("CameraControls", {
+		cameraPos: { value: { x: 1.6, y: 1.0, z: 1.58 }, step: 0.1 },
+		cameraTarget: { value: { x: 5.72, y: -0.89, z: -0.74 }, step: 0.1 },
+		cameraAzimuthal: { value: -60.25, step: 0.1 },
+		cameraPolar: { value: 68.25, step: 0.1 },
+		hdeg: { value: 10, step: 1 },
+		vdeg: { value: 5, step: 1 },
 	});
 
-	const changeFOV = (fov = CAMERA_ORIGIN_FOV) => {
-		camera.fov = MathUtils.lerp(camera.fov, fov, CAMERA_MOVEMENT_SPEED);
-		camera.updateProjectionMatrix();
-	};
+	useEffect(() => {
+		if (controlsRef.current) {
+			controlsRef.current.object.position.set(cameraPos.x, cameraPos.y, cameraPos.z);
+			controlsRef.current.target.set(cameraTarget.x, cameraTarget.y, cameraTarget.z);
+			controlsRef.current.minAzimuthAngle = cameraAzimuthal * DEG2RAD - hdeg * DEG2RAD;
+			controlsRef.current.maxAzimuthAngle = cameraAzimuthal * DEG2RAD + hdeg * DEG2RAD;
+			controlsRef.current.minPolarAngle = cameraPolar * DEG2RAD - vdeg * DEG2RAD;
+			controlsRef.current.maxPolarAngle = cameraPolar * DEG2RAD + vdeg * DEG2RAD;
+			controlsRef.current.update();
+		}
+	}, [cameraAzimuthal, cameraPolar, cameraPos, cameraTarget, controlsRef, hdeg, vdeg]);
 
-	const listenToMouseMovement = () => {
-		const xNorm = (pointer.x + 1) / 2;
-		const yNorm = (pointer.y + 1) / 2;
+	useFrame(() => {
+		const controls = controlsRef.current;
+		if (!controls) return;
 
-		// Mouse rotation as Euler
-		const offsetEuler = new Euler(
-			MathUtils.lerp(-Math.PI / 3, Math.PI / 3, yNorm), // pitch (X)
-			MathUtils.lerp(-Math.PI, Math.PI, -xNorm), // yaw (Y)
-			0,
-			"YXZ"
+		const pos = controls.object.position;
+		const target = controls.target;
+
+		console.log(
+			"Camera position:",
+			pos.toArray().map((v) => v.toFixed(2))
 		);
+		console.log(
+			"Camera target:",
+			target.toArray().map((v) => v.toFixed(2))
+		);
+		console.log("Azimuthal:", ((controls.getAzimuthalAngle() * 180) / Math.PI).toFixed(2));
+		console.log("Polar:", ((controls.getPolarAngle() * 180) / Math.PI).toFixed(2));
 
-		const offsetQuat = new Quaternion().setFromEuler(offsetEuler);
+		let preset: CameraInfo | null = null;
 
-		// Combine: base orientation * offset
-		targetQuaternion.current.copy(baseQuaternion).multiply(offsetQuat);
+		if (selectObjectFocus) {
+			preset = cameraPresets[selectObjectFocus.name];
+		} else {
+			preset = currentPlaceInfo;
+		}
 
-		// Smooth slerp
-		currentQuaternion.current.slerp(targetQuaternion.current, CAMERA_DAMPING);
+		if (!preset) return;
 
-		camera.quaternion.copy(currentQuaternion.current);
-	};
+		// Desired targets
+		const posTarget = new Vector3(...preset.position);
+		const targetTarget = new Vector3(...preset.target);
 
-	return { cameraIsMoving };
+		// Interpolate position + target
+		pos.lerp(posTarget, CAMERA_MOVEMENT_SPEED);
+		target.lerp(targetTarget, CAMERA_MOVEMENT_SPEED);
+
+		// Desired angles (in radians)
+		const minAzimuthTarget = (preset.azimuthal - preset.hdeg2rad) * DEG2RAD;
+		const maxAzimuthTarget = (preset.azimuthal + preset.hdeg2rad) * DEG2RAD;
+		const minPolarTarget = (preset.polar - preset.vdeg2rad) * DEG2RAD;
+		const maxPolarTarget = (preset.polar + preset.vdeg2rad) * DEG2RAD;
+
+		// Smoothly interpolate current → target
+		controls.minAzimuthAngle = MathUtils.lerp(controls.minAzimuthAngle, minAzimuthTarget, CAMERA_MOVEMENT_SPEED);
+		controls.maxAzimuthAngle = MathUtils.lerp(controls.maxAzimuthAngle, maxAzimuthTarget, CAMERA_MOVEMENT_SPEED);
+		controls.minPolarAngle = MathUtils.lerp(controls.minPolarAngle, minPolarTarget, CAMERA_MOVEMENT_SPEED);
+		controls.maxPolarAngle = MathUtils.lerp(controls.maxPolarAngle, maxPolarTarget, CAMERA_MOVEMENT_SPEED);
+
+		controls.update();
+		invalidate();
+	});
 };
 
 export default useCameraMovement;

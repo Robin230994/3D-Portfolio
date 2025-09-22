@@ -40,7 +40,7 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { occulusPosition, occulusRotation, backLabelPos } = useControls("OcculusHeadset", {
 		occulusPosition: { value: { x: 3.37, y: 1.28, z: -1.39 }, step: 0.01 },
 		occulusRotation: { value: { x: -1.75, y: -0.08, z: 0.43 }, step: 0.01 },
-		backLabelPos: { value: { x: 1.6, y: 0, z: -3.2 }, step: 0.1 },
+		backLabelPos: { value: { x: 2.2, y: 0.3, z: -3.2 }, step: 0.1 },
 	});
 
 	return (

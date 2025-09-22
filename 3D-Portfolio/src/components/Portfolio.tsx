@@ -6,8 +6,6 @@ import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { useFocusContext } from "../hooks/useFocusContext";
 import { CameraContextProvider } from "../Helper/Provider/CameraContextProvider";
-import { useHoverContext } from "../hooks/useHoverContext";
-import { useEffect } from "react";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -19,6 +17,8 @@ import ObjectT4 from "./ObjectT4/ObjectT4";
 import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
+import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import { BlendFunction, ToneMappingMode } from "postprocessing";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
@@ -102,6 +102,10 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					</group>
 				</Center>
 			</CameraContextProvider>
+
+			{/* <EffectComposer>
+				<ToneMapping blendFunction={BlendFunction.NORMAL} mode={ToneMappingMode.ACES_FILMIC} />
+			</EffectComposer> */}
 		</>
 	);
 }
