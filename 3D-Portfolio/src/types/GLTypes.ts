@@ -1,6 +1,8 @@
 import { Color, Vector2 } from "three";
+import { AnimationClip } from "three";
 import { Vector3, Vector4 } from "three";
 import { CubeTexture, DirectionalLight, Material, Matrix3, Matrix4, Mesh, Quaternion, Scene, Texture } from "three";
+import { GLTFAction } from "../interfaces/GLlnterfaces";
 
 export type MaterialUpdateParams = {
 	[key: string]: unknown;
@@ -20,6 +22,7 @@ export type GLTFResult = {
 	};
 	scene?: Scene;
 	materials?: { [key: string]: Material | Material[] };
+	animations?: GLTFAction[];
 };
 
 export type Uniform = {
@@ -40,3 +43,5 @@ export type Uniform = {
 		| Array<unknown>
 		| null;
 };
+
+export type ActionName = "Idle" | "ChairRotation";

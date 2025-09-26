@@ -8,7 +8,7 @@ import { useRef } from "react";
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
 import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
 
-const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const IObjectT1: Mesh = nodes["image_object_t1"] as Mesh;
 
 	const coffeeSmokeMatRef = useRef<ShaderMaterial | null>(null);
@@ -46,7 +46,7 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				</mesh>
 			</mesh>
 
-			<OfficeChair name="OfficeChair" nodes={nodes} />
+			<OfficeChair name="OfficeChair" nodes={nodes} animations={animations} />
 			<OcculusQuest name="OcculusQuest" nodes={nodes} />
 		</group>
 	);

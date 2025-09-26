@@ -50,7 +50,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const macbookTopSideMaterial = MacbookTopSide.material as Material;
 
 	const { backLabelPos } = useControls("Macbook", {
-		backLabelPos: { value: { x: -1.2, y: 0, z: -14.5 }, step: 0.1 },
+		backLabelPos: { value: { x: 13.3, y: 0.2, z: -14.6 }, step: 0.1 },
 	});
 
 	useEffect(() => {

@@ -4,9 +4,15 @@ Command: npx gltfjsx@6.5.3 -t office-room.glb
 */
 
 import * as THREE from "three";
-import React from "react";
-import { useGLTF } from "@react-three/drei";
+import React, { useEffect } from "react";
+import { useGLTF, useAnimations, OrbitControls, Environment } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+
+type ActionName = "ChairRotation";
+
+interface GLTFAction extends THREE.AnimationClip {
+	name: ActionName;
+}
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -82,316 +88,442 @@ type GLTFResult = GLTF & {
 		ot4: THREE.MeshStandardMaterial;
 		dt1: THREE.MeshStandardMaterial;
 	};
+	animations: GLTFAction[];
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
-	const { nodes, materials } = useGLTF("/office-room.glb") as GLTFResult;
+	const group = React.useRef<THREE.Group>(null);
+	const { nodes, materials, animations } = useGLTF("/office-room.glb") as GLTFResult;
+	const { actions } = useAnimations(animations, group);
+
+	useEffect(() => {
+		actions?.ChairRotation?.play();
+	}, [actions?.ChairRotation]);
 	return (
-		<group {...props} dispose={null}>
-			<mesh geometry={nodes.RoofLampEmission.geometry} material={materials.Lamp_Mat} position={[0, 4.233, 0]} rotation={[0, 0, Math.PI]} />
-			<mesh
-				geometry={nodes.LeftLED.geometry}
-				material={materials.BambuLabLED}
-				position={[-2.985, 2.243, 2.234]}
-				rotation={[Math.PI, 0, Math.PI]}
-				scale={1.113}
-			/>
-			<mesh
-				geometry={nodes.RightLED.geometry}
-				material={materials.BambuLabLED}
-				position={[-2.985, 2.243, 2.234]}
-				rotation={[Math.PI, 0, Math.PI]}
-				scale={1.113}
-			/>
-			<mesh geometry={nodes.PoolBall8.geometry} material={materials.ot3} position={[-6.449, 2.565, -1.764]} rotation={[0, -1.105, 0]} />
-			<mesh geometry={nodes.PLARollMaterial.geometry} material={materials.ot3} position={[-2.751, 2.804, 2.439]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} />
-			<mesh
-				geometry={nodes.BambuLabAMSOpener.geometry}
-				material={materials.ot3}
-				position={[-3.028, 2.671, 2.662]}
-				rotation={[Math.PI, 0, Math.PI]}
-				scale={1.113}
-			/>
-			<mesh geometry={nodes.BambuLabDoor.geometry} material={materials.ot3} position={[-3.101, 1.767, 1.701]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-			<mesh geometry={nodes.PLAMaterialRollHolder.geometry} material={materials.ot3} position={[-2.749, 2.797, 2.453]} rotation={[0, 0, -Math.PI / 2]} />
-			<mesh
-				geometry={nodes.BambuLabNozzle.geometry}
-				material={materials.ot3}
-				position={[-3.119, 2.075, 2.203]}
-				rotation={[Math.PI, 0, Math.PI]}
-				scale={1.113}
-			/>
-			<mesh geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[5.797, 1.171, -1.729]} rotation={[1.309, 0, 0]} scale={0.143} />
-			<mesh
-				geometry={nodes.OcculusController.geometry}
-				material={materials.iot1}
-				position={[3.546, 1.207, -1.77]}
-				rotation={[1.587, -0.001, 0.363]}
-				scale={0.333}
-			/>
-			<mesh
-				geometry={nodes.OcculusHeadset.geometry}
-				material={materials.iot1}
-				position={[3.369, 1.234, -1.386]}
-				rotation={[-Math.PI / 2, 0, 0.679]}
-				scale={0.333}
-			/>
-			<mesh geometry={nodes.ChairRoll.geometry} material={materials.iot1} position={[5.334, 0.145, -0.59]} rotation={[0, -1.18, Math.PI / 2]} scale={0.034} />
-			<mesh
-				geometry={nodes.GamingChairUpper.geometry}
-				material={materials.iot1}
-				position={[5.803, 0.975, -0.138]}
-				rotation={[Math.PI, -0.142, Math.PI]}
-				scale={0.047}
-			/>
-			<mesh
-				geometry={nodes.GamingChairLower.geometry}
-				material={materials.Metallic}
-				position={[5.772, 0.286, -0.358]}
-				rotation={[Math.PI, -0.142, Math.PI]}
-				scale={0.161}
-			/>
-			<mesh
-				geometry={nodes.SenolithWB.geometry}
-				material={materials.iot2}
-				position={[0.649, 2.401, -2.441]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh
-				geometry={nodes.SenolithWB02.geometry}
-				material={materials.iot2}
-				position={[0.472, 2.438, -2.441]}
-				rotation={[-Math.PI / 2, 0, Math.PI]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh
-				geometry={nodes.SenoScreenUV.geometry}
-				material={materials.iot2}
-				position={[0.446, 2.354, -2.441]}
-				rotation={[-Math.PI / 2, 0, Math.PI]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh
-				geometry={nodes.Senosoft.geometry}
-				material={materials.iot2}
-				position={[0.659, 2.354, -2.441]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh
-				geometry={nodes.Waterproof.geometry}
-				material={materials.iot2}
-				position={[0.63, 2.438, -2.441]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh
-				geometry={nodes.Waterproof02.geometry}
-				material={materials.iot2}
-				position={[0.454, 2.401, -2.441]}
-				rotation={[-Math.PI / 2, 0, Math.PI]}
-				scale={[0.033, 0.001, 0.05]}
-			/>
-			<mesh geometry={nodes.FCBoxTop.geometry} material={materials.iot2} position={[0.552, 2.505, -2.441]} rotation={[Math.PI / 2, 0, 0]} scale={0.01} />
-			<mesh
-				geometry={nodes.MusterboxBox01.geometry}
-				material={materials.iot2}
-				position={[-3.546, 2.334, -2.745]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox02.geometry}
-				material={materials.iot2}
-				position={[-3.31, 2.278, -2.638]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox03.geometry}
-				material={materials.iot2}
-				position={[-3.24, 2.278, -2.637]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox04.geometry}
-				material={materials.iot2}
-				position={[-3.165, 2.278, -2.636]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox05.geometry}
-				material={materials.iot2}
-				position={[-3.094, 2.278, -2.635]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox06.geometry}
-				material={materials.iot2}
-				position={[-3.021, 2.278, -2.634]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox07.geometry}
-				material={materials.iot2}
-				position={[-3.382, 2.278, -2.568]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox08.geometry}
-				material={materials.iot2}
-				position={[-3.311, 2.278, -2.567]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox09.geometry}
-				material={materials.iot2}
-				position={[-3.241, 2.278, -2.566]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox10.geometry}
-				material={materials.iot2}
-				position={[-3.166, 2.278, -2.565]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox11.geometry}
-				material={materials.iot2}
-				position={[-3.095, 2.278, -2.564]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox12.geometry}
-				material={materials.iot2}
-				position={[-3.022, 2.278, -2.563]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox13.geometry}
-				material={materials.iot2}
-				position={[-3.384, 2.278, -2.497]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox14.geometry}
-				material={materials.iot2}
-				position={[-3.312, 2.278, -2.496]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox15.geometry}
-				material={materials.iot2}
-				position={[-3.242, 2.278, -2.495]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox16.geometry}
-				material={materials.iot2}
-				position={[-3.167, 2.278, -2.494]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox17.geometry}
-				material={materials.iot2}
-				position={[-3.096, 2.278, -2.493]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox18.geometry}
-				material={materials.iot2}
-				position={[-3.023, 2.278, -2.492]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox19.geometry}
-				material={materials.iot2}
-				position={[-3.385, 2.278, -2.424]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox20.geometry}
-				material={materials.iot2}
-				position={[-3.313, 2.278, -2.422]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox21.geometry}
-				material={materials.iot2}
-				position={[-3.243, 2.278, -2.421]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox22.geometry}
-				material={materials.iot2}
-				position={[-3.168, 2.278, -2.42]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox23.geometry}
-				material={materials.iot2}
-				position={[-3.097, 2.278, -2.419]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxBox24.geometry}
-				material={materials.iot2}
-				position={[-3.025, 2.278, -2.418]}
-				rotation={[-Math.PI / 2, 0, 1.556]}
-				scale={0.011}
-			/>
-			<mesh
-				geometry={nodes.MusterboxDeckel.geometry}
-				material={materials.iot2}
-				position={[-3.222, 2.469, -2.815]}
-				rotation={[0.786, -0.007, -3.136]}
-				scale={0.007}
-			/>
-			<mesh
-				geometry={nodes.MusterboxLasche.geometry}
-				material={materials.iot2}
-				position={[-3.291, 2.63, -2.69]}
-				rotation={[1.593, -0.002, -3.136]}
-				scale={0.007}
-			/>
-			<mesh geometry={nodes.Window.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
-			<mesh geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
-			<mesh geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
-			<mesh geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-2.94, 2.366, 1.63]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-			<mesh geometry={nodes.object_t4.geometry} material={materials.ot4} position={[5.644, 1.178, -1.578]} rotation={[-0.016, 0, 0]} scale={0.143} />
-			<mesh geometry={nodes.image_object_t1.geometry} material={materials.iot1} position={[-1.089, 1.392, 2.811]} rotation={[-1.52, 0.274, -2.72]} />
-			<mesh
-				geometry={nodes.image_object_t2.geometry}
-				material={materials.iot2}
-				position={[-0.513, 2.367, -2.654]}
-				rotation={[Math.PI / 2, 0, -Math.PI]}
-				scale={0.01}
-			/>
-			<mesh geometry={nodes.desk_objects_t1.geometry} material={materials.dt1} position={[-3.296, 1.606, -0.653]} rotation={[Math.PI, 0, Math.PI]} />
-			<mesh geometry={nodes.foundation_t1.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
-		</group>
+		<>
+			<OrbitControls />
+			<Environment background={true} files={"./environment/environment_map.hdr"} environmentIntensity={1.4} environmentRotation={[0.11, 1.2, -2.8]} />
+			<group ref={group} {...props} dispose={null}>
+				<group name="Scene">
+					<mesh
+						name="RoofLampEmission"
+						geometry={nodes.RoofLampEmission.geometry}
+						material={materials.Lamp_Mat}
+						position={[0, 4.233, 0]}
+						rotation={[0, 0, Math.PI]}
+					/>
+					<mesh
+						name="LeftLED"
+						geometry={nodes.LeftLED.geometry}
+						material={materials.BambuLabLED}
+						position={[-2.985, 2.243, 2.234]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh
+						name="RightLED"
+						geometry={nodes.RightLED.geometry}
+						material={materials.BambuLabLED}
+						position={[-2.985, 2.243, 2.234]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh name="PoolBall8" geometry={nodes.PoolBall8.geometry} material={materials.ot3} position={[-6.449, 2.565, -1.764]} rotation={[0, -1.105, 0]} />
+					<mesh
+						name="PLARollMaterial"
+						geometry={nodes.PLARollMaterial.geometry}
+						material={materials.ot3}
+						position={[-2.751, 2.804, 2.439]}
+						rotation={[Math.PI / 2, 0, -Math.PI / 2]}
+					/>
+					<mesh
+						name="BambuLabAMSOpener"
+						geometry={nodes.BambuLabAMSOpener.geometry}
+						material={materials.ot3}
+						position={[-3.028, 2.671, 2.662]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh
+						name="BambuLabDoor"
+						geometry={nodes.BambuLabDoor.geometry}
+						material={materials.ot3}
+						position={[-3.101, 1.767, 1.701]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh
+						name="PLAMaterialRollHolder"
+						geometry={nodes.PLAMaterialRollHolder.geometry}
+						material={materials.ot3}
+						position={[-2.749, 2.797, 2.453]}
+						rotation={[0, 0, -Math.PI / 2]}
+					/>
+					<mesh
+						name="BambuLabNozzle"
+						geometry={nodes.BambuLabNozzle.geometry}
+						material={materials.ot3}
+						position={[-3.119, 2.075, 2.203]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh
+						name="MacbookTopSide"
+						geometry={nodes.MacbookTopSide.geometry}
+						material={materials.ot5}
+						position={[5.797, 1.171, -1.729]}
+						rotation={[1.309, 0, 0]}
+						scale={0.143}
+					/>
+					<mesh
+						name="OcculusController"
+						geometry={nodes.OcculusController.geometry}
+						material={materials.iot1}
+						position={[3.546, 1.207, -1.77]}
+						rotation={[1.587, -0.001, 0.363]}
+						scale={0.333}
+					/>
+					<mesh
+						name="OcculusHeadset"
+						geometry={nodes.OcculusHeadset.geometry}
+						material={materials.iot1}
+						position={[3.369, 1.234, -1.386]}
+						rotation={[-Math.PI / 2, 0, 0.679]}
+						scale={0.333}
+					/>
+					<mesh
+						name="ChairRoll"
+						geometry={nodes.ChairRoll.geometry}
+						material={materials.iot1}
+						position={[5.334, 0.145, -0.59]}
+						rotation={[0, -1.18, Math.PI / 2]}
+						scale={0.034}
+					/>
+					<mesh
+						name="GamingChairUpper"
+						geometry={nodes.GamingChairUpper.geometry}
+						material={materials.iot1}
+						position={[5.773, 1.078, -0.357]}
+						rotation={[Math.PI, -0.142, Math.PI]}
+						scale={0.047}
+					/>
+					<mesh
+						name="GamingChairLower"
+						geometry={nodes.GamingChairLower.geometry}
+						material={materials.Metallic}
+						position={[5.772, 0.286, -0.358]}
+						rotation={[Math.PI, -0.142, Math.PI]}
+						scale={0.161}
+					/>
+					<mesh
+						name="SenolithWB"
+						geometry={nodes.SenolithWB.geometry}
+						material={materials.iot2}
+						position={[0.649, 2.401, -2.441]}
+						rotation={[-Math.PI / 2, 0, 0]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="SenolithWB02"
+						geometry={nodes.SenolithWB02.geometry}
+						material={materials.iot2}
+						position={[0.472, 2.438, -2.441]}
+						rotation={[-Math.PI / 2, 0, Math.PI]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="SenoScreenUV"
+						geometry={nodes.SenoScreenUV.geometry}
+						material={materials.iot2}
+						position={[0.446, 2.354, -2.441]}
+						rotation={[-Math.PI / 2, 0, Math.PI]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="Senosoft"
+						geometry={nodes.Senosoft.geometry}
+						material={materials.iot2}
+						position={[0.659, 2.354, -2.441]}
+						rotation={[-Math.PI / 2, 0, 0]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="Waterproof"
+						geometry={nodes.Waterproof.geometry}
+						material={materials.iot2}
+						position={[0.63, 2.438, -2.441]}
+						rotation={[-Math.PI / 2, 0, 0]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="Waterproof02"
+						geometry={nodes.Waterproof02.geometry}
+						material={materials.iot2}
+						position={[0.454, 2.401, -2.441]}
+						rotation={[-Math.PI / 2, 0, Math.PI]}
+						scale={[0.033, 0.001, 0.05]}
+					/>
+					<mesh
+						name="FCBoxTop"
+						geometry={nodes.FCBoxTop.geometry}
+						material={materials.iot2}
+						position={[0.552, 2.505, -2.441]}
+						rotation={[Math.PI / 2, 0, 0]}
+						scale={0.01}
+					/>
+					<mesh
+						name="MusterboxBox01"
+						geometry={nodes.MusterboxBox01.geometry}
+						material={materials.iot2}
+						position={[-3.546, 2.334, -2.745]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox02"
+						geometry={nodes.MusterboxBox02.geometry}
+						material={materials.iot2}
+						position={[-3.31, 2.278, -2.638]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox03"
+						geometry={nodes.MusterboxBox03.geometry}
+						material={materials.iot2}
+						position={[-3.24, 2.278, -2.637]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox04"
+						geometry={nodes.MusterboxBox04.geometry}
+						material={materials.iot2}
+						position={[-3.165, 2.278, -2.636]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox05"
+						geometry={nodes.MusterboxBox05.geometry}
+						material={materials.iot2}
+						position={[-3.094, 2.278, -2.635]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox06"
+						geometry={nodes.MusterboxBox06.geometry}
+						material={materials.iot2}
+						position={[-3.021, 2.278, -2.634]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox07"
+						geometry={nodes.MusterboxBox07.geometry}
+						material={materials.iot2}
+						position={[-3.382, 2.278, -2.568]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox08"
+						geometry={nodes.MusterboxBox08.geometry}
+						material={materials.iot2}
+						position={[-3.311, 2.278, -2.567]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox09"
+						geometry={nodes.MusterboxBox09.geometry}
+						material={materials.iot2}
+						position={[-3.241, 2.278, -2.566]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox10"
+						geometry={nodes.MusterboxBox10.geometry}
+						material={materials.iot2}
+						position={[-3.166, 2.278, -2.565]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox11"
+						geometry={nodes.MusterboxBox11.geometry}
+						material={materials.iot2}
+						position={[-3.095, 2.278, -2.564]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox12"
+						geometry={nodes.MusterboxBox12.geometry}
+						material={materials.iot2}
+						position={[-3.022, 2.278, -2.563]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox13"
+						geometry={nodes.MusterboxBox13.geometry}
+						material={materials.iot2}
+						position={[-3.384, 2.278, -2.497]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox14"
+						geometry={nodes.MusterboxBox14.geometry}
+						material={materials.iot2}
+						position={[-3.312, 2.278, -2.496]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox15"
+						geometry={nodes.MusterboxBox15.geometry}
+						material={materials.iot2}
+						position={[-3.242, 2.278, -2.495]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox16"
+						geometry={nodes.MusterboxBox16.geometry}
+						material={materials.iot2}
+						position={[-3.167, 2.278, -2.494]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox17"
+						geometry={nodes.MusterboxBox17.geometry}
+						material={materials.iot2}
+						position={[-3.096, 2.278, -2.493]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox18"
+						geometry={nodes.MusterboxBox18.geometry}
+						material={materials.iot2}
+						position={[-3.023, 2.278, -2.492]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox19"
+						geometry={nodes.MusterboxBox19.geometry}
+						material={materials.iot2}
+						position={[-3.385, 2.278, -2.424]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox20"
+						geometry={nodes.MusterboxBox20.geometry}
+						material={materials.iot2}
+						position={[-3.313, 2.278, -2.422]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox21"
+						geometry={nodes.MusterboxBox21.geometry}
+						material={materials.iot2}
+						position={[-3.243, 2.278, -2.421]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox22"
+						geometry={nodes.MusterboxBox22.geometry}
+						material={materials.iot2}
+						position={[-3.168, 2.278, -2.42]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox23"
+						geometry={nodes.MusterboxBox23.geometry}
+						material={materials.iot2}
+						position={[-3.097, 2.278, -2.419]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxBox24"
+						geometry={nodes.MusterboxBox24.geometry}
+						material={materials.iot2}
+						position={[-3.025, 2.278, -2.418]}
+						rotation={[-Math.PI / 2, 0, 1.556]}
+						scale={0.011}
+					/>
+					<mesh
+						name="MusterboxDeckel"
+						geometry={nodes.MusterboxDeckel.geometry}
+						material={materials.iot2}
+						position={[-3.222, 2.469, -2.815]}
+						rotation={[0.786, -0.007, -3.136]}
+						scale={0.007}
+					/>
+					<mesh
+						name="MusterboxLasche"
+						geometry={nodes.MusterboxLasche.geometry}
+						material={materials.iot2}
+						position={[-3.291, 2.63, -2.69]}
+						rotation={[1.593, -0.002, -3.136]}
+						scale={0.007}
+					/>
+					<mesh name="Window" geometry={nodes.Window.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
+					<mesh name="object_t1" geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
+					<mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
+					<mesh
+						name="object_t3"
+						geometry={nodes.object_t3.geometry}
+						material={materials.ot3}
+						position={[-2.94, 2.366, 1.63]}
+						rotation={[Math.PI, 0, Math.PI]}
+						scale={1.113}
+					/>
+					<mesh
+						name="object_t4"
+						geometry={nodes.object_t4.geometry}
+						material={materials.ot4}
+						position={[5.644, 1.178, -1.578]}
+						rotation={[-0.016, 0, 0]}
+						scale={0.143}
+					/>
+					<mesh
+						name="image_object_t1"
+						geometry={nodes.image_object_t1.geometry}
+						material={materials.iot1}
+						position={[-1.089, 1.392, 2.811]}
+						rotation={[-1.52, 0.274, -2.72]}
+					/>
+					<mesh
+						name="image_object_t2"
+						geometry={nodes.image_object_t2.geometry}
+						material={materials.iot2}
+						position={[-0.513, 2.367, -2.654]}
+						rotation={[Math.PI / 2, 0, -Math.PI]}
+						scale={0.01}
+					/>
+					<mesh
+						name="desk_objects_t1"
+						geometry={nodes.desk_objects_t1.geometry}
+						material={materials.dt1}
+						position={[-3.296, 1.606, -0.653]}
+						rotation={[Math.PI, 0, Math.PI]}
+					/>
+					<mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
+				</group>
+			</group>
+		</>
 	);
 }
 

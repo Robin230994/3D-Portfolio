@@ -1,5 +1,5 @@
-import React from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import React, { useMemo } from "react";
+import { ActionName, IUIComponentProps } from "../../../types/GLTypes";
 import { Mesh, Object3D } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
@@ -18,8 +18,10 @@ interface OfficeChairUIProps extends IUIComponentProps {
 				} | null;
 			};
 		};
-		functions: { myFunctions: { setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>> } };
-		refs: { myRefs: object };
+		functions: {
+			myFunctions: { setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>; setAction: React.Dispatch<React.SetStateAction<ActionName>> };
+		};
+		refs: { myRefs: { upperChairRef: React.RefObject<Mesh> } };
 	};
 }
 
@@ -29,7 +31,8 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus } = myData;
-	const { setIsAnyHovered } = myFunctions;
+	const { setIsAnyHovered, setAction } = myFunctions;
+	const { upperChairRef } = myRefs;
 
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
 	const LowerOfficeChair: Mesh = nodes["GamingChairLower"] as Mesh;
@@ -51,33 +54,74 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 		}
 	);
 
-	const chairRollInstances = [
-		{
-			position: [positionFR.x, positionFR.y, positionFR.z] as [number, number, number],
-			rotation: [rotationFR.x, rotationFR.y, rotationFR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionSR.x, positionSR.y, positionSR.z] as [number, number, number],
-			rotation: [rotationSR.x, rotationSR.y, rotationSR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionTR.x, positionTR.y, positionTR.z] as [number, number, number],
-			rotation: [rotationTR.x, rotationTR.y, rotationTR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionFTR.x, positionFTR.y, positionFTR.z] as [number, number, number],
-			rotation: [rotationFTR.x, rotationFTR.y, rotationFTR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionFTH.x, positionFTH.y, positionFTH.z] as [number, number, number],
-			rotation: [rotationFTH.x, rotationFTH.y, rotationFTH.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-	];
+	const { chairRot } = useControls("OfficeChair", {
+		chairRot: { value: { x: UpperOfficeChair.rotation.x, y: UpperOfficeChair.rotation.y, z: UpperOfficeChair.rotation.z }, step: 0.01 },
+	});
+
+	const chairRollInstances = useMemo(
+		() => [
+			{
+				position: [positionFR.x, positionFR.y, positionFR.z] as [number, number, number],
+				rotation: [rotationFR.x, rotationFR.y, rotationFR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionSR.x, positionSR.y, positionSR.z] as [number, number, number],
+				rotation: [rotationSR.x, rotationSR.y, rotationSR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionTR.x, positionTR.y, positionTR.z] as [number, number, number],
+				rotation: [rotationTR.x, rotationTR.y, rotationTR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionFTR.x, positionFTR.y, positionFTR.z] as [number, number, number],
+				rotation: [rotationFTR.x, rotationFTR.y, rotationFTR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionFTH.x, positionFTH.y, positionFTH.z] as [number, number, number],
+				rotation: [rotationFTH.x, rotationFTH.y, rotationFTH.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+		],
+		[
+			ChairRoll.scale.x,
+			ChairRoll.scale.y,
+			ChairRoll.scale.z,
+			positionFR.x,
+			positionFR.y,
+			positionFR.z,
+			positionFTH.x,
+			positionFTH.y,
+			positionFTH.z,
+			positionFTR.x,
+			positionFTR.y,
+			positionFTR.z,
+			positionSR.x,
+			positionSR.y,
+			positionSR.z,
+			positionTR.x,
+			positionTR.y,
+			positionTR.z,
+			rotationFR.x,
+			rotationFR.y,
+			rotationFR.z,
+			rotationFTH.x,
+			rotationFTH.y,
+			rotationFTH.z,
+			rotationFTR.x,
+			rotationFTR.y,
+			rotationFTR.z,
+			rotationSR.x,
+			rotationSR.y,
+			rotationSR.z,
+			rotationTR.x,
+			rotationTR.y,
+			rotationTR.z,
+		]
+	);
 
 	return (
 		<group
@@ -86,12 +130,16 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 				if (selectObjectFocus === null) setIsAnyHovered(true);
 			}}
 			onPointerOut={() => setIsAnyHovered(false)}>
-			<mesh
-				geometry={UpperOfficeChair.geometry}
+			<primitive
+				object={UpperOfficeChair}
 				position={UpperOfficeChair.position}
-				rotation={UpperOfficeChair.rotation}
+				rotation={[chairRot.x, chairRot.y, chairRot.z]}
 				scale={UpperOfficeChair.scale}
 				material={iot1Material}
+				ref={upperChairRef}
+				onClick={() => {
+					setAction("ChairRotation");
+				}}
 			/>
 
 			<mesh
@@ -103,7 +151,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			/>
 
 			{/** Chair roll instances */}
-			{/* <InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} /> */}
+			<InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} />
 		</group>
 	);
 };

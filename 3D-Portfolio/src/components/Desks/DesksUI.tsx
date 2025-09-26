@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
 import { BoxGeometry, DirectionalLight, Material, Mesh } from "three";
 import { useControls } from "leva";
@@ -51,28 +51,59 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 		rotationFTR: { value: { x: 0, y: Math.PI, z: 1.57 }, step: 0.01 },
 	});
 
-	const deskRollsInstance = [
-		{
-			position: [positionFR.x, positionFR.y, positionFR.z] as [number, number, number],
-			rotation: [rotationFR.x, rotationFR.y, rotationFR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionSR.x, positionSR.y, positionSR.z] as [number, number, number],
-			rotation: [rotationSR.x, rotationSR.y, rotationSR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionTR.x, positionTR.y, positionTR.z] as [number, number, number],
-			rotation: [rotationTR.x, rotationTR.y, rotationTR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-		{
-			position: [positionFTR.x, positionFTR.y, positionFTR.z] as [number, number, number],
-			rotation: [rotationFTR.x, rotationFTR.y, rotationFTR.z] as [number, number, number],
-			scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
-		},
-	];
+	const deskRollsInstance = useMemo(
+		() => [
+			{
+				position: [positionFR.x, positionFR.y, positionFR.z] as [number, number, number],
+				rotation: [rotationFR.x, rotationFR.y, rotationFR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionSR.x, positionSR.y, positionSR.z] as [number, number, number],
+				rotation: [rotationSR.x, rotationSR.y, rotationSR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionTR.x, positionTR.y, positionTR.z] as [number, number, number],
+				rotation: [rotationTR.x, rotationTR.y, rotationTR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+			{
+				position: [positionFTR.x, positionFTR.y, positionFTR.z] as [number, number, number],
+				rotation: [rotationFTR.x, rotationFTR.y, rotationFTR.z] as [number, number, number],
+				scale: [ChairRoll.scale.x, ChairRoll.scale.y, ChairRoll.scale.z] as [number, number, number],
+			},
+		],
+		[
+			ChairRoll.scale.x,
+			ChairRoll.scale.y,
+			ChairRoll.scale.z,
+			positionFR.x,
+			positionFR.y,
+			positionFR.z,
+			positionFTR.x,
+			positionFTR.y,
+			positionFTR.z,
+			positionSR.x,
+			positionSR.y,
+			positionSR.z,
+			positionTR.x,
+			positionTR.y,
+			positionTR.z,
+			rotationFR.x,
+			rotationFR.y,
+			rotationFR.z,
+			rotationFTR.x,
+			rotationFTR.y,
+			rotationFTR.z,
+			rotationSR.x,
+			rotationSR.y,
+			rotationSR.z,
+			rotationTR.x,
+			rotationTR.y,
+			rotationTR.z,
+		]
+	);
 
 	useEffect(() => {
 		materialCreator.addInstanciatedMaterial("deskMaterial", deskMaterial);
@@ -89,7 +120,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			</mesh>
 
 			{/** Desk chair roll instances  */}
-			{/* <InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} /> */}
+			<InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} />
 		</group>
 	);
 };

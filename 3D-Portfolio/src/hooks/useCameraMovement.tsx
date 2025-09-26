@@ -1,11 +1,9 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { Euler, PerspectiveCamera, Quaternion, Vector3 } from "three";
+import { Vector3 } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useFocusContext } from "./useFocusContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MathUtils } from "three";
-import { Matrix4 } from "three";
-import { useCameraContext } from "./useCameraContext";
 import { useControls } from "leva";
 
 type CameraInfo = {
@@ -20,7 +18,7 @@ type CameraInfo = {
 const cameraPresets: Record<string, CameraInfo> = {
 	RoomPointOne: {
 		position: [1.6, 1.0, 1.58],
-		target: [5.72, -0.89, -0.74],
+		target: [5.72, -0.3, -0.74],
 		azimuthal: -60.25,
 		polar: 68.25,
 		hdeg2rad: 10,
@@ -46,7 +44,7 @@ const cameraPresets: Record<string, CameraInfo> = {
 		position: [2.9, 0.7, -0.9],
 		target: [2.9, -1.9, -3.5],
 		azimuthal: 1.4,
-		polar: 59.4,
+		polar: 51.4,
 		hdeg2rad: 0,
 		vdeg2rad: 0,
 	},
@@ -59,10 +57,10 @@ const cameraPresets: Record<string, CameraInfo> = {
 		vdeg2rad: 5,
 	},
 	Macbook: {
-		position: [5.2, 0.1, -1],
-		target: [5.15, -4, -10],
-		azimuthal: 0,
-		polar: 68.3,
+		position: [5.1, 0, -1],
+		target: [5.3, -4, -10],
+		azimuthal: -1,
+		polar: 64.8,
 		hdeg2rad: 0,
 		vdeg2rad: 0,
 	},
@@ -112,16 +110,16 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		const pos = controls.object.position;
 		const target = controls.target;
 
-		console.log(
-			"Camera position:",
-			pos.toArray().map((v) => v.toFixed(2))
-		);
-		console.log(
-			"Camera target:",
-			target.toArray().map((v) => v.toFixed(2))
-		);
-		console.log("Azimuthal:", ((controls.getAzimuthalAngle() * 180) / Math.PI).toFixed(2));
-		console.log("Polar:", ((controls.getPolarAngle() * 180) / Math.PI).toFixed(2));
+		// console.log(
+		// 	"Camera position:",
+		// 	pos.toArray().map((v) => v.toFixed(2))
+		// );
+		// console.log(
+		// 	"Camera target:",
+		// 	target.toArray().map((v) => v.toFixed(2))
+		// );
+		// console.log("Azimuthal:", ((controls.getAzimuthalAngle() * 180) / Math.PI).toFixed(2));
+		// console.log("Polar:", ((controls.getPolarAngle() * 180) / Math.PI).toFixed(2));
 
 		let preset: CameraInfo | null = null;
 

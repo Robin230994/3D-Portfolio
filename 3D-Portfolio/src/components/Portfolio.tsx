@@ -17,8 +17,6 @@ import ObjectT4 from "./ObjectT4/ObjectT4";
 import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
-import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
-import { BlendFunction, ToneMappingMode } from "postprocessing";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
@@ -29,7 +27,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	/** Nodes / Meshes */
 	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
-	const { nodes } = officeModel as unknown as GLTFResult;
+	const { nodes, animations } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
 
@@ -96,16 +94,12 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						</group>
 
 						<group name="image-objects">
-							<ImageObjectT1 name="ImageObjectT1" nodes={nodes} />
+							<ImageObjectT1 name="ImageObjectT1" nodes={nodes} animations={animations} />
 							<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
 						</group>
 					</group>
 				</Center>
 			</CameraContextProvider>
-
-			{/* <EffectComposer>
-				<ToneMapping blendFunction={BlendFunction.NORMAL} mode={ToneMappingMode.ACES_FILMIC} />
-			</EffectComposer> */}
 		</>
 	);
 }
