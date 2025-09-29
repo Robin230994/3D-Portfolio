@@ -2,14 +2,14 @@ import React, { useRef } from "react";
 import BillardTriangleUI from "./BillardTriangleUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { useFocusContext } from "../../../hooks/useFocusContext";
-import { useCameraContext } from "../../../hooks/useCameraContext";
 import { Group } from "three";
 import { useHoverContext } from "../../../hooks/useHoverContext";
+import { useCameraStore } from "../../../Stores/useCameraStore";
 
 const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const { selectObjectFocus, setSelectObjectFocus } = useFocusContext();
 	const { setIsAnyHovered } = useHoverContext();
-	const { cameraIsMoving } = useCameraContext();
+	const { cameraIsMoving } = useCameraStore();
 
 	const triangleRef = useRef<Group>(null);
 
