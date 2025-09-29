@@ -1,10 +1,11 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useFocusContext } from "./useFocusContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MathUtils } from "three";
 import { useControls } from "leva";
+import { useCameraStore } from "../Stores/useCameraStore";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 type CameraInfo = {
 	position: [number, number, number];
@@ -76,11 +77,14 @@ const cameraPresets: Record<string, CameraInfo> = {
 
 const CAMERA_MOVEMENT_SPEED = 0.03;
 const DEG2RAD = Math.PI / 180;
+const EDGE_HOLD_TIME = 1.5;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const [currentPlaceInfo, setCurrentPlaceInfo] = useState<CameraInfo>(cameraPresets.RoomPointOne);
+	const holdStartTimeRef = useRef<number | null>(null);
 	const { selectObjectFocus } = useFocusContext();
 	const { invalidate } = useThree();
+	const { setEdgeState } = useCameraStore();
 
 	const { cameraPos, cameraTarget, cameraAzimuthal, cameraPolar, hdeg, vdeg } = useControls("CameraControls", {
 		cameraPos: { value: { x: 1.6, y: 1.0, z: 1.58 }, step: 0.1 },
@@ -109,17 +113,6 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 
 		const pos = controls.object.position;
 		const target = controls.target;
-
-		// console.log(
-		// 	"Camera position:",
-		// 	pos.toArray().map((v) => v.toFixed(2))
-		// );
-		// console.log(
-		// 	"Camera target:",
-		// 	target.toArray().map((v) => v.toFixed(2))
-		// );
-		// console.log("Azimuthal:", ((controls.getAzimuthalAngle() * 180) / Math.PI).toFixed(2));
-		// console.log("Polar:", ((controls.getPolarAngle() * 180) / Math.PI).toFixed(2));
 
 		let preset: CameraInfo | null = null;
 
@@ -150,6 +143,34 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		controls.maxAzimuthAngle = MathUtils.lerp(controls.maxAzimuthAngle, maxAzimuthTarget, CAMERA_MOVEMENT_SPEED);
 		controls.minPolarAngle = MathUtils.lerp(controls.minPolarAngle, minPolarTarget, CAMERA_MOVEMENT_SPEED);
 		controls.maxPolarAngle = MathUtils.lerp(controls.maxPolarAngle, maxPolarTarget, CAMERA_MOVEMENT_SPEED);
+
+		// Edge screen detection
+		const currentAzimuth = controls.getAzimuthalAngle();
+		const atLeftEdge = Math.abs(currentAzimuth - controls.minAzimuthAngle) < 0.001;
+		const atRightEdge = Math.abs(currentAzimuth - controls.maxAzimuthAngle) < 0.001;
+
+		let activeSide: "left" | "right" | null = null;
+
+		if (atRightEdge) activeSide = "left";
+		else if (atLeftEdge) activeSide = "right";
+
+		if (activeSide) {
+			if (!holdStartTimeRef.current) holdStartTimeRef.current = performance.now();
+
+			const elapsed = (performance.now() - holdStartTimeRef.current) / 1000;
+			const progress = Math.min(elapsed / EDGE_HOLD_TIME, 1);
+
+			setEdgeState(activeSide, progress);
+
+			if (progress === 1) {
+				holdStartTimeRef.current = null;
+				// trigger camera change here
+			}
+		} else {
+			// user left the edge → reset
+			holdStartTimeRef.current = null;
+			setEdgeState(null, 0);
+		}
 
 		controls.update();
 		invalidate();

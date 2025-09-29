@@ -5,12 +5,14 @@ import { HoverContextProvider } from "./Helper/Provider/HoverContextProvider";
 import { Model } from "../public/Office-room";
 
 import Portfolio from "./components/Portfolio";
+import CameraEdgeLabel from "./components/CameraEdgeLabel/CameraEdgeLabel";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	const isDebugMode = urlParams.has("debug");
 	return (
 		<>
+			<CameraEdgeLabel />
 			<FocusContextProvider>
 				<HoverContextProvider>
 					<Leva hidden={!isDebugMode} />
