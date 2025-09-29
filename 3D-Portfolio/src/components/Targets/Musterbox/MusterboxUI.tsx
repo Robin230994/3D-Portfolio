@@ -4,8 +4,8 @@ import { DirectionalLight, Mesh } from "three";
 import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
 import { Object3D } from "three";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { useControls } from "leva";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -22,13 +22,13 @@ interface MusterboxUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: React.Dispatch<
-					React.SetStateAction<{
+				setSelectObjectFocus: (
+					focus: {
 						name: string;
 						object: Object3D;
-					} | null>
-				>;
-				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
+					} | null
+				) => void;
+				setIsAnyHovered: (hovered: boolean) => void;
 			};
 		};
 		refs: { myRefs: { musterboxRef: RefObject<Group> } };

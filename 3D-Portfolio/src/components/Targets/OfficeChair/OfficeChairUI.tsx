@@ -19,7 +19,7 @@ interface OfficeChairUIProps extends IUIComponentProps {
 			};
 		};
 		functions: {
-			myFunctions: { setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>; setAction: React.Dispatch<React.SetStateAction<ActionName>> };
+			myFunctions: { setIsAnyHovered: (hovered: boolean) => void; setAction: React.Dispatch<React.SetStateAction<ActionName>> };
 		};
 		refs: { myRefs: { upperChairRef: React.RefObject<Mesh> } };
 	};

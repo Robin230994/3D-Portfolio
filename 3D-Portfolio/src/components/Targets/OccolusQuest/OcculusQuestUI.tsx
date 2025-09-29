@@ -17,8 +17,13 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: React.Dispatch<React.SetStateAction<{ name: string; object: Object3D } | null>>;
-				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
+				setSelectObjectFocus: (
+					focus: {
+						name: string;
+						object: Object3D;
+					} | null
+				) => void;
+				setIsAnyHovered: (hovered: boolean) => void;
 			};
 		};
 		refs: { myRefs: { occulusRef: RefObject<Group> } };

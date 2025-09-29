@@ -4,7 +4,6 @@ import { Perf } from "r3f-perf";
 import { GLTFResult } from "../types/GLTypes";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
-import { useFocusContext } from "../hooks/useFocusContext";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -34,9 +33,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	/** HOOKS */
 	useCursorEffect();
-
-	/** Contexts */
-	useFocusContext();
 
 	/** Debug */
 	const perfParams = useControls("Perf", {

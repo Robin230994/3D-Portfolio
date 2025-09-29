@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useHoverContext } from "./useHoverContext";
+import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
 
 const useCursorEffect = () => {
-	const { isAnyHovered } = useHoverContext();
+	const { isAnyHovered } = useObjectInteractionStore();
 
 	useEffect(() => {
 		document.body.style.cursor = isAnyHovered ? "pointer" : "default";

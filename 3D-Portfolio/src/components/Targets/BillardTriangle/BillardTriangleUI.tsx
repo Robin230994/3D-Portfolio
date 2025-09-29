@@ -21,13 +21,13 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: React.Dispatch<
-					React.SetStateAction<{
+				setSelectObjectFocus: (
+					focus: {
 						name: string;
 						object: Object3D;
-					} | null>
-				>;
-				setIsAnyHovered: React.Dispatch<React.SetStateAction<boolean>>;
+					} | null
+				) => void;
+				setIsAnyHovered: (hovered: boolean) => void;
 			};
 		};
 		refs: { myRefs: { triangleRef: RefObject<Group> } };

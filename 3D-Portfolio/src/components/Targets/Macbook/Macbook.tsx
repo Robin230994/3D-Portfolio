@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
 import MacbookUI from "./MacbookUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useFocusContext } from "../../../hooks/useFocusContext";
 import { Group } from "three";
-import { useHoverContext } from "../../../hooks/useHoverContext";
 import { useCameraStore } from "../../../Stores/useCameraStore";
+import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus } = useFocusContext();
-	const { setIsAnyHovered } = useHoverContext();
+	const { selectObjectFocus, setSelectObjectFocus, setIsAnyHovered } = useObjectInteractionStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const macbookRef = useRef<Group>(null);

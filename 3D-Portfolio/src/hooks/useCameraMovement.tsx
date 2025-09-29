@@ -1,10 +1,10 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { Vector3 } from "three";
-import { useFocusContext } from "./useFocusContext";
 import { useEffect, useRef, useState } from "react";
 import { MathUtils } from "three";
 import { useControls } from "leva";
 import { useCameraStore } from "../Stores/useCameraStore";
+import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 type CameraInfo = {
@@ -82,8 +82,8 @@ const EDGE_HOLD_TIME = 1.5;
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const [currentPlaceInfo, setCurrentPlaceInfo] = useState<CameraInfo>(cameraPresets.RoomPointOne);
 	const holdStartTimeRef = useRef<number | null>(null);
-	const { selectObjectFocus } = useFocusContext();
 	const { invalidate } = useThree();
+	const { selectObjectFocus } = useObjectInteractionStore();
 	const { setEdgeState } = useCameraStore();
 
 	const { cameraPos, cameraTarget, cameraAzimuthal, cameraPolar, hdeg, vdeg } = useControls("CameraControls", {
