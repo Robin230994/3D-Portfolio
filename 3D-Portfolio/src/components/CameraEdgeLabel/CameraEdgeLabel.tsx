@@ -1,13 +1,45 @@
+import { useEffect, useState } from "react";
 import { useCameraStore } from "../../Stores/useCameraStore";
 
+const HOLD_DURATION = 2;
+
 const CameraEdgeLabel: React.FC = () => {
-	const { edgeSide, edgeProgress } = useCameraStore();
+	const { edgeSide, edgeProgress, edgeHoldTime } = useCameraStore();
+	const [pulse, setPulse] = useState(false);
+	const [pulseProgress, setPulseProgress] = useState(0);
+
+	// Trigger pulse when holding at the edge long enough
+	useEffect(() => {
+		if (edgeProgress >= 1 && edgeHoldTime >= HOLD_DURATION && !pulse) {
+			setPulse(true);
+			setPulseProgress(0);
+			const start = performance.now();
+			const duration = 600; // pulse duration in ms
+
+			const animate = (time: number) => {
+				const t = Math.min((time - start) / duration, 1);
+				setPulseProgress(t);
+				if (t < 1) requestAnimationFrame(animate);
+				else setPulse(false);
+			};
+
+			requestAnimationFrame(animate);
+		}
+	}, [edgeProgress, edgeHoldTime, pulse]);
 
 	if (!edgeSide || edgeProgress <= 0) return null;
 
 	const minSize = 30;
 	const maxSize = 80;
-	const size = minSize + (maxSize - minSize) * edgeProgress;
+
+	let size = minSize + (maxSize - minSize) * edgeProgress;
+	let opacity = 0.8;
+
+	if (pulse) {
+		const extraGrowth = 0.5; // 50% bigger
+		size *= 1 + extraGrowth * pulseProgress;
+		opacity = 0.8 * (1 - pulseProgress); // fade out
+	}
 
 	return (
 		<div
@@ -19,7 +51,7 @@ const CameraEdgeLabel: React.FC = () => {
 				width: `${size}px`,
 				height: `${size}px`,
 				borderRadius: "50%",
-				background: "rgba(255,255,255,0.8)",
+				background: `rgba(255,255,255,${opacity})`,
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
