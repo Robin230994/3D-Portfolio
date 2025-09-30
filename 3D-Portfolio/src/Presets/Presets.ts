@@ -1,0 +1,69 @@
+import { CameraInfo } from "../types/GLTypes";
+
+export const cameraPresets: Record<string, CameraInfo> = {
+	RoomPointOne: {
+		position: [1.6, 1.0, 1.58],
+		target: [5.72, -0.3, -0.74],
+		azimuthal: -60.25,
+		polar: 68.25,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
+
+	RoomPointTwo: {
+		position: [-0.31, 1.62, 0.75],
+		target: [-2.23, 0.08, -3.99],
+		azimuthal: 17,
+		polar: 75.25,
+		hdeg2rad: 15,
+		vdeg2rad: 5,
+	},
+	FCBox: {
+		position: [0.1, 0.5, -1.2],
+		target: [0.1, 0.3, -2.1],
+		azimuthal: -10.8,
+		polar: 73.2,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
+	Musterbox: {
+		position: [-3.7, 0.9, -1.2],
+		target: [-3.6, -1, -5],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
+	OcculusQuest: {
+		position: [2.9, 0.7, -0.9],
+		target: [2.9, -1.9, -3.5],
+		azimuthal: 1.4,
+		polar: 51.4,
+		hdeg2rad: 0,
+		vdeg2rad: 0,
+	},
+	BambuLab: {
+		position: [-3.7, 0.4, -0.5],
+		target: [-3.8, -2, 10],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
+	Macbook: {
+		position: [5.1, 0, -1],
+		target: [5.3, -4, -10],
+		azimuthal: -1,
+		polar: 64.8,
+		hdeg2rad: 0,
+		vdeg2rad: 0,
+	},
+	BillardTriangle: {
+		position: [-5.5, 1, -2.1],
+		target: [-30.7, -5, -3],
+		azimuthal: -100,
+		polar: 80,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
+};

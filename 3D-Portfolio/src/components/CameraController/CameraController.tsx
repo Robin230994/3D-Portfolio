@@ -12,7 +12,16 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 
 	useCameraMovement(controlsRef);
 
-	return <>{isDebugMode && <OrbitControls makeDefault ref={controlsRef} enablePan={false} enableDamping={true} enableZoom={false} />}</>;
+	return (
+		<>
+			{isDebugMode && (
+				<>
+					<OrbitControls makeDefault ref={controlsRef} enablePan={false} enableDamping={true} enableZoom={false} />
+					{/* <CameraEdgeDetection controlsRef={controlsRef} isDraggingRef={isDraggingRef} /> */}
+				</>
+			)}
+		</>
+	);
 };
 
 export default CameraController;

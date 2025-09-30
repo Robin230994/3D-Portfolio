@@ -4,7 +4,7 @@ import { useCameraStore } from "../../Stores/useCameraStore";
 const HOLD_DURATION = 2;
 
 const CameraEdgeLabel: React.FC = () => {
-	const { edgeSide, edgeProgress, edgeHoldTime } = useCameraStore();
+	const { edgeSide, edgeProgress, edgeHoldTime, setEdgePulseComplete } = useCameraStore();
 	const [pulse, setPulse] = useState(false);
 	const [pulseProgress, setPulseProgress] = useState(0);
 
@@ -19,13 +19,17 @@ const CameraEdgeLabel: React.FC = () => {
 			const animate = (time: number) => {
 				const t = Math.min((time - start) / duration, 1);
 				setPulseProgress(t);
-				if (t < 1) requestAnimationFrame(animate);
-				else setPulse(false);
+				if (t < 1) {
+					requestAnimationFrame(animate);
+				} else {
+					setPulse(false);
+					setEdgePulseComplete(true);
+				}
 			};
 
 			requestAnimationFrame(animate);
 		}
-	}, [edgeProgress, edgeHoldTime, pulse]);
+	}, [edgeProgress, edgeHoldTime, pulse, setEdgePulseComplete]);
 
 	if (!edgeSide || edgeProgress <= 0) return null;
 

@@ -1,5 +1,4 @@
 import { Color, Vector2 } from "three";
-import { AnimationClip } from "three";
 import { Vector3, Vector4 } from "three";
 import { CubeTexture, DirectionalLight, Material, Matrix3, Matrix4, Mesh, Quaternion, Scene, Texture } from "three";
 import { GLTFAction } from "../interfaces/GLlnterfaces";
@@ -42,6 +41,15 @@ export type Uniform = {
 		| boolean
 		| Array<unknown>
 		| null;
+};
+
+export type CameraInfo = {
+	position: [number, number, number];
+	target: [number, number, number];
+	azimuthal: number;
+	polar: number;
+	hdeg2rad: number;
+	vdeg2rad: number;
 };
 
 export type ActionName = "Idle" | "ChairRotation";

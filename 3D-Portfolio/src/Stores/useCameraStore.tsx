@@ -1,6 +1,11 @@
 import { create } from "zustand";
+import { CameraInfo } from "../types/GLTypes";
+import { cameraPresets } from "../Presets/Presets";
 
 interface CameraState {
+	currentCameraPlaceInfo: CameraInfo;
+	setCurrentCameraPlaceInfo: (placeInfo: CameraInfo) => void;
+
 	cameraIsMoving: boolean;
 	setCameraIsMoving: (moving: boolean) => void;
 
@@ -10,9 +15,15 @@ interface CameraState {
 
 	edgeHoldTime: number;
 	setEdgeHoldTime: (time: number) => void;
+
+	edgePulseComplete: boolean;
+	setEdgePulseComplete: (complete: boolean) => void;
 }
 
 export const useCameraStore = create<CameraState>((set) => ({
+	currentCameraPlaceInfo: cameraPresets.RoomPointOne,
+	setCurrentCameraPlaceInfo: (placeInfo) => set({ currentCameraPlaceInfo: placeInfo }),
+
 	// CAMERA MOVEMENT
 	cameraIsMoving: false,
 	setCameraIsMoving: (moving) => set({ cameraIsMoving: moving }),
@@ -24,4 +35,7 @@ export const useCameraStore = create<CameraState>((set) => ({
 
 	edgeHoldTime: 0,
 	setEdgeHoldTime: (time) => set({ edgeHoldTime: time }),
+
+	edgePulseComplete: false,
+	setEdgePulseComplete: (complete) => set({ edgePulseComplete: complete }),
 }));
