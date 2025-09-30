@@ -3,8 +3,9 @@ import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 
 interface CameraState {
+	currentCameraPlaceKey: string;
 	currentCameraPlaceInfo: CameraInfo;
-	setCurrentCameraPlaceInfo: (placeInfo: CameraInfo) => void;
+	setCurrentCameraPlace: (place: string) => void;
 
 	cameraIsMoving: boolean;
 	setCameraIsMoving: (moving: boolean) => void;
@@ -21,8 +22,13 @@ interface CameraState {
 }
 
 export const useCameraStore = create<CameraState>((set) => ({
+	currentCameraPlaceKey: "RoomPointOne",
 	currentCameraPlaceInfo: cameraPresets.RoomPointOne,
-	setCurrentCameraPlaceInfo: (placeInfo) => set({ currentCameraPlaceInfo: placeInfo }),
+	setCurrentCameraPlace: (key) =>
+		set({
+			currentCameraPlaceKey: key,
+			currentCameraPlaceInfo: cameraPresets[key],
+		}),
 
 	// CAMERA MOVEMENT
 	cameraIsMoving: false,

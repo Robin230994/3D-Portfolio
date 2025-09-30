@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { MathUtils } from "three";
 import { useControls } from "leva";
 import { useCameraStore } from "../Stores/useCameraStore";
@@ -15,7 +15,7 @@ const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const { selectObjectFocus } = useObjectInteractionStore();
-	const { currentCameraPlaceInfo, setCameraIsMoving } = useCameraStore();
+	const { currentCameraPlaceInfo, edgeHoldTime, setCameraIsMoving } = useCameraStore();
 
 	useCameraRoomSwitch(controlsRef);
 
@@ -55,7 +55,10 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		}
 		if (!preset) return;
 
-		moveCamera(preset, pos, target, controls);
+		// dont move camera when user is dragging to move to another position
+		if (edgeHoldTime === 0) {
+			moveCamera(preset, pos, target, controls);
+		}
 
 		// check if camera is still moving
 		const posTarget = new Vector3(...preset.position);

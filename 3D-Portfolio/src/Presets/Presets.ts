@@ -9,8 +9,15 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 10,
 		vdeg2rad: 5,
 	},
-
 	RoomPointTwo: {
+		position: [-0.31, 1.62, 0.75],
+		target: [-2.23, 0.08, -3.99],
+		azimuthal: 17,
+		polar: 75.25,
+		hdeg2rad: 15,
+		vdeg2rad: 5,
+	},
+	RoomPointThree: {
 		position: [-0.31, 1.62, 0.75],
 		target: [-2.23, 0.08, -3.99],
 		azimuthal: 17,
