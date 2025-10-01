@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 
+export const ROOM_POSITION_ORDER = ["RoomPointOne", "RoomPointTwo", "RoomPointThree"];
+
 interface CameraState {
 	currentCameraPlaceKey: string;
 	currentCameraPlaceInfo: CameraInfo;
@@ -19,9 +21,11 @@ interface CameraState {
 
 	edgePulseComplete: boolean;
 	setEdgePulseComplete: (complete: boolean) => void;
+
+	setNextRoomFromEdge: () => void;
 }
 
-export const useCameraStore = create<CameraState>((set) => ({
+export const useCameraStore = create<CameraState>((set, get) => ({
 	currentCameraPlaceKey: "RoomPointOne",
 	currentCameraPlaceInfo: cameraPresets.RoomPointOne,
 	setCurrentCameraPlace: (key) =>
@@ -44,4 +48,30 @@ export const useCameraStore = create<CameraState>((set) => ({
 
 	edgePulseComplete: false,
 	setEdgePulseComplete: (complete) => set({ edgePulseComplete: complete }),
+
+	setNextRoomFromEdge: () => {
+		const { currentCameraPlaceKey, edgeSide } = get();
+
+		if (!edgeSide) return;
+
+		const roomIndex = ROOM_POSITION_ORDER.indexOf(currentCameraPlaceKey);
+		let nextIndex = roomIndex;
+
+		if (edgeSide === "left") {
+			nextIndex = Math.min(ROOM_POSITION_ORDER.length - 1, roomIndex + 1);
+		} else if (edgeSide === "right") {
+			nextIndex = Math.max(0, roomIndex - 1);
+		}
+
+		const nextKey = ROOM_POSITION_ORDER[nextIndex];
+
+		set({
+			currentCameraPlaceKey: nextKey,
+			currentCameraPlaceInfo: cameraPresets[nextKey],
+			edgePulseComplete: false,
+			edgeHoldTime: 0,
+			edgeSide: null,
+			edgeProgress: 0,
+		});
+	},
 }));

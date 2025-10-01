@@ -1,48 +1,55 @@
 import { useEffect, useState } from "react";
 import { useCameraStore } from "../../Stores/useCameraStore";
 
-const HOLD_DURATION = 2;
+const HOLD_DURATION = 1.5; // seconds
+const FADE_DURATION = 600; // ms
 
 const CameraEdgeLabel: React.FC = () => {
 	const { edgeSide, edgeProgress, edgeHoldTime, setEdgePulseComplete } = useCameraStore();
-	const [pulse, setPulse] = useState(false);
-	const [pulseProgress, setPulseProgress] = useState(0);
+	const [animating, setAnimating] = useState(false);
+	const [animProgress, setAnimProgress] = useState(0);
 
-	// Trigger pulse when holding at the edge long enough
+	// Trigger the grow+fade animation once after holding the edge
 	useEffect(() => {
-		if (edgeProgress >= 1 && edgeHoldTime >= HOLD_DURATION && !pulse) {
-			setPulse(true);
-			setPulseProgress(0);
-			const start = performance.now();
-			const duration = 600; // pulse duration in ms
+		const shouldTrigger = edgeProgress >= 1 && edgeHoldTime >= HOLD_DURATION && !animating;
 
-			const animate = (time: number) => {
-				const t = Math.min((time - start) / duration, 1);
-				setPulseProgress(t);
-				if (t < 1) {
-					requestAnimationFrame(animate);
-				} else {
-					setPulse(false);
-					setEdgePulseComplete(true);
-				}
-			};
+		if (!shouldTrigger) return;
 
-			requestAnimationFrame(animate);
-		}
-	}, [edgeProgress, edgeHoldTime, pulse, setEdgePulseComplete]);
+		setAnimating(true);
+		setAnimProgress(0);
+		const start = performance.now();
 
+		const animate = (time: number) => {
+			const t = Math.min((time - start) / FADE_DURATION, 1);
+			setAnimProgress(t);
+
+			if (t < 1) {
+				requestAnimationFrame(animate);
+			} else {
+				// animation done
+				setAnimating(false);
+				setEdgePulseComplete(true);
+			}
+		};
+
+		requestAnimationFrame(animate);
+	}, [edgeProgress, edgeHoldTime, animating, setEdgePulseComplete]);
+
+	// Nothing to show if no edge or no progress
 	if (!edgeSide || edgeProgress <= 0) return null;
 
 	const minSize = 30;
 	const maxSize = 80;
 
+	// normal grow with edge drag
 	let size = minSize + (maxSize - minSize) * edgeProgress;
 	let opacity = 0.8;
 
-	if (pulse) {
-		const extraGrowth = 0.5; // 50% bigger
-		size *= 1 + extraGrowth * pulseProgress;
-		opacity = 0.8 * (1 - pulseProgress); // fade out
+	// If the animation was triggered
+	if (animating) {
+		const extraGrowth = 0.5; // +50% size bonus
+		size *= 1 + extraGrowth * animProgress; // grow once
+		opacity = 0.8 * (1 - animProgress); // fade out
 	}
 
 	return (

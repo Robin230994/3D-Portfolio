@@ -1,5 +1,5 @@
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { useCameraStore } from "../Stores/useCameraStore";
+import { ROOM_POSITION_ORDER, useCameraStore } from "../Stores/useCameraStore";
 import { useEffect, useRef } from "react";
 import { cameraPresets } from "../Presets/Presets";
 import { Vector3 } from "three";
@@ -8,15 +8,12 @@ import { useFrame } from "@react-three/fiber";
 
 const EDGE_THRESHOLD = 0.1; // soft zone before the edge. start growing label slightly before the edge
 const FULL_PUSH_THRESHOLD = 0.01; // actual edge for full push
-const DEG2RAD = Math.PI / 180;
-
-const ROOM_POSITION_ORDER = ["RoomPointOne", "RoomPointTwo", "RoomPointThree"];
 
 const useCameraRoomSwitch = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
-	const { currentCameraPlaceKey, edgeSide, edgePulseComplete, setCurrentCameraPlace, setEdgeState, setEdgeHoldTime, setEdgePulseComplete } = useCameraStore();
+	const { edgePulseComplete, setEdgeState, setEdgeHoldTime, setEdgePulseComplete, setNextRoomFromEdge } = useCameraStore();
 	const { selectObjectFocus } = useObjectInteractionStore();
 
-	const isDraggingRef = useRef<boolean>(false);
+	const isDraggingRef = useRef(false);
 	const holdStartTimeRef = useRef<number | null>(null);
 
 	useEffect(() => {
@@ -26,9 +23,15 @@ const useCameraRoomSwitch = (controlsRef: React.RefObject<OrbitControlsImpl>) =>
 		const handleStart = () => (isDraggingRef.current = true);
 		const handleEnd = () => {
 			isDraggingRef.current = false;
-			setEdgeState(null, 0); // reset label size immediately on release
+			setEdgeState(null, 0);
 			holdStartTimeRef.current = null;
 		};
+
+		if (edgePulseComplete) {
+			isDraggingRef.current = false;
+			setEdgePulseComplete(false);
+			setNextRoomFromEdge();
+		}
 
 		controls.addEventListener("start", handleStart);
 		controls.addEventListener("end", handleEnd);
@@ -37,26 +40,7 @@ const useCameraRoomSwitch = (controlsRef: React.RefObject<OrbitControlsImpl>) =>
 			controls.removeEventListener("start", handleStart);
 			controls.removeEventListener("end", handleEnd);
 		};
-	}, [controlsRef, setEdgeState]);
-
-	useEffect(() => {
-		if (edgePulseComplete && edgeSide) {
-			// get the next room index
-
-			const roomIndex = ROOM_POSITION_ORDER.indexOf(currentCameraPlaceKey);
-			let nextIndex = roomIndex;
-
-			if (edgeSide === "left") {
-				nextIndex = Math.min(ROOM_POSITION_ORDER.length - 1, roomIndex + 1);
-			} else if (edgeSide === "right") {
-				nextIndex = Math.max(0, roomIndex - 1);
-			}
-
-			const nextRoomPosition = ROOM_POSITION_ORDER[nextIndex];
-			setCurrentCameraPlace(nextRoomPosition);
-			setEdgePulseComplete(false);
-		}
-	}, [currentCameraPlaceKey, edgePulseComplete, edgeSide, setCurrentCameraPlace, setEdgePulseComplete]);
+	}, [controlsRef, edgePulseComplete, setEdgePulseComplete, setEdgeState, setNextRoomFromEdge]);
 
 	useFrame(() => {
 		const controls = controlsRef.current;
@@ -68,7 +52,7 @@ const useCameraRoomSwitch = (controlsRef: React.RefObject<OrbitControlsImpl>) =>
 		controls.update();
 	});
 
-	const cameraIsAtRoomPosition = (cameraPos: Vector3): boolean => {
+	const cameraIsAtRoomPosition = (cameraPos: Vector3) => {
 		for (const key of ROOM_POSITION_ORDER) {
 			const preset = cameraPresets[key];
 			if (!preset) continue;
@@ -77,41 +61,33 @@ const useCameraRoomSwitch = (controlsRef: React.RefObject<OrbitControlsImpl>) =>
 			const presetRadius = new Vector3(...preset.position).distanceTo(target);
 			const camRadius = cameraPos.distanceTo(target);
 
-			// allow orbit around target
-			const radiusThreshold = 0.1; // adjust based on room scale
-			if (Math.abs(camRadius - presetRadius) > radiusThreshold) return true;
+			const radiusThreshold = 0.1;
+			if (Math.abs(camRadius - presetRadius) <= radiusThreshold) return true;
 		}
-
 		return false;
 	};
 
 	const cameraOnEdgeDetection = (pos: Vector3, controls: OrbitControlsImpl) => {
-		// Edge screen detection
-		console.log(cameraIsAtRoomPosition(pos));
 		if (!selectObjectFocus && cameraIsAtRoomPosition(pos)) {
 			const currentAzimuth = controls.getAzimuthalAngle();
 
 			let pushStrength = 0;
 			let activeSide: "left" | "right" | null = null;
 
-			// right edge
 			if (currentAzimuth >= controls.maxAzimuthAngle - EDGE_THRESHOLD) {
 				activeSide = "left";
 				pushStrength = Math.min((currentAzimuth - (controls.maxAzimuthAngle - EDGE_THRESHOLD)) / (EDGE_THRESHOLD - FULL_PUSH_THRESHOLD), 1);
 			}
-			// left edge
 			if (currentAzimuth <= controls.minAzimuthAngle + EDGE_THRESHOLD) {
 				activeSide = "right";
 				pushStrength = Math.min((controls.minAzimuthAngle + EDGE_THRESHOLD - currentAzimuth) / (EDGE_THRESHOLD - FULL_PUSH_THRESHOLD), 1);
 			}
 
-			// clamp
 			pushStrength = Math.max(pushStrength, 0);
 
-			// only grow label if user is dragging
-			if (activeSide && isDraggingRef.current) {
+			if (activeSide && isDraggingRef.current && !edgePulseComplete) {
 				if (!holdStartTimeRef.current) holdStartTimeRef.current = performance.now();
-				const elapsed = (performance.now() - holdStartTimeRef.current) / 1000; // seconds
+				const elapsed = (performance.now() - holdStartTimeRef.current) / 1000;
 				setEdgeHoldTime(elapsed);
 				setEdgeState(activeSide, pushStrength);
 			} else {
