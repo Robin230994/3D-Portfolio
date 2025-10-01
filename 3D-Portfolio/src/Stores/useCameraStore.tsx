@@ -58,9 +58,9 @@ export const useCameraStore = create<CameraState>((set, get) => ({
 		let nextIndex = roomIndex;
 
 		if (edgeSide === "left") {
-			nextIndex = Math.min(ROOM_POSITION_ORDER.length - 1, roomIndex + 1);
+			nextIndex = (roomIndex + 1) % ROOM_POSITION_ORDER.length;
 		} else if (edgeSide === "right") {
-			nextIndex = Math.max(0, roomIndex - 1);
+			nextIndex = (roomIndex - 1 + ROOM_POSITION_ORDER.length) % ROOM_POSITION_ORDER.length;
 		}
 
 		const nextKey = ROOM_POSITION_ORDER[nextIndex];

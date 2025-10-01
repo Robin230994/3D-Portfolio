@@ -54,16 +54,14 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 			preset = currentCameraPlaceInfo;
 		}
 		if (!preset) return;
-
 		// dont move camera when user is dragging to move to another position
 		if (edgeHoldTime === 0) {
 			moveCamera(preset, pos, target, controls);
 		}
-
 		// check if camera is still moving
 		const posTarget = new Vector3(...preset.position);
-		const targetTarget = new Vector3(...preset.target);
-		const isMoving = pos.distanceTo(posTarget) > 0.01 || target.distanceTo(targetTarget) > 0.01;
+		//const targetTarget = new Vector3(...preset.target);
+		const isMoving = pos.distanceTo(posTarget) > 0.5;
 		setCameraIsMoving(isMoving);
 		controls.update();
 	});
@@ -73,17 +71,9 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		const posTarget = new Vector3(...preset.position);
 		const targetTarget = new Vector3(...preset.target);
 
-		const SNAP_THRESHOLD = 0.25;
-
 		// Interpolate position + target
 		cameraPos.lerp(posTarget, CAMERA_MOVEMENT_SPEED);
 		cameraTarget.lerp(targetTarget, CAMERA_MOVEMENT_SPEED);
-
-		// Snap to target if close enough
-		if (selectObjectFocus) {
-			if (cameraPos.distanceTo(posTarget) < SNAP_THRESHOLD) cameraPos.copy(posTarget);
-			if (cameraTarget.distanceTo(targetTarget) < SNAP_THRESHOLD) cameraTarget.copy(targetTarget);
-		}
 
 		// Desired angles (in radians)
 		const minAzimuthTarget = (preset.azimuthal - preset.hdeg2rad) * DEG2RAD;
