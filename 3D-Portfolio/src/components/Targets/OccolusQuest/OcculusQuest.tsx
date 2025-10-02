@@ -7,14 +7,14 @@ import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
 
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus, setIsAnyHovered } = useObjectInteractionStore();
+	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const occulusRef = useRef<Group>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving } },
-		functions: { myFunctions: { setSelectObjectFocus, setIsAnyHovered } },
+		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } },
+		functions: { myFunctions: { setSelectObjectFocus, setHoveredObject } },
 		refs: { myRefs: { occulusRef } },
 	};
 	return <OcculusQuestUI props={uiComponentProps} />;

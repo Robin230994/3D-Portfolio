@@ -27,7 +27,6 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
-				setIsAnyHovered: (hovered: boolean) => void;
 			};
 		};
 		refs: { myRefs: { triangleRef: RefObject<Group> } };
@@ -40,7 +39,7 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
+	const { setSelectObjectFocus } = myFunctions;
 	const { triangleRef } = myRefs;
 
 	const PoolBall8: Mesh = nodes["PoolBall8"] as Mesh;
@@ -59,9 +58,9 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 				}
 			}}
 			onPointerOver={() => {
-				if (selectObjectFocus === null) setIsAnyHovered(true);
+				//if (selectObjectFocus === null)
 			}}
-			onPointerOut={() => setIsAnyHovered(false)}>
+			onPointerOut={() => "setIsAnyHovered(false)"}>
 			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation} />
 
 			<InteractionLabel

@@ -3,8 +3,8 @@ import { Object3D } from "three";
 
 interface ObjectInteractionState {
 	// Hover state
-	isAnyHovered: boolean;
-	setIsAnyHovered: (hovered: boolean) => void;
+	hoveredObject: string | null;
+	setHoveredObject: (objectName: string | null) => void;
 
 	// Focus state
 	selectObjectFocus: { name: string; object: Object3D } | null;
@@ -13,8 +13,8 @@ interface ObjectInteractionState {
 
 export const useObjectInteractionStore = create<ObjectInteractionState>((set) => ({
 	// Hover
-	isAnyHovered: false,
-	setIsAnyHovered: (hovered) => set({ isAnyHovered: hovered }),
+	hoveredObject: null,
+	setHoveredObject: (objectName) => set({ hoveredObject: objectName }),
 
 	// Focus
 	selectObjectFocus: null,

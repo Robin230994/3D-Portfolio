@@ -4,6 +4,7 @@ import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh, Object3D, Group } from "three";
 import { useControls } from "leva";
+import { Outlines } from "@react-three/drei";
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
@@ -13,6 +14,7 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
+				hoveredObject: string | null;
 			};
 		};
 		functions: {
@@ -23,7 +25,7 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
-				setIsAnyHovered: (hovered: boolean) => void;
+				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
 		refs: { myRefs: { occulusRef: RefObject<Group> } };
@@ -35,8 +37,8 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
+	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { occulusRef } = myRefs;
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
@@ -58,16 +60,17 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				}
 			}}
 			onPointerOver={() => {
-				if (selectObjectFocus === null) setIsAnyHovered(true);
+				if (selectObjectFocus === null) setHoveredObject(name);
 			}}
-			onPointerOut={() => setIsAnyHovered(false)}>
+			onPointerOut={() => setHoveredObject(null)}>
 			<mesh
 				geometry={OcculusHeadset.geometry}
 				position={[occulusPosition.x, occulusPosition.y, occulusPosition.z]}
 				rotation={[occulusRotation.x, occulusRotation.y, occulusRotation.z]}
 				scale={OcculusHeadset.scale}
-				material={OcculusHeadset.material}
-			/>
+				material={OcculusHeadset.material}>
+				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+			</mesh>
 
 			<mesh
 				geometry={OcculusControler.geometry}

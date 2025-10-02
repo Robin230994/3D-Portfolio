@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
 
 const useCursorEffect = () => {
-	const { isAnyHovered } = useObjectInteractionStore();
+	const { hoveredObject } = useObjectInteractionStore();
 
 	useEffect(() => {
-		document.body.style.cursor = isAnyHovered ? "pointer" : "default";
-	}, [isAnyHovered]);
+		document.body.style.cursor = hoveredObject !== null ? "pointer" : "default";
+	}, [hoveredObject]);
 };
 export default useCursorEffect;

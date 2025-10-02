@@ -4,6 +4,7 @@ import { Mesh, Object3D } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
 import { useControls } from "leva";
+import { Outlines } from "@react-three/drei";
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 
 interface OfficeChairUIProps extends IUIComponentProps {
@@ -16,12 +17,16 @@ interface OfficeChairUIProps extends IUIComponentProps {
 					name: string;
 					object: Object3D;
 				} | null;
+				hoveredObject: string | null;
 			};
 		};
 		functions: {
-			myFunctions: { setIsAnyHovered: (hovered: boolean) => void; setAction: React.Dispatch<React.SetStateAction<ActionName>> };
+			myFunctions: {
+				setAction: React.Dispatch<React.SetStateAction<ActionName>>;
+				setHoveredObject: (objectName: string | null) => void;
+			};
 		};
-		refs: { myRefs: { upperChairRef: React.RefObject<Mesh> } };
+		refs: { myRefs: { upperChairRef: React.MutableRefObject<Mesh | null> } };
 	};
 }
 
@@ -30,8 +35,8 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus } = myData;
-	const { setIsAnyHovered, setAction } = myFunctions;
+	const { name, nodes, selectObjectFocus, hoveredObject } = myData;
+	const { setAction, setHoveredObject } = myFunctions;
 	const { upperChairRef } = myRefs;
 
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
@@ -127,9 +132,9 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 		<group
 			name={name}
 			onPointerOver={() => {
-				if (selectObjectFocus === null) setIsAnyHovered(true);
+				if (selectObjectFocus === null) setHoveredObject(name);
 			}}
-			onPointerOut={() => setIsAnyHovered(false)}>
+			onPointerOut={() => setHoveredObject(null)}>
 			<primitive
 				object={UpperOfficeChair}
 				position={UpperOfficeChair.position}
@@ -139,8 +144,9 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 				ref={upperChairRef}
 				onClick={() => {
 					setAction("ChairRotation");
-				}}
-			/>
+				}}>
+				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+			</primitive>
 
 			<mesh
 				geometry={LowerOfficeChair.geometry}

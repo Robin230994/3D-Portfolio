@@ -23,8 +23,10 @@ glassMaterial.specularColor = new Color("#ffffff");
 glassMaterial.envMapIntensity = 1;
 glassMaterial.clearcoat = 1;
 glassMaterial.clearcoatRoughness = 0;
+glassMaterial.depthWrite = false;
 
 glassMaterial.normalScale = new Vector2(1, -1);
+
 export { glassMaterial };
 
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {

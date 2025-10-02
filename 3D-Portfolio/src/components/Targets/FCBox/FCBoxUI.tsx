@@ -4,6 +4,7 @@ import { DirectionalLight, Group, Mesh } from "three";
 import { Object3D } from "three";
 import { useControls } from "leva";
 import { iot2Material } from "../../../Helper/GLMaterials";
+import { Outlines } from "@react-three/drei";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
@@ -14,6 +15,7 @@ interface FCBoxUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
+				hoveredObject: string | null;
 			};
 		};
 		functions: {
@@ -24,7 +26,7 @@ interface FCBoxUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
-				setIsAnyHovered: (hovered: boolean) => void;
+				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
 		refs: { myRefs: { fcBoxRef: RefObject<Group> } };
@@ -36,8 +38,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
+	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
@@ -57,9 +59,9 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					}
 				}}
 				onPointerOver={() => {
-					if (selectObjectFocus === null) setIsAnyHovered(true);
+					if (selectObjectFocus === null) setHoveredObject(name);
 				}}
-				onPointerOut={() => setIsAnyHovered(false)}>
+				onPointerOut={() => setHoveredObject(null)}>
 				<group>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
@@ -75,6 +77,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 									/>
 								</svg>
 							</InteractionLabel>
+
+							<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
 						</mesh>
 					</group>
 				</group>

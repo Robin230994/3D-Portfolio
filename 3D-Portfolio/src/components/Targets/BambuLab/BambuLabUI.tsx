@@ -17,6 +17,7 @@ interface BambuLabUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
+				hoveredObject: string | null;
 			};
 		};
 		functions: {
@@ -27,7 +28,7 @@ interface BambuLabUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
-				setIsAnyHovered: (hovered: boolean) => void;
+				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
 		refs: { myRefs: { bambuLabRef: RefObject<Group> } };
@@ -39,8 +40,8 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
+	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
 	const BambuLabAMSOpener: Mesh = nodes["BambuLabAMSOpener"] as Mesh;
@@ -167,9 +168,9 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					}
 				}}
 				onPointerOver={() => {
-					if (selectObjectFocus === null) setIsAnyHovered(true);
+					if (selectObjectFocus === null) setHoveredObject(name);
 				}}
-				onPointerOut={() => setIsAnyHovered(false)}>
+				onPointerOut={() => setHoveredObject(null)}>
 				{/** AMS Opener */}
 				<mesh
 					geometry={BambuLabAMSOpener.geometry}

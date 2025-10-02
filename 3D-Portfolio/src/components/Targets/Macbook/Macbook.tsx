@@ -6,7 +6,7 @@ import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus, setIsAnyHovered } = useObjectInteractionStore();
+	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const macbookRef = useRef<Group>(null);
@@ -18,9 +18,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				nodes,
 				selectObjectFocus,
 				cameraIsMoving,
+				hoveredObject,
 			},
 		},
-		functions: { myFunctions: { setSelectObjectFocus, setIsAnyHovered } },
+		functions: { myFunctions: { setSelectObjectFocus, setHoveredObject } },
 		refs: { myRefs: { macbookRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;

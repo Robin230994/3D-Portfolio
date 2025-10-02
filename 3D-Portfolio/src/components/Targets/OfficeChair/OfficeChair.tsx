@@ -8,9 +8,9 @@ import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionS
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const [action, setAction] = useState<ActionName>("Idle");
-	const upperChairRef = useRef<Mesh>(null);
+	const upperChairRef = useRef<Mesh | null>(null);
 
-	const { selectObjectFocus, setIsAnyHovered } = useObjectInteractionStore();
+	const { selectObjectFocus, hoveredObject, setHoveredObject } = useObjectInteractionStore();
 	const { actions } = useAnimations(animations!, upperChairRef);
 
 	useEffect(() => {
@@ -30,8 +30,8 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 	}, [action, actions, animations]);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, animations } },
-		functions: { myFunctions: { setIsAnyHovered, setAction } },
+		data: { myData: { name, nodes, selectObjectFocus, animations, hoveredObject } },
+		functions: { myFunctions: { setAction, setHoveredObject } },
 		refs: { myRefs: { upperChairRef } },
 	};
 

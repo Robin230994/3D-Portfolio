@@ -6,14 +6,14 @@ import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
 
 const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus, setIsAnyHovered } = useObjectInteractionStore();
+	const { selectObjectFocus, setSelectObjectFocus } = useObjectInteractionStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const triangleRef = useRef<Group>(null);
 
 	const uiComponentProps = {
 		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving } },
-		functions: { myFunctions: { setSelectObjectFocus, setIsAnyHovered } },
+		functions: { myFunctions: { setSelectObjectFocus } },
 		refs: { myRefs: { triangleRef } },
 	};
 	return <BillardTriangleUI props={uiComponentProps} />;

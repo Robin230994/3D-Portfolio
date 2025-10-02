@@ -24,7 +24,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	});
 
 	/** Nodes / Meshes */
-	// const { nodes } = useGLTF("./office-room.glb") as unknown as GLTFResult;
 	const { nodes, animations } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
@@ -73,7 +72,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			<CameraController isDebugMode={isDebugMode} />
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
-				{/************ Office Room ************/}
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
 					<Foundation name="Foundation" nodes={nodes} />

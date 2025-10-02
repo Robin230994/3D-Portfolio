@@ -5,6 +5,7 @@ import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
 import { Object3D } from "three";
 import { useControls } from "leva";
+import { Outlines } from "@react-three/drei";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface MusterboxUIProps extends IUIComponentProps {
@@ -18,6 +19,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 					object: Object3D;
 				} | null;
 				cameraIsMoving: boolean;
+				hoveredObject: string | null;
 			};
 		};
 		functions: {
@@ -28,7 +30,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
-				setIsAnyHovered: (hovered: boolean) => void;
+				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
 		refs: { myRefs: { musterboxRef: RefObject<Group> } };
@@ -40,8 +42,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setIsAnyHovered } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
+	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
@@ -85,24 +87,27 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					}
 				}}
 				onPointerOver={() => {
-					if (selectObjectFocus === null) setIsAnyHovered(true);
+					if (selectObjectFocus === null) setHoveredObject(name);
 				}}
-				onPointerOut={() => setIsAnyHovered(false)}>
+				onPointerOut={() => setHoveredObject(null)}>
 				<mesh
 					geometry={MusterboxDeckel.geometry}
 					position={MusterboxDeckel.position}
 					rotation={MusterboxDeckel.rotation}
 					scale={MusterboxDeckel.scale}
-					material={MusterboxDeckel.material}
-				/>
+					material={MusterboxDeckel.material}>
+					<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				</mesh>
 
 				<mesh
 					geometry={MusterboxLasche.geometry}
 					position={MusterboxLasche.position}
 					rotation={MusterboxLasche.rotation}
 					scale={MusterboxLasche.scale}
-					material={MusterboxLasche.material}
-				/>
+					material={MusterboxLasche.material}>
+					{" "}
+					<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				</mesh>
 
 				{/** Boxes */}
 				<group name={"Boxes"} visible={false}>
