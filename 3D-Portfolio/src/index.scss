@@ -23,8 +23,8 @@ canvas {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	left: 0;
 	top: 0;
 	transition: opacity 1.2s ease, transform 0.3s ease;
@@ -45,32 +45,23 @@ canvas {
 	border-radius: 50%;
 	border: none;
 	cursor: pointer;
-	background: linear-gradient(to bottom, #fefefe, #e5e5e5); /* soft gloss gradient */
-	box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), /* subtle inner highlight */ inset 0 -2px 4px rgba(0, 0, 0, 0.15),
-		/* inner rim at bottom */ 0 4px 8px rgba(0, 0, 0, 0.25); /* outer drop shadow */
+	background-color: #ff5c5c;
 	position: relative;
 	transition: all 0.2s ease;
-	font-size: 2rem;
+	font-size: 1.7rem;
 	font-weight: 500;
-	color: #333; /* Apple uses subtle dark gray instead of black */
+	color: #444;
+	display: flex;
+	justify-content: center;
+}
+
+.hover-label button:hover {
+	border: 2px solid white;
 }
 
 .hover-label button svg {
-	width: 23px;
-	height: 23px;
-	pointer-events: none;
-}
-
-/* Glossy top overlay */
-.hover-label button::before {
-	content: "";
-	position: absolute;
-	top: 4px;
-	left: 4px;
-	right: 4px;
-	height: 40%;
-	border-radius: 50%;
-	background: radial-gradient(circle at top, rgba(255, 255, 255, 0.9), transparent);
+	width: 18px;
+	height: 18px;
 	pointer-events: none;
 }
 

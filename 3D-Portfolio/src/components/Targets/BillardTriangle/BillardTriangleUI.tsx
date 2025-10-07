@@ -27,6 +27,7 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 						object: Object3D;
 					} | null
 				) => void;
+				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
 		refs: { myRefs: { triangleRef: RefObject<Group> } };
@@ -39,13 +40,14 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus } = myFunctions;
+	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { triangleRef } = myRefs;
 
 	const PoolBall8: Mesh = nodes["PoolBall8"] as Mesh;
 
-	const { backLabelPos } = useControls("BillardTriangle", {
-		backLabelPos: { value: { x: -16.8, y: -0.5, z: 2.7 }, step: 0.1 },
+	const { backLabelPos, backLabelRot } = useControls("BillardTriangle", {
+		backLabelPos: { value: { x: -0.15, y: 0, z: -0.3 }, step: 0.1 },
+		backLabelRot: { value: { x: 1.4, y: 3.1, z: -0.35 }, step: 0.1 },
 	});
 
 	return (
@@ -58,23 +60,20 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 				}
 			}}
 			onPointerOver={() => {
-				//if (selectObjectFocus === null)
+				if (selectObjectFocus === null) setHoveredObject(name);
 			}}
-			onPointerOut={() => "setIsAnyHovered(false)"}>
-			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation} />
-
-			<InteractionLabel
-				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-				visible={!cameraIsMoving && selectObjectFocus?.name === name}
-				dispatch={() => setSelectObjectFocus(null)}>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-					<path
-						fillRule="evenodd"
-						d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-						clipRule="evenodd"
-					/>
-				</svg>
-			</InteractionLabel>
+			onPointerOut={() => setHoveredObject(null)}>
+			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation}>
+				<InteractionLabel
+					name="triangle-ui-btn"
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+					scaleFactor={0.2}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => setSelectObjectFocus(null)}>
+					x
+				</InteractionLabel>
+			</mesh>
 		</group>
 	);
 };

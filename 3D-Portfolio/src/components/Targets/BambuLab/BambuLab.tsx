@@ -6,13 +6,13 @@ import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
 
 const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
+	const { selectObjectFocus, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const bambuLabRef = useRef<Group | null>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } },
+		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving } },
 		functions: { myFunctions: { setSelectObjectFocus, setHoveredObject } },
 		refs: { myRefs: { bambuLabRef } },
 	};

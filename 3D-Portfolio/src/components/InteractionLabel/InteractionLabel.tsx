@@ -1,18 +1,35 @@
-import { Html } from "@react-three/drei";
-import { useEffect, useState } from "react";
+import { Text } from "@react-three/drei";
+import { useEffect, useRef, useState } from "react";
+import { Mesh } from "three/webgpu";
+import { useSpring, a } from "@react-spring/three";
+import { useObjectInteractionStore } from "../../Stores/useObjectInteractionStore";
 
 const InteractionLabel = ({
+	name,
 	visible,
 	children,
 	labelPos,
 	dispatch,
+	scaleFactor,
+	labelRot,
 }: {
+	name: string;
 	visible: boolean;
 	children: React.ReactNode;
 	labelPos: [number, number, number];
-	dispatch?: () => void;
+	dispatch: () => void;
+	scaleFactor?: number;
+	labelRot?: [number, number, number];
 }) => {
 	const [show, setShow] = useState(false);
+	const { setHoveredObject } = useObjectInteractionStore();
+
+	const uiRef = useRef<Mesh | null>(null);
+
+	const { scale } = useSpring({
+		scale: visible ? (scaleFactor ? scaleFactor : 1) : 0.2,
+		config: { tension: 180, friction: 12 },
+	});
 
 	useEffect(() => {
 		if (visible) {
@@ -23,21 +40,30 @@ const InteractionLabel = ({
 		}
 	}, [visible]);
 
-	return show ? (
-		<Html position={labelPos} wrapperClass={`hover-label ${visible ? "visible" : ""}`} occlude={false} center style={{ pointerEvents: "none" }}>
-			{dispatch && (
-				<button
-					style={{ pointerEvents: "auto" }}
-					onPointerDown={(e) => e.stopPropagation()}
-					onClick={(e) => {
-						e.stopPropagation();
-						dispatch?.();
-					}}>
+	return (
+		show && (
+			<a.mesh
+				name={name}
+				ref={uiRef}
+				position={labelPos}
+				rotation={labelRot ? labelRot : [0, 0, 0]}
+				scale={scale}
+				onPointerOver={() => {
+					if (uiRef.current) setHoveredObject(uiRef.current.name);
+				}}
+				onPointerLeave={() => setHoveredObject(null)}
+				onClick={(e) => {
+					e.stopPropagation();
+					dispatch();
+				}}>
+				<circleGeometry args={[0.2, 32]} />
+				<meshStandardMaterial color={"#ff5c5c"} />
+				<Text font="/fonts/Inter_18pt-Bold.ttf" fontSize={0.25} anchorX="center" anchorY="middle" position={[0, 0.03, 0.01]} color={"#444"}>
 					{children}
-				</button>
-			)}
-		</Html>
-	) : null;
+				</Text>
+			</a.mesh>
+		)
+	);
 };
 
 export default InteractionLabel;

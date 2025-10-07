@@ -7,6 +7,7 @@ import { Group } from "three";
 import MaterialCreator from "../../../classes/MaterialCreator";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { Outlines } from "@react-three/drei";
+import FloatingSign from "../../FloatingSign/FloatingSign";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -51,14 +52,17 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
 	const macbookTopSideMaterial = MacbookTopSide.material as Material;
 
-	const { backLabelPos } = useControls("Macbook", {
-		backLabelPos: { value: { x: 13.3, y: 0.2, z: -14.6 }, step: 0.1 },
+	const { backLabelPos, backLabelRot } = useControls("Macbook", {
+		backLabelPos: { value: { x: -1.05, y: 0.4, z: -4.2 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
 	});
 
 	useEffect(() => {
 		macbookTopSideMaterial.alphaTest = 0.5;
 		materialCreator.addInstanciatedMaterial("ot5Material", macbookTopSideMaterial);
-	}, [macbookTopSideMaterial]);
+
+		console.log(selectObjectFocus);
+	}, [macbookTopSideMaterial, selectObjectFocus]);
 
 	return (
 		<group
@@ -80,19 +84,20 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				scale={MacbookTopSide.scale}
 				material={macbookTopSideMaterial}>
 				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+
+				<InteractionLabel
+					name="macbook-ui-btn"
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => {
+						setSelectObjectFocus(null);
+					}}>
+					x
+				</InteractionLabel>
 			</mesh>
-			<InteractionLabel
-				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-				visible={!cameraIsMoving && selectObjectFocus?.name === name}
-				dispatch={() => setSelectObjectFocus(null)}>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-					<path
-						fillRule="evenodd"
-						d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-						clipRule="evenodd"
-					/>
-				</svg>
-			</InteractionLabel>
+
+			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}
 		</group>
 	);
 };

@@ -44,10 +44,11 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
 	const OcculusControler: Mesh = nodes["OcculusController"] as Mesh;
 
-	const { occulusPosition, occulusRotation, backLabelPos } = useControls("OcculusHeadset", {
+	const { occulusPosition, occulusRotation, backLabelPos, backLabelRot } = useControls("OcculusHeadset", {
 		occulusPosition: { value: { x: 3.37, y: 1.28, z: -1.39 }, step: 0.01 },
 		occulusRotation: { value: { x: -1.75, y: -0.08, z: 0.43 }, step: 0.01 },
-		backLabelPos: { value: { x: 2.2, y: 0.3, z: -3.2 }, step: 0.1 },
+		backLabelPos: { value: { x: -0.7, y: 0.1, z: -0.2 }, step: 0.1 },
+		backLabelRot: { value: { x: 0.2, y: 0, z: -0.3 }, step: 0.1 },
 	});
 
 	return (
@@ -70,6 +71,15 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				scale={OcculusHeadset.scale}
 				material={OcculusHeadset.material}>
 				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<InteractionLabel
+					name="occulus-ui-btn"
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+					scaleFactor={0.5}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => setSelectObjectFocus(null)}>
+					x
+				</InteractionLabel>
 			</mesh>
 
 			<mesh
@@ -79,18 +89,6 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				scale={OcculusControler.scale}
 				material={OcculusControler.material}
 			/>
-			<InteractionLabel
-				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-				visible={!cameraIsMoving && selectObjectFocus?.name === name}
-				dispatch={() => setSelectObjectFocus(null)}>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-					<path
-						fillRule="evenodd"
-						d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-						clipRule="evenodd"
-					/>
-				</svg>
-			</InteractionLabel>
 		</group>
 	);
 };

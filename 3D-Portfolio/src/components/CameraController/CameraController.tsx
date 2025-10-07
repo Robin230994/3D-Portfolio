@@ -16,7 +16,7 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		<>
 			{isDebugMode && (
 				<>
-					<OrbitControls makeDefault ref={controlsRef} enablePan={false} enableDamping={true} enableZoom={false} />
+					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={true} />
 				</>
 			)}
 		</>

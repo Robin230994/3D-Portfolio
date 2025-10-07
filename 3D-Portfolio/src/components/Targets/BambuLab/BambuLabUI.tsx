@@ -17,7 +17,6 @@ interface BambuLabUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
-				hoveredObject: string | null;
 			};
 		};
 		functions: {
@@ -40,7 +39,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
+	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
 	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
@@ -65,8 +64,9 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
 	});
 
-	const { backLabelPos } = useControls("BambuLab", {
-		backLabelPos: { value: { x: -0.9, y: 0.2, z: 6.8 }, step: 0.1 },
+	const { backLabelPos, backLabelRot } = useControls("BambuLab", {
+		backLabelPos: { value: { x: 0.7, y: 0.49, z: -0.09 }, step: 0.01 },
+		backLabelRot: { value: { x: 0, y: -0.5, z: 0.05 }, step: 0.01 },
 	});
 
 	const plaMaterialHolderInstances = useMemo(
@@ -186,27 +186,23 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					position={BambuLabDoor.position}
 					rotation={BambuLabDoor.rotation}
 					material={glassMaterial}
-					scale={BambuLabDoor.scale}
-				/>
+					scale={BambuLabDoor.scale}>
+					<InteractionLabel
+						name="bambu-ui-btn"
+						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+						scaleFactor={0.22}
+						visible={!cameraIsMoving && selectObjectFocus?.name === name}
+						dispatch={() => setSelectObjectFocus(null)}>
+						x
+					</InteractionLabel>
+				</mesh>
 
 				{/** PLA Material holder */}
 				<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLAMaterialHolder.geometry} material={metalMaterial} />
 
 				{/** PLA Roll Material */}
 				<InstantiatedMesh name="PLARollMaterial" instance={plaRollMaterialInstances} geometry={PLARollMaterial.geometry} material={new MeshBasicMaterial()} />
-
-				<InteractionLabel
-					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => setSelectObjectFocus(null)}>
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-						<path
-							fillRule="evenodd"
-							d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-							clipRule="evenodd"
-						/>
-					</svg>
-				</InteractionLabel>
 			</group>
 			{/* </Select> */}
 		</React.Fragment>

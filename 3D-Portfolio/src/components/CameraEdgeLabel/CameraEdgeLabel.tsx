@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCameraStore } from "../../Stores/useCameraStore";
 
-const HOLD_DURATION = 1.5; // seconds
+const HOLD_DURATION = 1; // seconds
 const FADE_DURATION = 600; // ms
 
 const CameraEdgeLabel: React.FC = () => {

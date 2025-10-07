@@ -44,12 +44,13 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
 
-	const { backLabelPos } = useControls("FCBoxLabel", {
-		backLabelPos: { value: { x: -31.3, y: 0, z: 11.4 }, step: 0.1 },
+	const { backLabelPos, backLabelRot } = useControls("FCBoxLabel", {
+		backLabelPos: { value: { x: -35.0, y: 0, z: 11.7 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
 	});
 
 	return (
-		<React.Fragment>
+		<>
 			<group
 				name={name}
 				ref={fcBoxRef}
@@ -66,16 +67,13 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
 							<InteractionLabel
+								name="fc-box-ui"
+								scaleFactor={20}
 								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+								labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 								visible={!cameraIsMoving && selectObjectFocus?.name === name}
 								dispatch={() => setSelectObjectFocus(null)}>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-									<path
-										fillRule="evenodd"
-										d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-										clipRule="evenodd"
-									/>
-								</svg>
+								x
 							</InteractionLabel>
 
 							<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
@@ -83,7 +81,7 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					</group>
 				</group>
 			</group>
-		</React.Fragment>
+		</>
 	);
 };
 

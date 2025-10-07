@@ -58,11 +58,11 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		vdeg2rad: 5,
 	},
 	Macbook: {
-		position: [5.1, 0, -1],
-		target: [5.3, -4, -10],
+		position: [5.15, 0.2, -0.9],
+		target: [5.3, -4.1, -10],
 		azimuthal: -1,
 		polar: 64.8,
-		hdeg2rad: 0,
+		hdeg2rad: 2,
 		vdeg2rad: 0,
 	},
 	BillardTriangle: {

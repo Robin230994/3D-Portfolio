@@ -73,8 +73,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox23: Mesh = nodes["MusterboxBox23"] as Mesh;
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
-	const { backLabelPos } = useControls("Musterbox", {
-		backLabelPos: { value: { x: -4.7, y: -8.5, z: -22 }, step: 0.1 },
+	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
+		backLabelPos: { value: { x: 71, y: -66.6, z: 58.7 }, step: 0.1 },
+		backLabelRot: { value: { x: Math.PI, y: 0, z: 0.7 }, step: 0.1 },
 	});
 
 	return (
@@ -105,8 +106,16 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					rotation={MusterboxLasche.rotation}
 					scale={MusterboxLasche.scale}
 					material={MusterboxLasche.material}>
-					{" "}
 					<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+					<InteractionLabel
+						name="musterbox-ui-btn"
+						scaleFactor={25}
+						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+						visible={!cameraIsMoving && selectObjectFocus?.name === name}
+						dispatch={() => setSelectObjectFocus(null)}>
+						x
+					</InteractionLabel>
 				</mesh>
 
 				{/** Boxes */}
@@ -303,18 +312,6 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						material={iot2Material}
 					/>
 				</group>
-				<InteractionLabel
-					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => setSelectObjectFocus(null)}>
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-						<path
-							fillRule="evenodd"
-							d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
-							clipRule="evenodd"
-						/>
-					</svg>
-				</InteractionLabel>
 			</group>
 		</group>
 	);
