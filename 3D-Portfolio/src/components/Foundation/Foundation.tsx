@@ -2,6 +2,7 @@ import { Mesh, MeshStandardMaterial } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { glassMaterial } from "../../Helper/GLMaterials";
 import MaterialCreator from "../../classes/MaterialCreator";
+import PictureFrame from "../Targets/PictureFrame/PictureFrame";
 
 const materialCreator = MaterialCreator.getInstance();
 const foundationMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Foundation", {
@@ -19,6 +20,9 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 			{/** Window */}
 			<mesh geometry={Window.geometry} position={Window.position} rotation={Window.rotation} scale={Window.scale} material={glassMaterial} />
+
+			{/** Picture Frame */}
+			<PictureFrame name="PictureFrame" nodes={nodes} />
 		</group>
 	);
 };

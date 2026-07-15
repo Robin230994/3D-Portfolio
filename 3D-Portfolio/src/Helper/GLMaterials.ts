@@ -35,9 +35,9 @@ const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
 export { deskMaterial };
 
 const t3Material = materialCreator.createStandardMaterialFromTexture("ObjectT3", {
-	diffuseT: "/baked-textures/Objects/T3/objects_t3_color.png",
-	roughnessT: "/baked-textures/Objects/T3/objects_t3_roughness.jpg",
-	metallnessT: "/baked-textures/Objects/T3/objects_t3_metallic.jpg",
+	diffuseT: "/baked-textures/Objects/T3/objects_t3_color.001.jpg",
+	roughnessT: "/baked-textures/Objects/T3/objects_t3_roughness.001.jpg",
+	metallnessT: "/baked-textures/Objects/T3/objects_t3_metallic.001.jpg",
 });
 export { t3Material };
 
@@ -79,7 +79,7 @@ const CoffeeSmokeMaterial = materialCreator.createShaderMaterial(
 		uPerlinTexture: perlinNoiseCoffeeTexture,
 	},
 	vertexShader,
-	fragmentShader
+	fragmentShader,
 );
 extend({ CoffeeSmokeMaterial });
 export { CoffeeSmokeMaterial };

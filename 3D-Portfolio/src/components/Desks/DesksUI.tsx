@@ -29,6 +29,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 	const DeskObjects: Mesh = nodes["desk_objects_t1"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
+	const PaintingBoard: Mesh = nodes["PaintingBoard"] as Mesh;
 
 	const deskMaterial = DeskObjects.material as Material;
 
@@ -102,7 +103,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			rotationTR.x,
 			rotationTR.y,
 			rotationTR.z,
-		]
+		],
 	);
 
 	useEffect(() => {
@@ -118,6 +119,15 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			<mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>
 				<meshStandardMaterial color={"#ffffff"} />
 			</mesh>
+
+			{/* Painting Board */}
+			<mesh
+				geometry={PaintingBoard.geometry}
+				position={PaintingBoard.position}
+				rotation={PaintingBoard.rotation}
+				material={PaintingBoard.material}
+				scale={PaintingBoard.scale}
+			/>
 
 			{/** Desk chair roll instances  */}
 			<InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} />

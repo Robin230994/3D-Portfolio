@@ -12,19 +12,21 @@ import ObjectT1 from "./ObjectT1/ObjectT1";
 import ObjectT2 from "./ObjectT2/ObjectT2";
 import ObjectT3 from "./ObjectT3/ObjectT3";
 import ObjectT4 from "./ObjectT4/ObjectT4";
+import ObjectT5 from "./ObjectT5/ObjectT5";
 import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
+import Robbi from "./Targets/Robbi/Robbi";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
-	const officeModel = useLoader(GLTFLoader, "./office-room.glb", (loader) => {
+	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
 		loader.setDRACOLoader(dracoLoader);
 	});
 
 	/** Nodes / Meshes */
-	const { nodes, animations } = officeModel as unknown as GLTFResult;
+	const { nodes, animations, materials } = officeModel as unknown as GLTFResult;
 
 	/** STATES */
 
@@ -45,10 +47,10 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				{
 					ambientLightIntensity: { value: 1, min: 1, max: 10, step: 0.1 },
 				},
-				{ collapsed: true }
+				{ collapsed: true },
 			),
 		},
-		{ collapsed: true }
+		{ collapsed: true },
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
@@ -83,11 +85,16 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ObjectT2 name="ObjectT2" nodes={nodes} />
 						<ObjectT3 name="ObjectT3" nodes={nodes} />
 						<ObjectT4 name="ObjectT4" nodes={nodes} />
+						<ObjectT5 name="ObjectT5" nodes={nodes} />
 					</group>
 
 					<group name="image-objects">
 						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} animations={animations} />
 						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
+					</group>
+
+					<group name="Robbi">
+						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 				</group>
 			</Center>

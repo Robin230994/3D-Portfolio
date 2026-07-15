@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 
-export const ROOM_POSITION_ORDER = ["RoomPointOne", "RoomPointTwo", "RoomPointThree"];
+export const ROOM_POSITION_ORDER = ["IntroPoint", "RoomPointOne", "RoomPointTwo", "RoomPointThree"];
 
 interface CameraState {
 	currentCameraPlaceKey: string;
@@ -11,6 +11,9 @@ interface CameraState {
 
 	cameraIsMoving: boolean;
 	setCameraIsMoving: (moving: boolean) => void;
+
+	isDragging: boolean;
+	setDragging: (value: boolean) => void;
 
 	edgeSide: "left" | "right" | null;
 	edgeProgress: number;
@@ -26,8 +29,8 @@ interface CameraState {
 }
 
 export const useCameraStore = create<CameraState>((set, get) => ({
-	currentCameraPlaceKey: "RoomPointOne",
-	currentCameraPlaceInfo: cameraPresets.RoomPointOne,
+	currentCameraPlaceKey: "IntroPoint",
+	currentCameraPlaceInfo: cameraPresets.IntroPoint,
 	setCurrentCameraPlace: (key) =>
 		set({
 			currentCameraPlaceKey: key,
@@ -37,6 +40,13 @@ export const useCameraStore = create<CameraState>((set, get) => ({
 	// CAMERA MOVEMENT
 	cameraIsMoving: false,
 	setCameraIsMoving: (moving) => set({ cameraIsMoving: moving }),
+
+	isDragging: false,
+
+	setDragging: (value) =>
+		set({
+			isDragging: value,
+		}),
 
 	// EDGE LABEL STATE
 	edgeSide: null,

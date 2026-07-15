@@ -31,7 +31,7 @@ interface MacbookUIProps extends IUIComponentProps {
 					focus: {
 						name: string;
 						object: Object3D;
-					} | null
+					} | null,
 				) => void;
 				setHoveredObject: (objectName: string | null) => void;
 			};

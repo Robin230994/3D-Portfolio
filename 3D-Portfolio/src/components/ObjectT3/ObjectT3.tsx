@@ -12,7 +12,7 @@ const ObjectT3: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		<group name={name}>
 			<mesh geometry={ObjectT3.geometry} position={ObjectT3.position} rotation={ObjectT3.rotation} material={t3Material} scale={ObjectT3.scale} />
 			<BambuLab name="BambuLab" nodes={nodes} />
-			<BillardTriangle name="BillardTriangle" nodes={nodes} />
+			{/* <BillardTriangle name="BillardTriangle" nodes={nodes} /> */}
 		</group>
 	);
 };

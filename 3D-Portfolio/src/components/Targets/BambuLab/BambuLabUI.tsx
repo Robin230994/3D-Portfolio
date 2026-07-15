@@ -2,7 +2,7 @@ import React, { RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { Color, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { DirectionalLight } from "three";
-import { glassMaterial, metalMaterial } from "../../../Helper/GLMaterials";
+import { glassMaterial, metalMaterial, t3Material } from "../../../Helper/GLMaterials";
 import { Group } from "three";
 import { useControls } from "leva";
 
@@ -25,7 +25,7 @@ interface BambuLabUIProps extends IUIComponentProps {
 					focus: {
 						name: string;
 						object: Object3D;
-					} | null
+					} | null,
 				) => void;
 				setHoveredObject: (objectName: string | null) => void;
 			};
@@ -43,10 +43,12 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
-	const BambuLabAMSOpener: Mesh = nodes["BambuLabAMSOpener"] as Mesh;
-	const BambuLabDoor: Mesh = nodes["BambuLabDoor"] as Mesh;
-	const PLAMaterialHolder: Mesh = nodes["PLAMaterialRollHolder"] as Mesh;
-	const PLARollMaterial: Mesh = nodes["PLARollMaterial"] as Mesh;
+	const BambuLabAMS: Mesh = nodes["BambuAMSTop"] as Mesh;
+	const BambuLabDoor: Mesh = nodes["BambuFrontDoor"] as Mesh;
+	const BambuLab: Mesh = nodes["BambuLab"] as Mesh;
+	const BambuLabNozzle: Mesh = nodes["BambuLabNozzle"] as Mesh;
+	const PLARollHolder: Mesh = nodes["Circle001"] as Mesh;
+	const PLARoll: Mesh = nodes["PLARoll"] as Mesh;
 
 	const { matHolder1Pos, matHolder2Pos, matHolder3Pos, matHolder4Pos, matHolderRot } = useControls("AMSMaterialHolder", {
 		matHolder1Pos: { value: { x: -2.75, y: 2.8, z: 2.45 }, step: 0.01 },
@@ -108,7 +110,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 			matHolderRot.x,
 			matHolderRot.y,
 			matHolderRot.z,
-		]
+		],
 	);
 
 	const plaRollMaterialInstances = useMemo(
@@ -154,7 +156,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 			rollMatRot.x,
 			rollMatRot.y,
 			rollMatRot.z,
-		]
+		],
 	);
 
 	return (
@@ -171,14 +173,17 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					if (selectObjectFocus === null) setHoveredObject(name);
 				}}
 				onPointerOut={() => setHoveredObject(null)}>
-				{/** AMS Opener */}
+				{/** AMS */}
 				<mesh
-					geometry={BambuLabAMSOpener.geometry}
-					position={BambuLabAMSOpener.position}
-					rotation={BambuLabAMSOpener.rotation}
+					geometry={BambuLabAMS.geometry}
+					position={BambuLabAMS.position}
+					rotation={BambuLabAMS.rotation}
 					material={glassMaterial}
-					scale={BambuLabAMSOpener.scale}
+					scale={BambuLabAMS.scale}
 				/>
+
+				{/** Bambu Lab */}
+				<mesh geometry={BambuLab.geometry} position={BambuLab.position} rotation={BambuLab.rotation} material={BambuLab.material} scale={BambuLab.scale} />
 
 				{/** BambuLab Door */}
 				<mesh
@@ -199,10 +204,10 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 				</mesh>
 
 				{/** PLA Material holder */}
-				<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLAMaterialHolder.geometry} material={metalMaterial} />
+				<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLARollHolder.geometry} material={metalMaterial} />
 
 				{/** PLA Roll Material */}
-				<InstantiatedMesh name="PLARollMaterial" instance={plaRollMaterialInstances} geometry={PLARollMaterial.geometry} material={new MeshBasicMaterial()} />
+				<InstantiatedMesh name="PLARoll" instance={plaRollMaterialInstances} geometry={PLARoll.geometry} material={new MeshBasicMaterial()} />
 			</group>
 			{/* </Select> */}
 		</React.Fragment>
