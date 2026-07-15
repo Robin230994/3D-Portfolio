@@ -3,11 +3,12 @@ import OfficeChairUI from "./OfficeChairUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { LoopOnce, Mesh } from "three";
 import { useAnimations } from "@react-three/drei";
-import { ActionName } from "../../../types/GLTypes";
+import { AnimationConfig } from "../../../types/GLTypes";
 import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
+import { officeChairPresets } from "../../../Presets/Presets";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
-	const [action, setAction] = useState<ActionName>("Idle");
+	const [action, setAction] = useState<AnimationConfig<"MyOfficeChair">>(officeChairPresets.Idle);
 	const upperChairRef = useRef<Mesh | null>(null);
 
 	const { selectObjectFocus, hoveredObject, setHoveredObject } = useObjectInteractionStore();
@@ -15,8 +16,8 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 
 	useEffect(() => {
 		const playAction = () => {
-			if (action === "Idle") return;
-			const animation = actions[action];
+			if (action.action === "idle") return;
+			const animation = actions[action.action];
 			if (animation) {
 				animation.reset();
 				animation.setLoop(LoopOnce, 1);
@@ -26,7 +27,7 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 		};
 
 		playAction();
-		setAction("Idle");
+		setAction(officeChairPresets.Idle);
 	}, [action, actions, animations]);
 
 	const uiComponentProps = {

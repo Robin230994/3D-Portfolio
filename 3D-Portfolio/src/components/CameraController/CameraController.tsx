@@ -18,7 +18,7 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 	useCameraMovement(controlsRef);
 	useEdgeDetection(controlsRef);
 
-	// initialize start position of camera
+	//initialize start position of camera
 	useEffect(() => {
 		const controls = controlsRef.current;
 		if (!controls) return;
@@ -43,7 +43,7 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		<>
 			{isDebugMode && (
 				<>
-					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={false} />
+					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={isDebugMode && true} />
 				</>
 			)}
 		</>

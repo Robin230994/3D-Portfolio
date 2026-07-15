@@ -1,7 +1,6 @@
-import { Color, Vector2 } from "three";
+import { AnimationClip, Color, Vector2 } from "three";
 import { Vector3, Vector4 } from "three";
 import { CubeTexture, DirectionalLight, Material, Matrix3, Matrix4, Mesh, Quaternion, Scene, Texture } from "three";
-import { GLTFAction } from "../interfaces/GLlnterfaces";
 
 export type MaterialUpdateParams = {
 	[key: string]: unknown;
@@ -21,7 +20,7 @@ export type GLTFResult = {
 	};
 	scene?: Scene;
 	materials?: { [key: string]: Material | Material[] };
-	animations?: GLTFAction[];
+	animations?: AnimationClip[];
 };
 
 export type Uniform = {
@@ -52,4 +51,19 @@ export type CameraInfo = {
 	vdeg2rad: number;
 };
 
-export type ActionName = "Idle" | "ChairRotation";
+type ActionMap = {
+	MyOfficeChair: "idle" | "ChairRotation";
+	Robbi: "Idle" | "Idle02" | "sit" | "walk" | "wave";
+};
+
+type UsableAction<T extends keyof ActionMap> = ActionMap[T];
+
+type AnimationOptions = {
+	loop: boolean;
+	loopCount: number;
+};
+
+export type AnimationConfig<T extends keyof ActionMap> = {
+	action: UsableAction<T>;
+	options: AnimationOptions;
+};

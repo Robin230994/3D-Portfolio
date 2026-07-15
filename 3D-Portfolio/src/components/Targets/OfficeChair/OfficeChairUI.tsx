@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { ActionName, IUIComponentProps } from "../../../types/GLTypes";
+import { AnimationConfig, IUIComponentProps } from "../../../types/GLTypes";
 import { Mesh, Object3D } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
@@ -22,7 +22,7 @@ interface OfficeChairUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setAction: React.Dispatch<React.SetStateAction<ActionName>>;
+				setAction: React.Dispatch<React.SetStateAction<AnimationConfig<"MyOfficeChair">>>;
 				setHoveredObject: (objectName: string | null) => void;
 			};
 		};
@@ -56,7 +56,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			rotationTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
 			rotationFTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
 			rotationFTH: { value: { x: 0, y: -7.35, z: 1.57 }, step: 0.01 },
-		}
+		},
 	);
 
 	const { chairRot } = useControls("OfficeChair", {
@@ -125,7 +125,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			rotationTR.x,
 			rotationTR.y,
 			rotationTR.z,
-		]
+		],
 	);
 
 	return (
@@ -143,7 +143,10 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 				material={iot1Material}
 				ref={upperChairRef}
 				onClick={() => {
-					setAction("ChairRotation");
+					setAction({
+						action: "ChairRotation",
+						options: { loop: false, loopCount: 1 },
+					});
 				}}>
 				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
 			</primitive>

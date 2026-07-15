@@ -86,15 +86,12 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ObjectT3 name="ObjectT3" nodes={nodes} />
 						<ObjectT4 name="ObjectT4" nodes={nodes} />
 						<ObjectT5 name="ObjectT5" nodes={nodes} />
+						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 
 					<group name="image-objects">
 						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} animations={animations} />
 						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
-					</group>
-
-					<group name="Robbi">
-						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 				</group>
 			</Center>

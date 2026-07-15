@@ -1,4 +1,4 @@
-import { CameraInfo } from "../types/GLTypes";
+import { AnimationConfig, CameraInfo } from "../types/GLTypes";
 
 export const cameraPresets: Record<string, CameraInfo> = {
 	IntroPoint: {
@@ -80,5 +80,67 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		polar: 63,
 		hdeg2rad: 4,
 		vdeg2rad: 3,
+	},
+};
+
+export const robbiPresets: Record<string, { position: [number, number, number]; rotation: [number, number, number] }> = {
+	PosOne: {
+		position: [6.1, 0.4, 1.1],
+		rotation: [0, -1.46, 0],
+	},
+};
+
+export const officeChairPresets: Record<string, AnimationConfig<"MyOfficeChair">> = {
+	Idle: {
+		action: "idle",
+		options: {
+			loop: true,
+			loopCount: Infinity,
+		},
+	},
+	ChairRotation: {
+		action: "ChairRotation",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+};
+
+export const robbiAnimationPresets: Record<string, AnimationConfig<"Robbi">> = {
+	Idle: {
+		action: "Idle",
+		options: {
+			loop: true,
+			loopCount: Infinity,
+		},
+	},
+	Idle02: {
+		action: "Idle02",
+		options: {
+			loop: true,
+			loopCount: Infinity,
+		},
+	},
+	walk: {
+		action: "walk",
+		options: {
+			loop: true,
+			loopCount: Infinity,
+		},
+	},
+	sit: {
+		action: "sit",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+	wave: {
+		action: "wave",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
 	},
 };
