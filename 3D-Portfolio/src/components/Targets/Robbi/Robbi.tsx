@@ -10,7 +10,7 @@ const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }
 	const rigRef = useRef<Group>(null);
 	const { actions } = useAnimations(animations!, rigRef);
 
-	const [action, setAction] = useState<AnimationConfig<"Robbi">>(robbiAnimationPresets.Idle02);
+	const [action, setAction] = useState<AnimationConfig<"Robbi">>(robbiAnimationPresets.sitIdle);
 	console.log(actions);
 
 	useEffect(() => {
@@ -19,7 +19,6 @@ const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }
 			const animation = actions[action.action];
 			if (animation) {
 				animation.reset();
-				// animation.setLoop(LoopOnce, 1);
 				animation.setLoop(action.options.loop ? LoopRepeat : LoopOnce, action.options.loopCount);
 				animation.clampWhenFinished = !action.options.loop;
 				animation.play();
@@ -27,7 +26,8 @@ const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }
 		};
 
 		playAction();
-		setAction(robbiAnimationPresets.Idle02);
+		setAction(robbiAnimationPresets.sitIdle);
+		console.log(actions[action.action]?.getClip());
 
 		return () => {
 			const animation = actions[action.action];

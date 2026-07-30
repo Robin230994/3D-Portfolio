@@ -51,7 +51,7 @@ const RobbiUI: React.FC<RobbiUIProps> = ({ props }) => {
 	// });
 
 	const { robbi_pos, robbi_rot } = useControls("Robbi", {
-		robbi_pos: { value: { x: 7.24, y: 1.22, z: -0.07 }, step: 0.01 },
+		robbi_pos: { value: { x: 7.18, y: 1.23, z: 0 }, step: 0.01 },
 		robbi_rot: { value: { x: 0, y: -1.46, z: 0 }, step: 0.01 },
 	});
 

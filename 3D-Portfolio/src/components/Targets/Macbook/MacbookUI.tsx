@@ -3,11 +3,10 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { Mesh, DirectionalLight, Object3D, Material } from "three";
 import { useControls } from "leva";
 import { Group } from "three";
+import { Outlines } from "@react-three/drei";
 
 import MaterialCreator from "../../../classes/MaterialCreator";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
-import { Outlines } from "@react-three/drei";
-import FloatingSign from "../../FloatingSign/FloatingSign";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -83,7 +82,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				rotation={MacbookTopSide.rotation}
 				scale={MacbookTopSide.scale}
 				material={macbookTopSideMaterial}>
-				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
 
 				<InteractionLabel
 					name="macbook-ui-btn"

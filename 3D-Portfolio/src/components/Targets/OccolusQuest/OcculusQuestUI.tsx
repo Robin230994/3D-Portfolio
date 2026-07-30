@@ -23,7 +23,7 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 					focus: {
 						name: string;
 						object: Object3D;
-					} | null
+					} | null,
 				) => void;
 				setHoveredObject: (objectName: string | null) => void;
 			};
@@ -70,7 +70,7 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				rotation={[occulusRotation.x, occulusRotation.y, occulusRotation.z]}
 				scale={OcculusHeadset.scale}
 				material={OcculusHeadset.material}>
-				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
 				<InteractionLabel
 					name="occulus-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}

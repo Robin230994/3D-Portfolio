@@ -148,7 +148,7 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 						options: { loop: false, loopCount: 1 },
 					});
 				}}>
-				<Outlines thickness={1} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
 			</primitive>
 
 			<mesh

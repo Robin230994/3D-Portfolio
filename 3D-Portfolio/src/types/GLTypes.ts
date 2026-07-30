@@ -53,7 +53,7 @@ export type CameraInfo = {
 
 type ActionMap = {
 	MyOfficeChair: "idle" | "ChairRotation";
-	Robbi: "Idle" | "Idle02" | "sit" | "walk" | "wave";
+	Robbi: "Idle" | "Idle02" | "sit" | "sit-idle" | "walk" | "wave";
 };
 
 type UsableAction<T extends keyof ActionMap> = ActionMap[T];

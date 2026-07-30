@@ -17,6 +17,7 @@ import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
 import Robbi from "./Targets/Robbi/Robbi";
+import ObjectT6 from "./ObjectT6/ObjectT6";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
@@ -86,6 +87,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ObjectT3 name="ObjectT3" nodes={nodes} />
 						<ObjectT4 name="ObjectT4" nodes={nodes} />
 						<ObjectT5 name="ObjectT5" nodes={nodes} />
+						<ObjectT6 name="ObjectT6" nodes={nodes} />
 						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 

@@ -3,6 +3,7 @@ import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { useEffect } from "react";
 
 import MaterialCreator from "../../classes/MaterialCreator";
+import FloorLamp from "../Targets/FloorLamp/FloorLamp";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -18,6 +19,7 @@ const ObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			<mesh geometry={ObjectT2.geometry} position={ObjectT2.position} rotation={ObjectT2.rotation} scale={ObjectT2.scale} material={t2Material} />
+			<FloorLamp name="FloorLamp" nodes={nodes} materials={{ t2Material }}></FloorLamp>
 		</group>
 	);
 };

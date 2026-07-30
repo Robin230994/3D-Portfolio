@@ -1,0 +1,70 @@
+import React from "react";
+import { IUIComponentProps } from "../../../types/GLTypes";
+import { DirectionalLight, Material, Mesh, PointLight } from "three";
+import { Outlines } from "@react-three/drei";
+import { useControls } from "leva";
+
+interface FloorLampUIProps extends IUIComponentProps {
+	props: {
+		data: {
+			myData: {
+				name: string;
+				nodes: { [key: string]: Mesh | DirectionalLight };
+				lightOn: boolean;
+				hoveredObject: string | null;
+				materials?: {
+					t2Material?: Material;
+				};
+			};
+		};
+		functions: {
+			myFunctions: {
+				setHoveredObject: (objectName: string | null) => void;
+				setLightOn: React.Dispatch<React.SetStateAction<boolean>>;
+			};
+		};
+		refs: {
+			myRefs: {
+				lampLightRef: React.MutableRefObject<PointLight | null>;
+			};
+		};
+	};
+}
+
+const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
+	const { myData } = props.data;
+	const { myFunctions } = props.functions;
+	const { myRefs } = props.refs;
+
+	const { name, nodes, lightOn, hoveredObject, materials } = myData;
+	const { setLightOn, setHoveredObject } = myFunctions;
+	const { lampLightRef } = myRefs;
+
+	const t2Material = materials?.t2Material;
+	const Lamp = nodes["lamp"] as Mesh;
+
+	const { lightPos } = useControls("Floor Lamp", {
+		lightPos: { value: { x: 1.85, y: 2.16, z: -2.4 } },
+	});
+
+	//useHelper(lampLightRef as React.MutableRefObject<PointLight>, PointLightHelper, 0.2, "yellow");
+
+	return (
+		<group
+			name={name}
+			onPointerOver={() => {
+				setHoveredObject(name);
+			}}
+			onPointerOut={() => setHoveredObject(null)}
+			onClick={() => setLightOn(!lightOn)}>
+			<mesh geometry={Lamp.geometry} position={Lamp.position} rotation={Lamp.rotation} material={t2Material}>
+				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+			</mesh>
+
+			{/** point light bulp inside the lamp */}
+			<pointLight ref={lampLightRef} visible={lightOn} position={[lightPos.x, lightPos.y, lightPos.z]} intensity={2} distance={5} decay={2} color="#FFD7A3" />
+		</group>
+	);
+};
+
+export default FloorLampUI;

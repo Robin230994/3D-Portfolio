@@ -1,8 +1,6 @@
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { ROOM_POSITION_ORDER, useCameraStore } from "../Stores/useCameraStore";
+import { useCameraStore } from "../Stores/useCameraStore";
 import { useEffect, useRef } from "react";
-import { cameraPresets } from "../Presets/Presets";
-import { Vector3 } from "three";
 import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
 import { useFrame } from "@react-three/fiber";
 
