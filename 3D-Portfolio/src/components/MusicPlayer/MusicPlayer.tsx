@@ -2,23 +2,35 @@ import { useEffect, useRef } from "react";
 import useMusicStore from "../../Stores/useMusicStore";
 
 const MusicPlayer: React.FC = () => {
-	const { currentSong, playing } = useMusicStore();
+	const { currentSong, playing, playNext } = useMusicStore();
 	const audioRef = useRef(new Audio());
 
 	useEffect(() => {
-		if (!currentSong) return;
+		const audio = audioRef.current;
 
-		audioRef.current.src = currentSong.file;
-		audioRef.current.play();
-	}, [currentSong]);
+		const handleEnded = () => {
+			playNext();
+		};
+
+		audio.addEventListener("ended", handleEnded);
+
+		return () => {
+			audio.removeEventListener("ended", handleEnded);
+		};
+	}, [playNext]);
 
 	useEffect(() => {
+		if (!currentSong || !playing) {
+			audioRef.current.pause();
+			return;
+		}
+
+		audioRef.current.src = currentSong.file;
+
 		if (playing) {
 			audioRef.current.play();
-		} else {
-			audioRef.current.pause();
 		}
-	}, [playing]);
+	}, [currentSong, playing]);
 
 	return null;
 };
