@@ -1,17 +1,20 @@
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
-import { Model } from "../public/Office-room";
 
 import Portfolio from "./components/Portfolio";
 import CameraEdgeLabel from "./components/CameraEdgeLabel/CameraEdgeLabel";
+import MusicMenu from "./components/MusicMenu/MusicMenu";
+import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	const isDebugMode = urlParams.has("debug");
 	return (
 		<>
-			<CameraEdgeLabel />
 			<Leva hidden={!isDebugMode} />
+			<CameraEdgeLabel />
+			<MusicMenu />
+			<MusicPlayer />
 			<Canvas performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30 }}>
 				<Portfolio isDebugMode={isDebugMode} />
 				{/* <Model /> */}

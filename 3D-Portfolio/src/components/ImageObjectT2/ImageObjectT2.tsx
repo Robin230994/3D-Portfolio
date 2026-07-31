@@ -4,6 +4,7 @@ import { iot2Material } from "../../Helper/GLMaterials";
 
 import FCBox from "../Targets/FCBox/FCBox";
 import Musterbox from "../Targets/Musterbox/Musterbox";
+import HomePod from "../Targets/HomePod/HomePod";
 
 const ImageObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const IObjectT2: Mesh = nodes["image_object_t2"] as Mesh;
@@ -13,6 +14,7 @@ const ImageObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh geometry={IObjectT2.geometry} position={IObjectT2.position} rotation={IObjectT2.rotation} material={iot2Material} scale={IObjectT2.scale} />
 			<FCBox name="FCBox" nodes={nodes} />
 			<Musterbox name="Musterbox" nodes={nodes} />
+			<HomePod name="HomePod" nodes={nodes} />
 		</group>
 	);
 };

@@ -1,3 +1,4 @@
+import { ISong } from "../interfaces/GLlnterfaces";
 import { AnimationConfig, CameraInfo } from "../types/GLTypes";
 
 export const cameraPresets: Record<string, CameraInfo> = {
@@ -167,3 +168,16 @@ export const robbiAnimationPresets: Record<string, AnimationConfig<"Robbi">> = {
 		},
 	},
 };
+
+export const songs: Array<ISong> = [
+	{
+		id: 1,
+		title: "Lofi",
+		file: "/music/lofi-chill.mp3",
+	},
+	{
+		id: 2,
+		title: "Blues",
+		file: "/music/blues.mp3",
+	},
+];

@@ -81,6 +81,7 @@ type GLTFResult = GLTF & {
     HourHand: THREE.Mesh
     linkedInLogo: THREE.Mesh
     MinuteHand: THREE.Mesh
+    HomePod: THREE.Mesh
     object_t1: THREE.Mesh
     object_t2: THREE.Mesh
     object_t3: THREE.Mesh
@@ -209,6 +210,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="HourHand" geometry={nodes.HourHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="linkedInLogo" geometry={nodes.linkedInLogo.geometry} material={materials['ot7.001']} position={[3.81, 3.351, -2.891]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
+        <mesh name="HomePod" geometry={nodes.HomePod.geometry} material={materials.iot2} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="object_t1" geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
         <mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />

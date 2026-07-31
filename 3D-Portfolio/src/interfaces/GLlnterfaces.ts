@@ -6,3 +6,9 @@ export interface CustomMeshProps {
 	materials?: { [key: string]: Material | Material | Material[] };
 	animations?: AnimationClip[];
 }
+
+export interface ISong {
+	id: number;
+	title: string;
+	file: string;
+}
