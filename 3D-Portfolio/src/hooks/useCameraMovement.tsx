@@ -7,7 +7,7 @@ import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
-const CAMERA_MOVEMENT_SPEED = 0.03;
+const CAMERA_MOVEMENT_SPEED = 0.01;
 const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
