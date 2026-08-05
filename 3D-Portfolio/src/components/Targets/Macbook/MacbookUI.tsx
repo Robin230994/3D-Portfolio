@@ -1,13 +1,14 @@
 import React, { RefObject, useEffect } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { Mesh, DirectionalLight, Object3D, Material } from "three";
+import { Mesh, DirectionalLight, Material } from "three";
 import { useControls } from "leva";
 import { Group } from "three";
 import { Outlines } from "@react-three/drei";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 
 import MaterialCreator from "../../../classes/MaterialCreator";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
-import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -17,10 +18,7 @@ interface MacbookUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: {
-					name: string;
-					object: Object3D;
-				} | null;
+
 				cameraIsMoving: boolean;
 				hovered: string | null;
 			};
@@ -44,9 +42,11 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { name, nodes, cameraIsMoving, hovered } = myData;
 	const { events, dispatch } = myFunctions;
 	const { macbookRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
 	const macbookTopSideMaterial = MacbookTopSide.material as Material;

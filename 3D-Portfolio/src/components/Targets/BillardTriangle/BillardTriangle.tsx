@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import BillardTriangleUI from "./BillardTriangleUI";
+import useInteraction from "../../../hooks/useInteraction";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import useInteraction from "../../../hooks/useInteraction";
 
 const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus } = useFocusStore();
-	const { cameraIsMoving } = useCameraStore();
+	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const interaction = useInteraction({
 		onClick: () => {
 			if (triangleRef.current) {
@@ -24,7 +24,7 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const triangleRef = useRef<Group>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving } },
+		data: { myData: { name, nodes, cameraIsMoving } },
 		functions: { myFunctions: { dispatch, events: interaction.events } },
 		refs: { myRefs: { triangleRef } },
 	};

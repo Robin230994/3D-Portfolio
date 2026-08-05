@@ -2,9 +2,9 @@ import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Group, Mesh } from "three";
 import { t3Material } from "../../../Helper/GLMaterials";
-import { Object3D } from "three";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface BillardTriangleUIProps extends IUIComponentProps {
@@ -13,10 +13,6 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: {
-					name: string;
-					object: Object3D;
-				} | null;
 				cameraIsMoving: boolean;
 			};
 		};
@@ -39,9 +35,11 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
+	const { name, nodes, cameraIsMoving } = myData;
 	const { dispatch, events } = myFunctions;
 	const { triangleRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const PoolBall8: Mesh = nodes["PoolBall8"] as Mesh;
 

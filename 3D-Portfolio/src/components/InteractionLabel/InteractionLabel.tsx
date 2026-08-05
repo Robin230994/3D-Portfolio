@@ -2,7 +2,7 @@ import { Text } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { Mesh } from "three/webgpu";
 import { useSpring, a } from "@react-spring/three";
-import { useFocusStore } from "../../Stores/useFocusStore";
+import useInteraction from "../../hooks/useInteraction";
 
 const InteractionLabel = ({
 	name,
@@ -22,7 +22,12 @@ const InteractionLabel = ({
 	labelRot?: [number, number, number];
 }) => {
 	const [show, setShow] = useState(false);
-	const { setHoveredObject } = useFocusStore();
+	const { events } = useInteraction({
+		onClick: (e) => {
+			e.stopPropagation();
+			dispatch();
+		},
+	});
 
 	const uiRef = useRef<Mesh | null>(null);
 
@@ -42,20 +47,7 @@ const InteractionLabel = ({
 
 	return (
 		show && (
-			<a.mesh
-				name={name}
-				ref={uiRef}
-				position={labelPos}
-				rotation={labelRot ? labelRot : [0, 0, 0]}
-				scale={scale}
-				onPointerOver={() => {
-					if (uiRef.current) setHoveredObject(uiRef.current.name);
-				}}
-				onPointerLeave={() => setHoveredObject(null)}
-				onClick={(e) => {
-					e.stopPropagation();
-					dispatch();
-				}}>
+			<a.mesh name={name} ref={uiRef} position={labelPos} rotation={labelRot ? labelRot : [0, 0, 0]} scale={scale} {...events}>
 				<circleGeometry args={[0.2, 32]} />
 				<meshStandardMaterial color={"#ff5c5c"} />
 				<Text font="/fonts/Inter_18pt-Bold.ttf" fontSize={0.25} anchorX="center" anchorY="middle" position={[0, 0.03, 0.01]} color={"#444"}>

@@ -8,7 +8,10 @@ import useMusicStore from "../../../Stores/useMusicStore";
 import useInteraction from "../../../hooks/useInteraction";
 
 const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { playing, currentSong, toggle, play } = useMusicStore();
+	const playing = useMusicStore((state) => state.playing);
+	const currentSong = useMusicStore((state) => state.currentSong);
+	const toggle = useMusicStore((state) => state.toggle);
+	const play = useMusicStore((state) => state.play);
 
 	const interaction = useInteraction({
 		onClick: () => {

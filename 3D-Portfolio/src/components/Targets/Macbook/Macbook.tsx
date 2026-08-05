@@ -7,8 +7,8 @@ import { useFocusStore } from "../../../Stores/useFocusStore";
 import useInteraction from "../../../hooks/useInteraction";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus } = useFocusStore();
-	const { cameraIsMoving } = useCameraStore();
+	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 
 	const interaction = useInteraction({
 		onClick: () => {
@@ -29,7 +29,6 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			myData: {
 				name,
 				nodes,
-				selectObjectFocus,
 				cameraIsMoving,
 				hovered: interaction.hovered,
 			},

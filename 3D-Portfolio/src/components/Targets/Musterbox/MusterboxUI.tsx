@@ -3,11 +3,11 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
 import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
-import { Object3D } from "three";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -15,10 +15,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: {
-					name: string;
-					object: Object3D;
-				} | null;
+
 				cameraIsMoving: boolean;
 				hovered: string | null;
 			};
@@ -42,9 +39,11 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { name, nodes, cameraIsMoving, hovered } = myData;
 	const { dispatch, events } = myFunctions;
 	const { musterboxRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
 	const MusterboxLasche: Mesh = nodes["MusterboxLasche"] as Mesh;

@@ -1,12 +1,12 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Group, Mesh } from "three";
-import { Object3D } from "three";
 import { useControls } from "leva";
 import { iot2Material } from "../../../Helper/GLMaterials";
 import { Outlines } from "@react-three/drei";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
@@ -14,7 +14,6 @@ interface FCBoxUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
 				hovered: string | null;
 			};
@@ -38,9 +37,11 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { name, nodes, cameraIsMoving, hovered } = myData;
 	const { dispatch, events } = myFunctions;
 	const { fcBoxRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
 

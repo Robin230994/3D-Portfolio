@@ -11,7 +11,7 @@ const CAMERA_MOVEMENT_SPEED = 0.03;
 const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
-	const { selectObjectFocus } = useFocusStore();
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const { currentCameraPlaceInfo, edgeHoldTime, isDragging, setCameraIsMoving } = useCameraStore();
 
 	useFrame(() => {

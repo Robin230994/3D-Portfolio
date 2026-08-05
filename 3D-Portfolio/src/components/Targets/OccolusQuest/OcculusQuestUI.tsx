@@ -2,10 +2,11 @@ import React, { RefObject } from "react";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { DirectionalLight, Mesh, Object3D, Group } from "three";
+import { DirectionalLight, Mesh, Group } from "three";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
@@ -13,7 +14,7 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: { name: string; object: Object3D } | null;
+
 				cameraIsMoving: boolean;
 				hovered: string | null;
 			};
@@ -37,9 +38,11 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { name, nodes, cameraIsMoving, hovered } = myData;
 	const { events, dispatch } = myFunctions;
 	const { occulusRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
 	const OcculusControler: Mesh = nodes["OcculusController"] as Mesh;

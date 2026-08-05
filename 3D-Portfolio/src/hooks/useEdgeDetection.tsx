@@ -9,7 +9,7 @@ const FULL_PUSH_THRESHOLD = 0.01; // actual edge for full push
 
 const useEdgeDetection = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const { edgePulseComplete, isDragging, setEdgeState, setEdgeHoldTime, setEdgePulseComplete, setNextRoomFromEdge } = useCameraStore();
-	const { selectObjectFocus } = useFocusStore();
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const holdStart = useRef<number | null>(null);
 

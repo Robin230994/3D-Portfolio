@@ -1,11 +1,12 @@
 import React, { RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { Color, Mesh, MeshBasicMaterial, Object3D } from "three";
+import { Color, Mesh, MeshBasicMaterial } from "three";
 import { DirectionalLight } from "three";
 import { glassMaterial, metalMaterial } from "../../../Helper/GLMaterials";
 import { Group } from "three";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
@@ -16,7 +17,6 @@ interface BambuLabUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
 			};
 		};
@@ -39,9 +39,11 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
+	const { name, nodes, cameraIsMoving } = myData;
 	const { dispatch, events } = myFunctions;
 	const { bambuLabRef } = myRefs;
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const BambuLabAMS: Mesh = nodes["BambuAMSTop"] as Mesh;
 	const BambuLabDoor: Mesh = nodes["BambuFrontDoor"] as Mesh;

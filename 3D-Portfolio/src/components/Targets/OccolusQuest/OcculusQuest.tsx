@@ -8,8 +8,8 @@ import { useFocusStore } from "../../../Stores/useFocusStore";
 import useInteraction from "../../../hooks/useInteraction";
 
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, setSelectObjectFocus } = useFocusStore();
-	const { cameraIsMoving } = useCameraStore();
+	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const interaction = useInteraction({
 		onClick: () => {
 			if (occulusRef.current) {
@@ -25,7 +25,7 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const occulusRef = useRef<Group>(null);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, cameraIsMoving, hovered: interaction.hovered } },
+		data: { myData: { name, nodes, cameraIsMoving, hovered: interaction.hovered } },
 		functions: { myFunctions: { dispatch, events: interaction.events } },
 		refs: { myRefs: { occulusRef } },
 	};
