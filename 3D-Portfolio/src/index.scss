@@ -17,6 +17,10 @@ canvas {
 	overscroll-behavior: none;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 .hover-label {
 	position: absolute;
 	opacity: 0;
@@ -106,27 +110,119 @@ canvas {
 
 .music-menu {
 	position: fixed;
-	width: 300px;
-	height: 500px;
-	background-color: #fff;
+	width: 360px;
+	height: 640px;
 	z-index: 9999;
 	right: 50px;
-	top: 200px;
+	top: 120px;
 	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.8);
+	color: black;
+	// backdrop-filter: blur(18px) saturate(180%);
+	// -webkit-backdrop-filter: blur(18px) saturate(180%);
+	// box-shadow:
+	// 	0 8px 32px rgba(0, 0, 0, 0.35),
+	// 	inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .music-header {
+	// border-bottom: 1px solid #aaa;
+	padding-bottom: 10px;
+	color: black;
 	padding: 20px;
-	display: flex;
-	justify-content: end;
-	align-items: center;
-	border-bottom: 1px solid black;
+}
+
+.music-header > h1 {
+	width: 100%;
 }
 
 .music-body {
 	height: 100%;
-	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	// border-bottom: 1px solid black;
+	padding: 20px;
+}
+
+.music-body div {
+	display: flex;
+	text-align: left;
+	justify-content: space-between;
+	padding: 0 10px;
+	border-radius: 10px;
+}
+
+.music-body div:hover {
+	cursor: pointer;
+}
+
+.music-body .song-item.active {
+	background-color: rgba(0, 0, 0, 0.6);
+	color: #fff;
+}
+
+.music-body .song-item:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.music-footer {
+	padding: 20px;
+}
+
+.music-footer span {
+	font-size: 14px;
+}
+
+.music-footer div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.music-footer .music-played-song,
+.music-footer .music-playtime {
+	margin: 0;
+	margin-bottom: 10px;
+}
+
+.music-footer div:first-child {
+	margin-bottom: 20px;
+}
+
+.music-playtime input[type="range"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 80%;
+	height: 8px;
+	background: #cccccc;
+	border-radius: 10px;
+	outline: none;
+}
+
+/* Chrome, Safari, Edge */
+.music-playtime input[type="range"]::-webkit-slider-thumb {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 0;
+	height: 0;
+	background: transparent;
+	border: none;
+}
+
+/* Firefox */
+.music-playtime input[type="range"]::-moz-range-thumb {
+	width: 0;
+	height: 0;
+	background: transparent;
+	border: none;
+}
+
+.music-next:hover,
+.music-prev:hover,
+.music-play:hover {
+	cursor: pointer;
 }

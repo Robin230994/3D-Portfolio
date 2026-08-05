@@ -25,7 +25,6 @@ const MusicNote: React.FC<IMusicNoteProps> = ({ playing, position }) => {
 
 	useEffect(() => {
 		if (!playing) return;
-
 		const interval = setInterval(() => {
 			const material = new SpriteMaterial({
 				map: noteTexture,
@@ -48,7 +47,9 @@ const MusicNote: React.FC<IMusicNoteProps> = ({ playing, position }) => {
 			});
 		}, 850);
 
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+		};
 	}, [playing, position]);
 
 	useFrame((_, delta) => {

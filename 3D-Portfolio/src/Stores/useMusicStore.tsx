@@ -6,6 +6,8 @@ interface IMusicStore {
 	songs: ISong[];
 	playing: boolean;
 	currentSong: ISong | null;
+	currentSongTime: number;
+	songDurations: Record<number, number>;
 	musicMenuOpen: boolean;
 
 	play: (song: ISong) => void;
@@ -13,6 +15,9 @@ interface IMusicStore {
 	playPrevious: () => void;
 	stop: () => void;
 	toggle: () => void;
+	setSongDuration: (songId: number, duration: number) => void;
+	setCurrentSongTime: (time: number) => void;
+	seek: (time: number) => void;
 
 	openMenu: () => void;
 	closeMenu: () => void;
@@ -23,6 +28,8 @@ const useMusicStore = create<IMusicStore>((set) => ({
 	songs: songs,
 	playing: false,
 	currentSong: null,
+	currentSongTime: 0,
+	songDurations: {},
 	musicMenuOpen: false,
 
 	play: (song) => set({ playing: true, currentSong: song }),
@@ -43,7 +50,7 @@ const useMusicStore = create<IMusicStore>((set) => ({
 			if (!state.currentSong) return state;
 			const currentIndex = state.songs.findIndex((song) => song.id === state.currentSong!.id);
 
-			const previousIndex = (currentIndex - 1) % state.songs.length;
+			const previousIndex = (currentIndex - 1 + state.songs.length) % state.songs.length;
 
 			return {
 				currentSong: state.songs[previousIndex],
@@ -53,12 +60,21 @@ const useMusicStore = create<IMusicStore>((set) => ({
 	stop: () => set({ playing: false, currentSong: null }),
 	toggle: () =>
 		set((state) => {
-			console.log("toggle", state.playing, "->", !state.playing);
-
 			return {
 				playing: !state.playing,
 			};
 		}),
+
+	setSongDuration: (songId, duration) =>
+		set((state) => ({
+			songDurations: {
+				...state.songDurations,
+				[songId]: duration,
+			},
+		})),
+
+	setCurrentSongTime: (time) => set({ currentSongTime: time }),
+	seek: (time) => set({ currentSongTime: time }),
 
 	openMenu: () => set({ musicMenuOpen: true }),
 	closeMenu: () => set({ musicMenuOpen: false }),

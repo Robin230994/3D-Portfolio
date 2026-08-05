@@ -1,0 +1,39 @@
+import { useCallback, useState } from "react";
+import { ThreeEvent } from "@react-three/fiber";
+
+interface IUseInteractionProps {
+	onClick?: (e: ThreeEvent<MouseEvent>) => void;
+}
+
+const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
+	const [hovered, setHovered] = useState(false);
+
+	const onPointerEnter = useCallback(() => {
+		document.body.style.cursor = "pointer";
+		setHovered(true);
+	}, []);
+
+	const onPointerLeave = useCallback(() => {
+		document.body.style.cursor = "default";
+		setHovered(false);
+	}, []);
+
+	const handleClick = useCallback(
+		(e: ThreeEvent<MouseEvent>) => {
+			e.stopPropagation();
+			onClick?.(e);
+		},
+		[onClick],
+	);
+
+	return {
+		hovered,
+		events: {
+			onPointerEnter,
+			onPointerLeave,
+			onClick: handleClick,
+		},
+	};
+};
+
+export default useInteraction;

@@ -1,23 +1,16 @@
 import { useEffect, useRef } from "react";
 import useMusicStore from "../../Stores/useMusicStore";
+import useMusicMetatadata from "../../hooks/useMusicMetadata";
+import useMusicProgress from "../../hooks/useMusicProgress";
+import useMusicPlaylist from "../../hooks/useMusicPlaylist";
 
 const MusicPlayer: React.FC = () => {
-	const { currentSong, playing, playNext } = useMusicStore();
+	const { currentSong, playing, songDurations, playNext, setCurrentSongTime, setSongDuration } = useMusicStore();
 	const audioRef = useRef(new Audio());
 
-	useEffect(() => {
-		const audio = audioRef.current;
-
-		const handleEnded = () => {
-			playNext();
-		};
-
-		audio.addEventListener("ended", handleEnded);
-
-		return () => {
-			audio.removeEventListener("ended", handleEnded);
-		};
-	}, [playNext]);
+	useMusicMetatadata({ songDurations, setSongDuration });
+	useMusicPlaylist({ playNext, audioRef });
+	const { seek } = useMusicProgress({ setCurrentSongTime, audioRef });
 
 	useEffect(() => {
 		if (!currentSong || !playing) {
@@ -31,6 +24,10 @@ const MusicPlayer: React.FC = () => {
 			audioRef.current.play();
 		}
 	}, [currentSong, playing]);
+
+	useEffect(() => {
+		useMusicStore.setState({ seek });
+	}, [seek]);
 
 	return null;
 };

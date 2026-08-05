@@ -10,7 +10,6 @@ interface LogosUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				hoveredObject: string | null;
 				materials?: {
 					t6Material?: Material;
 				};
@@ -22,17 +21,23 @@ interface LogosUIProps extends IUIComponentProps {
 			};
 		};
 		refs: {
-			myRefs: object;
+			myRefs: {
+				linkedInLogoRef: React.RefObject<Mesh>;
+				githubLogoRef: React.RefObject<Mesh>;
+			};
 		};
 	};
 }
 
 const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
+	console.log("Rendering LogosUI with props:");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
+	const { myRefs } = props.refs;
 
-	const { name, nodes, hoveredObject, materials } = myData;
+	const { name, nodes, materials } = myData;
 	const { setHoveredObject } = myFunctions;
+	const { linkedInLogoRef, githubLogoRef } = myRefs;
 
 	const t6Material = materials?.t6Material;
 
@@ -43,29 +48,37 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 		<group name={name}>
 			<mesh
 				name="LinkedInLogo"
+				ref={linkedInLogoRef}
 				geometry={LinkedInLogo.geometry}
 				position={LinkedInLogo.position}
 				rotation={LinkedInLogo.rotation}
 				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
-				scale={hoveredObject === "LinkedInLogo" ? 1.2 : 1}
 				onPointerEnter={() => {
 					setHoveredObject("LinkedInLogo");
+					linkedInLogoRef.current?.scale.setScalar(1.2); // Scale up on hover
 				}}
-				onPointerLeave={() => setHoveredObject(null)}
+				onPointerLeave={() => {
+					setHoveredObject(null);
+					linkedInLogoRef.current?.scale.setScalar(1); // Reset scale when not hovering
+				}}
 				onClick={() => {
 					window.open("https://www.linkedin.com/in/robin-dort-37348a231/", "_blank", "noopener, noreferrer");
 				}}></mesh>
 			<mesh
 				name="GitHubLogo"
+				ref={githubLogoRef}
 				geometry={GitHubLogo.geometry}
 				position={GitHubLogo.position}
 				rotation={GitHubLogo.rotation}
 				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
-				scale={hoveredObject === "GithubLogo" ? 1.2 : 1}
 				onPointerEnter={() => {
 					setHoveredObject("GithubLogo");
+					githubLogoRef.current?.scale.setScalar(1.2); // Scale up on hover
 				}}
-				onPointerLeave={() => setHoveredObject(null)}
+				onPointerLeave={() => {
+					setHoveredObject(null);
+					githubLogoRef.current?.scale.setScalar(1); // Reset scale when not hovering
+				}}
 				onClick={() => {
 					window.open("https://github.com/Robin230994", "_blank", "noopener,noreferrer");
 				}}></mesh>

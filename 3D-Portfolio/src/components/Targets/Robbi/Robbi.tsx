@@ -10,7 +10,7 @@ const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }
 	const rigRef = useRef<Group>(null);
 	const { actions } = useAnimations(animations!, rigRef);
 
-	const [action, setAction] = useState<AnimationConfig<"Robbi">>(robbiAnimationPresets.sitIdle);
+	const [action, setAction] = useState<AnimationConfig<"Robbi">>(robbiAnimationPresets.sit);
 
 	useEffect(() => {
 		const playAction = () => {
@@ -25,7 +25,7 @@ const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }
 		};
 
 		playAction();
-		setAction(robbiAnimationPresets.sitIdle);
+		setAction(robbiAnimationPresets.sit);
 
 		return () => {
 			const animation = actions[action.action];
