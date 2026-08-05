@@ -8,8 +8,8 @@ const Logos: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 	const interaction = useInteraction({
 		onClick: (e) => {
 			if (e.object.name === "LinkedInLogo") {
-				window.open("https://www.linkedin.com/in/louisadort/", "_blank");
-			} else if (e.object.name === "GithubLogo") {
+				window.open("https://www.linkedin.com/in/robin-dort-37348a231/", "_blank");
+			} else if (e.object.name === "GitHubLogo") {
 				window.open("https://github.com/Robin230994", "_blank", "noopener,noreferrer");
 			}
 		},
