@@ -4,10 +4,23 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
+import useInteraction from "../../../hooks/useInteraction";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useFocusStore();
+	const { selectObjectFocus, setSelectObjectFocus } = useFocusStore();
 	const { cameraIsMoving } = useCameraStore();
+
+	const interaction = useInteraction({
+		onClick: () => {
+			if (macbookRef.current) {
+				setSelectObjectFocus({ name: name, object: macbookRef.current });
+			}
+		},
+	});
+
+	const dispatch = () => {
+		setSelectObjectFocus(null);
+	};
 
 	const macbookRef = useRef<Group>(null);
 
@@ -18,10 +31,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				nodes,
 				selectObjectFocus,
 				cameraIsMoving,
-				hoveredObject,
+				hovered: interaction.hovered,
 			},
 		},
-		functions: { myFunctions: { setSelectObjectFocus, setHoveredObject } },
+		functions: { myFunctions: { dispatch, events: interaction.events } },
 		refs: { myRefs: { macbookRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;

@@ -6,16 +6,17 @@ interface IUseInteractionProps {
 }
 
 const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
-	const [hovered, setHovered] = useState(false);
+	const [hovered, setHovered] = useState<string | null>(null);
 
-	const onPointerEnter = useCallback(() => {
+	const onPointerEnter = useCallback((e: ThreeEvent<PointerEvent>) => {
 		document.body.style.cursor = "pointer";
-		setHovered(true);
+		setHovered(e.object.name);
+		console.log(e.object.name);
 	}, []);
 
 	const onPointerLeave = useCallback(() => {
 		document.body.style.cursor = "default";
-		setHovered(false);
+		setHovered(null);
 	}, []);
 
 	const handleClick = useCallback(

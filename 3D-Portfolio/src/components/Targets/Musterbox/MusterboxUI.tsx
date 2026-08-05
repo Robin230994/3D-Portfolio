@@ -7,6 +7,7 @@ import { Object3D } from "three";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -19,18 +20,17 @@ interface MusterboxUIProps extends IUIComponentProps {
 					object: Object3D;
 				} | null;
 				cameraIsMoving: boolean;
-				hoveredObject: string | null;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { musterboxRef: RefObject<Group> } };
@@ -42,8 +42,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { dispatch, events } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const MusterboxDeckel: Mesh = nodes["MusterboxDeckel"] as Mesh;
@@ -79,48 +79,40 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	});
 
 	return (
-		<group name={name}>
-			<group
-				ref={musterboxRef}
-				onClick={() => {
-					if (musterboxRef.current) {
-						setSelectObjectFocus({ name: name, object: musterboxRef.current });
-					}
-				}}
-				onPointerOver={() => {
-					if (selectObjectFocus === null) setHoveredObject(name);
-				}}
-				onPointerOut={() => setHoveredObject(null)}>
+		<group>
+			<group ref={musterboxRef} {...events}>
 				<mesh
+					name={name}
 					geometry={MusterboxDeckel.geometry}
 					position={MusterboxDeckel.position}
 					rotation={MusterboxDeckel.rotation}
 					scale={MusterboxDeckel.scale}
 					material={MusterboxDeckel.material}>
-					<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+					<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 				</mesh>
 
 				<mesh
+					name={name}
 					geometry={MusterboxLasche.geometry}
 					position={MusterboxLasche.position}
 					rotation={MusterboxLasche.rotation}
 					scale={MusterboxLasche.scale}
 					material={MusterboxLasche.material}>
-					<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+					<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 					<InteractionLabel
 						name="musterbox-ui-btn"
 						scaleFactor={25}
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						visible={!cameraIsMoving && selectObjectFocus?.name === name}
-						dispatch={() => setSelectObjectFocus(null)}>
+						dispatch={() => dispatch()}>
 						x
 					</InteractionLabel>
 				</mesh>
 
 				{/** Boxes */}
 				<group name={"Boxes"} visible={false}>
-					<mesh
+					{/* <mesh
 						geometry={Musterbox01.geometry}
 						position={Musterbox01.position}
 						rotation={Musterbox01.rotation}
@@ -310,7 +302,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox24.rotation}
 						scale={Musterbox24.scale}
 						material={iot2Material}
-					/>
+					/> */}
 				</group>
 			</group>
 		</group>

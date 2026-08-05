@@ -7,6 +7,7 @@ import { Outlines } from "@react-three/drei";
 
 import MaterialCreator from "../../../classes/MaterialCreator";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -21,18 +22,17 @@ interface MacbookUIProps extends IUIComponentProps {
 					object: Object3D;
 				} | null;
 				cameraIsMoving: boolean;
-				hoveredObject: string | null;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null,
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { macbookRef: RefObject<Group> } };
@@ -44,8 +44,8 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { events, dispatch } = myFunctions;
 	const { macbookRef } = myRefs;
 
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
@@ -59,39 +59,25 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	useEffect(() => {
 		macbookTopSideMaterial.alphaTest = 0.5;
 		materialCreator.addInstanciatedMaterial("ot5Material", macbookTopSideMaterial);
-
-		console.log(selectObjectFocus);
 	}, [macbookTopSideMaterial, selectObjectFocus]);
 
 	return (
-		<group
-			name={name}
-			ref={macbookRef}
-			onClick={() => {
-				if (macbookRef.current) {
-					setSelectObjectFocus({ name: name, object: macbookRef.current });
-				}
-			}}
-			onPointerOver={() => {
-				if (selectObjectFocus === null) setHoveredObject(name);
-			}}
-			onPointerOut={() => setHoveredObject(null)}>
+		<group ref={macbookRef} {...events}>
 			<mesh
+				name={name}
 				geometry={MacbookTopSide.geometry}
 				position={MacbookTopSide.position}
 				rotation={MacbookTopSide.rotation}
 				scale={MacbookTopSide.scale}
 				material={macbookTopSideMaterial}>
-				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 
 				<InteractionLabel
 					name="macbook-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => {
-						setSelectObjectFocus(null);
-					}}>
+					dispatch={() => dispatch()}>
 					x
 				</InteractionLabel>
 			</mesh>

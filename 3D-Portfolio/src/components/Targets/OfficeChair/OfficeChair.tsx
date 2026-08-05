@@ -4,15 +4,22 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { LoopOnce, Mesh } from "three";
 import { useAnimations } from "@react-three/drei";
 import { AnimationConfig } from "../../../types/GLTypes";
-import { useFocusStore } from "../../../Stores/useFocusStore";
 import { officeChairPresets } from "../../../Presets/Presets";
+import useInteraction from "../../../hooks/useInteraction";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const [action, setAction] = useState<AnimationConfig<"MyOfficeChair">>(officeChairPresets.Idle);
 	const upperChairRef = useRef<Mesh | null>(null);
 
-	const { selectObjectFocus, hoveredObject, setHoveredObject } = useFocusStore();
 	const { actions } = useAnimations(animations!, upperChairRef);
+	const interactions = useInteraction({
+		onClick: () => {
+			setAction({
+				action: "ChairRotation",
+				options: { loop: false, loopCount: 1 },
+			});
+		},
+	});
 
 	useEffect(() => {
 		const playAction = () => {
@@ -31,8 +38,8 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 	}, [action, actions, animations]);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, selectObjectFocus, animations, hoveredObject } },
-		functions: { myFunctions: { setAction, setHoveredObject } },
+		data: { myData: { name, nodes, animations, hovered: interactions.hovered } },
+		functions: { myFunctions: { events: interactions.events } },
 		refs: { myRefs: { upperChairRef } },
 	};
 

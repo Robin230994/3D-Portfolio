@@ -1,23 +1,26 @@
 import React, { useRef, useState } from "react";
 import FloorLampUI from "./FloorLampUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useFocusStore } from "../../../Stores/useFocusStore";
 import { PointLight } from "three";
+import useInteraction from "../../../hooks/useInteraction";
 
 const FloorLamp: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
-	const { hoveredObject, setHoveredObject } = useFocusStore();
-
 	const [lightOn, setLightOn] = useState(false);
 	const lampLightRef = useRef<PointLight | null>(null);
 
+	const interaction = useInteraction({
+		onClick: () => {
+			setLightOn(!lightOn);
+		},
+	});
+
 	const uiComponentProps = {
 		data: {
-			myData: { name, nodes, lightOn, materials, hoveredObject },
+			myData: { name, nodes, lightOn, materials, hovered: interaction.hovered },
 		},
 		functions: {
 			myFunctions: {
-				setHoveredObject,
-				setLightOn,
+				events: interaction.events,
 			},
 		},
 		refs: {

@@ -24,7 +24,7 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 			myFunctions: {
 				dispatch: () => void;
 				events: {
-					onPointerEnter: () => void;
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
 					onClick: (e: ThreeEvent<MouseEvent>) => void;
 				};

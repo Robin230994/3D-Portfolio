@@ -11,13 +11,13 @@ interface HomePodUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				hovered: boolean;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
 				events: {
-					onPointerEnter: () => void;
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
 					onClick: (e: ThreeEvent<MouseEvent>) => void;
 				};
@@ -28,7 +28,6 @@ interface HomePodUIProps extends IUIComponentProps {
 }
 
 const HomePodUI: React.FC<HomePodUIProps> = ({ props }) => {
-	console.log("Rendering HomePodUI with props:");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 
@@ -38,9 +37,9 @@ const HomePodUI: React.FC<HomePodUIProps> = ({ props }) => {
 	const HomePod = nodes["HomePod"] as Mesh;
 
 	return (
-		<group name={name} {...events}>
-			<mesh geometry={HomePod.geometry} position={HomePod.position} rotation={HomePod.rotation} scale={HomePod.scale} material={iot2Material}>
-				<Outlines thickness={2} scale={hovered ? 1 : 0} color={"white"} />
+		<group {...events}>
+			<mesh name={name} geometry={HomePod.geometry} position={HomePod.position} rotation={HomePod.rotation} scale={HomePod.scale} material={iot2Material}>
+				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 			</mesh>
 		</group>
 	);

@@ -3,6 +3,7 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Material, Mesh, PointLight } from "three";
 import { Outlines } from "@react-three/drei";
 import { useControls } from "leva";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 interface FloorLampUIProps extends IUIComponentProps {
 	props: {
@@ -11,7 +12,7 @@ interface FloorLampUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				lightOn: boolean;
-				hoveredObject: string | null;
+				hovered: string | null;
 				materials?: {
 					t2Material?: Material;
 				};
@@ -19,8 +20,11 @@ interface FloorLampUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setHoveredObject: (objectName: string | null) => void;
-				setLightOn: React.Dispatch<React.SetStateAction<boolean>>;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: {
@@ -36,8 +40,8 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, lightOn, hoveredObject, materials } = myData;
-	const { setLightOn, setHoveredObject } = myFunctions;
+	const { name, nodes, lightOn, hovered, materials } = myData;
+	const { events } = myFunctions;
 	const { lampLightRef } = myRefs;
 
 	const t2Material = materials?.t2Material;
@@ -50,15 +54,9 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 	//useHelper(lampLightRef as React.MutableRefObject<PointLight>, PointLightHelper, 0.2, "yellow");
 
 	return (
-		<group
-			name={name}
-			onPointerOver={() => {
-				setHoveredObject(name);
-			}}
-			onPointerOut={() => setHoveredObject(null)}
-			onClick={() => setLightOn(!lightOn)}>
-			<mesh geometry={Lamp.geometry} position={Lamp.position} rotation={Lamp.rotation} material={t2Material}>
-				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+		<group {...events}>
+			<mesh name={name} geometry={Lamp.geometry} position={Lamp.position} rotation={Lamp.rotation} material={t2Material}>
+				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 			</mesh>
 
 			{/** point light bulp inside the lamp */}

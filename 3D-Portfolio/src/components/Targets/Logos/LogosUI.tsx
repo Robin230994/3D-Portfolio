@@ -3,6 +3,7 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight } from "three/src/lights/DirectionalLight.js";
 import { Mesh } from "three/src/objects/Mesh.js";
 import { Material, MeshStandardMaterial } from "three";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 interface LogosUIProps extends IUIComponentProps {
 	props: {
@@ -10,6 +11,7 @@ interface LogosUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
+				hovered: string | null;
 				materials?: {
 					t6Material?: Material;
 				};
@@ -17,7 +19,11 @@ interface LogosUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setHoveredObject: (objectName: string | null) => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: {
@@ -35,8 +41,8 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, materials } = myData;
-	const { setHoveredObject } = myFunctions;
+	const { name, nodes, materials, hovered } = myData;
+	const { events } = myFunctions;
 	const { linkedInLogoRef, githubLogoRef } = myRefs;
 
 	const t6Material = materials?.t6Material;
@@ -53,17 +59,8 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 				position={LinkedInLogo.position}
 				rotation={LinkedInLogo.rotation}
 				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
-				onPointerEnter={() => {
-					setHoveredObject("LinkedInLogo");
-					linkedInLogoRef.current?.scale.setScalar(1.2); // Scale up on hover
-				}}
-				onPointerLeave={() => {
-					setHoveredObject(null);
-					linkedInLogoRef.current?.scale.setScalar(1); // Reset scale when not hovering
-				}}
-				onClick={() => {
-					window.open("https://www.linkedin.com/in/robin-dort-37348a231/", "_blank", "noopener, noreferrer");
-				}}></mesh>
+				scale={hovered === "LinkedInLogo" ? 1.2 : 1}
+				{...events}></mesh>
 			<mesh
 				name="GitHubLogo"
 				ref={githubLogoRef}
@@ -71,17 +68,8 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 				position={GitHubLogo.position}
 				rotation={GitHubLogo.rotation}
 				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
-				onPointerEnter={() => {
-					setHoveredObject("GithubLogo");
-					githubLogoRef.current?.scale.setScalar(1.2); // Scale up on hover
-				}}
-				onPointerLeave={() => {
-					setHoveredObject(null);
-					githubLogoRef.current?.scale.setScalar(1); // Reset scale when not hovering
-				}}
-				onClick={() => {
-					window.open("https://github.com/Robin230994", "_blank", "noopener,noreferrer");
-				}}></mesh>
+				scale={hovered === "GitHubLogo" ? 1.2 : 1}
+				{...events}></mesh>
 		</group>
 	);
 };

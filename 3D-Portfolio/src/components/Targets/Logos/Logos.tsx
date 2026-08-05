@@ -1,22 +1,30 @@
 import React, { useRef } from "react";
 import LogosUI from "./LogosUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useFocusStore } from "../../../Stores/useFocusStore";
 import { Mesh } from "three/src/objects/Mesh.js";
+import useInteraction from "../../../hooks/useInteraction";
 
 const Logos: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
-	const setHoveredObject = useFocusStore((state) => state.setHoveredObject);
+	const interaction = useInteraction({
+		onClick: (e) => {
+			if (e.object.name === "LinkedInLogo") {
+				window.open("https://www.linkedin.com/in/louisadort/", "_blank");
+			} else if (e.object.name === "GithubLogo") {
+				window.open("https://github.com/Robin230994", "_blank", "noopener,noreferrer");
+			}
+		},
+	});
 
 	const linkedInLogoRef = useRef<Mesh>(null);
 	const githubLogoRef = useRef<Mesh>(null);
 
 	const uiComponentProps = {
 		data: {
-			myData: { name, nodes, materials },
+			myData: { name, nodes, hovered: interaction.hovered, materials },
 		},
 		functions: {
 			myFunctions: {
-				setHoveredObject,
+				events: interaction.events,
 			},
 		},
 		refs: {

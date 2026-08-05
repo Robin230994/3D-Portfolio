@@ -6,6 +6,7 @@ import { useControls } from "leva";
 import { iot2Material } from "../../../Helper/GLMaterials";
 import { Outlines } from "@react-three/drei";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
@@ -15,18 +16,17 @@ interface FCBoxUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
-				hoveredObject: string | null;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { fcBoxRef: RefObject<Group> } };
@@ -38,8 +38,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { dispatch, events } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const FCBoxTop: Mesh = nodes["FCBoxTop"] as Mesh;
@@ -51,32 +51,21 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 	return (
 		<>
-			<group
-				name={name}
-				ref={fcBoxRef}
-				onClick={() => {
-					if (fcBoxRef.current) {
-						setSelectObjectFocus({ name: name, object: fcBoxRef.current });
-					}
-				}}
-				onPointerOver={() => {
-					if (selectObjectFocus === null) setHoveredObject(name);
-				}}
-				onPointerOut={() => setHoveredObject(null)}>
+			<group ref={fcBoxRef} {...events}>
 				<group>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
-						<mesh geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
+						<mesh name={name} geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
 							<InteractionLabel
 								name="fc-box-ui"
 								scaleFactor={20}
 								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 								labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 								visible={!cameraIsMoving && selectObjectFocus?.name === name}
-								dispatch={() => setSelectObjectFocus(null)}>
+								dispatch={() => dispatch()}>
 								x
 							</InteractionLabel>
 
-							<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+							<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 						</mesh>
 					</group>
 				</group>

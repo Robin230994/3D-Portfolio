@@ -5,6 +5,7 @@ import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh, Object3D, Group } from "three";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
@@ -14,18 +15,17 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				selectObjectFocus: { name: string; object: Object3D } | null;
 				cameraIsMoving: boolean;
-				hoveredObject: string | null;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null,
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { occulusRef: RefObject<Group> } };
@@ -37,8 +37,8 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, cameraIsMoving, hoveredObject } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { name, nodes, selectObjectFocus, cameraIsMoving, hovered } = myData;
+	const { events, dispatch } = myFunctions;
 	const { occulusRef } = myRefs;
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
@@ -52,32 +52,22 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	});
 
 	return (
-		<group
-			ref={occulusRef}
-			name={name}
-			onClick={() => {
-				if (occulusRef.current) {
-					setSelectObjectFocus({ name: name, object: occulusRef.current });
-				}
-			}}
-			onPointerOver={() => {
-				if (selectObjectFocus === null) setHoveredObject(name);
-			}}
-			onPointerOut={() => setHoveredObject(null)}>
+		<group ref={occulusRef} {...events}>
 			<mesh
+				name={name}
 				geometry={OcculusHeadset.geometry}
 				position={[occulusPosition.x, occulusPosition.y, occulusPosition.z]}
 				rotation={[occulusRotation.x, occulusRotation.y, occulusRotation.z]}
 				scale={OcculusHeadset.scale}
 				material={OcculusHeadset.material}>
-				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 				<InteractionLabel
 					name="occulus-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.5}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => setSelectObjectFocus(null)}>
+					dispatch={() => dispatch()}>
 					x
 				</InteractionLabel>
 			</mesh>

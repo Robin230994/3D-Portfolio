@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
-import { AnimationConfig, IUIComponentProps } from "../../../types/GLTypes";
-import { Mesh, Object3D } from "three";
+import { IUIComponentProps } from "../../../types/GLTypes";
+import { Mesh } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 
 interface OfficeChairUIProps extends IUIComponentProps {
@@ -13,17 +14,16 @@ interface OfficeChairUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				selectObjectFocus: {
-					name: string;
-					object: Object3D;
-				} | null;
-				hoveredObject: string | null;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				setAction: React.Dispatch<React.SetStateAction<AnimationConfig<"MyOfficeChair">>>;
-				setHoveredObject: (objectName: string | null) => void;
+				events: {
+					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { upperChairRef: React.MutableRefObject<Mesh | null> } };
@@ -35,8 +35,8 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, selectObjectFocus, hoveredObject } = myData;
-	const { setAction, setHoveredObject } = myFunctions;
+	const { name, nodes, hovered } = myData;
+	const { events } = myFunctions;
 	const { upperChairRef } = myRefs;
 
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
@@ -129,26 +129,17 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	);
 
 	return (
-		<group
-			name={name}
-			onPointerOver={() => {
-				if (selectObjectFocus === null) setHoveredObject(name);
-			}}
-			onPointerOut={() => setHoveredObject(null)}>
+		<group name={name}>
 			<primitive
+				name={name}
 				object={UpperOfficeChair}
+				ref={upperChairRef}
 				position={UpperOfficeChair.position}
 				rotation={[chairRot.x, chairRot.y, chairRot.z]}
 				scale={UpperOfficeChair.scale}
 				material={iot1Material}
-				ref={upperChairRef}
-				onClick={() => {
-					setAction({
-						action: "ChairRotation",
-						options: { loop: false, loopCount: 1 },
-					});
-				}}>
-				<Outlines thickness={2} scale={hoveredObject === name ? 1 : 0} color={"white"} />
+				{...events}>
+				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color="white" />
 			</primitive>
 
 			<mesh
