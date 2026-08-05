@@ -12,7 +12,10 @@ const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
-	const { currentCameraPlaceInfo, edgeHoldTime, isDragging, setCameraIsMoving } = useCameraStore();
+	const currentCameraPlaceInfo = useCameraStore((state) => state.currentCameraPlaceInfo);
+	const edgeHoldTime = useCameraStore((state) => state.edgeHoldTime);
+	const isDragging = useCameraStore((state) => state.isDragging);
+	const setCameraIsMoving = useCameraStore((state) => state.setCameraIsMoving);
 
 	useFrame(() => {
 		const controls = controlsRef.current;
