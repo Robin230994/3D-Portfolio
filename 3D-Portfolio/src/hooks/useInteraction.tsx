@@ -11,7 +11,7 @@ const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
 
 	const onPointerEnter = useCallback((e: ThreeEvent<PointerEvent>) => {
 		const selectObjectFocus = useFocusStore.getState().selectObjectFocus;
-		if (selectObjectFocus && e.object.name !== "ui-btn") {
+		if (selectObjectFocus && e.object.name === selectObjectFocus.name) {
 			return;
 		}
 		document.body.style.cursor = "pointer";

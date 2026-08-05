@@ -13,6 +13,7 @@ const DEG2RAD = Math.PI / 180;
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const currentCameraPlaceInfo = useCameraStore((state) => state.currentCameraPlaceInfo);
+	const isDragging = useCameraStore((state) => state.isDragging);
 	const setCameraIsMoving = useCameraStore((state) => state.setCameraIsMoving);
 
 	useFrame(() => {
@@ -32,7 +33,7 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 
 		// dont move camera when user is dragging to move to another position
 
-		moveCamera(preset, pos, target, controls);
+		if (!isDragging) moveCamera(preset, pos, target, controls);
 
 		// check if camera is still moving
 		const posTarget = new Vector3(...preset.position);
