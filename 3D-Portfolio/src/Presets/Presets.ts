@@ -107,7 +107,7 @@ export const robbiPresets: Record<string, { position: [number, number, number]; 
 	},
 };
 
-export const officeChairPresets: Record<string, AnimationConfig<"MyOfficeChair">> = {
+export const officeChairPresets: Record<string, AnimationConfig<"OfficeChair">> = {
 	Idle: {
 		action: "idle",
 		options: {

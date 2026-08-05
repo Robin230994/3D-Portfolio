@@ -129,17 +129,15 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	);
 
 	return (
-		<group name={name}>
+		<group name={name} {...events}>
 			<primitive
-				name={name}
 				object={UpperOfficeChair}
 				ref={upperChairRef}
 				position={UpperOfficeChair.position}
 				rotation={[chairRot.x, chairRot.y, chairRot.z]}
 				scale={UpperOfficeChair.scale}
-				material={iot1Material}
-				{...events}>
-				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color="white" />
+				material={iot1Material}>
+				<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
 			</primitive>
 
 			<mesh

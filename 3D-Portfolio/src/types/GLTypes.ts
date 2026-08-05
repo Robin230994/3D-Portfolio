@@ -52,7 +52,7 @@ export type CameraInfo = {
 };
 
 type ActionMap = {
-	MyOfficeChair: "idle" | "ChairRotation";
+	OfficeChair: "idle" | "ChairRotation";
 	Robbi: "Idle" | "Idle02" | "sit" | "sit-idle" | "walk" | "wave";
 };
 

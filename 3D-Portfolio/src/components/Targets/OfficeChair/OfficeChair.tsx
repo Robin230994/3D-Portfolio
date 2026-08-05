@@ -8,7 +8,7 @@ import { officeChairPresets } from "../../../Presets/Presets";
 import useInteraction from "../../../hooks/useInteraction";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
-	const [action, setAction] = useState<AnimationConfig<"MyOfficeChair">>(officeChairPresets.Idle);
+	const [action, setAction] = useState<AnimationConfig<"OfficeChair">>(officeChairPresets.Idle);
 	const upperChairRef = useRef<Mesh | null>(null);
 
 	const { actions } = useAnimations(animations!, upperChairRef);

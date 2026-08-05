@@ -36,7 +36,6 @@ interface LogosUIProps extends IUIComponentProps {
 }
 
 const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
-	console.log("Rendering LogosUI with props:");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
