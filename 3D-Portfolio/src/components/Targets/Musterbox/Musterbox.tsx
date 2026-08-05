@@ -3,10 +3,10 @@ import MusterboxUI from "./MusterboxUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
-import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 
 const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
+	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useFocusStore();
 	const { cameraIsMoving } = useCameraStore();
 
 	const musterboxRef = useRef<Group>(null);

@@ -2,7 +2,7 @@ import { Text } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { Mesh } from "three/webgpu";
 import { useSpring, a } from "@react-spring/three";
-import { useObjectInteractionStore } from "../../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../../Stores/useFocusStore";
 
 const InteractionLabel = ({
 	name,
@@ -22,7 +22,7 @@ const InteractionLabel = ({
 	labelRot?: [number, number, number];
 }) => {
 	const [show, setShow] = useState(false);
-	const { setHoveredObject } = useObjectInteractionStore();
+	const { setHoveredObject } = useFocusStore();
 
 	const uiRef = useRef<Mesh | null>(null);
 

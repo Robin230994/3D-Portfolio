@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { Vector3 } from "three";
 import { MathUtils } from "three";
 import { useCameraStore } from "../Stores/useCameraStore";
-import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../Stores/useFocusStore";
 import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -11,7 +11,7 @@ const CAMERA_MOVEMENT_SPEED = 0.03;
 const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
-	const { selectObjectFocus } = useObjectInteractionStore();
+	const { selectObjectFocus } = useFocusStore();
 	const { currentCameraPlaceInfo, edgeHoldTime, isDragging, setCameraIsMoving } = useCameraStore();
 
 	useFrame(() => {

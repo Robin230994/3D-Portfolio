@@ -3,13 +3,8 @@ import ClockUI from "./ClockUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
-import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
-import { useCameraStore } from "../../../Stores/useCameraStore";
 
 const Clock: React.FC<CustomMeshProps> = ({ name, nodes }) => {
-	const { selectObjectFocus, hoveredObject, setSelectObjectFocus, setHoveredObject } = useObjectInteractionStore();
-	const { cameraIsMoving } = useCameraStore();
-
 	const minuteRef = useRef<Mesh>(null);
 	const hourRef = useRef<Mesh>(null);
 
@@ -36,13 +31,10 @@ const Clock: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const uiComponentProps = {
 		data: {
-			myData: { name, nodes, hoveredObject, selectObjectFocus, cameraIsMoving },
+			myData: { name, nodes },
 		},
 		functions: {
-			myFunctions: {
-				setHoveredObject,
-				setSelectObjectFocus,
-			},
+			myFunctions: {},
 		},
 		refs: {
 			myRefs: {

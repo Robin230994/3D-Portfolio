@@ -2,9 +2,10 @@ import React, { RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { Color, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { DirectionalLight } from "three";
-import { glassMaterial, metalMaterial, t3Material } from "../../../Helper/GLMaterials";
+import { glassMaterial, metalMaterial } from "../../../Helper/GLMaterials";
 import { Group } from "three";
 import { useControls } from "leva";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
@@ -21,13 +22,12 @@ interface BambuLabUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null,
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: () => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { bambuLabRef: RefObject<Group> } };
@@ -40,13 +40,13 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { dispatch, events } = myFunctions;
 	const { bambuLabRef } = myRefs;
 
 	const BambuLabAMS: Mesh = nodes["BambuAMSTop"] as Mesh;
 	const BambuLabDoor: Mesh = nodes["BambuFrontDoor"] as Mesh;
 	const BambuLab: Mesh = nodes["BambuLab"] as Mesh;
-	const BambuLabNozzle: Mesh = nodes["BambuLabNozzle"] as Mesh;
+	// const BambuLabNozzle: Mesh = nodes["BambuLabNozzle"] as Mesh;
 	const PLARollHolder: Mesh = nodes["Circle001"] as Mesh;
 	const PLARoll: Mesh = nodes["PLARoll"] as Mesh;
 
@@ -161,18 +161,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 
 	return (
 		<React.Fragment>
-			<group
-				name={name}
-				ref={bambuLabRef}
-				onClick={() => {
-					if (bambuLabRef.current) {
-						setSelectObjectFocus({ name: name, object: bambuLabRef.current });
-					}
-				}}
-				onPointerOver={() => {
-					if (selectObjectFocus === null) setHoveredObject(name);
-				}}
-				onPointerOut={() => setHoveredObject(null)}>
+			<group name={name} ref={bambuLabRef} {...events}>
 				{/** AMS */}
 				<mesh
 					geometry={BambuLabAMS.geometry}
@@ -198,7 +187,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						scaleFactor={0.22}
 						visible={!cameraIsMoving && selectObjectFocus?.name === name}
-						dispatch={() => setSelectObjectFocus(null)}>
+						dispatch={() => dispatch()}>
 						x
 					</InteractionLabel>
 				</mesh>

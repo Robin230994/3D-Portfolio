@@ -1,7 +1,7 @@
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useCameraStore } from "../Stores/useCameraStore";
 import { useEffect, useRef } from "react";
-import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../Stores/useFocusStore";
 import { useFrame } from "@react-three/fiber";
 
 const EDGE_THRESHOLD = 0.1; // soft zone before the edge. start growing label slightly before the edge
@@ -9,7 +9,7 @@ const FULL_PUSH_THRESHOLD = 0.01; // actual edge for full push
 
 const useEdgeDetection = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const { edgePulseComplete, isDragging, setEdgeState, setEdgeHoldTime, setEdgePulseComplete, setNextRoomFromEdge } = useCameraStore();
-	const { selectObjectFocus } = useObjectInteractionStore();
+	const { selectObjectFocus } = useFocusStore();
 
 	const holdStart = useRef<number | null>(null);
 

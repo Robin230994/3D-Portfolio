@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { Object3D } from "three";
 
-interface ObjectInteractionState {
+interface IFocusProps {
 	// Hover state
 	hoveredObject: string | null;
 	setHoveredObject: (objectName: string | null) => void;
@@ -11,7 +11,7 @@ interface ObjectInteractionState {
 	setSelectObjectFocus: (focus: { name: string; object: Object3D } | null) => void;
 }
 
-export const useObjectInteractionStore = create<ObjectInteractionState>((set) => ({
+export const useFocusStore = create<IFocusProps>((set) => ({
 	// Hover
 	hoveredObject: null,
 	setHoveredObject: (objectName) => set({ hoveredObject: objectName }),

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useObjectInteractionStore } from "../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../Stores/useFocusStore";
 
 const useCursorEffect = () => {
-	const hoveredObject = useObjectInteractionStore((state) => state.hoveredObject);
+	const hoveredObject = useFocusStore((state) => state.hoveredObject);
 
 	useEffect(() => {
 		document.body.style.cursor = hoveredObject !== null ? "pointer" : "default";

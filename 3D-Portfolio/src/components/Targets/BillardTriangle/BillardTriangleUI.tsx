@@ -4,6 +4,7 @@ import { DirectionalLight, Group, Mesh } from "three";
 import { t3Material } from "../../../Helper/GLMaterials";
 import { Object3D } from "three";
 import { useControls } from "leva";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface BillardTriangleUIProps extends IUIComponentProps {
@@ -21,13 +22,12 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 		};
 		functions: {
 			myFunctions: {
-				setSelectObjectFocus: (
-					focus: {
-						name: string;
-						object: Object3D;
-					} | null
-				) => void;
-				setHoveredObject: (objectName: string | null) => void;
+				dispatch: () => void;
+				events: {
+					onPointerEnter: () => void;
+					onPointerLeave: () => void;
+					onClick: (e: ThreeEvent<MouseEvent>) => void;
+				};
 			};
 		};
 		refs: { myRefs: { triangleRef: RefObject<Group> } };
@@ -40,7 +40,7 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, selectObjectFocus, cameraIsMoving } = myData;
-	const { setSelectObjectFocus, setHoveredObject } = myFunctions;
+	const { dispatch, events } = myFunctions;
 	const { triangleRef } = myRefs;
 
 	const PoolBall8: Mesh = nodes["PoolBall8"] as Mesh;
@@ -51,18 +51,7 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	});
 
 	return (
-		<group
-			name={name}
-			ref={triangleRef}
-			onClick={() => {
-				if (triangleRef.current) {
-					setSelectObjectFocus({ name: name, object: triangleRef.current });
-				}
-			}}
-			onPointerOver={() => {
-				if (selectObjectFocus === null) setHoveredObject(name);
-			}}
-			onPointerOut={() => setHoveredObject(null)}>
+		<group name={name} ref={triangleRef} {...events}>
 			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation}>
 				<InteractionLabel
 					name="triangle-ui-btn"
@@ -70,7 +59,7 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.2}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => setSelectObjectFocus(null)}>
+					dispatch={() => dispatch()}>
 					x
 				</InteractionLabel>
 			</mesh>

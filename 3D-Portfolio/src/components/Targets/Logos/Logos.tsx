@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import LogosUI from "./LogosUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { useObjectInteractionStore } from "../../../Stores/useObjectInteractionStore";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 import { Mesh } from "three/src/objects/Mesh.js";
 
 const Logos: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
-	const setHoveredObject = useObjectInteractionStore((state) => state.setHoveredObject);
+	const setHoveredObject = useFocusStore((state) => state.setHoveredObject);
 
 	const linkedInLogoRef = useRef<Mesh>(null);
 	const githubLogoRef = useRef<Mesh>(null);
