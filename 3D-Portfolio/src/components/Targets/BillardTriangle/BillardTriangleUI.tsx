@@ -52,7 +52,6 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 		<group name={name} ref={triangleRef} {...events}>
 			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation}>
 				<InteractionLabel
-					name="triangle-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.2}

@@ -184,7 +184,6 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					material={glassMaterial}
 					scale={BambuLabDoor.scale}>
 					<InteractionLabel
-						name="bambu-ui-btn"
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						scaleFactor={0.22}

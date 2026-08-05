@@ -57,7 +57,6 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh name={name} geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
 							<InteractionLabel
-								name="fc-box-ui"
 								scaleFactor={20}
 								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 								labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}

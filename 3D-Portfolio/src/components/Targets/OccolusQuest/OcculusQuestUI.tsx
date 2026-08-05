@@ -65,7 +65,6 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				material={OcculusHeadset.material}>
 				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 				<InteractionLabel
-					name="occulus-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.5}

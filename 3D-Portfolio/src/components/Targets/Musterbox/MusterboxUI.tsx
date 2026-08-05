@@ -99,7 +99,6 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					material={MusterboxLasche.material}>
 					<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 					<InteractionLabel
-						name="musterbox-ui-btn"
 						scaleFactor={25}
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}

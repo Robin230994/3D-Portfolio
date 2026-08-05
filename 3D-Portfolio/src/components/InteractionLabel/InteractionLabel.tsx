@@ -5,7 +5,6 @@ import { useSpring, a } from "@react-spring/three";
 import useInteraction from "../../hooks/useInteraction";
 
 const InteractionLabel = ({
-	name,
 	visible,
 	children,
 	labelPos,
@@ -13,7 +12,6 @@ const InteractionLabel = ({
 	scaleFactor,
 	labelRot,
 }: {
-	name: string;
 	visible: boolean;
 	children: React.ReactNode;
 	labelPos: [number, number, number];
@@ -47,7 +45,7 @@ const InteractionLabel = ({
 
 	return (
 		show && (
-			<a.mesh name={name} ref={uiRef} position={labelPos} rotation={labelRot ? labelRot : [0, 0, 0]} scale={scale} {...events}>
+			<a.mesh name="ui-btn" ref={uiRef} position={labelPos} rotation={labelRot ? labelRot : [0, 0, 0]} scale={scale} {...events}>
 				<circleGeometry args={[0.2, 32]} />
 				<meshStandardMaterial color={"#ff5c5c"} />
 				<Text font="/fonts/Inter_18pt-Bold.ttf" fontSize={0.25} anchorX="center" anchorY="middle" position={[0, 0.03, 0.01]} color={"#444"}>

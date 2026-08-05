@@ -73,7 +73,6 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 
 				<InteractionLabel
-					name="macbook-ui-btn"
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
