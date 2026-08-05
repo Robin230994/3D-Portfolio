@@ -5,7 +5,6 @@ import { cameraPresets } from "../../Presets/Presets";
 import { useControls } from "leva";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import useCameraMovement from "../../hooks/useCameraMovement";
-import useEdgeDetection from "../../hooks/useEdgeDetection";
 import useOrbitControlsEvents from "../../hooks/useOrbitControlsEvents";
 
 interface CameraControllerProps {
@@ -17,7 +16,6 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 
 	useOrbitControlsEvents(controlsRef);
 	useCameraMovement(controlsRef);
-	useEdgeDetection(controlsRef);
 
 	const { cameraPos, cameraRot, azimuthal, polar, hdeg2rad, vdeg2rad } = useControls("Camera Presets", {
 		cameraPos: {

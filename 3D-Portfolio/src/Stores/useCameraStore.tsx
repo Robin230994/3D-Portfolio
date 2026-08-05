@@ -15,17 +15,7 @@ interface CameraState {
 	isDragging: boolean;
 	setDragging: (value: boolean) => void;
 
-	edgeSide: "left" | "right" | null;
-	edgeProgress: number;
-	setEdgeState: (side: "left" | "right" | null, progress: number) => void;
-
-	edgeHoldTime: number;
-	setEdgeHoldTime: (time: number) => void;
-
-	edgePulseComplete: boolean;
-	setEdgePulseComplete: (complete: boolean) => void;
-
-	setNextRoomFromEdge: () => void;
+	setNextRoom: (direction: "left" | "right") => void;
 }
 
 export const useCameraStore = create<CameraState>((set, get) => ({
@@ -48,40 +38,19 @@ export const useCameraStore = create<CameraState>((set, get) => ({
 			isDragging: value,
 		}),
 
-	// EDGE LABEL STATE
-	edgeSide: null,
-	edgeProgress: 0,
-	setEdgeState: (side, progress) => set({ edgeSide: side, edgeProgress: progress }),
-
-	edgeHoldTime: 0,
-	setEdgeHoldTime: (time) => set({ edgeHoldTime: time }),
-
-	edgePulseComplete: false,
-	setEdgePulseComplete: (complete) => set({ edgePulseComplete: complete }),
-
-	setNextRoomFromEdge: () => {
-		const { currentCameraPlaceKey, edgeSide } = get();
-
-		if (!edgeSide) return;
+	setNextRoom: (direction) => {
+		const { currentCameraPlaceKey } = get();
 
 		const roomIndex = ROOM_POSITION_ORDER.indexOf(currentCameraPlaceKey);
-		let nextIndex = roomIndex;
 
-		if (edgeSide === "left") {
-			nextIndex = (roomIndex + 1) % ROOM_POSITION_ORDER.length;
-		} else if (edgeSide === "right") {
-			nextIndex = (roomIndex - 1 + ROOM_POSITION_ORDER.length) % ROOM_POSITION_ORDER.length;
-		}
+		const nextIndex =
+			direction === "left" ? (roomIndex + 1) % ROOM_POSITION_ORDER.length : (roomIndex - 1 + ROOM_POSITION_ORDER.length) % ROOM_POSITION_ORDER.length;
 
 		const nextKey = ROOM_POSITION_ORDER[nextIndex];
 
 		set({
 			currentCameraPlaceKey: nextKey,
 			currentCameraPlaceInfo: cameraPresets[nextKey],
-			edgePulseComplete: false,
-			edgeHoldTime: 0,
-			edgeSide: null,
-			edgeProgress: 0,
 		});
 	},
 }));
