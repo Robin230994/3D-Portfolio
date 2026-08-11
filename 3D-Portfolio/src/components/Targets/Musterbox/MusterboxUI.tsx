@@ -73,8 +73,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
 	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
-		backLabelPos: { value: { x: 71, y: -66.6, z: 58.7 }, step: 0.1 },
-		backLabelRot: { value: { x: Math.PI, y: 0, z: 0.7 }, step: 0.1 },
+		backLabelPos: { value: { x: 64.6, y: -49.6, z: 46.8 }, step: 0.1 },
+		backLabelRot: { value: { x: Math.PI / 2, y: -0.5, z: 0.1 }, step: 0.1 },
 	});
 
 	return (

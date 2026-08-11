@@ -66,7 +66,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
 			<Environment
-				background={true}
+				background={false}
 				files={"./environment/environment_map.hdr"}
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}

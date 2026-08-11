@@ -47,7 +47,7 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 	const { backLabelPos, backLabelRot } = useControls("FCBoxLabel", {
 		backLabelPos: { value: { x: -35.0, y: 0, z: 11.7 }, step: 0.1 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0.6, z: 0 }, step: 0.1 },
 	});
 
 	return (
