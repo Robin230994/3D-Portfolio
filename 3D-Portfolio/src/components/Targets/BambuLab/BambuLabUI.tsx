@@ -9,7 +9,7 @@ import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events
 import { useFocusStore } from "../../../Stores/useFocusStore";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
@@ -183,14 +183,14 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					rotation={BambuLabDoor.rotation}
 					material={glassMaterial}
 					scale={BambuLabDoor.scale}>
-					<InteractionLabel
+					<CloseLabel
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						scaleFactor={0.22}
 						visible={!cameraIsMoving && selectObjectFocus?.name === name}
 						dispatch={() => dispatch()}>
 						x
-					</InteractionLabel>
+					</CloseLabel>
 				</mesh>
 
 				{/** PLA Material holder */}

@@ -6,7 +6,7 @@ import { iot2Material } from "../../../Helper/GLMaterials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
@@ -56,14 +56,14 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 				<group>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh name={name} geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
-							<InteractionLabel
+							<CloseLabel
 								scaleFactor={20}
 								labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 								labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 								visible={!cameraIsMoving && selectObjectFocus?.name === name}
 								dispatch={() => dispatch()}>
 								x
-							</InteractionLabel>
+							</CloseLabel>
 
 							<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 						</mesh>

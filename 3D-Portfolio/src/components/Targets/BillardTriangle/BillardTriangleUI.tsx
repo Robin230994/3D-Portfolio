@@ -5,7 +5,7 @@ import { t3Material } from "../../../Helper/GLMaterials";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 interface BillardTriangleUIProps extends IUIComponentProps {
 	props: {
@@ -51,14 +51,14 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	return (
 		<group name={name} ref={triangleRef} {...events}>
 			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation}>
-				<InteractionLabel
+				<CloseLabel
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.2}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
 					dispatch={() => dispatch()}>
 					x
-				</InteractionLabel>
+				</CloseLabel>
 			</mesh>
 		</group>
 	);

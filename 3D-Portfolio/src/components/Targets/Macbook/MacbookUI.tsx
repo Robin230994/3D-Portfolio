@@ -8,7 +8,7 @@ import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events
 import { useFocusStore } from "../../../Stores/useFocusStore";
 
 import MaterialCreator from "../../../classes/MaterialCreator";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 const materialCreator = MaterialCreator.getInstance();
 
@@ -72,13 +72,13 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				material={macbookTopSideMaterial}>
 				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 
-				<InteractionLabel
+				<CloseLabel
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
 					dispatch={() => dispatch()}>
 					x
-				</InteractionLabel>
+				</CloseLabel>
 			</mesh>
 
 			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}

@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh, Group } from "three";
@@ -64,14 +64,14 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				scale={OcculusHeadset.scale}
 				material={OcculusHeadset.material}>
 				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
-				<InteractionLabel
+				<CloseLabel
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 					scaleFactor={0.5}
 					visible={!cameraIsMoving && selectObjectFocus?.name === name}
 					dispatch={() => dispatch()}>
 					x
-				</InteractionLabel>
+				</CloseLabel>
 			</mesh>
 
 			<mesh

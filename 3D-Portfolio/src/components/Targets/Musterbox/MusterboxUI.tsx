@@ -7,7 +7,7 @@ import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -98,14 +98,14 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					scale={MusterboxLasche.scale}
 					material={MusterboxLasche.material}>
 					<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
-					<InteractionLabel
+					<CloseLabel
 						scaleFactor={25}
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						visible={!cameraIsMoving && selectObjectFocus?.name === name}
 						dispatch={() => dispatch()}>
 						x
-					</InteractionLabel>
+					</CloseLabel>
 				</mesh>
 
 				{/** Boxes */}

@@ -20,27 +20,27 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 	const { cameraPos, cameraRot, azimuthal, polar, hdeg2rad, vdeg2rad } = useControls("Camera Presets", {
 		cameraPos: {
 			value: [...cameraPresets.RoomPointOne.position],
-			step: 0.1,
+			step: 0.01,
 		},
 		cameraRot: {
 			value: [...cameraPresets.RoomPointOne.target],
-			step: 0.1,
+			step: 0.01,
 		},
 		azimuthal: {
 			value: cameraPresets.RoomPointOne.azimuthal,
-			step: 0.1,
+			step: 0.01,
 		},
 		polar: {
 			value: cameraPresets.RoomPointOne.polar,
-			step: 0.1,
+			step: 0.01,
 		},
 		hdeg2rad: {
 			value: cameraPresets.RoomPointOne.hdeg2rad,
-			step: 0.1,
+			step: 0.01,
 		},
 		vdeg2rad: {
 			value: cameraPresets.RoomPointOne.vdeg2rad,
-			step: 0.1,
+			step: 0.01,
 		},
 	});
 
@@ -48,7 +48,6 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 	useEffect(() => {
 		const controls = controlsRef.current;
 		if (!controls) return;
-
 		if (isDebugMode) {
 			controls.object.position.set(...cameraPos);
 			controls.target.set(...cameraRot);
@@ -67,24 +66,21 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		}
 	}, [cameraPos, cameraRot, isDebugMode, azimuthal, polar, hdeg2rad, vdeg2rad]);
 
-	useFrame(() => {
-		const controls = controlsRef.current;
-
-		if (!controls) return;
-
-		controls.update();
-
-		// console.log("Pos: ", controls?.object.position);
-		// console.log("Target: ", controls?.target);
-		// console.log("Azimuth:", controls.getAzimuthalAngle());
-		// console.log("Polar:", controls.getPolarAngle());
-	});
+	// useFrame(() => {
+	// 	const controls = controlsRef.current;
+	// 	if (!controls) return;
+	// 	controls.update();
+	// 	console.log("Pos: ", controls?.object.position);
+	// 	console.log("Target: ", controls?.target);
+	// 	console.log("Azimuth:", controls.getAzimuthalAngle());
+	// 	console.log("Polar:", controls.getPolarAngle());
+	// });
 
 	return (
 		<>
 			{isDebugMode && (
 				<>
-					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={false} />
+					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={true} />
 				</>
 			)}
 		</>
