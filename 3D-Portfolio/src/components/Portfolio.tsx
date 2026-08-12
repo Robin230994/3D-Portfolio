@@ -61,7 +61,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	return (
 		<>
-			{perfParams.visible && <Perf position="top-left" />}
+			{isDebugMode && perfParams.visible && <Perf position="top-left" />}
 
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />

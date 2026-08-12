@@ -7,7 +7,7 @@ import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
-const CAMERA_MOVEMENT_SPEED = 0.01;
+const CAMERA_RETURN_SPEED = 0.006;
 const DEG2RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
@@ -48,8 +48,8 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		const targetTarget = new Vector3(...preset.target);
 
 		// Interpolate position + target
-		cameraPos.lerp(posTarget, CAMERA_MOVEMENT_SPEED);
-		cameraTarget.lerp(targetTarget, CAMERA_MOVEMENT_SPEED);
+		cameraPos.lerp(posTarget, CAMERA_RETURN_SPEED);
+		cameraTarget.lerp(targetTarget, CAMERA_RETURN_SPEED);
 
 		// Desired angles (in radians)
 		const minAzimuthTarget = (preset.azimuthal - preset.hdeg2rad) * DEG2RAD;
@@ -58,10 +58,10 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		const maxPolarTarget = (preset.polar + preset.vdeg2rad) * DEG2RAD;
 
 		// Smoothly interpolate current → target
-		controls.minAzimuthAngle = MathUtils.lerp(controls.minAzimuthAngle, minAzimuthTarget, CAMERA_MOVEMENT_SPEED);
-		controls.maxAzimuthAngle = MathUtils.lerp(controls.maxAzimuthAngle, maxAzimuthTarget, CAMERA_MOVEMENT_SPEED);
-		controls.minPolarAngle = MathUtils.lerp(controls.minPolarAngle, minPolarTarget, CAMERA_MOVEMENT_SPEED);
-		controls.maxPolarAngle = MathUtils.lerp(controls.maxPolarAngle, maxPolarTarget, CAMERA_MOVEMENT_SPEED);
+		controls.minAzimuthAngle = MathUtils.lerp(controls.minAzimuthAngle, minAzimuthTarget, CAMERA_RETURN_SPEED);
+		controls.maxAzimuthAngle = MathUtils.lerp(controls.maxAzimuthAngle, maxAzimuthTarget, CAMERA_RETURN_SPEED);
+		controls.minPolarAngle = MathUtils.lerp(controls.minPolarAngle, minPolarTarget, CAMERA_RETURN_SPEED);
+		controls.maxPolarAngle = MathUtils.lerp(controls.maxPolarAngle, maxPolarTarget, CAMERA_RETURN_SPEED);
 
 		controls.setAzimuthalAngle(preset.azimuthal * DEG2RAD);
 		controls.setPolarAngle(preset.polar * DEG2RAD);
