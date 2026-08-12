@@ -1,8 +1,10 @@
 import { Html } from "@react-three/drei";
 
 const projects = [
-	{ label: "cyved.com", href: "https://cyved.com" },
-	{ label: "pslzme.com", href: "https://pslzme.com" },
+	{ label: "Cyved", href: "https://www.cyved.com" },
+	{ label: "Pslzme", href: "https://www.pslzme.com" },
+	{ label: "Matthias Holder", href: "https://www.matthiasholder.com" },
+	{ label: "Alexander Dort GmbH", href: "https://www.alexanderdort.com" },
 ];
 
 const MacbookDesktop: React.FC = () => (
@@ -23,13 +25,13 @@ const MacbookDesktop: React.FC = () => (
 						<i />
 						<i />
 					</div>
-					<strong>Projects</strong>
+					<strong>Websites</strong>
 				</div>
 				<div className="finder-content">
 					<aside>
 						<span>Favorites</span>
 						<strong>⌂ Desktop</strong>
-						<strong>▣ Projects</strong>
+						<strong>▣ Websites</strong>
 					</aside>
 					<div className="finder-folders">
 						{projects.map((project) => (
