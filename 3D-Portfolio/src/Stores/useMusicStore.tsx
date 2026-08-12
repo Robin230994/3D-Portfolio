@@ -9,6 +9,7 @@ interface IMusicStore {
 	currentSongTime: number;
 	songDurations: Record<number, number>;
 	musicMenuOpen: boolean;
+	volume: number;
 
 	play: (song: ISong) => void;
 	playNext: () => void;
@@ -17,6 +18,7 @@ interface IMusicStore {
 	toggle: () => void;
 	setSongDuration: (songId: number, duration: number) => void;
 	setCurrentSongTime: (time: number) => void;
+	setVolume: (volume: number) => void;
 	seek: (time: number) => void;
 
 	openMenu: () => void;
@@ -31,6 +33,7 @@ const useMusicStore = create<IMusicStore>((set) => ({
 	currentSongTime: 0,
 	songDurations: {},
 	musicMenuOpen: false,
+	volume: 0.75,
 
 	play: (song) => set({ playing: true, currentSong: song }),
 	playNext: () =>
@@ -74,6 +77,7 @@ const useMusicStore = create<IMusicStore>((set) => ({
 		})),
 
 	setCurrentSongTime: (time) => set({ currentSongTime: time }),
+	setVolume: (volume) => set({ volume: Math.min(1, Math.max(0, volume)) }),
 	seek: (time) => set({ currentSongTime: time }),
 
 	openMenu: () => set({ musicMenuOpen: true }),

@@ -82,17 +82,21 @@ canvas {
 
 .music-menu-btn {
 	position: fixed;
-	right: 50px;
-	top: 50px;
-	width: 40px;
-	height: 40px;
+	right: 32px;
+	top: 32px;
+	width: 48px;
+	height: 48px;
 	border-radius: 100%;
 	z-index: 9999;
-	border: none;
-	background-color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.85);
+	background-color: rgba(255, 255, 255, 0.92);
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+	transition:
+		transform 0.2s ease,
+		background 0.2s ease;
 }
 
 .music-icon {
@@ -101,7 +105,8 @@ canvas {
 
 .music-menu-btn:hover {
 	cursor: pointer;
-	background-color: #000;
+	background-color: #1c1c1e;
+	transform: translateY(-2px);
 }
 
 .music-menu-btn:hover .music-icon {
@@ -110,119 +115,223 @@ canvas {
 
 .music-menu {
 	position: fixed;
-	width: 360px;
-	height: 640px;
+	width: 320px;
 	z-index: 9999;
-	right: 50px;
-	top: 120px;
-	border-radius: 20px;
+	right: 32px;
+	top: 96px;
+	border-radius: 26px;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
-	text-align: center;
-	background-color: rgba(255, 255, 255, 0.8);
-	color: black;
-	// backdrop-filter: blur(18px) saturate(180%);
-	// -webkit-backdrop-filter: blur(18px) saturate(180%);
-	// box-shadow:
-	// 	0 8px 32px rgba(0, 0, 0, 0.35),
-	// 	inset 0 1px 0 rgba(255, 255, 255, 0.15);
+	gap: 14px;
+	padding: 18px;
+	background: linear-gradient(145deg, #fbfbfc, #d9d9dc);
+	color: #1c1c1e;
+	box-shadow:
+		0 22px 55px rgba(0, 0, 0, 0.28),
+		inset 1px 1px 2px #fff;
+	font-family: Inter, system-ui, sans-serif;
+	animation: ipod-slide-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.music-header {
-	// border-bottom: 1px solid #aaa;
-	padding-bottom: 10px;
-	color: black;
-	padding: 20px;
+.music-menu.is-closing {
+	animation: ipod-slide-out 280ms cubic-bezier(0.55, 0, 1, 0.45) both;
+	pointer-events: none;
 }
 
-.music-header > h1 {
-	width: 100%;
+@keyframes ipod-slide-in {
+	from {
+		opacity: 0;
+		transform: translateX(42px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+@keyframes ipod-slide-out {
+	from {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(42px) scale(0.96);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.music-menu,
+	.music-menu.is-closing {
+		animation-duration: 1ms;
+	}
+}
+
+.ipod-screen {
+	padding: 13px 14px;
+	border-radius: 8px;
+	background: linear-gradient(145deg, #dce6c9, #b8c8a4);
+	box-shadow: inset 0 1px 10px rgba(25, 38, 20, 0.45);
+}
+
+.ipod-screen-title,
+.ipod-progress {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 6px;
+	font-size: 10px;
+	letter-spacing: 0.08em;
+	font-weight: 800;
+}
+
+.ipod-now-playing {
+	margin: 11px 0 9px;
+	font-size: 18px;
+	font-weight: 800;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ipod-progress progress {
+	flex: 1;
+	height: 5px;
+	accent-color: #35452e;
 }
 
 .music-body {
-	height: 100%;
 	display: flex;
 	flex-direction: column;
-	// border-bottom: 1px solid black;
-	padding: 20px;
+	gap: 4px;
 }
 
-.music-body div {
+.song-item {
+	width: 100%;
 	display: flex;
-	text-align: left;
+	align-items: center;
 	justify-content: space-between;
-	padding: 0 10px;
-	border-radius: 10px;
-}
-
-.music-body div:hover {
+	padding: 9px 10px;
+	border: 0;
+	border-radius: 6px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 13px;
+	text-align: left;
 	cursor: pointer;
 }
 
-.music-body .song-item.active {
-	background-color: rgba(0, 0, 0, 0.6);
+.song-item span:last-child {
+	font-size: 11px;
+	opacity: 0.65;
+}
+
+.song-item:hover,
+.song-item.active {
+	background: #2a2a2c;
 	color: #fff;
 }
 
-.music-body .song-item:hover {
-	background-color: rgba(0, 0, 0, 0.2);
+.ipod-wheel {
+	position: relative;
+	align-self: center;
+	width: 222px;
+	height: 222px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 38% 32%, #fff, #e4e4e7 63%, #c4c4c8);
+	box-shadow:
+		8px 10px 19px rgba(0, 0, 0, 0.16),
+		inset 2px 2px 2px #fff,
+		inset -2px -2px 3px rgba(0, 0, 0, 0.1);
 }
 
-.music-footer {
-	padding: 20px;
-}
-
-.music-footer span {
-	font-size: 14px;
-}
-
-.music-footer div {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-.music-footer .music-played-song,
-.music-footer .music-playtime {
-	margin: 0;
-	margin-bottom: 10px;
-}
-
-.music-footer div:first-child {
-	margin-bottom: 20px;
-}
-
-.music-playtime input[type="range"] {
-	appearance: none;
-	-webkit-appearance: none;
-	width: 80%;
-	height: 8px;
-	background: #cccccc;
-	border-radius: 10px;
-	outline: none;
-}
-
-/* Chrome, Safari, Edge */
-.music-playtime input[type="range"]::-webkit-slider-thumb {
-	appearance: none;
-	-webkit-appearance: none;
-	width: 0;
-	height: 0;
+.ipod-wheel button {
+	position: absolute;
+	display: grid;
+	place-items: center;
+	border: 0;
 	background: transparent;
-	border: none;
-}
-
-/* Firefox */
-.music-playtime input[type="range"]::-moz-range-thumb {
-	width: 0;
-	height: 0;
-	background: transparent;
-	border: none;
-}
-
-.music-next:hover,
-.music-prev:hover,
-.music-play:hover {
+	color: #55555a;
 	cursor: pointer;
+	font: inherit;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+}
+
+.ipod-wheel button:hover {
+	color: #111;
+}
+
+.wheel-menu {
+	top: 15px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	font-size: 12px;
+}
+.wheel-previous {
+	left: 12px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	width: 52px;
+	height: 52px;
+}
+.wheel-next {
+	right: 12px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	width: 52px;
+	height: 52px;
+}
+
+.wheel-play {
+	bottom: 13px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 48px;
+	height: 48px;
+}
+
+.volume-dial {
+	position: absolute;
+	inset: 59px;
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 3px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 30%, #fff, #cfcfd4);
+	box-shadow:
+		inset 2px 2px 5px rgba(0, 0, 0, 0.13),
+		1px 1px 1px #fff;
+	color: #44444a;
+}
+
+.volume-dial strong {
+	font-size: 17px;
+	line-height: 1;
+}
+
+.volume-dial input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	opacity: 0;
+	cursor: ns-resize;
+}
+
+@media (max-width: 520px) {
+	.music-menu-btn {
+		right: 18px;
+		top: 18px;
+	}
+	.music-menu {
+		right: 18px;
+		top: 80px;
+		width: min(320px, calc(100vw - 36px));
+	}
 }

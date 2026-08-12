@@ -5,12 +5,16 @@ import useMusicProgress from "../../hooks/useMusicProgress";
 import useMusicPlaylist from "../../hooks/useMusicPlaylist";
 
 const MusicPlayer: React.FC = () => {
-	const { currentSong, playing, songDurations, playNext, setCurrentSongTime, setSongDuration } = useMusicStore();
+	const { currentSong, playing, volume, songDurations, playNext, setCurrentSongTime, setSongDuration } = useMusicStore();
 	const audioRef = useRef(new Audio());
 
 	useMusicMetatadata({ songDurations, setSongDuration });
 	useMusicPlaylist({ playNext, audioRef });
 	const { seek } = useMusicProgress({ setCurrentSongTime, audioRef });
+
+	useEffect(() => {
+		audioRef.current.volume = volume;
+	}, [volume]);
 
 	useEffect(() => {
 		if (!currentSong || !playing) {

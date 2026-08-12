@@ -107,7 +107,7 @@ export const robbiPresets: Record<string, { position: [number, number, number]; 
 	},
 };
 
-export const officeChairPresets: Record<string, AnimationConfig<"OfficeChair">> = {
+export const officeChairAnimationPresets: Record<string, AnimationConfig<"OfficeChair">> = {
 	Idle: {
 		action: "idle",
 		options: {
@@ -117,6 +117,16 @@ export const officeChairPresets: Record<string, AnimationConfig<"OfficeChair">> 
 	},
 	ChairRotation: {
 		action: "ChairRotation",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+};
+
+export const macbookAnimationPresets: Record<string, AnimationConfig<"Macbook">> = {
+	MacbookOpen: {
+		action: "MacbookOpen",
 		options: {
 			loop: false,
 			loopCount: 1,

@@ -1,10 +1,26 @@
-import { AudioLines, ChevronLeft, ChevronRight, Music, Play, PlayOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, ListMusic, Music, Pause, Play, Volume2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { songs } from "../../Presets/Presets";
 import useMusicStore from "../../Stores/useMusicStore";
 
 const MusicMenu: React.FC = () => {
-	const { musicMenuOpen, playing, currentSong, currentSongTime, songDurations, seek, play, toggle, openMenu, closeMenu, playNext, playPrevious } =
+	const { musicMenuOpen, playing, currentSong, currentSongTime, songDurations, volume, setVolume, play, toggle, openMenu, closeMenu, playNext, playPrevious } =
 		useMusicStore();
+	const [renderMenu, setRenderMenu] = useState(musicMenuOpen);
+	const [isClosing, setIsClosing] = useState(false);
+
+	useEffect(() => {
+		if (musicMenuOpen) {
+			setIsClosing(false);
+			setRenderMenu(true);
+			return;
+		}
+
+		if (!renderMenu) return;
+		setIsClosing(true);
+		const hideMenu = window.setTimeout(() => setRenderMenu(false), 280);
+		return () => window.clearTimeout(hideMenu);
+	}, [musicMenuOpen, renderMenu]);
 
 	const formatTime = (seconds: number) => {
 		const min = Math.floor(seconds / 60);
@@ -21,67 +37,49 @@ const MusicMenu: React.FC = () => {
 			<button className="music-menu-btn" onClick={() => (musicMenuOpen ? closeMenu() : openMenu())}>
 				<Music className="music-icon" size={24} />
 			</button>
-			{musicMenuOpen && (
-				<div className="music-menu">
-					<div className="music-header">
-						<h1>Music Vibes</h1>
+			{renderMenu && (
+				<div className={`music-menu ${isClosing ? "is-closing" : ""}`}>
+					<div className="ipod-screen">
+						<div className="ipod-screen-title">
+							<ListMusic size={15} /> PLAYLIST
+						</div>
+						<div className="ipod-now-playing">{currentSong ? currentSong.title : "Select a song"}</div>
+						<div className="ipod-progress">
+							<span>{formatTime(currentSongTime)}</span>
+							<progress value={progress} max="100" />
+							<span>{formatTime(duration)}</span>
+						</div>
 					</div>
 					<div className="music-body">
-						<div className="music-soundwaves">
-							<AudioLines />
-						</div>
 						{songs.map((song) => (
-							<div
+							<button
 								key={song.id}
 								className={`song-item ${currentSong?.id === song.id ? "active" : ""}`}
 								onClick={() => {
 									play(song);
 								}}>
-								<p>{song.title}</p>
-								<p>{formatTime(songDurations[song.id] ?? 0)}</p>
-							</div>
+								<span>{song.title}</span>
+								<span>{formatTime(songDurations[song.id] ?? 0)}</span>
+							</button>
 						))}
 					</div>
-					<div className="music-footer">
-						<p className="music-played-song">{currentSong ? currentSong.title : "No song selected"}</p>
-						<div className="music-playtime">
-							<span>{formatTime(currentSongTime)}</span>
-							<input
-								type="range"
-								min={0}
-								max={currentSong ? (songDurations[currentSong.id] ?? 0) : 0}
-								value={currentSongTime}
-								onChange={(e) => seek(parseFloat(e.target.value))}
-								style={{
-									background: `linear-gradient(
-									to right,
-									black 0%,
-									black ${progress}%,
-									rgba(204,204,204,1) ${progress}%,
-									rgba(204,204,204,1) 100%
-								)`,
-								}}
-								disabled={!currentSong}
-							/>
-							<span>{currentSong ? formatTime(songDurations[currentSong.id] ?? 0) : 0}</span>
-						</div>
-						<div>
-							<ChevronLeft className="music-prev" onClick={() => playPrevious()} />
-							{playing ? (
-								<PlayOff className="music-play" onClick={() => toggle()} />
-							) : (
-								<Play
-									className="music-play"
-									onClick={() => {
-										if (currentSong === null) {
-											play(songs[0]);
-										} else {
-											toggle();
-										}
-									}}
-								/>
-							)}
-							<ChevronRight className="music-next" onClick={() => playNext()} />
+					<div className="ipod-wheel">
+						<button className="wheel-menu" onClick={closeMenu}>
+							Close
+						</button>
+						<button className="wheel-previous" onClick={playPrevious}>
+							<ChevronLeft />
+						</button>
+						<button className="wheel-next" onClick={playNext}>
+							<ChevronRight />
+						</button>
+						<button className="wheel-play" onClick={() => (currentSong === null ? play(songs[0]) : toggle())}>
+							{playing ? <Pause size={20} /> : <Play size={20} fill="currentColor" />}
+						</button>
+						<div className="volume-dial">
+							<Volume2 size={15} />
+							<strong>{Math.round(volume * 100)}</strong>
+							<input type="range" min="0" max="1" step="0.01" value={volume} onChange={(e) => setVolume(Number(e.target.value))} />
 						</div>
 					</div>
 				</div>

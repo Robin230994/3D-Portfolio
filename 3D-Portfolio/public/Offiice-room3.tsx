@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'MusterboxLascheAction' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'MusterboxLascheAction' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -152,7 +152,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="RoofLampEmission" geometry={nodes.RoofLampEmission.geometry} material={materials.Lamp_Mat} position={[0, 4.233, 0]} rotation={[0, 0, Math.PI]} />
         <mesh name="LeftLED" geometry={nodes.LeftLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="RightLED" geometry={nodes.RightLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-        <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[5.797, 1.171, -1.729]} rotation={[1.309, 0, 0]} scale={0.143} />
+        <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[5.699, 1.179, -1.762]} rotation={[-3.139, 0, 0]} scale={0.143} />
         <mesh name="OcculusController" geometry={nodes.OcculusController.geometry} material={materials.iot1} position={[3.546, 1.207, -1.77]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
         <mesh name="OcculusHeadset" geometry={nodes.OcculusHeadset.geometry} material={materials.iot1} position={[3.369, 1.234, -1.386]} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
         <mesh name="ChairRoll" geometry={nodes.ChairRoll.geometry} material={materials.iot1} position={[5.334, 0.145, -0.59]} rotation={[0, -1.18, Math.PI / 2]} scale={0.034} />

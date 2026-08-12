@@ -4,11 +4,11 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { LoopOnce, Mesh } from "three";
 import { useAnimations } from "@react-three/drei";
 import { AnimationConfig } from "../../../types/GLTypes";
-import { officeChairPresets } from "../../../Presets/Presets";
+import { officeChairAnimationPresets } from "../../../Presets/Presets";
 import useInteraction from "../../../hooks/useInteraction";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
-	const [action, setAction] = useState<AnimationConfig<"OfficeChair">>(officeChairPresets.Idle);
+	const [action, setAction] = useState<AnimationConfig<"OfficeChair">>(officeChairAnimationPresets.Idle);
 	const upperChairRef = useRef<Mesh | null>(null);
 
 	const { actions } = useAnimations(animations!, upperChairRef);
@@ -34,7 +34,7 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 		};
 
 		playAction();
-		setAction(officeChairPresets.Idle);
+		setAction(officeChairAnimationPresets.Idle);
 	}, [action, actions, animations]);
 
 	const uiComponentProps = {

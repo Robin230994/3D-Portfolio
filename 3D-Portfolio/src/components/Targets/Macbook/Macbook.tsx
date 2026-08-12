@@ -1,14 +1,57 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MacbookUI from "./MacbookUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { Group } from "three";
+import { Group, LoopOnce, LoopRepeat, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import useInteraction from "../../../hooks/useInteraction";
+import { useAnimations } from "@react-three/drei";
 
-const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+
+	const macbookRef = useRef<Group>(null);
+	const macbookTopSideRef = useRef<Mesh>(null);
+	const lastFocusObjectMacbook = useRef(false);
+
+	const { actions } = useAnimations(animations!, macbookTopSideRef);
+
+	useEffect(() => {
+		const animation = actions["MacbookOpen"];
+
+		if (!animation) return;
+
+		const isMacbookFocused = selectObjectFocus?.name === "Macbook";
+
+		if (isMacbookFocused && !lastFocusObjectMacbook.current) {
+			// Open
+			animation.reset();
+			animation.timeScale = 1;
+			animation.setLoop(LoopOnce, 1);
+			animation.clampWhenFinished = true;
+			animation.play();
+		}
+		if (!isMacbookFocused && lastFocusObjectMacbook.current) {
+			// Close / reverse
+			animation.paused = false;
+			animation.timeScale = -1;
+			animation.setLoop(LoopOnce, 1);
+			animation.clampWhenFinished = true;
+
+			// Start at the end of the animation
+			animation.time = animation.getClip().duration;
+			animation.play();
+		}
+
+		lastFocusObjectMacbook.current = isMacbookFocused;
+
+		return () => {
+			animation.stop();
+			animation.timeScale = 1;
+		};
+	}, [actions, selectObjectFocus]);
 
 	const interaction = useInteraction({
 		onClick: () => {
@@ -22,8 +65,6 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		setSelectObjectFocus(null);
 	};
 
-	const macbookRef = useRef<Group>(null);
-
 	const uiComponentProps = {
 		data: {
 			myData: {
@@ -31,10 +72,11 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				nodes,
 				cameraIsMoving,
 				hovered: interaction.hovered,
+				animations,
 			},
 		},
 		functions: { myFunctions: { dispatch, events: interaction.events } },
-		refs: { myRefs: { macbookRef } },
+		refs: { myRefs: { macbookRef, macbookTopSideRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;
 };

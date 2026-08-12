@@ -30,11 +30,9 @@ interface RobbiUIProps extends IUIComponentProps {
 
 const RobbiUI: React.FC<RobbiUIProps> = ({ props }) => {
 	const { myData } = props.data;
-	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
 	const { nodes, materials } = myData;
-	const { setAction } = myFunctions;
 	const { rigRef } = myRefs;
 
 	const Robbi: SkinnedMesh = nodes["Robbi"] as SkinnedMesh;

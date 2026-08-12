@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect } from "react";
+import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { Mesh, DirectionalLight, Material } from "three";
 import { useControls } from "leva";
@@ -7,10 +7,7 @@ import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 
-import MaterialCreator from "../../../classes/MaterialCreator";
 import CloseLabel from "../../CloseLabel/CloseLabel";
-
-const materialCreator = MaterialCreator.getInstance();
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
@@ -33,7 +30,7 @@ interface MacbookUIProps extends IUIComponentProps {
 				};
 			};
 		};
-		refs: { myRefs: { macbookRef: RefObject<Group> } };
+		refs: { myRefs: { macbookRef: RefObject<Group>; macbookTopSideRef: RefObject<Mesh> } };
 	};
 }
 
@@ -44,7 +41,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 
 	const { name, nodes, cameraIsMoving, hovered } = myData;
 	const { events, dispatch } = myFunctions;
-	const { macbookRef } = myRefs;
+	const { macbookRef, macbookTopSideRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
@@ -52,19 +49,15 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const macbookTopSideMaterial = MacbookTopSide.material as Material;
 
 	const { backLabelPos, backLabelRot } = useControls("Macbook", {
-		backLabelPos: { value: { x: -1.05, y: 0.4, z: -4.2 }, step: 0.1 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
+		backLabelPos: { value: { x: -4.1, y: 0, z: -0.9 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0.9, z: 0 }, step: 0.1 },
 	});
-
-	useEffect(() => {
-		macbookTopSideMaterial.alphaTest = 0.5;
-		materialCreator.addInstanciatedMaterial("ot5Material", macbookTopSideMaterial);
-	}, [macbookTopSideMaterial, selectObjectFocus]);
 
 	return (
 		<group ref={macbookRef} {...events}>
 			<mesh
-				name={name}
+				name={"MacbookTopSide"}
+				ref={macbookTopSideRef}
 				geometry={MacbookTopSide.geometry}
 				position={MacbookTopSide.position}
 				rotation={MacbookTopSide.rotation}
