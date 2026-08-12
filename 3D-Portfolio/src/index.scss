@@ -348,6 +348,12 @@ canvas {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	font-size: 13px;
 	user-select: none;
+	animation: macbook-screen-on 380ms ease-out both;
+}
+
+@keyframes macbook-screen-on {
+	from { opacity: 0; filter: brightness(0.15); }
+	to { opacity: 1; filter: brightness(1); }
 }
 
 .mac-menu-bar {

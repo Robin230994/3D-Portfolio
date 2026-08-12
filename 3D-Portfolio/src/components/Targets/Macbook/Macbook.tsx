@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MacbookUI from "./MacbookUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
-import { Group, LoopOnce, LoopRepeat, Mesh } from "three";
+import { Group, LoopOnce, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import useInteraction from "../../../hooks/useInteraction";
@@ -15,6 +15,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
 	const lastFocusObjectMacbook = useRef(false);
+	const [screenVisible, setScreenVisible] = useState(false);
 
 	const { actions } = useAnimations(animations!, macbookTopSideRef);
 
@@ -24,6 +25,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		if (!animation) return;
 
 		const isMacbookFocused = selectObjectFocus?.name === "Macbook";
+		let displayTimer: number | undefined;
 
 		if (isMacbookFocused && !lastFocusObjectMacbook.current) {
 			// Open
@@ -32,6 +34,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			animation.setLoop(LoopOnce, 1);
 			animation.clampWhenFinished = true;
 			animation.play();
+
+			// Turn the display on near the end of the lid-opening animation.
+			const displayDelay = animation.getClip().duration * 0.72 * 1000;
+			displayTimer = window.setTimeout(() => setScreenVisible(true), displayDelay);
 		}
 		if (!isMacbookFocused && lastFocusObjectMacbook.current) {
 			// Close / reverse
@@ -43,11 +49,15 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			// Start at the end of the animation
 			animation.time = animation.getClip().duration;
 			animation.play();
+
+			const displayDelay = animation.getClip().duration * 0.5 * 1000;
+			displayTimer = window.setTimeout(() => setScreenVisible(false), displayDelay);
 		}
 
 		lastFocusObjectMacbook.current = isMacbookFocused;
 
 		return () => {
+			if (displayTimer !== undefined) window.clearTimeout(displayTimer);
 			animation.stop();
 			animation.timeScale = 1;
 		};
@@ -72,6 +82,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				nodes,
 				cameraIsMoving,
 				hovered: interaction.hovered,
+				screenVisible,
 				animations,
 			},
 		},
