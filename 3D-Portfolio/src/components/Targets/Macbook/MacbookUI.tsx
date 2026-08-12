@@ -8,6 +8,7 @@ import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events
 import { useFocusStore } from "../../../Stores/useFocusStore";
 
 import CloseLabel from "../../CloseLabel/CloseLabel";
+import MacbookDesktop from "./MacbookDesktop";
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
@@ -72,6 +73,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 					dispatch={() => dispatch()}>
 					x
 				</CloseLabel>
+				{selectObjectFocus?.name === name && <MacbookDesktop />}
 			</mesh>
 
 			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}

@@ -55,7 +55,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
-		environmentIntensity: { value: 1.4, step: 0.1, min: 1 },
+		environmentIntensity: { value: 1.4, step: 0.1, min: 0.1 },
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
 
