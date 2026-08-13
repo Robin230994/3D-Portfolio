@@ -134,6 +134,23 @@ export const macbookAnimationPresets: Record<string, AnimationConfig<"MacbookTop
 	},
 };
 
+export const musterboxAnimationPresets: Record<string, AnimationConfig<"Musterbox">> = {
+	Idle: {
+		action: "Idle",
+		options: {
+			loop: true,
+			loopCount: Infinity,
+		},
+	},
+	MusterboxOpen: {
+		action: "MusterboxOpen",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+};
+
 export const robbiAnimationPresets: Record<string, AnimationConfig<"Robbi">> = {
 	Idle: {
 		action: "Idle",

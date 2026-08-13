@@ -55,6 +55,7 @@ type ActionMap = {
 	OfficeChair: "idle" | "ChairRotation";
 	Robbi: "Idle" | "Idle02" | "sit" | "sit-idle" | "walk" | "wave";
 	MacbookTopSide: "MacbookOpen";
+	Musterbox: "Idle" | "MusterboxOpen";
 };
 
 type UsableAction<T extends keyof ActionMap> = ActionMap[T];

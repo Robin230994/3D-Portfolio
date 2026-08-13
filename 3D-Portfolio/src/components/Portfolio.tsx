@@ -93,7 +93,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 					<group name="image-objects">
 						<ImageObjectT1 name="ImageObjectT1" nodes={nodes} animations={animations} />
-						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} />
+						<ImageObjectT2 name="ImageObjectT2" nodes={nodes} animations={animations} />
 					</group>
 				</group>
 			</Center>

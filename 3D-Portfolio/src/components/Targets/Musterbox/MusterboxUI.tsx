@@ -8,6 +8,7 @@ import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import CloseLabel from "../../CloseLabel/CloseLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -23,6 +24,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 		functions: {
 			myFunctions: {
 				dispatch: () => void;
+				openBox: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -40,7 +42,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, cameraIsMoving, hovered } = myData;
-	const { dispatch, events } = myFunctions;
+	const { dispatch, openBox, events } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -81,7 +83,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 		<group>
 			<group ref={musterboxRef} {...events}>
 				<mesh
-					name={name}
+					name={"MusterboxDeckel"}
 					geometry={MusterboxDeckel.geometry}
 					position={MusterboxDeckel.position}
 					rotation={MusterboxDeckel.rotation}
@@ -91,7 +93,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 				</mesh>
 
 				<mesh
-					name={name}
+					name={"MusterboxLasche"}
 					geometry={MusterboxLasche.geometry}
 					position={MusterboxLasche.position}
 					rotation={MusterboxLasche.rotation}
@@ -107,6 +109,16 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						x
 					</CloseLabel>
 				</mesh>
+
+				<InteractionLabel
+					focusName={name}
+					shortcut={1}
+					label="Open Box"
+					position={[-2.55, 2.56, -2.51]}
+					rotation={[-Math.PI / 2, 0, 0]}
+					scale={1}
+					onTrigger={openBox}
+				/>
 
 				{/** Boxes */}
 				<group name={"Boxes"} visible={false}>
