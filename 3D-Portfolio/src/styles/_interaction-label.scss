@@ -1,0 +1,72 @@
+.interaction-label {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 116px;
+	max-width: 170px;
+	padding: 5px;
+	border: 2px solid #8b7142;
+	background: #ead6a8;
+	color: #493a22;
+	cursor: pointer;
+	font-family: Inter, system-ui, sans-serif;
+	text-align: left;
+	animation: interaction-label-float 4.6s ease-in-out infinite;
+	transition: filter 150ms ease;
+}
+
+.interaction-label:hover {
+	filter: brightness(1.07);
+}
+
+.interaction-label:active {
+	transform: translateY(2px) scale(0.97);
+}
+
+.interaction-label.is-leaving {
+	pointer-events: none;
+	animation: interaction-label-out 180ms ease-in both;
+}
+
+.interaction-label-key {
+	display: grid;
+	flex: 0 0 25px;
+	width: 25px;
+	height: 25px;
+	place-items: center;
+	border: 1px solid #8b7142;
+	background: #fff3d3;
+	font-size: 14px;
+	font-weight: 800;
+}
+
+.interaction-label-text {
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.1;
+}
+
+@keyframes interaction-label-float {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-1deg);
+	}
+	50% {
+		transform: translateY(-4px) rotate(1deg);
+	}
+}
+
+@keyframes interaction-label-out {
+	to {
+		opacity: 0;
+		transform: scale(0.6);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.interaction-label,
+	.interaction-label.is-leaving {
+		animation-duration: 1ms;
+	}
+}

@@ -7,6 +7,7 @@ import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import CloseLabel from "../../CloseLabel/CloseLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {
@@ -67,6 +68,15 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 							<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 						</mesh>
+						<InteractionLabel
+							focusName={name}
+							shortcut={1}
+							label="Open Box"
+							position={[0.45, 0, -0.2]}
+							rotation={[-Math.PI / 2, 0, 0]}
+							scale={1}
+							onTrigger={() => console.log("clicked")}
+						/>
 					</group>
 				</group>
 			</group>
