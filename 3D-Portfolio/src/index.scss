@@ -9,6 +9,7 @@
 html {
 	background: #fff;
 	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 html,
@@ -342,9 +343,12 @@ canvas {
 	height: 341px;
 	overflow: hidden;
 	border-radius: 17px;
-	background:
-		radial-gradient(circle at 78% 10%, rgba(255, 201, 242, 0.86), transparent 36%),
-		radial-gradient(circle at 16% 92%, rgba(151, 222, 255, 0.88), transparent 42%), linear-gradient(135deg, #6676bb, #b886c4 48%, #ee9ba7);
+	// background:
+	// 	radial-gradient(circle at 78% 10%, rgba(255, 201, 242, 0.86), transparent 36%),
+	// 	radial-gradient(circle at 16% 92%, rgba(151, 222, 255, 0.88), transparent 42%), linear-gradient(135deg, #6676bb, #b886c4 48%, #ee9ba7);
+	background-image: url("/images/macbook-background.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
 	color: #172330;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	font-size: 13px;
@@ -421,8 +425,9 @@ canvas {
 
 .finder-content {
 	display: flex;
-	min-height: 137px;
+	height: 200px;
 }
+
 .finder-content aside {
 	display: flex;
 	flex: 0 0 96px;
@@ -433,17 +438,47 @@ canvas {
 	color: #4c5764;
 	font-size: 9px;
 }
+
 .finder-content aside span {
 	color: #7b8490;
 	font-size: 8px;
 	font-weight: 700;
 	text-transform: uppercase;
 }
+
+.finder-content-about {
+	cursor: pointer;
+}
+
+.finder-content-projects {
+	padding: 0;
+	margin: 0;
+}
+
+.finder-content-projects li {
+	list-style: none;
+	margin-left: 20px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.finder-content-project {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+	justify-content: start;
+	gap: 28px;
+	background: rgba(255, 255, 255, 0.61);
+	height: 100%;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+}
+
 .finder-folders {
 	display: flex;
 	flex: 1;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: start;
 	gap: 28px;
 	padding: 24px 15px;
 	background: rgba(255, 255, 255, 0.61);
@@ -455,6 +490,8 @@ canvas {
 	flex-direction: column;
 	align-items: center;
 	gap: 7px;
+	height: 50px;
+	overflow: hidden;
 	color: #1f2a37;
 	font-size: 8px;
 	font-weight: 600;
@@ -468,6 +505,15 @@ canvas {
 .finder-folder:hover {
 	color: #1479d1;
 	transform: translateY(-2px) scale(1.03);
+}
+
+.folder-name {
+	width: 50px;
+	white-space: pre-line;
+	hyphens: auto;
+	text-align: center;
+	margin: 0;
+	margin-top: auto;
 }
 
 .mac-dock {

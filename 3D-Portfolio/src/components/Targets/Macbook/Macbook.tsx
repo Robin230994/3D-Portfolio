@@ -12,6 +12,8 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 
+	const [activeProject, setActiveProject] = useState<"About me" | "Websites" | "Apps">("Websites");
+
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
 	const lastFocusObjectMacbook = useRef(false);
@@ -84,9 +86,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				hovered: interaction.hovered,
 				screenVisible,
 				animations,
+				activeProject,
 			},
 		},
-		functions: { myFunctions: { dispatch, events: interaction.events } },
+		functions: { myFunctions: { dispatch, setActiveProject, events: interaction.events } },
 		refs: { myRefs: { macbookRef, macbookTopSideRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;

@@ -20,11 +20,13 @@ interface MacbookUIProps extends IUIComponentProps {
 				cameraIsMoving: boolean;
 				hovered: string | null;
 				screenVisible: boolean;
+				activeProject: "About me" | "Websites" | "Apps";
 			};
 		};
 		functions: {
 			myFunctions: {
 				dispatch: () => void;
+				setActiveProject: React.Dispatch<React.SetStateAction<"About me" | "Websites" | "Apps">>;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -41,8 +43,8 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered, screenVisible } = myData;
-	const { events, dispatch } = myFunctions;
+	const { name, nodes, cameraIsMoving, hovered, screenVisible, activeProject } = myData;
+	const { events, dispatch, setActiveProject } = myFunctions;
 	const { macbookRef, macbookTopSideRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -74,7 +76,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 					dispatch={() => dispatch()}>
 					x
 				</CloseLabel>
-				{screenVisible && <MacbookDesktop />}
+				{screenVisible && <MacbookDesktop props={{ activeProject, setActiveProject }} />}
 			</mesh>
 
 			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}
