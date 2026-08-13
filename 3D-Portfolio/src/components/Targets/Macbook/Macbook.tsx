@@ -26,7 +26,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 		if (!animation) return;
 
-		const isMacbookFocused = selectObjectFocus?.name === "Macbook";
+		const isMacbookFocused = selectObjectFocus?.name === "MacbookTopSide";
 		let displayTimer: number | undefined;
 
 		if (isMacbookFocused && !lastFocusObjectMacbook.current) {

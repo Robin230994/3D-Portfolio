@@ -60,7 +60,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	return (
 		<group ref={macbookRef} {...events}>
 			<mesh
-				name={"MacbookTopSide"}
+				name={name}
 				ref={macbookTopSideRef}
 				geometry={MacbookTopSide.geometry}
 				position={MacbookTopSide.position}

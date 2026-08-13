@@ -17,6 +17,7 @@ const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
 		document.body.style.cursor = "pointer";
 		setHovered(e.object.name);
 		console.log(e.object.name);
+		console.log(selectObjectFocus?.name);
 	}, []);
 
 	const onPointerLeave = useCallback(() => {

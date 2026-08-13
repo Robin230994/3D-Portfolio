@@ -66,7 +66,7 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 2,
 		vdeg2rad: 5,
 	},
-	Macbook: {
+	MacbookTopSide: {
 		position: [5.15, 0.2, -0.9],
 		target: [5.3, -4.1, -10],
 		azimuthal: -1,
@@ -124,7 +124,7 @@ export const officeChairAnimationPresets: Record<string, AnimationConfig<"Office
 	},
 };
 
-export const macbookAnimationPresets: Record<string, AnimationConfig<"Macbook">> = {
+export const macbookAnimationPresets: Record<string, AnimationConfig<"MacbookTopSide">> = {
 	MacbookOpen: {
 		action: "MacbookOpen",
 		options: {
