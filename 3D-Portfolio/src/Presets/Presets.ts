@@ -46,7 +46,7 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		position: [-3.68, 1.48, -1.4],
 		target: [-3.61, 0.65, -5.33],
 		azimuthal: -1.5,
-		polar: 80.5,
+		polar: 74.72,
 		hdeg2rad: 2,
 		vdeg2rad: 2,
 	},

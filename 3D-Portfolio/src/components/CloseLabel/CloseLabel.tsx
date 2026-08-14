@@ -4,7 +4,7 @@ import { Mesh, MeshBasicMaterial, MeshStandardMaterial } from "three";
 import { useSpring, a } from "@react-spring/three";
 import useInteraction from "../../hooks/useInteraction";
 
-const labelMaterial = new MeshStandardMaterial({ color: "#ff5c5c" });
+const labelMaterial = new MeshStandardMaterial({ color: "#ff5c5c", side: 2 });
 const labelOutlineMaterial = new MeshBasicMaterial({ color: "white" });
 
 interface ICloseLabelProps {

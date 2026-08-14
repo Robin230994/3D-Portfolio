@@ -1,14 +1,28 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
-import { DirectionalLight, Mesh } from "three";
+import { BufferGeometry, DirectionalLight, EdgesGeometry, LineBasicMaterial, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
 import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
-import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { ThreeEvent } from "@react-three/fiber";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+
+// The contour is calculated once per source geometry, rather than once per
+// hover event. The box geometries are static for the lifetime of the scene.
+const outlineGeometryCache = new WeakMap<BufferGeometry, EdgesGeometry>();
+const boxOutlineMaterial = new LineBasicMaterial({ color: "white" });
+
+const getOutlineGeometry = (geometry: BufferGeometry) => {
+	let outlineGeometry = outlineGeometryCache.get(geometry);
+	if (!outlineGeometry) {
+		outlineGeometry = new EdgesGeometry(geometry);
+		outlineGeometryCache.set(geometry, outlineGeometry);
+	}
+	return outlineGeometry;
+};
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -16,15 +30,20 @@ interface MusterboxUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-
+				isOpen: boolean;
+				boxesVisible: boolean;
 				cameraIsMoving: boolean;
 				hovered: string | null;
+				hoveredBox: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null;
 			};
 		};
 		functions: {
 			myFunctions: {
 				dispatch: () => void;
-				openBox: () => void;
+				toggleBox: () => void;
+				handleBoxHover: (event: ThreeEvent<PointerEvent>) => void;
+				clearBoxHover: () => void;
+				handleBoxClick: (event: ThreeEvent<MouseEvent>) => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -41,8 +60,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered } = myData;
-	const { dispatch, openBox, events } = myFunctions;
+	const { name, nodes, cameraIsMoving, hovered, isOpen, boxesVisible, hoveredBox } = myData;
+	const { dispatch, toggleBox, handleBoxHover, clearBoxHover, handleBoxClick, events } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -75,8 +94,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
 	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
-		backLabelPos: { value: { x: 64.6, y: -49.6, z: 46.8 }, step: 0.1 },
-		backLabelRot: { value: { x: Math.PI / 2, y: -0.5, z: 0.1 }, step: 0.1 },
+		backLabelPos: { value: { x: -3.7, y: 2.4, z: -2.3 }, step: 0.1 },
+		backLabelRot: { value: { x: 0, y: 0.2, z: 0 }, step: 0.1 },
 	});
 
 	return (
@@ -100,34 +119,48 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					scale={MusterboxLasche.scale}
 					material={MusterboxLasche.material}>
 					<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
-					<CloseLabel
-						scaleFactor={25}
-						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-						visible={!cameraIsMoving && selectObjectFocus?.name === name}
-						dispatch={() => dispatch()}>
-						x
-					</CloseLabel>
 				</mesh>
 
 				<InteractionLabel
 					focusName={name}
 					shortcut={1}
-					label="Open Box"
+					label={!isOpen ? "Open Box" : "Close Box"}
 					position={[-2.55, 2.56, -2.51]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={1}
-					onTrigger={openBox}
+					onTrigger={toggleBox}
 				/>
 
+				<CloseLabel
+					scaleFactor={0.15}
+					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+					visible={!cameraIsMoving && selectObjectFocus?.name === name}
+					dispatch={() => dispatch()}>
+					x
+				</CloseLabel>
+
 				{/** Boxes */}
-				<group name={"Boxes"} visible={false}>
-					{/* <mesh
+				<group name={"Boxes"} visible={boxesVisible}>
+					{hoveredBox && (
+						<lineSegments
+							raycast={() => null}
+							geometry={getOutlineGeometry(hoveredBox.geometry)}
+							position={hoveredBox.position}
+							rotation={hoveredBox.rotation}
+							scale={hoveredBox.scale}>
+							<primitive object={boxOutlineMaterial} attach="material" />
+						</lineSegments>
+					)}
+					<mesh
 						geometry={Musterbox01.geometry}
 						position={Musterbox01.position}
 						rotation={Musterbox01.rotation}
 						scale={Musterbox01.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -136,6 +169,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox02.rotation}
 						scale={Musterbox02.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -144,6 +180,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox03.rotation}
 						scale={Musterbox03.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -152,6 +191,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox04.rotation}
 						scale={Musterbox04.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -160,6 +202,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox05.rotation}
 						scale={Musterbox05.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -168,6 +213,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox06.rotation}
 						scale={Musterbox06.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -176,6 +224,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox07.rotation}
 						scale={Musterbox07.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -184,6 +235,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox08.rotation}
 						scale={Musterbox08.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -192,6 +246,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox09.rotation}
 						scale={Musterbox09.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -200,6 +257,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox10.rotation}
 						scale={Musterbox10.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -208,6 +268,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox11.rotation}
 						scale={Musterbox11.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -216,6 +279,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox12.rotation}
 						scale={Musterbox12.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -224,6 +290,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox13.rotation}
 						scale={Musterbox13.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -232,6 +301,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox14.rotation}
 						scale={Musterbox14.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -240,6 +312,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox15.rotation}
 						scale={Musterbox15.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -248,6 +323,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox16.rotation}
 						scale={Musterbox16.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -256,6 +334,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox17.rotation}
 						scale={Musterbox17.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -264,6 +345,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox18.rotation}
 						scale={Musterbox18.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -272,6 +356,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox19.rotation}
 						scale={Musterbox19.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -280,6 +367,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox20.rotation}
 						scale={Musterbox20.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -288,6 +378,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox21.rotation}
 						scale={Musterbox21.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -296,6 +389,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox22.rotation}
 						scale={Musterbox22.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -304,6 +400,9 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox23.rotation}
 						scale={Musterbox23.scale}
 						material={iot2Material}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
 					/>
 
 					<mesh
@@ -312,7 +411,10 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 						rotation={Musterbox24.rotation}
 						scale={Musterbox24.scale}
 						material={iot2Material}
-					/> */}
+						onPointerOver={handleBoxHover}
+						onPointerLeave={clearBoxHover}
+						onClick={handleBoxClick}
+					/>
 				</group>
 			</group>
 		</group>
