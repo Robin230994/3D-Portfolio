@@ -62,7 +62,7 @@ const CloseLabel: React.FC<ICloseLabelProps> = ({ visible, children, labelPos, d
 						events.onPointerLeave();
 						setIsHovered(false);
 					}}>
-					<circleGeometry args={[0.2, 32]} />
+					<circleGeometry args={[0.2, 16]} />
 					<Text font="/fonts/Inter_18pt-Bold.ttf" fontSize={0.25} anchorX="center" anchorY="middle" position={[0, 0.03, 0.01]} color={"#444"}>
 						{children}
 					</Text>

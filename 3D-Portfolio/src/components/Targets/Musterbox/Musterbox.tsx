@@ -77,7 +77,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			getBoxBaseZ(clickedBox);
 
 			if (currentRaisedBox.current === clickedBox) {
-				// Clicking the raised box again returns it to its original height.
+				// Clicking the raised box again returns it to its original position.
 				movingBoxTargets.current.set(clickedBox, getBoxBaseY(clickedBox));
 				clickedBox.rotation.z = getBoxBaseZ(clickedBox);
 				currentRaisedBox.current = null;
