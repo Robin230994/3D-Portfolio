@@ -73,6 +73,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			/>
 
 			<CameraController isDebugMode={isDebugMode} />
+
 			<Center>
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<group name="office-room">

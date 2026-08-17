@@ -39,7 +39,19 @@ const CloseLabel: React.FC<ICloseLabelProps> = ({ visible, children, labelPos, d
 			const timer = setTimeout(() => setShow(false), 300);
 			return () => clearTimeout(timer);
 		}
-	}, [visible]);
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape" && visible) {
+				dispatch();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [dispatch, visible]);
 
 	return (
 		show && (
