@@ -15,7 +15,7 @@ const Experience = () => {
 			<CameraEdgeLabel />
 			<MusicMenu />
 			<MusicPlayer />
-			<Canvas dpr={[1, 1.5]} performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 70 }}>
+			<Canvas dpr={[1, 1.5]} performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 55 }}>
 				<Portfolio isDebugMode={isDebugMode} />
 				{/* <Model /> */}
 			</Canvas>

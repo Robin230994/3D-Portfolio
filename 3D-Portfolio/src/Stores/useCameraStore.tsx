@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 
-export const ROOM_POSITION_ORDER = ["IntroPoint", "RoomPointOne", "RoomPointTwo", "RoomPointThree"];
+export const ROOM_POSITION_ORDER = ["IntroPoint", "RoomPointOne", "RoomPointTwo", "RoomPointThree", "RoomPointFour"];
 
 interface CameraState {
 	currentCameraPlaceKey: string;
