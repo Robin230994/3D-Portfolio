@@ -66,21 +66,22 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		}
 	}, [cameraPos, cameraRot, isDebugMode, azimuthal, polar, hdeg2rad, vdeg2rad]);
 
+	/** ONLY FOR DEBUG PURPOSE. REMOVE AFTER ALL SCENES ARE SET */
 	// useFrame(() => {
 	// 	const controls = controlsRef.current;
 	// 	if (!controls) return;
 	// 	controls.update();
 	// 	console.log("Pos: ", controls?.object.position);
 	// 	console.log("Target: ", controls?.target);
-	// 	console.log("Azimuth:", controls.getAzimuthalAngle());
-	// 	console.log("Polar:", controls.getPolarAngle());
+	// 	console.log("Azimuth:", controls.getAzimuthalAngle() * (180 / Math.PI));
+	// 	console.log("Polar:", controls.getPolarAngle() * (180 / Math.PI));
 	// });
 
 	return (
 		<>
 			{isDebugMode && (
 				<>
-					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={true} />
+					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={false} />
 				</>
 			)}
 		</>
