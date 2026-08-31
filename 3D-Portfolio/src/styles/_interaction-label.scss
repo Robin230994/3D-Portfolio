@@ -2,26 +2,62 @@
 	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	min-width: 116px;
-	max-width: 170px;
-	padding: 5px;
-	border: 2px solid #8b7142;
-	background: #ead6a8;
-	color: #493a22;
+	gap: 9px;
+	min-width: 132px;
+	max-width: 190px;
+	padding: 6px 10px 6px 6px;
+	overflow: hidden;
+	border: none;
+	border-radius: 10px;
+	// background: linear-gradient(135deg, rgba(255, 249, 234, 0.94), rgba(221, 205, 174, 0.9));
+	background-color: rgba(255, 255, 255, 0.1);
+	box-shadow:
+		0 9px 20px rgba(25, 28, 24, 0.25),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9),
+		inset 0 -1px 0 rgba(103, 83, 50, 0.15);
+	color: #fff;
 	cursor: pointer;
-	font-family: Inter, system-ui, sans-serif;
+	font-family:
+		Inter,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		sans-serif;
 	text-align: left;
+	backdrop-filter: blur(8px);
 	animation: interaction-label-float 4.6s ease-in-out infinite;
-	transition: filter 150ms ease;
+	transition:
+		box-shadow 180ms ease,
+		filter 180ms ease;
+}
+
+.interaction-label::before {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(110deg, rgba(255, 255, 255, 0.4), transparent 42%);
+	content: "";
+	pointer-events: none;
+}
+
+.interaction-label::after {
+	margin-left: auto;
+	color: white;
+	content: "↗";
+	font-size: 13px;
+	font-weight: 500;
 }
 
 .interaction-label:hover {
-	filter: brightness(1.07);
+	box-shadow:
+		0 12px 26px rgba(25, 28, 24, 0.32),
+		0 0 0 3px rgba(255, 239, 197, 0.26),
+		inset 0 1px 0 rgba(255, 255, 255, 0.95);
+	filter: brightness(1.035);
 }
 
 .interaction-label:active {
-	transform: translateY(2px) scale(0.97);
+	filter: brightness(0.98);
 }
 
 .interaction-label.is-leaving {
@@ -30,37 +66,47 @@
 }
 
 .interaction-label-key {
+	position: relative;
 	display: grid;
-	flex: 0 0 25px;
-	width: 25px;
-	height: 25px;
+	flex: 0 0 27px;
+	width: 27px;
+	height: 27px;
 	place-items: center;
-	border: 1px solid #8b7142;
-	background: #fff3d3;
-	font-size: 14px;
-	font-weight: 800;
+	border: none;
+	border-radius: 8px;
+	// background: linear-gradient(145deg, #fffdf6, #d8c79f);
+	background-color: rgba(0, 0, 0, 0.5);
+	// box-shadow:
+	// 	0 2px 3px rgba(68, 51, 27, 0.2),
+	// 	inset 0 1px 0 rgba(255, 255, 255, 0.96);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
 }
 
 .interaction-label-text {
+	position: relative;
 	font-size: 12px;
-	font-weight: 800;
-	line-height: 1.1;
+	font-weight: 650;
+	letter-spacing: 0.01em;
+	line-height: 1.2;
 }
 
 @keyframes interaction-label-float {
 	0%,
 	100% {
-		transform: translateY(0) rotate(-1deg);
+		transform: translateY(0);
 	}
 	50% {
-		transform: translateY(-2px) rotate(1deg);
+		transform: translateY(-3px);
 	}
 }
 
 @keyframes interaction-label-out {
 	to {
 		opacity: 0;
-		transform: scale(0.6);
+		transform: translateY(-6px) scale(0.94);
 	}
 }
 
