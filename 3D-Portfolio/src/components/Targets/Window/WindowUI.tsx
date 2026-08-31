@@ -26,6 +26,7 @@ interface WindowUIProps extends IUIComponentProps {
 		refs: {
 			myRefs: {
 				windowRef: RefObject<Mesh>;
+				windowHandleRef: RefObject<Mesh>;
 			};
 		};
 	};
@@ -38,7 +39,7 @@ const WindowUI: React.FC<WindowUIProps> = ({ props }) => {
 
 	const { name, nodes, hovered } = myData;
 	const { events } = myFunctions;
-	const { windowRef } = myRefs;
+	const { windowRef, windowHandleRef } = myRefs;
 
 	const Window = nodes["Window"] as Mesh;
 	const WindowHandle = nodes["WindowHandle"] as Mesh;
@@ -56,6 +57,7 @@ const WindowUI: React.FC<WindowUIProps> = ({ props }) => {
 			{...events}>
 			{/** The handle's transform is local to the Window */}
 			<mesh
+				ref={windowHandleRef}
 				geometry={WindowHandle.geometry}
 				position={WindowHandle.position}
 				rotation={WindowHandle.rotation}
