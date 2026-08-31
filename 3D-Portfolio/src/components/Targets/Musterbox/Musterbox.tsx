@@ -3,6 +3,7 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { AnimationAction, Group, LoopOnce, MathUtils, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
 import { useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import MusterboxUI from "./MusterboxUI";
@@ -19,7 +20,9 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
+	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 	const { actions } = useAnimations(animations!, musterboxRef);
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +42,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	};
 
 	const toggleBox = useCallback(() => setIsOpen((open) => !open), []);
+	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);
 
 	const handleBoxHover = useCallback(
 		(event: ThreeEvent<PointerEvent>) => {
@@ -184,8 +188,8 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	}, [name, selectObjectFocus]);
 
 	const uiComponentProps = {
-		data: { myData: { name, nodes, isOpen, boxesVisible, cameraIsMoving, hovered: interaction.hovered, hoveredBox } },
-		functions: { myFunctions: { dispatch, toggleBox, handleBoxHover, clearBoxHover, handleBoxClick, events: interaction.events } },
+		data: { myData: { name, nodes, isOpen, panelClosed, boxesVisible, cameraIsMoving, hovered: interaction.hovered, hoveredBox } },
+		functions: { myFunctions: { dispatch, toggleBox, switchPanel, handleBoxHover, clearBoxHover, handleBoxClick, events: interaction.events } },
 		refs: { myRefs: { musterboxRef } },
 	};
 	return <MusterboxUI props={uiComponentProps} />;

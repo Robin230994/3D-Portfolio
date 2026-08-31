@@ -31,6 +31,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				isOpen: boolean;
+				panelClosed: boolean;
 				boxesVisible: boolean;
 				cameraIsMoving: boolean;
 				hovered: string | null;
@@ -41,6 +42,7 @@ interface MusterboxUIProps extends IUIComponentProps {
 			myFunctions: {
 				dispatch: () => void;
 				toggleBox: () => void;
+				switchPanel: () => void;
 				handleBoxHover: (event: ThreeEvent<PointerEvent>) => void;
 				clearBoxHover: () => void;
 				handleBoxClick: (event: ThreeEvent<MouseEvent>) => void;
@@ -60,8 +62,8 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered, isOpen, boxesVisible, hoveredBox } = myData;
-	const { dispatch, toggleBox, handleBoxHover, clearBoxHover, handleBoxClick, events } = myFunctions;
+	const { name, nodes, cameraIsMoving, hovered, isOpen, panelClosed, boxesVisible, hoveredBox } = myData;
+	const { dispatch, toggleBox, switchPanel, handleBoxHover, clearBoxHover, handleBoxClick, events } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -129,6 +131,16 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={1}
 					onTrigger={toggleBox}
+				/>
+
+				<InteractionLabel
+					focusName={name}
+					shortcut={2}
+					label={panelClosed ? "Open project description" : "Close project description"}
+					position={[-2.47, 2.4, -2.51]}
+					rotation={[-Math.PI / 2, 0, 0]}
+					scale={1}
+					onTrigger={switchPanel}
 				/>
 
 				<CloseLabel

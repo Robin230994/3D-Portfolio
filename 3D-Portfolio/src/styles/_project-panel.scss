@@ -1,0 +1,130 @@
+:root {
+	--panel-color: #f3ede2;
+	--panel-text-color: #555;
+}
+
+.project-panel {
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: min(400px, 100vw);
+	height: 100dvh;
+	overflow: hidden;
+	background-color: var(--panel-color);
+	padding: 40px;
+	z-index: 9999;
+	animation: project-panel-slide-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+	&.project-panel--closing {
+		animation-name: project-panel-slide-out;
+		pointer-events: none;
+	}
+}
+
+@keyframes project-panel-slide-in {
+	from {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes project-panel-slide-out {
+	from {
+		transform: translateX(0);
+		opacity: 1;
+	}
+
+	to {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+}
+
+.project-panel-header {
+	flex: 0 0 auto;
+	overflow: hidden;
+	border-bottom: 1px solid var(--panel-text-color);
+	padding-bottom: 20px;
+
+	span {
+		color: #777;
+		font-size: 1.35rem;
+	}
+
+	h1 {
+		font-size: 1.7rem;
+		margin: 20px 0px;
+	}
+}
+
+.project-panel-main {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding-top: 40px;
+	padding-bottom: 40px;
+
+	.project-description {
+		flex: 1 1 auto;
+		min-height: 0;
+		margin-right: -12px;
+		padding-right: 12px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		scrollbar-width: none;
+
+		p {
+			color: var(--panel-text-color);
+			line-height: 1.8rem;
+			font-size: 1.1rem;
+			white-space: pre-line;
+		}
+	}
+
+	.project-tags {
+		display: flex;
+		gap: 20px;
+		width: 100%;
+		flex: 0 0 auto;
+		padding-top: 40px;
+
+		.project-tag {
+			border: 1px solid;
+			border-radius: 10px;
+
+			p {
+				color: var(--panel-text-color);
+				padding: 10px;
+				margin: 0;
+			}
+		}
+	}
+}
+
+.project-panel-footer {
+	flex: 0 0 auto;
+	overflow: hidden;
+	padding-top: 40px;
+	text-align: right;
+	border-top: 1px solid var(--panel-text-color);
+
+	.project-panel-close {
+		color: var(--panel-text-color);
+		background-color: var(--panel-color);
+		border: none;
+		padding: 10px;
+		font-size: 1.1rem;
+		cursor: pointer;
+	}
+}

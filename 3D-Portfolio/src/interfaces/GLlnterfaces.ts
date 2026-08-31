@@ -12,3 +12,11 @@ export interface ISong {
 	title: string;
 	file: string;
 }
+
+export interface IProjectDescription {
+	projectName: string;
+	heading: string;
+	text: string;
+	tags: string[];
+	image?: string;
+}
