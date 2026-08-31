@@ -95,11 +95,6 @@ type GLTFResult = GLTF & {
     image_object_t2: THREE.Mesh
     desk_objects_t1: THREE.Mesh
     foundation_t1: THREE.Mesh
-    Cube022: THREE.Mesh
-    Cube022_1: THREE.Mesh
-    Cube022_2: THREE.Mesh
-    Cube022_3: THREE.Mesh
-    Cube022_4: THREE.Mesh
     spine: THREE.Bone
     shinR001: THREE.Bone
     thighR001: THREE.Bone
@@ -133,11 +128,6 @@ type GLTFResult = GLTF & {
     ot4: THREE.MeshStandardMaterial
     Certificate: THREE.MeshStandardMaterial
     dt1: THREE.MeshStandardMaterial
-    ['Plaster.004']: THREE.MeshStandardMaterial
-    ['Floor_Mat.004']: THREE.MeshStandardMaterial
-    ['Polished Oak Wood.002']: THREE.MeshStandardMaterial
-    ['Door_Handle_Mat.002']: THREE.MeshStandardMaterial
-    ['Roof_Mat.004']: THREE.MeshStandardMaterial
   }
   animations: GLTFAction[]
 }
@@ -239,13 +229,6 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="image_object_t2" geometry={nodes.image_object_t2.geometry} material={materials.iot2} position={[-0.513, 2.367, -2.654]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="desk_objects_t1" geometry={nodes.desk_objects_t1.geometry} material={materials.dt1} position={[-3.296, 1.606, -0.653]} rotation={[Math.PI, 0, Math.PI]} />
         <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials['ft1.001']} position={[3.984, 1.959, 2.945]} />
-        <group name="foundation_t1_sep_materials001" position={[3.984, 1.959, 2.945]}>
-          <mesh name="Cube022" geometry={nodes.Cube022.geometry} material={materials['Plaster.004']} />
-          <mesh name="Cube022_1" geometry={nodes.Cube022_1.geometry} material={materials['Floor_Mat.004']} />
-          <mesh name="Cube022_2" geometry={nodes.Cube022_2.geometry} material={materials['Polished Oak Wood.002']} />
-          <mesh name="Cube022_3" geometry={nodes.Cube022_3.geometry} material={materials['Door_Handle_Mat.002']} />
-          <mesh name="Cube022_4" geometry={nodes.Cube022_4.geometry} material={materials['Roof_Mat.004']} />
-        </group>
       </group>
     </group>
   )

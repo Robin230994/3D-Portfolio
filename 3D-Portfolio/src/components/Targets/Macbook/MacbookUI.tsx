@@ -20,13 +20,13 @@ interface MacbookUIProps extends IUIComponentProps {
 				cameraIsMoving: boolean;
 				hovered: string | null;
 				screenVisible: boolean;
-				activeProject: "About me" | "Websites" | "Apps";
+				activeTab: "About me" | "Projects" | "Websites" | "Apps";
 			};
 		};
 		functions: {
 			myFunctions: {
 				dispatch: () => void;
-				setActiveProject: React.Dispatch<React.SetStateAction<"About me" | "Websites" | "Apps">>;
+				setActiveTab: React.Dispatch<React.SetStateAction<"About me" | "Projects" | "Websites" | "Apps">>;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -43,8 +43,8 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered, screenVisible, activeProject } = myData;
-	const { events, dispatch, setActiveProject } = myFunctions;
+	const { name, nodes, cameraIsMoving, hovered, screenVisible, activeTab } = myData;
+	const { events, dispatch, setActiveTab } = myFunctions;
 	const { macbookRef, macbookTopSideRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -54,7 +54,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 
 	const { backLabelPos, backLabelRot } = useControls("Macbook", {
 		backLabelPos: { value: { x: -4.1, y: 0, z: -0.9 }, step: 0.1 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0.9, z: 0 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0.3, z: 0 }, step: 0.1 },
 	});
 
 	return (
@@ -76,7 +76,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 					dispatch={() => dispatch()}>
 					x
 				</CloseLabel>
-				{screenVisible && <MacbookDesktop props={{ activeProject, setActiveProject }} />}
+				{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab }} />}
 			</mesh>
 
 			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}

@@ -12,7 +12,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 
-	const [activeProject, setActiveProject] = useState<"About me" | "Websites" | "Apps">("Websites");
+	const [activeTab, setActiveTab] = useState<"About me" | "Projects" | "Websites" | "Apps">("Websites");
 
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
@@ -86,10 +86,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				hovered: interaction.hovered,
 				screenVisible,
 				animations,
-				activeProject,
+				activeTab,
 			},
 		},
-		functions: { myFunctions: { dispatch, setActiveProject, events: interaction.events } },
+		functions: { myFunctions: { dispatch, setActiveTab, events: interaction.events } },
 		refs: { myRefs: { macbookRef, macbookTopSideRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;
