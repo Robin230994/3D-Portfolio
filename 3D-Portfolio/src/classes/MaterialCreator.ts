@@ -12,9 +12,9 @@ import {
 	MeshPhongMaterial,
 	ShaderMaterial,
 	MeshPhysicalMaterial,
+	NoColorSpace,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
-import { LinearSRGBColorSpace } from "three";
 
 import NullMaterialException from "../Exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
@@ -61,7 +61,7 @@ export default class MaterialCreator {
 				() => {},
 				() => {
 					throw new NonAccessibleTexturePathException(`Unable to access given texture path: ${path}`);
-				}
+				},
 			);
 
 			return textureToLoad;
@@ -76,6 +76,16 @@ export default class MaterialCreator {
 		return null;
 	}
 
+	private configureDataTexture(texture: Texture | undefined): Texture | undefined {
+		if (!texture) return undefined;
+
+		texture.colorSpace = NoColorSpace;
+		texture.wrapS = RepeatWrapping;
+		texture.wrapT = RepeatWrapping;
+		texture.flipY = false;
+		return texture;
+	}
+
 	public createStandardMaterialFromTexture(materialName: string, textures: StandardTextureParams, transparent?: boolean): MeshStandardMaterial {
 		const diffuseTexture: Texture = typeof textures.diffuseT === "string" ? this.textureLoader.load(textures.diffuseT) : textures.diffuseT;
 		diffuseTexture.colorSpace = SRGBColorSpace;
@@ -83,32 +93,33 @@ export default class MaterialCreator {
 		diffuseTexture.wrapT = RepeatWrapping;
 		diffuseTexture.flipY = false;
 
-		const roughnessTexture = textures.roughnessT
-			? typeof textures.roughnessT === "string"
-				? this.textureLoader.load(textures.roughnessT)
-				: textures.roughnessT
-			: undefined;
+		const roughnessTexture = this.configureDataTexture(
+			textures.roughnessT ? (typeof textures.roughnessT === "string" ? this.textureLoader.load(textures.roughnessT) : textures.roughnessT) : undefined,
+		);
 
-		const normalTexture = textures.normalT ? (typeof textures.normalT === "string" ? this.textureLoader.load(textures.normalT) : textures.normalT) : undefined;
+		const normalTexture = this.configureDataTexture(
+			textures.normalT ? (typeof textures.normalT === "string" ? this.textureLoader.load(textures.normalT) : textures.normalT) : undefined,
+		);
 
-		const alphaTexture = textures.alphaT ? (typeof textures.alphaT === "string" ? this.textureLoader.load(textures.alphaT) : textures.alphaT) : undefined;
-		if (alphaTexture) {
-			alphaTexture.colorSpace = LinearSRGBColorSpace;
-		}
+		const alphaTexture = this.configureDataTexture(
+			textures.alphaT ? (typeof textures.alphaT === "string" ? this.textureLoader.load(textures.alphaT) : textures.alphaT) : undefined,
+		);
 
-		const aoTexture = textures.aoT ? (typeof textures.aoT === "string" ? this.textureLoader.load(textures.aoT) : textures.aoT) : undefined;
+		const aoTexture = this.configureDataTexture(
+			textures.aoT ? (typeof textures.aoT === "string" ? this.textureLoader.load(textures.aoT) : textures.aoT) : undefined,
+		);
 
-		const displacementTexture = textures.displacementT
-			? typeof textures.displacementT === "string"
-				? this.textureLoader.load(textures.displacementT)
-				: textures.displacementT
-			: undefined;
+		const displacementTexture = this.configureDataTexture(
+			textures.displacementT
+				? typeof textures.displacementT === "string"
+					? this.textureLoader.load(textures.displacementT)
+					: textures.displacementT
+				: undefined,
+		);
 
-		const metalnessTexture = textures.metallnessT
-			? typeof textures.metallnessT === "string"
-				? this.textureLoader.load(textures.metallnessT)
-				: textures.metallnessT
-			: undefined;
+		const metalnessTexture = this.configureDataTexture(
+			textures.metallnessT ? (typeof textures.metallnessT === "string" ? this.textureLoader.load(textures.metallnessT) : textures.metallnessT) : undefined,
+		);
 
 		const materialParams: MeshStandardMaterialParameters = {
 			map: diffuseTexture,

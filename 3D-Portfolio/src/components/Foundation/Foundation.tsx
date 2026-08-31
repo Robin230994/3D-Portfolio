@@ -1,17 +1,12 @@
-import { Mesh, MeshStandardMaterial } from "three";
+import { Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { glassMaterial } from "../../Helper/GLMaterials";
-import MaterialCreator from "../../classes/MaterialCreator";
-import PictureFrame from "../Targets/PictureFrame/PictureFrame";
+import { foundationMaterial } from "../../Helper/GLMaterials";
 
-const materialCreator = MaterialCreator.getInstance();
-const foundationMaterial: MeshStandardMaterial = materialCreator.createStandardMaterialFromTexture("Foundation", {
-	diffuseT: "/baked-textures/Foundation/foundation_t1_color.png",
-});
+import PictureFrame from "../Targets/PictureFrame/PictureFrame";
+import Window from "../Targets/Window/Window";
 
 const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Foundation = nodes["foundation_t1"] as Mesh;
-	const Window = nodes["Window"] as Mesh;
 
 	return (
 		<group name={name}>
@@ -19,7 +14,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<mesh geometry={Foundation.geometry} position={Foundation.position} material={foundationMaterial} scale={Foundation.scale} />
 
 			{/** Window */}
-			<mesh geometry={Window.geometry} position={Window.position} rotation={Window.rotation} scale={Window.scale} material={glassMaterial} />
+			<Window name="Window" nodes={nodes} />
 
 			{/** Picture Frame */}
 			<PictureFrame name="PictureFrame" nodes={nodes} />

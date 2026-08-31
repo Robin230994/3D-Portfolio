@@ -66,6 +66,13 @@ metalMaterial.roughness = 0;
 metalMaterial.metalness = 1;
 export { metalMaterial };
 
+const foundationMaterial = materialCreator.createStandardMaterialFromTexture("Foundation", {
+	diffuseT: "/baked-textures/Foundation/foundation_t1_color.jpg",
+	normalT: "/baked-textures/Foundation/foundation_t1_normal.png",
+	roughnessT: "/baked-textures/Foundation/foundation_t1_roughness.jpg",
+});
+export { foundationMaterial };
+
 const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Objects/TI1/perlin-noise-texture.png", (loadedTexture) => {
 	loadedTexture.wrapS = RepeatWrapping;
 	loadedTexture.wrapT = RepeatWrapping;

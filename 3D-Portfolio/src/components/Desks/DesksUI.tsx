@@ -1,12 +1,17 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { IUIComponentProps } from "../../types/GLTypes";
-import { BoxGeometry, DirectionalLight, Material, Mesh } from "three";
+import { BoxGeometry, DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
 import { iot1Material } from "../../Helper/GLMaterials";
 import MaterialCreator from "../../classes/MaterialCreator";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 
 const materialCreator = MaterialCreator.getInstance();
+const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
+	diffuseT: "/baked-textures/Desks/desks_color.jpg",
+	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
+	normalT: "/baked-textures/Desks/desks_normal.png",
+});
 
 interface DesksUIProps extends IUIComponentProps {
 	props: {
@@ -23,15 +28,12 @@ interface DesksUIProps extends IUIComponentProps {
 
 const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	const { myData } = props.data;
-	const { myRefs } = props.refs;
 
 	const { name, nodes } = myData;
 
 	const DeskObjects: Mesh = nodes["desk_objects_t1"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
 	const PaintingBoard: Mesh = nodes["PaintingBoard"] as Mesh;
-
-	const deskMaterial = DeskObjects.material as Material;
 
 	const { width, height, depth, position, rotation } = useControls("LampEmission", {
 		width: { value: 2.5, step: 0.1 },
@@ -105,10 +107,6 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			rotationTR.z,
 		],
 	);
-
-	useEffect(() => {
-		materialCreator.addInstanciatedMaterial("deskMaterial", deskMaterial);
-	}, [deskMaterial]);
 
 	return (
 		<group name={name}>

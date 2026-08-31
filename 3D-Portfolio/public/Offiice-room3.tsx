@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -63,6 +63,8 @@ type GLTFResult = GLTF & {
     MusterboxDeckel: THREE.Mesh
     MusterboxLasche: THREE.Mesh
     Window: THREE.Mesh
+    WindowGlass: THREE.Mesh
+    WindowHandle: THREE.Mesh
     Picture_Frame001: THREE.Mesh
     Ball8: THREE.Mesh
     Rack: THREE.Mesh
@@ -82,17 +84,22 @@ type GLTFResult = GLTF & {
     linkedInLogo: THREE.Mesh
     MinuteHand: THREE.Mesh
     HomePod: THREE.Mesh
-    object_t6: THREE.Mesh
     object_t1: THREE.Mesh
     object_t2: THREE.Mesh
     object_t3: THREE.Mesh
     object_t4: THREE.Mesh
     object_t5: THREE.Mesh
     Certificate: THREE.Mesh
+    object_t6: THREE.Mesh
     image_object_t1: THREE.Mesh
     image_object_t2: THREE.Mesh
     desk_objects_t1: THREE.Mesh
     foundation_t1: THREE.Mesh
+    Cube022: THREE.Mesh
+    Cube022_1: THREE.Mesh
+    Cube022_2: THREE.Mesh
+    Cube022_3: THREE.Mesh
+    Cube022_4: THREE.Mesh
     spine: THREE.Bone
     shinR001: THREE.Bone
     thighR001: THREE.Bone
@@ -108,7 +115,7 @@ type GLTFResult = GLTF & {
     iot1: THREE.MeshStandardMaterial
     Metallic: THREE.MeshStandardMaterial
     iot2: THREE.MeshStandardMaterial
-    ft1: THREE.MeshStandardMaterial
+    ['ft1.001']: THREE.MeshStandardMaterial
     ot4: THREE.MeshStandardMaterial
     ot3: THREE.MeshStandardMaterial
     ot3: THREE.MeshStandardMaterial
@@ -126,6 +133,11 @@ type GLTFResult = GLTF & {
     ot4: THREE.MeshStandardMaterial
     Certificate: THREE.MeshStandardMaterial
     dt1: THREE.MeshStandardMaterial
+    ['Plaster.004']: THREE.MeshStandardMaterial
+    ['Floor_Mat.004']: THREE.MeshStandardMaterial
+    ['Polished Oak Wood.002']: THREE.MeshStandardMaterial
+    ['Door_Handle_Mat.002']: THREE.MeshStandardMaterial
+    ['Roof_Mat.004']: THREE.MeshStandardMaterial
   }
   animations: GLTFAction[]
 }
@@ -191,7 +203,10 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="MusterboxBox24" geometry={nodes.MusterboxBox24.geometry} material={materials.iot2} position={[-2.962, 2.334, -2.383]} rotation={[-Math.PI / 2, 0, 1.556]} scale={0.011} />
         <mesh name="MusterboxDeckel" geometry={nodes.MusterboxDeckel.geometry} material={materials.iot2} position={[-3.222, 2.469, -2.815]} rotation={[0.786, -0.007, -3.136]} scale={0.007} />
         <mesh name="MusterboxLasche" geometry={nodes.MusterboxLasche.geometry} material={materials.iot2} position={[-3.291, 2.63, -2.69]} rotation={[1.593, -0.002, -3.136]} scale={0.007} />
-        <mesh name="Window" geometry={nodes.Window.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
+        <mesh name="Window" geometry={nodes.Window.geometry} material={materials['ft1.001']} position={[7.984, 1.401, -0.041]} scale={[1, 1, 1.002]}>
+          <mesh name="WindowGlass" geometry={nodes.WindowGlass.geometry} material={nodes.WindowGlass.material} />
+          <mesh name="WindowHandle" geometry={nodes.WindowHandle.geometry} material={materials['ft1.001']} position={[-0.075, 0.84, 0.991]} />
+        </mesh>
         <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.972]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
         <mesh name="Ball8" geometry={nodes.Ball8.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
         <mesh name="Rack" geometry={nodes.Rack.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
@@ -213,17 +228,24 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="linkedInLogo" geometry={nodes.linkedInLogo.geometry} material={materials['ot7.001']} position={[3.81, 3.351, -2.891]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="HomePod" geometry={nodes.HomePod.geometry} material={materials.iot2} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
-        <mesh name="object_t6" geometry={nodes.object_t6.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
         <mesh name="object_t1" geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
         <mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="object_t4" geometry={nodes.object_t4.geometry} material={materials.ot4} position={[-0.314, 1.112, -2.329]} rotation={[1.57, 0.005, -1.573]} scale={1.743} />
         <mesh name="object_t5" geometry={nodes.object_t5.geometry} material={materials.ot5} position={[5.644, 1.178, -1.578]} rotation={[-0.016, 0, 0]} scale={0.143} />
         <mesh name="Certificate" geometry={nodes.Certificate.geometry} material={materials.Certificate} position={[1.64, 2.79, 2.952]} rotation={[Math.PI / 2, 0, Math.PI]} scale={0.601} />
+        <mesh name="object_t6" geometry={nodes.object_t6.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
         <mesh name="image_object_t1" geometry={nodes.image_object_t1.geometry} material={materials.iot1} position={[-1.089, 1.392, 2.811]} rotation={[-1.52, 0.274, -2.72]} />
         <mesh name="image_object_t2" geometry={nodes.image_object_t2.geometry} material={materials.iot2} position={[-0.513, 2.367, -2.654]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="desk_objects_t1" geometry={nodes.desk_objects_t1.geometry} material={materials.dt1} position={[-3.296, 1.606, -0.653]} rotation={[Math.PI, 0, Math.PI]} />
-        <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials.ft1} position={[4, 1.948, 2.942]} />
+        <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials['ft1.001']} position={[3.984, 1.959, 2.945]} />
+        <group name="foundation_t1_sep_materials001" position={[3.984, 1.959, 2.945]}>
+          <mesh name="Cube022" geometry={nodes.Cube022.geometry} material={materials['Plaster.004']} />
+          <mesh name="Cube022_1" geometry={nodes.Cube022_1.geometry} material={materials['Floor_Mat.004']} />
+          <mesh name="Cube022_2" geometry={nodes.Cube022_2.geometry} material={materials['Polished Oak Wood.002']} />
+          <mesh name="Cube022_3" geometry={nodes.Cube022_3.geometry} material={materials['Door_Handle_Mat.002']} />
+          <mesh name="Cube022_4" geometry={nodes.Cube022_4.geometry} material={materials['Roof_Mat.004']} />
+        </group>
       </group>
     </group>
   )
