@@ -19,8 +19,8 @@ interface CameraState {
 }
 
 export const useCameraStore = create<CameraState>((set, get) => ({
-	currentCameraPlaceKey: "RoomPointOne",
-	currentCameraPlaceInfo: cameraPresets.RoomPointOne,
+	currentCameraPlaceKey: "IntroPoint",
+	currentCameraPlaceInfo: cameraPresets.IntroPoint,
 	setCurrentCameraPlace: (key) =>
 		set({
 			currentCameraPlaceKey: key,

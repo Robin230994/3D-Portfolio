@@ -20,7 +20,7 @@ const Experience = () => {
 			<MusicMenu />
 			{project !== null && <ProjectPanel project={project} />}
 			<MusicPlayer />
-			<Canvas dpr={[1, 1.5]} performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 60 }}>
+			<Canvas dpr={[1, 1.5]} performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 75 }}>
 				<Portfolio isDebugMode={isDebugMode} />
 				{/* <Model /> */}
 			</Canvas>

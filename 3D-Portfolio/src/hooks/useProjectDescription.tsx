@@ -17,7 +17,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 			"Neben der Entwicklung der AR- und Interaktionslogik lag mein Fokus auf der technischen Umsetzung und Optimierung der Anwendung für iOS und Android. So entstand eine plattformübergreifende Unity-Anwendung, die physische Produktmuster mit digitalen Informationen, 3D-Inhalten und interaktiven AR-Erlebnissen verbindet.",
 		images: [
 			{
-				src: "/images/weilburger_musterbox_app.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_app.jpg",
 				alt: "Musterbox App 2021",
 			},
 		],
@@ -32,7 +32,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box01.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box01.webp",
 				alt: "Musterbox 01",
 			},
 		],
@@ -45,7 +45,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box02.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box02.webp",
 				alt: "Musterbox 02",
 			},
 		],
@@ -58,7 +58,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box03.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box03.webp",
 				alt: "Musterbox 03",
 			},
 		],
@@ -71,7 +71,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box04.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box04.webp",
 				alt: "Musterbox 04",
 			},
 		],
@@ -84,7 +84,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box05.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box05.webp",
 				alt: "Musterbox 05",
 			},
 		],
@@ -97,7 +97,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box06.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box06.webp",
 				alt: "Musterbox 06",
 			},
 		],
@@ -110,7 +110,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box07.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box07.webp",
 				alt: "Musterbox 07",
 			},
 		],
@@ -123,7 +123,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box08.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box08.webp",
 				alt: "Musterbox 08",
 			},
 		],
@@ -136,7 +136,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box09.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box09.webp",
 				alt: "Musterbox 09",
 			},
 		],
@@ -149,7 +149,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box10.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box10.webp",
 				alt: "Musterbox 10",
 			},
 		],
@@ -162,7 +162,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box11.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box11.webp",
 				alt: "Musterbox 11",
 			},
 		],
@@ -175,7 +175,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box12.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box12.webp",
 				alt: "Musterbox 12",
 			},
 		],
@@ -188,7 +188,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box13.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box13.webp",
 				alt: "Musterbox 13",
 			},
 		],
@@ -201,7 +201,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box14.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box14.webp",
 				alt: "Musterbox 14",
 			},
 		],
@@ -214,7 +214,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box15.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box15.webp",
 				alt: "Musterbox 15",
 			},
 		],
@@ -227,7 +227,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box16.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box16.webp",
 				alt: "Musterbox 16",
 			},
 		],
@@ -240,7 +240,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box17.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box17.webp",
 				alt: "Musterbox 17",
 			},
 		],
@@ -253,7 +253,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box18.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box18.webp",
 				alt: "Musterbox 18",
 			},
 		],
@@ -266,7 +266,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box19.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box19.webp",
 				alt: "Musterbox 19",
 			},
 		],
@@ -279,7 +279,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box20.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box20.webp",
 				alt: "Musterbox 20",
 			},
 		],
@@ -292,7 +292,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box21.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box21.webp",
 				alt: "Musterbox 21",
 			},
 		],
@@ -305,7 +305,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box22.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box22.webp",
 				alt: "Musterbox 22",
 			},
 		],
@@ -318,7 +318,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box23.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box23.webp",
 				alt: "Musterbox 23",
 			},
 		],
@@ -331,7 +331,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		tags: ["App-Entwicklung", "3D"],
 		images: [
 			{
-				src: "/images/weilburger_musterbox_box24.jpg",
+				src: "/images/Musterbox/weilburger_musterbox_box24.webp",
 				alt: "Musterbox 24",
 			},
 		],
