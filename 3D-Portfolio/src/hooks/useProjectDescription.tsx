@@ -56,6 +56,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 03 - OB/UV-Hybrid Effekt Matt/Glanz",
 		text: "Matt- und Glanzeffekte durch die Kombination von wasser- und UV-basierten Lacken. Zusätzlich sorgt ein Imprägnierlack auf der Innenseite für besondere Eigenschaften.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box03.jpg",
+				alt: "Musterbox 03",
+			},
+		],
 	},
 
 	Musterbox04: {
@@ -63,6 +69,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 04 - OB/WB-TWIN Effekt Matt/Glanz",
 		text: "Matt-/Glanz-Kontrast mit wasserbasierten und öl-/UV-basierten Lacken. Die Innenseite erhält zusätzlich eine scheuerfeste Glanzlackierung.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box04.jpg",
+				alt: "Musterbox 04",
+			},
+		],
 	},
 
 	Musterbox05: {
@@ -70,6 +82,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 05 - UV-LED-Hybrid Effekt",
 		text: "Hybrid-Effekt aus matten und glänzenden Lacken, speziell für den Einsatz mit moderner UV-LED-Drucktechnologie.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box05.jpg",
+				alt: "Musterbox 05",
+			},
+		],
 	},
 
 	Musterbox06: {
@@ -77,6 +95,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 06 - Deckweiß auf braunem Substrat",
 		text: "Deckendes Weiß auf einem braunen Naturkarton. Der Effekt zeigt, wie sich helle Druckflächen auf dunklen Substraten realisieren lassen.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box06.jpg",
+				alt: "Musterbox 06",
+			},
+		],
 	},
 
 	Musterbox07: {
@@ -84,6 +108,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 07 - Haptischer Softlack auf UV-Basis",
 		text: "Ein UV-basierter Softlack mit einer besonders weichen und angenehmen Haptik.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box07.jpg",
+				alt: "Musterbox 07",
+			},
+		],
 	},
 
 	Musterbox08: {
@@ -91,6 +121,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 08 - Haptischer, texturierter Mattlack",
 		text: "Matter Lack mit strukturierter Oberfläche, der dem Druckprodukt eine deutlich spürbare Textur verleiht.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box08.jpg",
+				alt: "Musterbox 08",
+			},
+		],
 	},
 
 	Musterbox09: {
@@ -98,6 +134,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 09 - Haptischer Softlack mit Gummieffekt",
 		text: "Eine besonders griffige Soft-Touch-Oberfläche mit einem haptischen Gummieffekt.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box09.jpg",
+				alt: "Musterbox 09",
+			},
+		],
 	},
 
 	Musterbox10: {
@@ -105,6 +147,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 10 - Haptischer Softlack auf Wasserbasis",
 		text: "Wasserbasierter Mattlack mit einer weichen, samtigen Oberfläche und angenehmer Haptik.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box10.jpg",
+				alt: "Musterbox 10",
+			},
+		],
 	},
 
 	Musterbox11: {
@@ -112,6 +160,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 11 - Haptischer Softlack in Verbindung mit partiellem Siebdruck-Relieflack",
 		text: "Kombination aus Soft-Touch-Lack und partiellem Siebdruck-Relieflack für einen fühlbaren, dreidimensionalen Effekt.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box11.jpg",
+				alt: "Musterbox 11",
+			},
+		],
 	},
 
 	Musterbox12: {
@@ -119,6 +173,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 12 - Haptischer Seidenmatt-Softlack",
 		text: "Softlack mit seidenmatter Oberfläche, der eine dezente und hochwertige Haptik erzeugt.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box12.jpg",
+				alt: "Musterbox 12",
+			},
+		],
 	},
 
 	Musterbox13: {
@@ -126,6 +186,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 13 - Wasserbasierter Hochglanzlack",
 		text: "Wasserbasierter Lack mit einer stark glänzenden Oberfläche für intensive Glanzeffekte.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box13.jpg",
+				alt: "Musterbox 13",
+			},
+		],
 	},
 
 	Musterbox14: {
@@ -133,6 +199,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 14 - Drucksilber und Silberlack in Kombination mit Hochglanzlack",
 		text: "Kombination aus Drucksilber, Silberlack und Hochglanzlack für eine metallische und besonders auffällige Oberfläche.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box14.jpg",
+				alt: "Musterbox 14",
+			},
+		],
 	},
 
 	Musterbox15: {
@@ -140,6 +212,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 15 - Wasserbasierter Hochglanzlack",
 		text: "Wasserbasierter Hochglanzlack für eine brillante, gleichmäßige und besonders glänzende Oberfläche.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box15.jpg",
+				alt: "Musterbox 15",
+			},
+		],
 	},
 
 	Musterbox16: {
@@ -147,6 +225,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 16 - Wasserbasierter Glanzlack",
 		text: "Wasserbasierter Glanzlack mit einer klaren, glänzenden Oberfläche zur Veredelung.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box16.jpg",
+				alt: "Musterbox 16",
+			},
+		],
 	},
 
 	Musterbox17: {
@@ -154,6 +238,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 17 - Wasserbasierter Seidenmattlack",
 		text: "Seidenmatter Wasserlack mit einer zurückhaltenden, hochwertigen Oberfläche zwischen Glanz und Matt.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box17.jpg",
+				alt: "Musterbox 17",
+			},
+		],
 	},
 
 	Musterbox18: {
@@ -161,6 +251,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 18 - Wasserbasierter Mattlack",
 		text: "Wasserbasierter Mattlack für eine gleichmäßig matte und reduzierte Oberflächenwirkung.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box18.jpg",
+				alt: "Musterbox 18",
+			},
+		],
 	},
 
 	Musterbox19: {
@@ -168,6 +264,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 19 - Partieller UV-Drucklack auf OPP-Mattfolie",
 		text: "Partieller UV-Glanzlack auf matter OPP-Folie, wodurch gezielte glänzende Bereiche als Kontrast zur matten Oberfläche hervorgehoben werden.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box19.jpg",
+				alt: "Musterbox 19",
+			},
+		],
 	},
 
 	Musterbox20: {
@@ -175,6 +277,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 20 - Prägbarer UV-Mattlack",
 		text: "UV-Mattlack, der zusätzlich für eine Prägung geeignet ist und dadurch visuelle und haptische Effekte miteinander verbindet.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box20.jpg",
+				alt: "Musterbox 20",
+			},
+		],
 	},
 
 	Musterbox21: {
@@ -182,6 +290,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 21 - Partieller UV-Glanzlack inline auf scheuerfestem WB Matt-Primer",
 		text: "Partieller UV-Glanzlack auf einem scheuerfesten, wasserbasierten Matt-Primer für kontrastreiche Matt-/Glanz-Effekte.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box21.jpg",
+				alt: "Musterbox 21",
+			},
+		],
 	},
 
 	Musterbox22: {
@@ -189,6 +303,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 22 - Partieller UV-Glanzlack inline auf WB Glanz-Primer",
 		text: "Kombination aus wasserbasiertem Glanz-Primer und partiellem UV-Glanzlack für unterschiedliche Glanzwirkungen.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box22.jpg",
+				alt: "Musterbox 22",
+			},
+		],
 	},
 
 	Musterbox23: {
@@ -196,6 +316,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 23 - Flächiger UV-Glanzlack inline auf WB Glanz-Primer",
 		text: "Flächiger UV-Glanzlack auf wasserbasiertem Glanz-Primer für eine besonders gleichmäßige und brillante Oberfläche.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box23.jpg",
+				alt: "Musterbox 23",
+			},
+		],
 	},
 
 	Musterbox24: {
@@ -203,6 +329,12 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		heading: "Musterbox 24 - Partieller WB-Perleffektlack mit flächigem UV-Glanzlack",
 		text: "Perlmuttartiger, wasserbasierter Effektlack kombiniert mit flächigem UV-Glanzlack für eine schimmernde und hochwertige Oberfläche.",
 		tags: ["App-Entwicklung", "3D"],
+		images: [
+			{
+				src: "/images/weilburger_musterbox_box24.jpg",
+				alt: "Musterbox 24",
+			},
+		],
 	},
 };
 

@@ -6,6 +6,9 @@ interface IProjectPanel {
 	project: IProjectDescription;
 }
 
+const DESCR_SCROLLTOP_SPEED = 8; // pixels per second
+const TAGS_SCROLLLEFT_SPEED = 10; // pixels per second
+
 const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 	const mainPanelRef = useRef<HTMLDivElement>(null);
 	const mainPanelTagsRef = useRef<HTMLDivElement>(null);
@@ -86,7 +89,7 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 				}
 			} else if (previousTime && time >= pauseUntil) {
 				const elapsedSeconds = (time - previousTime) / 1000;
-				virtualScrollTop += elapsedSeconds * 15;
+				virtualScrollTop += elapsedSeconds * DESCR_SCROLLTOP_SPEED;
 
 				if (virtualScrollTop >= maxScrollTop) {
 					virtualScrollTop = maxScrollTop;
@@ -105,7 +108,7 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 				const elapsedSeconds = (time - previousTime) / 1000;
 				const loopWidth = tagsPanel.scrollWidth / 2;
 
-				virtualScrollLeft += elapsedSeconds * 10;
+				virtualScrollLeft += elapsedSeconds * TAGS_SCROLLLEFT_SPEED;
 
 				if (virtualScrollLeft >= loopWidth) {
 					virtualScrollLeft -= loopWidth;
