@@ -10,6 +10,7 @@ import MusterboxUI from "./MusterboxUI";
 import useInteraction from "../../../hooks/useInteraction";
 
 const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
+	/** REFS */
 	const musterboxRef = useRef<Group>(null);
 	const hasOpenedRef = useRef(false);
 	const currentRaisedBox = useRef<Mesh | null>(null);
@@ -18,42 +19,38 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const boxBaseZPositions = useRef(new WeakMap<Mesh, number>());
 	const movingBoxTargets = useRef(new Map<Mesh, number>());
 
+	/** HOOKS */
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
+	const activeProject = useProjectPanelStore((state) => state.activeProject);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
+	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
 	const { actions } = useAnimations(animations!, musterboxRef);
 
+	/** STATES */
 	const [isOpen, setIsOpen] = useState(false);
 	const [boxesVisible, setBoxesVisible] = useState(false);
 	const [hoveredBox, setHoveredBox] = useState<Mesh | null>(null);
 
+	/** FUNCTIONS */
 	const interaction = useInteraction({
 		onClick: () => {
 			if (musterboxRef.current) {
 				setSelectObjectFocus({ name: name, object: musterboxRef.current });
+				setActiveProject("Musterbox");
 			}
 		},
 	});
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
+		setActiveProject(null);
 	};
 
 	const toggleBox = useCallback(() => setIsOpen((open) => !open), []);
 	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);
-
-	const handleBoxHover = useCallback(
-		(event: ThreeEvent<PointerEvent>) => {
-			event.stopPropagation();
-			const box = event.object as Mesh;
-			setHoveredBox((current) => (current === box ? current : box));
-		},
-		[setHoveredBox],
-	);
-
-	const clearBoxHover = useCallback(() => setHoveredBox(null), [setHoveredBox]);
 
 	const getBoxBaseY = useCallback((box: Mesh) => {
 		const storedBaseY = boxBaseYPositions.current.get(box);
@@ -73,10 +70,27 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		return baseZ;
 	}, []);
 
+	const handleBoxHover = useCallback(
+		(event: ThreeEvent<PointerEvent>) => {
+			event.stopPropagation();
+			const box = event.object as Mesh;
+			setHoveredBox((current) => (current === box ? current : box));
+		},
+		[setHoveredBox],
+	);
+
 	const handleBoxClick = useCallback(
 		(event: ThreeEvent<MouseEvent>) => {
 			event.stopPropagation();
 			const clickedBox = event.object as Mesh;
+
+			// set the clicked box as the active project to display correct information inside the ProjectPanel. If the clicked box is already the active project, set it to null to close the panel.
+			if (activeProject !== clickedBox.name) {
+				setActiveProject(clickedBox.name);
+			} else {
+				setActiveProject("Musterbox");
+			}
+
 			// Save the original Z rotation before this box starts spinning.
 			getBoxBaseZ(clickedBox);
 
@@ -105,8 +119,10 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				movingBoxTargets.current.set(clickedBox, getBoxBaseY(clickedBox) + 0.3);
 			}
 		},
-		[getBoxBaseY, getBoxBaseZ],
+		[activeProject, getBoxBaseY, getBoxBaseZ, setActiveProject],
 	);
+
+	const clearBoxHover = useCallback(() => setHoveredBox(null), [setHoveredBox]);
 
 	useFrame((_state, delta) => {
 		movingBoxTargets.current.forEach((targetY, box) => {

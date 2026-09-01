@@ -18,5 +18,13 @@ export interface IProjectDescription {
 	heading: string;
 	text: string;
 	tags: string[];
-	image?: string;
+	images?: {
+		src: string;
+		alt?: string;
+	}[];
+	video?: {
+		src: string;
+		poster?: string;
+	};
+	moreInfo?: string;
 }

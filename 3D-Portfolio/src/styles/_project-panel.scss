@@ -9,9 +9,8 @@
 	top: 0;
 	bottom: 0;
 	left: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	display: grid;
+	grid-template-rows: 20% 70% 10%;
 	width: min(400px, 100vw);
 	height: 100dvh;
 	overflow: hidden;
@@ -51,7 +50,7 @@
 }
 
 .project-panel-header {
-	flex: 0 0 auto;
+	box-sizing: border-box;
 	overflow: hidden;
 	border-bottom: 1px solid var(--panel-text-color);
 	padding-bottom: 20px;
@@ -68,15 +67,32 @@
 }
 
 .project-panel-main {
-	flex: 1 1 auto;
 	min-height: 0;
-	display: flex;
-	flex-direction: column;
-	padding-top: 40px;
-	padding-bottom: 40px;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	box-sizing: border-box;
+	overflow: hidden;
+	padding-top: 20px;
+	padding-bottom: 20px;
+
+	.project-media {
+		margin-bottom: 20px;
+
+		&:empty {
+			display: none;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			max-height: 32dvh;
+			height: auto;
+			object-fit: contain;
+			border-radius: 10px;
+		}
+	}
 
 	.project-description {
-		flex: 1 1 auto;
 		min-height: 0;
 		margin-right: -12px;
 		padding-right: 12px;
@@ -94,9 +110,10 @@
 
 	.project-tags {
 		display: flex;
+		align-items: center;
+		overflow-x: scroll;
 		gap: 20px;
 		width: 100%;
-		flex: 0 0 auto;
 		padding-top: 40px;
 
 		.project-tag {
@@ -113,11 +130,14 @@
 }
 
 .project-panel-footer {
-	flex: 0 0 auto;
+	box-sizing: border-box;
 	overflow: hidden;
 	padding-top: 40px;
 	text-align: right;
 	border-top: 1px solid var(--panel-text-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
 	.project-panel-close {
 		color: var(--panel-text-color);
@@ -125,6 +145,16 @@
 		border: none;
 		padding: 10px;
 		font-size: 1.1rem;
+		cursor: pointer;
+	}
+
+	.project-panel-more-info {
+		color: #fff;
+		background-color: #2d363a;
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		font-size: 0.9rem;
 		cursor: pointer;
 	}
 }

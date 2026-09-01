@@ -86,9 +86,9 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 				<h1>{project.heading}</h1>
 			</div>
 			<div className="project-panel-main">
+				<div className="project-media">{project.images && project.images.length > 0 && <img src={project.images[0].src} alt={project.images[0].alt} />}</div>
 				<div ref={mainPanelRef} className="project-description">
 					<p>{project.text}</p>
-					{project.image && <img src={project.image} />}
 				</div>
 				<div className="project-tags">
 					{project.tags.map((tag, index) => {
@@ -101,6 +101,9 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 				</div>
 			</div>
 			<div className="project-panel-footer">
+				<button type="button" className="project-panel-more-info" onClick={() => window.open(project.moreInfo, "_blank")}>
+					More info about the project
+				</button>
 				<button type="button" className="project-panel-close" onClick={handleClose}>
 					Close
 				</button>
