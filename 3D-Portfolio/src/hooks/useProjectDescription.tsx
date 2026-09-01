@@ -5,7 +5,7 @@ import { useProjectPanelStore } from "../Stores/useProjectPanelStore";
 const projectDescriptions: Record<string, IProjectDescription> = {
 	Musterbox: {
 		projectName: "Musterbox",
-		heading: "Musterbox 2021 – Augmented-Reality-App für WEILBURGER Graphics",
+		heading: "Musterbox 2021 – Augmented-Reality-App für Weilburger Graphics",
 		text:
 			"Für das Musterbox-Projekt 2021 von WEILBURGER Graphics habe ich eine interaktive Augmented-Reality-App für iOS und Android entwickelt." +
 			" Ziel war es, die physische Musterkollektion durch eine digitale, interaktive Ebene zu erweitern und die verschiedenen Druck- und Veredelungsmuster virtuell erlebbar zu machen.\n\n" +

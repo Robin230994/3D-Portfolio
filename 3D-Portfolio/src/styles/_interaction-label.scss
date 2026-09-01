@@ -74,20 +74,16 @@
 	place-items: center;
 	border: none;
 	border-radius: 8px;
-	// background: linear-gradient(145deg, #fffdf6, #d8c79f);
 	background-color: rgba(0, 0, 0, 0.5);
-	// box-shadow:
-	// 	0 2px 3px rgba(68, 51, 27, 0.2),
-	// 	inset 0 1px 0 rgba(255, 255, 255, 0.96);
 	color: #fff;
-	font-size: 10px;
+	font-size: 8px;
 	font-weight: 700;
 	line-height: 1;
 }
 
 .interaction-label-text {
 	position: relative;
-	font-size: 10px;
+	font-size: 8px;
 	font-weight: 650;
 	letter-spacing: 0.01em;
 	line-height: 1.2;

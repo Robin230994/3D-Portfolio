@@ -137,7 +137,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					focusName={name}
 					shortcut={2}
 					label={panelClosed ? "Open project description" : "Close project description"}
-					position={[-2.47, 2.45, -2.51]}
+					position={[-2.489, 2.45, -2.51]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={1}
 					onTrigger={switchPanel}

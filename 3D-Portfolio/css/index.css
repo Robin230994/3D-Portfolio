@@ -552,14 +552,14 @@
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
   line-height: 1;
 }
 
 .interaction-label-text {
   position: relative;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 650;
   letter-spacing: 0.01em;
   line-height: 1.2;
@@ -597,7 +597,7 @@
   bottom: 0;
   left: 0;
   display: grid;
-  grid-template-rows: 20% 70% 10%;
+  grid-template-rows: 15% 75% 10%;
   width: min(400px, 100vw);
   height: 100dvh;
   overflow: hidden;
@@ -639,10 +639,10 @@
 }
 .project-panel-header span {
   color: #777;
-  font-size: 1.35rem;
+  font-size: 1.23rem;
 }
 .project-panel-header h1 {
-  font-size: 1.7rem;
+  font-size: 1.55rem;
   margin: 20px 0px;
 }
 
@@ -657,6 +657,7 @@
 }
 .project-panel-main .project-media {
   margin-bottom: 20px;
+  padding: 0 10px;
 }
 .project-panel-main .project-media:empty {
   display: none;
@@ -687,14 +688,17 @@
 .project-panel-main .project-tags {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   overflow-x: scroll;
-  gap: 20px;
   width: 100%;
   padding-top: 40px;
+  scrollbar-width: none;
 }
 .project-panel-main .project-tags .project-tag {
+  flex: 0 0 auto;
   border: 1px solid;
   border-radius: 10px;
+  margin-right: 20px;
 }
 .project-panel-main .project-tags .project-tag p {
   color: var(--panel-text-color);
@@ -726,7 +730,7 @@
   border: none;
   padding: 10px;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
