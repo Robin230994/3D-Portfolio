@@ -25,9 +25,10 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 		let tagsPauseUntil = 0;
 		let isReturningToTop = false;
 		let virtualScrollTop = panel.scrollTop;
-		let virtualScrollLeft = tagsPanel.scrollLeft;
+		let virtualScrollLeft = 0;
 		let syncFrameId = 0;
 		let tagsSyncFrameId = 0;
+		tagsPanel.scrollLeft = 0;
 
 		const pauseAutoScroll = () => {
 			pauseUntil = performance.now() + 1500;
@@ -156,9 +157,11 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 				</div>
 			</div>
 			<div className="project-panel-footer">
-				<button type="button" className="project-panel-more-info" onClick={() => window.open(project.moreInfo, "_blank")}>
-					More about the project
-				</button>
+				{project.moreInfo && (
+					<button type="button" className="project-panel-more-info" onClick={() => window.open(project.moreInfo, "_blank")}>
+						More about the project
+					</button>
+				)}
 				<button type="button" className="project-panel-close" onClick={handleClose}>
 					Close
 				</button>

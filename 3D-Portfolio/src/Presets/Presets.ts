@@ -2,14 +2,14 @@ import { ISong } from "../interfaces/GLlnterfaces";
 import { AnimationConfig, CameraInfo } from "../types/GLTypes";
 
 export const cameraPresets: Record<string, CameraInfo> = {
-	// IntroPoint: {
-	// 	position: [6.1, 0.4, 1.1],
-	// 	target: [8.1, 0.2, 0.1],
-	// 	azimuthal: -93.2,
-	// 	polar: 92,
-	// 	hdeg2rad: 15,
-	// 	vdeg2rad: 5,
-	// },
+	IntroPoint: {
+		position: [6.1, 0.4, 1.1],
+		target: [8.1, 0.2, 0.1],
+		azimuthal: -93.2,
+		polar: 92,
+		hdeg2rad: 15,
+		vdeg2rad: 5,
+	},
 	// RoomPointOne: {
 	// 	position: [1.6, 1.0, 1.58],
 	// 	target: [5.72, -0.3, -0.74],

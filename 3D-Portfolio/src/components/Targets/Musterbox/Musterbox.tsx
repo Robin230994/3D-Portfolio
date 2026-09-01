@@ -23,7 +23,6 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
-	const activeProject = useProjectPanelStore((state) => state.activeProject);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
@@ -84,13 +83,6 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			event.stopPropagation();
 			const clickedBox = event.object as Mesh;
 
-			// set the clicked box as the active project to display correct information inside the ProjectPanel. If the clicked box is already the active project, set it to null to close the panel.
-			if (activeProject !== clickedBox.name) {
-				setActiveProject(clickedBox.name);
-			} else {
-				setActiveProject("Musterbox");
-			}
-
 			// Save the original Z rotation before this box starts spinning.
 			getBoxBaseZ(clickedBox);
 
@@ -100,6 +92,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				clickedBox.rotation.z = getBoxBaseZ(clickedBox);
 				currentRaisedBox.current = null;
 				pendingRaisedBox.current = null;
+				setActiveProject("Musterbox");
 				return;
 			}
 
@@ -110,6 +103,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				movingBoxTargets.current.set(previousBox, getBoxBaseY(previousBox));
 				previousBox.rotation.z = getBoxBaseZ(previousBox);
 				currentRaisedBox.current = null;
+				setActiveProject(clickedBox.name);
 				return;
 			}
 
@@ -117,9 +111,10 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				currentRaisedBox.current = clickedBox;
 				pendingRaisedBox.current = null;
 				movingBoxTargets.current.set(clickedBox, getBoxBaseY(clickedBox) + 0.3);
+				setActiveProject(clickedBox.name);
 			}
 		},
-		[activeProject, getBoxBaseY, getBoxBaseZ, setActiveProject],
+		[getBoxBaseY, getBoxBaseZ, setActiveProject],
 	);
 
 	const clearBoxHover = useCallback(() => setHoveredBox(null), [setHoveredBox]);
