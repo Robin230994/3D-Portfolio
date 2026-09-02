@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import { cameraPresets } from "../../Presets/Presets";
 import { useControls } from "leva";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -19,27 +18,27 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 
 	const { cameraPos, cameraRot, azimuthal, polar, hdeg2rad, vdeg2rad } = useControls("Camera Presets", {
 		cameraPos: {
-			value: [...cameraPresets.RoomPointOne.position],
+			value: [...cameraPresets.IntroPoint.position],
 			step: 0.01,
 		},
 		cameraRot: {
-			value: [...cameraPresets.RoomPointOne.target],
+			value: [...cameraPresets.IntroPoint.target],
 			step: 0.01,
 		},
 		azimuthal: {
-			value: cameraPresets.RoomPointOne.azimuthal,
+			value: cameraPresets.IntroPoint.azimuthal,
 			step: 0.01,
 		},
 		polar: {
-			value: cameraPresets.RoomPointOne.polar,
+			value: cameraPresets.IntroPoint.polar,
 			step: 0.01,
 		},
 		hdeg2rad: {
-			value: cameraPresets.RoomPointOne.hdeg2rad,
+			value: cameraPresets.IntroPoint.hdeg2rad,
 			step: 0.01,
 		},
 		vdeg2rad: {
-			value: cameraPresets.RoomPointOne.vdeg2rad,
+			value: cameraPresets.IntroPoint.vdeg2rad,
 			step: 0.01,
 		},
 	});
@@ -66,26 +65,7 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		}
 	}, [cameraPos, cameraRot, isDebugMode, azimuthal, polar, hdeg2rad, vdeg2rad]);
 
-	/** ONLY FOR DEBUG PURPOSE. REMOVE AFTER ALL SCENES ARE SET */
-	// useFrame(() => {
-	// 	const controls = controlsRef.current;
-	// 	if (!controls) return;
-	// 	controls.update();
-	// 	console.log("Pos: ", controls?.object.position);
-	// 	console.log("Target: ", controls?.target);
-	// 	console.log("Azimuth:", controls.getAzimuthalAngle() * (180 / Math.PI));
-	// 	console.log("Polar:", controls.getPolarAngle() * (180 / Math.PI));
-	// });
-
-	return (
-		<>
-			{isDebugMode && (
-				<>
-					<OrbitControls makeDefault ref={controlsRef} enablePan={true} enableDamping={true} enableZoom={false} />
-				</>
-			)}
-		</>
-	);
+	return <OrbitControls makeDefault ref={controlsRef} enablePan={false} enableDamping={true} enableZoom={false} />;
 };
 
 export default CameraController;

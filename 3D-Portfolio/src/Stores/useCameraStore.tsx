@@ -15,6 +15,9 @@ interface CameraState {
 	isDragging: boolean;
 	setDragging: (value: boolean) => void;
 
+	userMovedCamera: boolean;
+	setUserMovedCamera: (value: boolean) => void;
+
 	setNextRoom: (direction: "left" | "right") => void;
 }
 
@@ -37,6 +40,9 @@ export const useCameraStore = create<CameraState>((set, get) => ({
 		set({
 			isDragging: value,
 		}),
+
+	userMovedCamera: false,
+	setUserMovedCamera: (value) => set({ userMovedCamera: value }),
 
 	setNextRoom: (direction) => {
 		const { currentCameraPlaceKey } = get();

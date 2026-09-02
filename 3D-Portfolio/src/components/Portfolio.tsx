@@ -72,9 +72,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
-			<CameraController isDebugMode={isDebugMode} />
-
 			<Center>
+				<CameraController isDebugMode={isDebugMode} />
+
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
