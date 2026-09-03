@@ -5,6 +5,7 @@ import { useControls } from "leva";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import useCameraMovement from "../../hooks/useCameraMovement";
 import useOrbitControlsEvents from "../../hooks/useOrbitControlsEvents";
+import { useFrame } from "@react-three/fiber";
 
 interface CameraControllerProps {
 	isDebugMode: boolean;
@@ -65,7 +66,18 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		}
 	}, [cameraPos, cameraRot, isDebugMode, azimuthal, polar, hdeg2rad, vdeg2rad]);
 
-	return <OrbitControls makeDefault ref={controlsRef} enablePan={false} enableDamping={true} enableZoom={false} />;
+	useFrame(() => {
+		if (!isDebugMode) return;
+		const controls = controlsRef.current;
+		if (!controls) return;
+		console.log("Camera Position:", controls.object.position);
+		console.log("Camera Target:", controls.target);
+		console.log("Azimuthal Angle:", (controls.getAzimuthalAngle() * 180) / Math.PI);
+		console.log("Polar Angle:", (controls.getPolarAngle() * 180) / Math.PI);
+		console.log("Camera Distance:", controls.getDistance());
+	});
+
+	return <OrbitControls makeDefault ref={controlsRef} enablePan={isDebugMode ? true : false} enableDamping={true} enableZoom={isDebugMode ? true : false} />;
 };
 
 export default CameraController;

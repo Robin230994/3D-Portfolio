@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'PositionMarkerAction' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'PointerMarkerDown' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -84,6 +84,8 @@ type GLTFResult = GLTF & {
     linkedInLogo: THREE.Mesh
     MinuteHand: THREE.Mesh
     HomePod: THREE.Mesh
+    PositionMarker: THREE.Mesh
+    PositionMarkerBase: THREE.Mesh
     object_t1: THREE.Mesh
     object_t2: THREE.Mesh
     object_t3: THREE.Mesh
@@ -142,7 +144,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Robbi_Rig" position={[7.181, 1.231, 0.198]} rotation={[0, -1.49, 0]}>
-          <group name="metarig" position={[0, 0.035, 0]} rotation={[Math.PI, 0, Math.PI]} scale={0.24}>
+          <group name="metarig" position={[-2.774, -1.845, 2.693]} rotation={[-Math.PI / 2, 0, 0]} scale={0.344}>
             <primitive object={nodes.spine} />
             <primitive object={nodes.shinR001} />
             <primitive object={nodes.thighR001} />
@@ -218,6 +220,8 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="linkedInLogo" geometry={nodes.linkedInLogo.geometry} material={materials['ot7.001']} position={[3.81, 3.351, -2.891]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="HomePod" geometry={nodes.HomePod.geometry} material={materials.iot2} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
+        <mesh name="PositionMarker" geometry={nodes.PositionMarker.geometry} material={nodes.PositionMarker.material} position={[-2.792, 0.774, -0.092]} />
+        <mesh name="PositionMarkerBase" geometry={nodes.PositionMarkerBase.geometry} material={nodes.PositionMarkerBase.material} />
         <mesh name="object_t1" geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
         <mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />

@@ -3,11 +3,12 @@ import { CameraInfo } from "../types/GLTypes";
 import { cameraPresets } from "../Presets/Presets";
 
 export const ROOM_POSITION_ORDER = ["IntroPoint", "RoomPointOne", "RoomPointTwo", "RoomPointThree", "RoomPointFour"];
+export type RoomPositionKey = (typeof ROOM_POSITION_ORDER)[number];
 
 interface CameraState {
-	currentCameraPlaceKey: string;
+	currentCameraPlaceKey: RoomPositionKey;
 	currentCameraPlaceInfo: CameraInfo;
-	setCurrentCameraPlace: (place: string) => void;
+	setCurrentCameraPlace: (place: RoomPositionKey) => void;
 
 	cameraIsMoving: boolean;
 	setCameraIsMoving: (moving: boolean) => void;

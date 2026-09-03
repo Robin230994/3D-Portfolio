@@ -1,0 +1,46 @@
+.position-marker {
+	width: 140px;
+	height: 140px;
+	display: block;
+	overflow: visible;
+	filter: drop-shadow(0 4px 5px rgb(0 0 0 / 25%));
+}
+
+.position-marker-ring {
+	fill: rgb(243 237 226 / 7%);
+	stroke: rgb(243 237 226 / 75%);
+	stroke-width: 2;
+}
+
+.position-marker-arrow {
+	animation: position-marker-flow 1.25s ease-in-out infinite;
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+.position-marker-arrow-depth {
+	fill: #8f846f;
+}
+
+.position-marker-arrow-highlight {
+	fill: none;
+	stroke: rgb(255 255 255 / 55%);
+	stroke-linecap: round;
+	stroke-width: 1.5;
+}
+
+@keyframes position-marker-flow {
+	0% {
+		opacity: 0.2;
+		transform: translateY(-5px) scale(0.94);
+	}
+
+	45% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0.2;
+		transform: translateY(5px) scale(1);
+	}
+}
