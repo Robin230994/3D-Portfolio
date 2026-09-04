@@ -2,13 +2,16 @@ import { BufferGeometry, DirectionalLight, Group, Material, MathUtils, Mesh, Nor
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import MaterialCreator from "../../classes/MaterialCreator";
+import { useCameraStore } from "../../Stores/useCameraStore";
 
 interface IPositionMarkerProps {
 	position: [number, number, number];
+	areaPosition: [number, number, number];
 	rotation?: [number, number, number];
 	nodes: {
 		[key: string]: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | DirectionalLight;
 	};
+	positionKey: string;
 	dispatch: () => void;
 }
 
@@ -27,7 +30,9 @@ pointerMaterial.toneMapped = false;
 const SPEED = 2; // Speed of the up and down movement
 const AMPLITUDE = 0.25; // Amplitude of the up and down movement
 
-const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, dispatch }) => {
+const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, areaPosition, positionKey, dispatch }) => {
+	const currentCameraPlaceKey = useCameraStore((state) => state.currentCameraPlaceKey);
+
 	const PositionMarkerMesh = nodes["PositionMarker"] as Mesh;
 	const PositionMarkerBase = nodes["PositionMarkerBase"] as Mesh;
 	const positionMarkerRef = useRef<Mesh>(null);
@@ -45,23 +50,23 @@ const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, dispa
 	});
 
 	return (
-		<group>
-			<mesh
-				rotation={[-Math.PI / 2, 0, 0]}
-				position={[-2.5, 0.1, -0.2]}
-				onClick={() => {
-					dispatch();
-				}}
-				onPointerOver={() => {
-					setPointerHovered(true);
-					document.body.style.cursor = "pointer";
-				}}
-				onPointerOut={() => {
-					setPointerHovered(false);
-					document.body.style.cursor = "default";
-				}}
-				visible={false}>
+		<group
+			visible={currentCameraPlaceKey !== positionKey}
+			onClick={(event) => {
+				event.stopPropagation();
+				dispatch();
+			}}
+			onPointerEnter={() => {
+				setPointerHovered(true);
+				document.body.style.cursor = "pointer";
+			}}
+			onPointerLeave={() => {
+				setPointerHovered(false);
+				document.body.style.cursor = "default";
+			}}>
+			<mesh rotation={[-Math.PI / 2, 0, 0]} position={areaPosition}>
 				<planeGeometry args={[3.5, 3.5]} />
+				<meshBasicMaterial transparent opacity={0} depthWrite={false} />
 			</mesh>
 			<group ref={positionGroupRef} position={position}>
 				<mesh

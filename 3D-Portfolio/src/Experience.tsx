@@ -2,7 +2,6 @@ import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
 
 import Portfolio from "./components/Portfolio";
-import CameraEdgeLabel from "./components/CameraEdgeLabel/CameraEdgeLabel";
 import MusicMenu from "./components/MusicMenu/MusicMenu";
 import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 import ProjectPanel from "./components/ProjectPanel/ProjectPanel";
@@ -16,7 +15,7 @@ const Experience = () => {
 	return (
 		<>
 			<Leva hidden={!isDebugMode} />
-			<CameraEdgeLabel />
+			{/* <CameraEdgeLabel /> */}
 			<MusicMenu />
 			{project !== null && <ProjectPanel project={project} />}
 			<MusicPlayer />
