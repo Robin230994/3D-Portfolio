@@ -188,7 +188,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		hasOpenedRef.current = false;
 
 		return () => mixer.removeEventListener("finished", hideBoxesWhenClosed);
-	}, [actions, getBoxBaseY, getBoxBaseZ, isOpen]);
+	}, [actions.MusterboxOpen, getBoxBaseY, getBoxBaseZ, isOpen]);
 
 	useEffect(() => {
 		const isMusterboxFocused = selectObjectFocus?.name === name;

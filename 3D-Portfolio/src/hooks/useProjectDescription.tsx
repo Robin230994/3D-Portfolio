@@ -343,7 +343,7 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 		text:
 			"The project combines a physical beverage-cooler package with a native iOS augmented-reality experience, developed in Swift with Xcode.\n\n" +
 			"The app was designed as an educational product companion: it explains the construction, function and material effects of the FRANCONIAN COOLNESS packaging, especially the waterproof coating system used to create its sealed cooling chamber.\n\n" +
-			"The Swift/Xcode development supports two AR entry points. Users with the physical sample box can scan it with their device camera and access contextual multimedia content, instructions and tutorials in German and English." +
+			"The Swift/Xcode development supports two AR entry points. Users with the physical sample box can scan it with their device camera and access contextual multimedia content, instructions and tutorials in German and English. " +
 			"Users without the package can place a virtual, fully animated 3D version of the cooler into their own environment and explore it in the same interactive way. This made the project accessible both as an in-person packaging demonstrator and as a standalone digital experience for iPhone, iPad and iPod users.",
 		tags: ["App-Entwicklung", "3D", "Xcode", "Swift", "Augmented Reality", "iOS", "UX/UI Design"],
 		images: [
