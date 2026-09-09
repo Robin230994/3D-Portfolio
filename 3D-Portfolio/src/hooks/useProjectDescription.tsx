@@ -21,13 +21,13 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 				alt: "Musterbox App 2021",
 			},
 		],
-		tags: ["App-Entwicklung", "3D", "Unity", "C#", "Augmented Reality", "iOS", "Android"],
+		tags: ["App-Entwicklung", "3D", "Unity", "C#", "Augmented Reality", "iOS", "Android", "UX/UI Design"],
 		moreInfo: "https://www.alexanderdort.com/portfolio/musterbox-projekt-fuer-weilburger-graphics.html",
 	},
 
 	Musterbox01: {
 		projectName: "Musterbox 01",
-		heading: "Musterbox 01 - Glanz-/Matt-Kontraste aus dem Farbwerk",
+		heading: "Musterbox 01 - Glanz-/Matt-Kontrasyte aus dem Farbwerk",
 		text: "Kombination aus matten und glänzenden UV-Lacken, die durch unterschiedliche Lackstrukturen einen kontrastreichen visuellen Effekt erzeugt.",
 		tags: ["App-Entwicklung", "3D"],
 		images: [
@@ -333,6 +333,23 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 			{
 				src: "/images/Musterbox/weilburger_musterbox_box24.webp",
 				alt: "Musterbox 24",
+			},
+		],
+	},
+
+	FCBox: {
+		projectName: "Franconian Coolness Augmented Reality App",
+		heading: "Franconian Coolness Box - Augmented Reality App für Weilburger Graphics",
+		text:
+			"The project combines a physical beverage-cooler package with a native iOS augmented-reality experience, developed in Swift with Xcode.\n\n" +
+			"The app was designed as an educational product companion: it explains the construction, function and material effects of the FRANCONIAN COOLNESS packaging, especially the waterproof coating system used to create its sealed cooling chamber.\n\n" +
+			"The Swift/Xcode development supports two AR entry points. Users with the physical sample box can scan it with their device camera and access contextual multimedia content, instructions and tutorials in German and English." +
+			"Users without the package can place a virtual, fully animated 3D version of the cooler into their own environment and explore it in the same interactive way. This made the project accessible both as an in-person packaging demonstrator and as a standalone digital experience for iPhone, iPad and iPod users.",
+		tags: ["App-Entwicklung", "3D", "Xcode", "Swift", "Augmented Reality", "iOS", "UX/UI Design"],
+		images: [
+			{
+				src: "images/FCBox/FCBox.jpg",
+				alt: "Francioan Coolness Box",
 			},
 		],
 	},

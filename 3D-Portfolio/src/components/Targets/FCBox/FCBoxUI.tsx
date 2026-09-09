@@ -17,11 +17,15 @@ interface FCBoxUIProps extends IUIComponentProps {
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				cameraIsMoving: boolean;
 				hovered: string | null;
+				isOpen: boolean;
+				panelClosed: boolean;
 			};
 		};
 		functions: {
 			myFunctions: {
 				dispatch: () => void;
+				switchPanel: () => void;
+				toggleBox: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -38,8 +42,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered } = myData;
-	const { dispatch, events } = myFunctions;
+	const { name, nodes, isOpen, panelClosed, cameraIsMoving, hovered } = myData;
+	const { dispatch, switchPanel, toggleBox, events } = myFunctions;
 	const { fcBoxRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -53,8 +57,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 	return (
 		<>
-			<group ref={fcBoxRef} {...events}>
-				<group>
+			<group>
+				<group ref={fcBoxRef} {...events} name={name}>
 					<group position={FCBoxTop.position} rotation={FCBoxTop.rotation}>
 						<mesh name={name} geometry={FCBoxTop.geometry} scale={FCBoxTop.scale} material={iot2Material}>
 							<CloseLabel
@@ -68,14 +72,25 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 
 							<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 						</mesh>
+
 						<InteractionLabel
 							focusName={name}
 							shortcut={1}
-							label="Open Box"
+							label={!isOpen ? "Open Box" : "Close Box"}
 							position={[0.45, 0, -0.2]}
 							rotation={[-Math.PI / 2, 0, 0]}
 							scale={1}
-							onTrigger={() => console.log("clicked")}
+							onTrigger={toggleBox}
+						/>
+
+						<InteractionLabel
+							focusName={name}
+							shortcut={2}
+							label={panelClosed ? "Open project description" : "Close project description"}
+							position={[0.505, 0, -0.08]}
+							rotation={[-Math.PI / 2, 0, 0]}
+							scale={1}
+							onTrigger={switchPanel}
 						/>
 					</group>
 				</group>
