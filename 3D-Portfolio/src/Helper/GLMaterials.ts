@@ -53,6 +53,7 @@ const iot2Material = materialCreator.createStandardMaterialFromTexture("iot2Mate
 	diffuseT: "/baked-textures/Objects/TI2/objects_ti2_color.png",
 	roughnessT: "/baked-textures/Objects/TI2/objects_ti2_roughness.jpg",
 });
+iot2Material.side = 2;
 export { iot2Material };
 
 const blackPlasticMaterial = materialCreator.createEmptyBasicMaterial("BlackPlastic");
