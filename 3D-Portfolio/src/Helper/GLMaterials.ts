@@ -24,15 +24,8 @@ glassMaterial.envMapIntensity = 1;
 glassMaterial.clearcoat = 1;
 glassMaterial.clearcoatRoughness = 0;
 glassMaterial.depthWrite = false;
-
 glassMaterial.normalScale = new Vector2(1, -1);
-
 export { glassMaterial };
-
-const deskMaterial = materialCreator.createStandardMaterialFromTexture("Desk", {
-	diffuseT: "/baked-textures/Desk/desks_color_lighting_baked.jpg",
-});
-export { deskMaterial };
 
 const t3Material = materialCreator.createStandardMaterialFromTexture("ObjectT3", {
 	diffuseT: "/baked-textures/Objects/T3/objects_t3_color.001.jpg",
@@ -72,6 +65,8 @@ const foundationMaterial = materialCreator.createStandardMaterialFromTexture("Fo
 	normalT: "/baked-textures/Foundation/foundation_t1_normal.png",
 	roughnessT: "/baked-textures/Foundation/foundation_t1_roughness.jpg",
 });
+foundationMaterial.toneMapped = false;
+foundationMaterial.emissiveIntensity = 1.2;
 export { foundationMaterial };
 
 const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Objects/TI1/perlin-noise-texture.png", (loadedTexture) => {

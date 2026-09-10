@@ -1,4 +1,4 @@
-import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, useHelper } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../types/GLTypes";
@@ -18,8 +18,14 @@ import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
 import Robbi from "./Targets/Robbi/Robbi";
 import ObjectT6 from "./ObjectT6/ObjectT6";
+import { useRef } from "react";
+import { DirectionalLight, DirectionalLightHelper } from "three";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
+	const directionalLightRef = useRef<DirectionalLight>(null!);
+	useHelper(directionalLightRef, DirectionalLightHelper, 1, "#00ffff");
+
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
@@ -46,16 +52,36 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 		{
 			AmbientLight: folder(
 				{
-					ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
+					// ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
+					ambientLightIntensity: { value: 0.22, min: 0, max: 10, step: 0.01 },
 				},
-				{ collapsed: true },
+				{ collapsed: false },
 			),
+
+			DirectionalLight: folder({
+				directionalIntensity: {
+					value: 1,
+					min: 0,
+					max: 10,
+					step: 0.1,
+				},
+
+				directionalPosition: {
+					value: { x: 15, y: 2, z: 0.3 },
+					step: 0.1,
+				},
+
+				directionalColor: {
+					value: "#fff5e6",
+				},
+			}),
 		},
 		{ collapsed: true },
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
-		environmentIntensity: { value: 1.4, step: 0.1, min: 0.1 },
+		// environmentIntensity: { value: 1.4, step: 0.1, min: 0.1 },
+		environmentIntensity: { value: 0.9, step: 0.1, min: 0.1 },
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
 
@@ -66,16 +92,27 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			{/** Scale pixel ratio based on performance */}
 			<AdaptiveDpr pixelated />
 			<Environment
-				background={false}
+				background={true}
 				files={"./environment/environment_map.hdr"}
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
+			<EffectComposer multisampling={0}>
+				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
+			</EffectComposer>
+
 			<Center>
 				<CameraController isDebugMode={isDebugMode} />
 
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
+				<directionalLight
+					ref={directionalLightRef}
+					intensity={lightParams.directionalIntensity}
+					color={lightParams.directionalColor}
+					position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
+				/>
+
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
 					<Foundation name="Foundation" nodes={nodes} />

@@ -9,7 +9,7 @@ import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 const materialCreator = MaterialCreator.getInstance();
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
 	diffuseT: "/baked-textures/Desks/desks_color.jpg",
-	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
+	// roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
 	normalT: "/baked-textures/Desks/desks_normal.png",
 });
 
@@ -115,7 +115,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 			{/** Roof lamp emission */}
 			<mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>
-				<meshStandardMaterial color={"#ffffff"} />
+				<meshStandardMaterial color={"#fff3d6"} />
 			</mesh>
 
 			{/* Painting Board */}
