@@ -17,6 +17,7 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	/** HOOKS */
 	const { actions } = useAnimations(animations!, fcBoxRef);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const interaction = useInteraction({
 		onClick: () => {
 			if (fcBoxRef.current) {
@@ -78,7 +79,17 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		animation.setLoop(LoopOnce, 1);
 		animation.clampWhenFinished = true;
 		animation.play();
+
+		return () => mixer.removeEventListener("finished", hideLabelsWhenClosed);
 	}, [actions, isOpen]);
+
+	useEffect(() => {
+		const isFCBoxFocused = selectObjectFocus?.name === name;
+		if (isFCBoxFocused || !hasOpenedRef.current) return;
+
+		// The isOpen effect reverses the current animation progress.
+		setIsOpen(false);
+	}, [name, selectObjectFocus]);
 
 	const uiComponentProps = {
 		data: { myData: { name, nodes, isOpen, panelClosed, labelsVisible, cameraIsMoving, hovered: interaction.hovered } },

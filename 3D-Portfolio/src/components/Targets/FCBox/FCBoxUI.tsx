@@ -153,9 +153,8 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 						scale={1}
 						onTrigger={switchPanel}
 					/>
+					<Outlines thickness={2} scale={hovered === "FCBoxTop" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 				</mesh>
-
-				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 			</group>
 		</>
 	);
