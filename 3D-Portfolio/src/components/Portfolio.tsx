@@ -23,8 +23,8 @@ import { DirectionalLight, DirectionalLightHelper } from "three";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
-	const directionalLightRef = useRef<DirectionalLight>(null!);
-	useHelper(directionalLightRef, DirectionalLightHelper, 1, "#00ffff");
+	// const directionalLightRef = useRef<DirectionalLight>(null!);
+	// useHelper(directionalLightRef, DirectionalLightHelper, 1, "#00ffff");
 
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
@@ -107,7 +107,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<directionalLight
-					ref={directionalLightRef}
+					// ref={directionalLightRef}
 					intensity={lightParams.directionalIntensity}
 					color={lightParams.directionalColor}
 					position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}

@@ -77,7 +77,16 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		console.log("Camera Distance:", controls.getDistance());
 	});
 
-	return <OrbitControls makeDefault ref={controlsRef} enablePan={isDebugMode ? true : false} enableDamping={true} enableZoom={isDebugMode ? true : false} />;
+	return (
+		<OrbitControls
+			makeDefault
+			ref={controlsRef}
+			enablePan={isDebugMode ? true : false}
+			enableDamping={true}
+			dampingFactor={0.02}
+			enableZoom={isDebugMode ? true : false}
+		/>
+	);
 };
 
 export default CameraController;

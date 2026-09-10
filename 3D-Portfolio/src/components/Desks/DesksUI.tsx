@@ -9,7 +9,7 @@ import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 const materialCreator = MaterialCreator.getInstance();
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
 	diffuseT: "/baked-textures/Desks/desks_color.jpg",
-	// roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
+	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
 	normalT: "/baked-textures/Desks/desks_normal.png",
 });
 
