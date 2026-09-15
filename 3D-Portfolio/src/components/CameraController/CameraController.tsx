@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { cameraPresets } from "../../Presets/Presets";
 import { useControls } from "leva";
+import { useFrame } from "@react-three/fiber";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import useCameraMovement from "../../hooks/useCameraMovement";
 import useOrbitControlsEvents from "../../hooks/useOrbitControlsEvents";
-import { useFrame } from "@react-three/fiber";
 
 interface CameraControllerProps {
 	isDebugMode: boolean;

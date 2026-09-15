@@ -1,9 +1,10 @@
-import { AdaptiveDpr, Center, Environment, useHelper } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../types/GLTypes";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -18,13 +19,28 @@ import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
 import useCursorEffect from "../hooks/useCursorEffect";
 import Robbi from "./Targets/Robbi/Robbi";
 import ObjectT6 from "./ObjectT6/ObjectT6";
-import { useRef } from "react";
-import { DirectionalLight, DirectionalLightHelper } from "three";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import Outside from "./Outside/Outside";
+import { useCallback, useState } from "react";
+import { Vector3 } from "three";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
-	// const directionalLightRef = useRef<DirectionalLight>(null!);
-	// useHelper(directionalLightRef, DirectionalLightHelper, 1, "#00ffff");
+	const [outsideOffset, setOutsideOffset] = useState<[number, number, number]>([0, 0, 0]);
+	const alignOutsideToRoom = useCallback(
+		({
+			center,
+			horizontalAlignment,
+			verticalAlignment,
+			depthAlignment,
+		}: {
+			center: Vector3;
+			horizontalAlignment: number;
+			verticalAlignment: number;
+			depthAlignment: number;
+		}) => {
+			setOutsideOffset([-center.x + horizontalAlignment, -center.y + verticalAlignment, -center.z + depthAlignment]);
+		},
+		[],
+	);
 
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
@@ -98,11 +114,11 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
-			<EffectComposer multisampling={0}>
+			{/* <EffectComposer multisampling={0}>
 				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
-			</EffectComposer>
+			</EffectComposer> */}
 
-			<Center>
+			<Center onCentered={alignOutsideToRoom}>
 				<CameraController isDebugMode={isDebugMode} />
 
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
@@ -135,6 +151,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					</group>
 				</group>
 			</Center>
+			<group position={outsideOffset}>
+				<Outside name="Outside" nodes={nodes} />
+			</group>
 		</>
 	);
 }

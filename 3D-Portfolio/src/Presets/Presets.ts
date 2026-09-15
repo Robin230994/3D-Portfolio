@@ -10,14 +10,6 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 180,
 		vdeg2rad: 20,
 	},
-	// RoomPointOne: {
-	// 	position: [2.93, 1.11, 1.56],
-	// 	target: [3.98, 0.42, -0.83],
-	// 	azimuthal: -23.64,
-	// 	polar: 75.23,
-	// 	hdeg2rad: 9,
-	// 	vdeg2rad: 10,
-	// },
 	RoomPointOne: {
 		position: [-3.38, 1.202, 0.533],
 		target: [-2.876, 1.042, -0.329],
@@ -26,14 +18,6 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 180,
 		vdeg2rad: 20,
 	},
-	// RoomPointTwo: {
-	// 	position: [-1.37, 1.59, 0.45],
-	// 	target: [-1.28, 0.3, -4.05],
-	// 	azimuthal: 0,
-	// 	polar: 75,
-	// 	hdeg2rad: 15,
-	// 	vdeg2rad: 5,
-	// },
 	RoomPointTwo: {
 		position: [2.962, 0.795, 1.772],
 		target: [3.357, 0.701, 0.718],
@@ -58,7 +42,14 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 15,
 		vdeg2rad: 5,
 	},
-
+	RoomPointFive: {
+		position: [5.91, 0.7, 0.07],
+		target: [7.88, 0.45, 0.07],
+		azimuthal: -89.93,
+		polar: 82.92,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
+	},
 	FCBox: {
 		position: [0.04, 1.17, -1.27],
 		target: [0.09, 0.32, -6.4],
