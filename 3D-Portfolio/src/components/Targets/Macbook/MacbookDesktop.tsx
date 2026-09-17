@@ -19,11 +19,12 @@ interface IMacbookDesktopProps {
 	props: {
 		activeTab: "About me" | "Projects" | "Websites" | "Apps";
 		setActiveTab: React.Dispatch<React.SetStateAction<"About me" | "Projects" | "Websites" | "Apps">>;
+		setIsHovered: React.Dispatch<React.SetStateAction<boolean>>;
 	};
 }
 
 const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
-	const { activeTab, setActiveTab } = props;
+	const { activeTab, setActiveTab, setIsHovered } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
 
@@ -52,7 +53,11 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 			distanceFactor={1}
 			zIndexRange={[1, 1]}
 			pointerEvents="auto">
-			<div className="mac-desktop" onPointerDown={(event) => event.stopPropagation()}>
+			<div
+				className="mac-desktop"
+				onPointerDown={(event) => event.stopPropagation()}
+				onPointerEnter={() => setIsHovered(true)}
+				onPointerLeave={() => setIsHovered(false)}>
 				<div className="mac-menu-bar">
 					<span className="mac-apple">●</span>
 					<strong>Finder</strong>
