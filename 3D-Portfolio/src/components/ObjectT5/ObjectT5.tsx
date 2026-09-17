@@ -18,7 +18,7 @@ const ObjectT5: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	}, [t5Material]);
 
 	return (
-		<group name={name}>
+		<group name={name} position={[4.656, 1.502, -1.804]} rotation={[0, 0.734, 0]}>
 			<mesh geometry={ObjectT5.geometry} position={ObjectT5.position} rotation={ObjectT5.rotation} material={t5Material} scale={ObjectT5.scale} />
 			<Macbook name="MacbookTopSide" nodes={nodes} animations={animations} />
 		</group>

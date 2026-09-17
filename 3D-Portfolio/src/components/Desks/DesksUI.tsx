@@ -8,9 +8,9 @@ import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
-	diffuseT: "/baked-textures/Desks/desks_color.jpg",
-	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
-	normalT: "/baked-textures/Desks/desks_normal.png",
+	diffuseT: "/baked-textures/Desks/desks_color.003.jpg",
+	roughnessT: "/baked-textures/Desks/desks_roughness.003.jpg",
+	normalT: "/baked-textures/Desks/desks_normal.003.png",
 });
 
 interface DesksUIProps extends IUIComponentProps {

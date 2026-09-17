@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'MacbookOpen' | 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'PositionMarkerAction' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'ChairRotation' | 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'MacbookOpen' | 'PositionMarkerAction' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -17,13 +17,14 @@ interface GLTFAction extends THREE.AnimationClip {
 
 type GLTFResult = GLTF & {
   nodes: {
+    MacbookTopSide: THREE.Mesh
+    object_t5: THREE.Mesh
     Eye: THREE.Mesh
     Eye001: THREE.Mesh
     Robbi: THREE.SkinnedMesh
     RoofLampEmission: THREE.Mesh
     LeftLED: THREE.Mesh
     RightLED: THREE.Mesh
-    MacbookTopSide: THREE.Mesh
     OcculusController: THREE.Mesh
     OcculusHeadset: THREE.Mesh
     ChairRoll: THREE.Mesh
@@ -84,14 +85,14 @@ type GLTFResult = GLTF & {
     linkedInLogo: THREE.Mesh
     MinuteHand: THREE.Mesh
     HomePod: THREE.Mesh
+    Mouse: THREE.Mesh
     PositionMarkerBase: THREE.Mesh
     PositionMarker: THREE.Mesh
     object_t1: THREE.Mesh
     object_t2: THREE.Mesh
     object_t3: THREE.Mesh
     object_t4: THREE.Mesh
-    object_t5: THREE.Mesh
-    Certificate: THREE.Mesh
+    object_t8: THREE.Mesh
     object_t6: THREE.Mesh
     image_object_t1: THREE.Mesh
     image_object_t2: THREE.Mesh
@@ -105,11 +106,11 @@ type GLTFResult = GLTF & {
     thighL001: THREE.Bone
   }
   materials: {
+    ot5: THREE.MeshStandardMaterial
     Eyes: THREE.MeshStandardMaterial
     Material: THREE.MeshStandardMaterial
     Lamp_Mat: THREE.MeshStandardMaterial
     BambuLabLED: THREE.MeshStandardMaterial
-    ot5: THREE.MeshStandardMaterial
     iot1: THREE.MeshStandardMaterial
     Metallic: THREE.MeshStandardMaterial
     iot2: THREE.MeshStandardMaterial
@@ -126,12 +127,13 @@ type GLTFResult = GLTF & {
     ['Lot.001']: THREE.MeshBasicMaterial
     ot2: THREE.MeshStandardMaterial
     ['ot7.001']: THREE.MeshStandardMaterial
+    ot6: THREE.MeshStandardMaterial
     ['Material.007']: THREE.MeshStandardMaterial
     ['Material.003']: THREE.MeshStandardMaterial
     ot1: THREE.MeshStandardMaterial
     ot3: THREE.MeshStandardMaterial
     ot4: THREE.MeshStandardMaterial
-    Certificate: THREE.MeshStandardMaterial
+    ot6: THREE.MeshStandardMaterial
     dt1: THREE.MeshStandardMaterial
     outside: THREE.MeshStandardMaterial
   }
@@ -147,6 +149,10 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
+        <group name="Macbook" position={[4.656, 1.502, -1.804]} rotation={[0, 0.734, 0]}>
+          <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[-0.001, -0.327, -0.25]} rotation={[0.089, 0, 0]} />
+          <mesh name="object_t5" geometry={nodes.object_t5.geometry} material={materials.ot5} position={[-0.007, -0.324, -0.072]} />
+        </group>
         <group name="Robbi_Rig" position={[7.181, 1.231, 0.198]} rotation={[0, -1.49, 0]}>
           <group name="metarig" position={[0, 0.035, 0]} rotation={[Math.PI, 0, Math.PI]} scale={0.24}>
             <primitive object={nodes.spine} />
@@ -160,7 +166,6 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="RoofLampEmission" geometry={nodes.RoofLampEmission.geometry} material={materials.Lamp_Mat} position={[0, 4.233, 0]} rotation={[0, 0, Math.PI]} />
         <mesh name="LeftLED" geometry={nodes.LeftLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="RightLED" geometry={nodes.RightLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-        <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[5.699, 1.179, -1.762]} rotation={[-3.139, 0, 0]} scale={0.143} />
         <mesh name="OcculusController" geometry={nodes.OcculusController.geometry} material={materials.iot1} position={[3.546, 1.207, -1.77]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
         <mesh name="OcculusHeadset" geometry={nodes.OcculusHeadset.geometry} material={materials.iot1} position={[3.369, 1.234, -1.386]} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
         <mesh name="ChairRoll" geometry={nodes.ChairRoll.geometry} material={materials.iot1} position={[5.334, 0.145, -0.59]} rotation={[0, -1.18, Math.PI / 2]} scale={0.034} />
@@ -224,6 +229,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="linkedInLogo" geometry={nodes.linkedInLogo.geometry} material={materials['ot7.001']} position={[3.81, 3.351, -2.891]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="HomePod" geometry={nodes.HomePod.geometry} material={materials.iot2} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
+        <mesh name="Mouse" geometry={nodes.Mouse.geometry} material={materials.ot6} position={[6.363, 1.164, -1.419]} />
         <mesh name="PositionMarkerBase" geometry={nodes.PositionMarkerBase.geometry} material={materials['Material.007']} position={[-2.792, 0.121, -0.085]}>
           <mesh name="PositionMarker" geometry={nodes.PositionMarker.geometry} material={materials['Material.003']} position={[0, 0.653, -0.006]} />
         </mesh>
@@ -231,14 +237,13 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="object_t4" geometry={nodes.object_t4.geometry} material={materials.ot4} position={[-0.314, 1.112, -2.329]} rotation={[1.57, 0.005, -1.573]} scale={1.743} />
-        <mesh name="object_t5" geometry={nodes.object_t5.geometry} material={materials.ot5} position={[5.644, 1.178, -1.578]} rotation={[-0.016, 0, 0]} scale={0.143} />
-        <mesh name="Certificate" geometry={nodes.Certificate.geometry} material={materials.Certificate} position={[1.64, 2.79, 2.952]} rotation={[Math.PI / 2, 0, Math.PI]} scale={0.601} />
+        <mesh name="object_t8" geometry={nodes.object_t8.geometry} material={materials.ot6} position={[5.844, 1.199, -1.501]} />
         <mesh name="object_t6" geometry={nodes.object_t6.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
         <mesh name="image_object_t1" geometry={nodes.image_object_t1.geometry} material={materials.iot1} position={[-1.089, 1.392, 2.811]} rotation={[-1.52, 0.274, -2.72]} />
         <mesh name="image_object_t2" geometry={nodes.image_object_t2.geometry} material={materials.iot2} position={[-0.513, 2.367, -2.654]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="desk_objects_t1" geometry={nodes.desk_objects_t1.geometry} material={materials.dt1} position={[-3.296, 1.606, -0.653]} rotation={[Math.PI, 0, Math.PI]} />
         <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials['ft1.001']} position={[3.984, 1.959, 2.945]} />
-        <mesh name="outside" geometry={nodes.outside.geometry} material={materials.outside} />
+        <mesh name="outside" geometry={nodes.outside.geometry} material={materials.outside} position={[0.002, 0.01, -0.001]} />
       </group>
     </group>
   )

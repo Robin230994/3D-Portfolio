@@ -22,6 +22,7 @@ import ObjectT6 from "./ObjectT6/ObjectT6";
 import Outside from "./Outside/Outside";
 import { useCallback, useState } from "react";
 import { Vector3 } from "three";
+import ObjectT7 from "./ObjectT7/ObjectT7";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const [outsideOffset, setOutsideOffset] = useState<[number, number, number]>([0, 0, 0]);
@@ -114,9 +115,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
-			{/* <EffectComposer multisampling={0}>
+			<EffectComposer multisampling={0}>
 				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
-			</EffectComposer> */}
+			</EffectComposer>
 
 			<Center onCentered={alignOutsideToRoom}>
 				<CameraController isDebugMode={isDebugMode} />
@@ -142,6 +143,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ObjectT4 name="ObjectT4" nodes={nodes} />
 						<ObjectT5 name="ObjectT5" nodes={nodes} animations={animations} />
 						<ObjectT6 name="ObjectT6" nodes={nodes} />
+						<ObjectT7 name="ObjectT7" nodes={nodes} />
 						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 

@@ -88,7 +88,7 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 					x
 				</CloseLabel>
 			</mesh>
-			<mesh position={Certificate.position} rotation={[0, 0, -Math.PI]} material={certificateMat} geometry={planeGeometry} />
+			{/* <mesh position={Certificate.position} rotation={[0, 0, -Math.PI]} material={certificateMat} geometry={planeGeometry} /> */}
 			<mesh material={glassMat} position={[1.64, 2.77, 2.92]} rotation={[0, Math.PI, 0]} geometry={planeGeometry} />
 		</group>
 	);

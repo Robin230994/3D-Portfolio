@@ -78,8 +78,6 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				</CloseLabel>
 				{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab }} />}
 			</mesh>
-
-			{/* <FloatingSign visible={hoveredObject === name} position={[0, 0, 0]} rotation={[0, 0, 0]} size={0.13} height={0.05} /> */}
 		</group>
 	);
 };

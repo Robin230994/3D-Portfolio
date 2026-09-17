@@ -4,8 +4,8 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group, LoopOnce, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import useInteraction from "../../../hooks/useInteraction";
 import { useAnimations } from "@react-three/drei";
+import useInteraction from "../../../hooks/useInteraction";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
