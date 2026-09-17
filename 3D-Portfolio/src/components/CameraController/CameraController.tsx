@@ -70,11 +70,11 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 		if (!isDebugMode) return;
 		const controls = controlsRef.current;
 		if (!controls) return;
-		console.log("Camera Position:", controls.object.position);
-		console.log("Camera Target:", controls.target);
-		console.log("Azimuthal Angle:", (controls.getAzimuthalAngle() * 180) / Math.PI);
-		console.log("Polar Angle:", (controls.getPolarAngle() * 180) / Math.PI);
-		console.log("Camera Distance:", controls.getDistance());
+		// console.log("Camera Position:", controls.object.position);
+		// console.log("Camera Target:", controls.target);
+		// console.log("Azimuthal Angle:", (controls.getAzimuthalAngle() * 180) / Math.PI);
+		// console.log("Polar Angle:", (controls.getPolarAngle() * 180) / Math.PI);
+		// console.log("Camera Distance:", controls.getDistance());
 	});
 
 	return (

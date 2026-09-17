@@ -15,6 +15,8 @@ const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
 			return;
 		}
 		document.body.style.cursor = "pointer";
+		console.log(e.object.name);
+
 		setHovered(e.object.name);
 	}, []);
 
