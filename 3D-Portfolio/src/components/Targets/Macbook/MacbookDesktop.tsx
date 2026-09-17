@@ -38,17 +38,18 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 		return () => window.clearTimeout(hideFinder);
 	}, [finderClosing]);
 
-	const { uiRot } = useControls("UIDesktop", {
-		uiRot: { value: { x: -Math.PI / 2, y: 0, z: 0 } },
+	const { uiPos, uiRot } = useControls("UIDesktop", {
+		uiPos: { value: { x: -0.01, y: 0.26, z: -0.08 } },
+		uiRot: { value: { x: -0.3, y: 0, z: 0 } },
 	});
 
 	return (
 		<Html
 			transform
-			position={[-0.38, 0, -1.95]}
+			position={[uiPos.x, uiPos.y, uiPos.z]}
 			rotation={[uiRot.x, uiRot.y, uiRot.z]}
-			scale={4}
-			distanceFactor={1.01}
+			scale={0.58}
+			distanceFactor={1}
 			zIndexRange={[1, 1]}
 			pointerEvents="auto">
 			<div className="mac-desktop" onPointerDown={(event) => event.stopPropagation()}>

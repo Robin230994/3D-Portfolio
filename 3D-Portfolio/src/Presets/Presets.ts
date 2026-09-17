@@ -75,21 +75,13 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 2,
 		vdeg2rad: 5,
 	},
-	MacbookTopSide: {
-		position: [5.15, 0.2, -0.9],
-		target: [5.3, -4.1, -10],
-		azimuthal: -1,
-		polar: 64.8,
-		hdeg2rad: 2,
-		vdeg2rad: 0,
-	},
 	Screen: {
 		position: [5.3, 0.62, -0.4],
 		target: [5.33, 0.3, -1.21],
 		azimuthal: -2.04,
 		polar: 68.67,
-		hdeg2rad: 20,
-		vdeg2rad: 5,
+		hdeg2rad: 40,
+		vdeg2rad: 15,
 	},
 	BillardTriangle: {
 		position: [-5.74, 1.73, -2.12],

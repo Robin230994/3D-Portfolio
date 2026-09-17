@@ -2,21 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import MacbookUI from "./MacbookUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group, LoopOnce, Mesh } from "three";
-import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useAnimations } from "@react-three/drei";
-import useInteraction from "../../../hooks/useInteraction";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
-	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
-	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
-
 	const [activeTab, setActiveTab] = useState<"About me" | "Projects" | "Websites" | "Apps">("Websites");
 
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
-	const lastFocusObjectMacbook = useRef(false);
+	const lastFocusObjectScreen = useRef(false);
 	const [screenVisible, setScreenVisible] = useState(false);
 
 	const { actions } = useAnimations(animations!, macbookTopSideRef);
@@ -26,10 +21,10 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 		if (!animation) return;
 
-		const isMacbookFocused = selectObjectFocus?.name === "MacbookTopSide";
+		const isScreenFocused = selectObjectFocus?.name === "Screen";
 		let displayTimer: number | undefined;
 
-		if (isMacbookFocused && !lastFocusObjectMacbook.current) {
+		if (isScreenFocused && !lastFocusObjectScreen.current) {
 			// Open
 			animation.reset();
 			animation.timeScale = 1;
@@ -41,7 +36,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			const displayDelay = animation.getClip().duration * 0.72 * 1000;
 			displayTimer = window.setTimeout(() => setScreenVisible(true), displayDelay);
 		}
-		if (!isMacbookFocused && lastFocusObjectMacbook.current) {
+		if (!isScreenFocused && lastFocusObjectScreen.current) {
 			// Close / reverse
 			animation.paused = false;
 			animation.timeScale = -1;
@@ -56,7 +51,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			displayTimer = window.setTimeout(() => setScreenVisible(false), displayDelay);
 		}
 
-		lastFocusObjectMacbook.current = isMacbookFocused;
+		lastFocusObjectScreen.current = isScreenFocused;
 
 		return () => {
 			if (displayTimer !== undefined) window.clearTimeout(displayTimer);
@@ -65,31 +60,17 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		};
 	}, [actions, selectObjectFocus]);
 
-	const interaction = useInteraction({
-		onClick: () => {
-			if (macbookRef.current) {
-				setSelectObjectFocus({ name: name, object: macbookRef.current });
-			}
-		},
-	});
-
-	const dispatch = () => {
-		setSelectObjectFocus(null);
-	};
-
 	const uiComponentProps = {
 		data: {
 			myData: {
 				name,
 				nodes,
-				cameraIsMoving,
-				hovered: interaction.hovered,
 				screenVisible,
 				animations,
 				activeTab,
 			},
 		},
-		functions: { myFunctions: { dispatch, setActiveTab, events: interaction.events } },
+		functions: { myFunctions: { setActiveTab } },
 		refs: { myRefs: { macbookRef, macbookTopSideRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;
