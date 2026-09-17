@@ -16,6 +16,23 @@
   animation: macbook-screen-on 380ms ease-out both;
 }
 
+.screen-desktop {
+  width: 560px;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 0px;
+  background-image: url("/images/macbook-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #172330;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  animation: macbook-screen-on 380ms ease-out both;
+}
+
 @keyframes macbook-screen-on {
   from {
     opacity: 0;

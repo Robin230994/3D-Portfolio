@@ -35,20 +35,8 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		camera.updateProjectionMatrix();
 	});
 
-	// // clean up zoom value in case this component unmounts
-	// useEffect(() => {
-	// 	const zoomToRestore = initialZoom.current;
-
-	// 	return () => {
-	// 		if (!(camera instanceof PerspectiveCamera)) return;
-	// 		camera.zoom = zoomToRestore;
-	// 		camera.updateProjectionMatrix();
-	// 	};
-	// }, [camera]);
-
 	useEffect(() => {
 		const animation = actions["MacbookOpen"];
-
 		if (!animation) return;
 
 		const isScreenFocused = selectObjectFocus?.name === "Screen";

@@ -1,12 +1,13 @@
 import { Material, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { Outlines } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFocusStore } from "../../Stores/useFocusStore";
 import { useControls } from "leva";
 import { useCameraStore } from "../../Stores/useCameraStore";
 import useInteraction from "../../hooks/useInteraction";
 import CloseLabel from "../CloseLabel/CloseLabel";
+import ScreenDesktop from "../Targets/ScreenDesktop/ScreenDesktop";
 
 const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8: Mesh = nodes["object_t8"] as Mesh;
@@ -19,10 +20,13 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 
+	const [screenVisible, setScreenVisible] = useState<boolean>(false);
+
 	const interaction = useInteraction({
 		onClick: () => {
 			if (ot7Ref.current) {
 				setSelectObjectFocus({ name: "Screen", object: ot7Ref.current });
+				setScreenVisible(true);
 			}
 		},
 	});
@@ -49,9 +53,13 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						visible={!cameraIsMoving && selectObjectFocus?.name === "Screen"}
 						scaleFactor={0.35}
-						dispatch={() => setSelectObjectFocus(null)}>
+						dispatch={() => {
+							setSelectObjectFocus(null);
+							setScreenVisible(false);
+						}}>
 						x
 					</CloseLabel>
+					{screenVisible && <ScreenDesktop />}
 				</mesh>
 			</group>
 			<mesh geometry={Mouse.geometry} position={Mouse.position} rotation={Mouse.rotation} material={ot7Material} scale={Mouse.scale} />

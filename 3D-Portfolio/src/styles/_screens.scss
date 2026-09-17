@@ -3,9 +3,21 @@
 	height: 341px;
 	overflow: hidden;
 	border-radius: 17px;
-	// background:
-	// 	radial-gradient(circle at 78% 10%, rgba(255, 201, 242, 0.86), transparent 36%),
-	// 	radial-gradient(circle at 16% 92%, rgba(151, 222, 255, 0.88), transparent 42%), linear-gradient(135deg, #6676bb, #b886c4 48%, #ee9ba7);
+	background-image: url("/images/macbook-background.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: #172330;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-size: 13px;
+	user-select: none;
+	animation: macbook-screen-on 380ms ease-out both;
+}
+
+.screen-desktop {
+	width: 560px;
+	height: 360px;
+	overflow: hidden;
+	border-radius: 0px;
 	background-image: url("/images/macbook-background.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
