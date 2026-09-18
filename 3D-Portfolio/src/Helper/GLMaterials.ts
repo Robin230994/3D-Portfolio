@@ -1,9 +1,11 @@
 import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2 } from "three";
+import { extend } from "@react-three/fiber";
 
 import MaterialCreator from "../classes/MaterialCreator";
-import vertexShader from "./../shaders/vertex.glsl";
-import fragmentShader from "./../shaders/fragment.glsl";
-import { extend } from "@react-three/fiber";
+import coffeeVertexShader from "./../shaders/CoffeeSmoke/vertex.glsl";
+import coffeeFragmentShader from "./../shaders/CoffeeSmoke/fragment.glsl";
+import mouseAreaFragmentShader from "./../shaders/MouseArea/fragment.glsl";
+import mouseAreaVertexShader from "./../shaders/MouseArea/vertex.glsl";
 
 ColorManagement.enabled = true;
 
@@ -81,8 +83,24 @@ const CoffeeSmokeMaterial = materialCreator.createShaderMaterial(
 		uTime: 0,
 		uPerlinTexture: perlinNoiseCoffeeTexture,
 	},
-	vertexShader,
-	fragmentShader,
+	coffeeVertexShader,
+	coffeeFragmentShader,
 );
 extend({ CoffeeSmokeMaterial });
 export { CoffeeSmokeMaterial };
+
+const MouseAreaShaderMaterial = materialCreator.createShaderMaterial(
+	"MouseAreaMaterial",
+	{
+		uLeft: 0,
+		uRight: 0,
+		uTop: 0,
+		uBottom: 0,
+		uColor: new Color("#ff0000"),
+		uEdgeWidth: 0.05,
+	},
+	mouseAreaVertexShader,
+	mouseAreaFragmentShader,
+);
+extend({ MouseAreaShaderMaterial });
+export { MouseAreaShaderMaterial };

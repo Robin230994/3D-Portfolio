@@ -8,10 +8,10 @@ import { useCameraStore } from "../../Stores/useCameraStore";
 import useInteraction from "../../hooks/useInteraction";
 import CloseLabel from "../CloseLabel/CloseLabel";
 import ScreenDesktop from "../Targets/ScreenDesktop/ScreenDesktop";
+import Mouse from "../Targets/Mouse/Mouse";
 
 const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8: Mesh = nodes["object_t8"] as Mesh;
-	const Mouse: Mesh = nodes["Mouse"] as Mesh;
 	const ot7Material = ObjectT8.material as Material;
 
 	const ot7Ref = useRef<Mesh>(null);
@@ -33,7 +33,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const { backLabelPos, backLabelRot } = useControls("Screen", {
 		backLabelPos: { value: { x: 0.6, y: 0, z: -0.4 }, step: 0.1 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: -0.1 }, step: 0.1 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
 	});
 
 	return (
@@ -52,7 +52,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
 						visible={!cameraIsMoving && selectObjectFocus?.name === "Screen"}
-						scaleFactor={0.35}
+						scaleFactor={0.3}
 						dispatch={() => {
 							setSelectObjectFocus(null);
 							setScreenVisible(false);
@@ -62,7 +62,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 					{screenVisible && <ScreenDesktop />}
 				</mesh>
 			</group>
-			<mesh geometry={Mouse.geometry} position={Mouse.position} rotation={Mouse.rotation} material={ot7Material} scale={Mouse.scale} />
+			<Mouse name="Mouse" nodes={nodes} materials={{ ot7Material }} />
 		</>
 	);
 };
