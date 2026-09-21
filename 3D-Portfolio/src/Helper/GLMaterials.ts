@@ -96,6 +96,7 @@ const MouseAreaShaderMaterial = materialCreator.createShaderMaterial(
 		uRight: 0,
 		uTop: 0,
 		uBottom: 0,
+		uMousePosition: new Vector2(0.5, 0.5),
 		uColor: new Color("#ff0000"),
 		uEdgeWidth: 0.05,
 	},
