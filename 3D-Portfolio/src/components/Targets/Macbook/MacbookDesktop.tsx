@@ -1,6 +1,8 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useState } from "react";
+import VirtualCursor from "../../VirtualCursor/VirtualCursor";
+import { useVirtualCursorStore, VIRTUAL_DISPLAYS } from "../../../Stores/useVirtualCursorStore";
 
 const websites = [
 	{ label: "Alexander Dort GmbH", href: "https://www.alexanderdort.com" },
@@ -27,6 +29,22 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const { activeTab, setActiveTab, setIsHovered } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
+
+	const virtualCursorX = useVirtualCursorStore((state) => state.x);
+	const virtualCursorY = useVirtualCursorStore((state) => state.y);
+
+	const macbookDisplay = VIRTUAL_DISPLAYS.macbook;
+
+	const cursorInsideMacbook =
+		virtualCursorX >= macbookDisplay.left &&
+		virtualCursorX <= macbookDisplay.left + macbookDisplay.width &&
+		virtualCursorY >= macbookDisplay.top &&
+		virtualCursorY <= macbookDisplay.top + macbookDisplay.height;
+
+	const macbookCursorX = virtualCursorX - macbookDisplay.left;
+	const macbookCursorY = virtualCursorY - macbookDisplay.top;
+
+	// console.log(macbookCursorX, macbookCursorY);
 
 	useEffect(() => {
 		if (!finderClosing) return;
@@ -58,6 +76,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 				onPointerDown={(event) => event.stopPropagation()}
 				onPointerEnter={() => setIsHovered(true)}
 				onPointerLeave={() => setIsHovered(false)}>
+				{cursorInsideMacbook && <VirtualCursor x={macbookCursorX} y={macbookCursorY} width={macbookDisplay.width} height={macbookDisplay.height} />}
 				<div className="mac-menu-bar">
 					<span className="mac-apple">●</span>
 					<strong>Finder</strong>

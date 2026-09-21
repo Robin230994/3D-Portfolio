@@ -1,4 +1,5 @@
 .mac-desktop {
+	position: relative;
 	width: 532px;
 	height: 341px;
 	overflow: hidden;
@@ -14,6 +15,7 @@
 }
 
 .screen-desktop {
+	position: relative;
 	width: 560px;
 	height: 360px;
 	overflow: hidden;
@@ -261,4 +263,14 @@
 	text-align: center;
 	margin: 0;
 	margin-top: auto;
+}
+
+.virtual-cursor {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	pointer-events: none;
+	z-index: 9999;
+	transition: transform 40ms linear;
+	background: url("/images/cursor.svg");
 }
