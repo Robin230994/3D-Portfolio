@@ -14,12 +14,15 @@ interface MouseUIProps extends IUIComponentProps {
 				mouseAtEdge: { x: { min: boolean; max: boolean }; z: { min: boolean; max: boolean } };
 				mouseAreaPosition: { x: number; z: number };
 				axisHelperVisible: boolean;
+				virtualCursorX: number;
+				virtualCursorY: number;
 			};
 		};
 		functions: {
 			myFunctions: {
 				handleMouseDrag: (localMatrix: Matrix4) => void;
 				setAxisHelperVisible: React.Dispatch<React.SetStateAction<boolean>>;
+				sendVirtualWheelData: (deltaY: number, cursorX: number, cursorY: number) => void;
 			};
 		};
 		refs: {
@@ -42,8 +45,8 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, ot7Material, mouseAtEdge, mouseAreaPosition, axisHelperVisible } = myData;
-	const { handleMouseDrag, setAxisHelperVisible } = myFunctions;
+	const { name, nodes, ot7Material, mouseAtEdge, mouseAreaPosition, axisHelperVisible, virtualCursorX, virtualCursorY } = myData;
+	const { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData } = myFunctions;
 	const { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef } = myRefs;
 
 	const Mouse: Mesh = nodes["Mouse"] as Mesh;
@@ -88,6 +91,10 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 					onPointerLeave={() => {
 						setAxisHelperVisible(false);
 						document.body.style.cursor = "default";
+					}}
+					onWheel={(event) => {
+						event.stopPropagation();
+						sendVirtualWheelData(event.deltaY, virtualCursorX, virtualCursorY);
 					}}
 				/>
 				<group>

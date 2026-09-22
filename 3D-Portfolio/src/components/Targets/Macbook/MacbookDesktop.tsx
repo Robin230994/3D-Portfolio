@@ -1,21 +1,76 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
-import { useEffect, useState } from "react";
-import VirtualCursor from "../../VirtualCursor/VirtualCursor";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useVirtualCursorStore, VIRTUAL_DISPLAYS } from "../../../Stores/useVirtualCursorStore";
+import VirtualCursor from "../../VirtualCursor/VirtualCursor";
 
 const websites = [
 	{ label: "Alexander Dort GmbH", href: "https://www.alexanderdort.com" },
 	{ label: "Pslzme", href: "https://www.pslzme.com" },
 	{ label: "Printers Lounge", href: "https://www.printerslounge.com" },
-	{ label: "Dorji", href: "https://www.dorji.de" },
-	{ label: "Cyved", href: "https://www.cyved.com" },
+	{ label: "Dorji Sushi To Go", href: "https://www.dorji.de" },
+	{ label: "CYVED", href: "https://www.cyved.com" },
 	{ label: "Matthias Holder", href: "https://www.matthiasholder.com" },
 	{ label: "ALDUS Group", href: "https://aldusgroup.com" },
 	{ label: "ALDUS Foils", href: "https://foils.aldusgroup.com" },
 	{ label: "ALDUS Machines", href: "https://machines.aldusgroup.com" },
 	{ label: "ALDUS Inks", href: "https://inks.aldusgroup.com" },
 ];
+
+interface IVirtualFolderPositions {
+	FinderFolder: { x: [min: number, max: number]; y: [min: number, max: number] };
+	ProjectFolders: { [name: string]: { x: [min: number, max: number]; y: [min: number, max: number] } };
+}
+
+// Coordinates that determine the position of the folders and other elements inside the Desktop. X and Y always describe a range for the virtual cursor
+const virtualPositions: IVirtualFolderPositions = {
+	FinderFolder: {
+		x: [160, 435],
+		y: [74, 257],
+	},
+	ProjectFolders: {
+		"Alexander Dort GmbH": {
+			x: [177, 217],
+			y: [76, 142],
+		},
+		Pslzme: {
+			x: [253, 293],
+			y: [76, 142],
+		},
+		"Printers Lounge": {
+			x: [329, 369],
+			y: [76, 142],
+		},
+		"Dorji Sushi To Go": {
+			x: [177, 217],
+			y: [159, 225],
+		},
+		CYVED: {
+			x: [253, 293],
+			y: [159, 225],
+		},
+		"Matthias Holder": {
+			x: [329, 369],
+			y: [159, 225],
+		},
+		"ALDUS Group": {
+			x: [177, 217],
+			y: [242, 308],
+		},
+		"ALDUS Foils": {
+			x: [253, 293],
+			y: [242, 308],
+		},
+		"ALDUS Machines": {
+			x: [329, 369],
+			y: [242, 308],
+		},
+		"ALDUS Inks": {
+			x: [177, 217],
+			y: [325, 391],
+		},
+	},
+};
 
 interface IMacbookDesktopProps {
 	props: {
@@ -29,11 +84,17 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const { activeTab, setActiveTab, setIsHovered } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
+	const [websiteFoldersScrollTop, setWebsiteFoldersScrollTop] = useState(0);
 
 	const virtualCursorX = useVirtualCursorStore((state) => state.x);
 	const virtualCursorY = useVirtualCursorStore((state) => state.y);
+	const virtualWheel = useVirtualCursorStore((state) => state.virtualWheel);
+
+	const websiteFoldersRef = useRef<HTMLDivElement>(null);
 
 	const macbookDisplay = VIRTUAL_DISPLAYS.macbook;
+	const macbookDisplayLeft = useMemo(() => VIRTUAL_DISPLAYS.macbook.left, []);
+	const macbookDisplayTop = useMemo(() => VIRTUAL_DISPLAYS.macbook.top, []);
 
 	const cursorInsideMacbook =
 		virtualCursorX >= macbookDisplay.left &&
@@ -44,7 +105,10 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const macbookCursorX = virtualCursorX - macbookDisplay.left;
 	const macbookCursorY = virtualCursorY - macbookDisplay.top;
 
-	// console.log(macbookCursorX, macbookCursorY);
+	const { uiPos, uiRot } = useControls("UIDesktop", {
+		uiPos: { value: { x: -0.01, y: 0.26, z: -0.08 } },
+		uiRot: { value: { x: -0.3, y: 0, z: 0 } },
+	});
 
 	useEffect(() => {
 		if (!finderClosing) return;
@@ -57,10 +121,48 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 		return () => window.clearTimeout(hideFinder);
 	}, [finderClosing]);
 
-	const { uiPos, uiRot } = useControls("UIDesktop", {
-		uiPos: { value: { x: -0.01, y: 0.26, z: -0.08 } },
-		uiRot: { value: { x: -0.3, y: 0, z: 0 } },
-	});
+	useEffect(() => {
+		if (!websiteFoldersRef.current) return;
+		const { x, y, deltaY } = virtualWheel;
+		const macbookCursorX = x - macbookDisplayLeft;
+		const macbookCursorY = y - macbookDisplayTop;
+
+		const virtualCursorInsideFinderFolder = () => {
+			return (
+				macbookCursorX >= virtualPositions.FinderFolder.x[0] &&
+				macbookCursorX <= virtualPositions.FinderFolder.x[1] &&
+				macbookCursorY >= virtualPositions.FinderFolder.y[0] &&
+				macbookCursorY <= virtualPositions.FinderFolder.y[1]
+			);
+		};
+
+		if (virtualCursorInsideFinderFolder() && deltaY !== 0) {
+			websiteFoldersRef.current.scrollBy({ top: deltaY, behavior: "auto" });
+		}
+	}, [macbookDisplayLeft, macbookDisplayTop, virtualWheel]);
+
+	const virtualCursorOverFolder = (): string | null => {
+		let locatedFolder: string | null = null;
+
+		Object.entries(virtualPositions.ProjectFolders).forEach((position) => {
+			const folderXPosition = position[1].x;
+			const folderYPosition = position[1].y;
+			const scrollAdjustedCursorY = macbookCursorY + websiteFoldersScrollTop;
+
+			if (
+				macbookCursorX >= folderXPosition[0] &&
+				macbookCursorX <= folderXPosition[1] &&
+				scrollAdjustedCursorY >= folderYPosition[0] &&
+				scrollAdjustedCursorY <= folderYPosition[1]
+			) {
+				locatedFolder = position[0];
+			}
+		});
+
+		return locatedFolder;
+	};
+
+	const hoveredFolder = virtualCursorOverFolder();
 
 	return (
 		<Html
@@ -77,6 +179,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 				onPointerEnter={() => setIsHovered(true)}
 				onPointerLeave={() => setIsHovered(false)}>
 				{cursorInsideMacbook && <VirtualCursor x={macbookCursorX} y={macbookCursorY} width={macbookDisplay.width} height={macbookDisplay.height} />}
+
 				<div className="mac-menu-bar">
 					<span className="mac-apple">●</span>
 					<strong>Finder</strong>
@@ -114,7 +217,10 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 									</li>
 								</ul>
 							</aside>
-							<div className="finder-content-project">
+							<div
+								className="finder-content-project"
+								ref={websiteFoldersRef}
+								onScroll={(element) => setWebsiteFoldersScrollTop(element.currentTarget.scrollTop)}>
 								{activeTab === "Projects" && (
 									<div className="finder-folders">
 										<div className="finder-folder" onClick={() => setActiveTab("Websites")}>
@@ -132,7 +238,12 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								{activeTab === "Websites" && (
 									<div className="finder-folders">
 										{websites.map((project) => (
-											<a key={project.href} href={project.href} target="_blank" rel="noreferrer" className="finder-folder">
+											<a
+												key={project.href}
+												href={project.href}
+												target="_blank"
+												rel="noreferrer"
+												className={`finder-folder ${hoveredFolder === project.label && "virtual-hover"}`}>
 												<span>📁</span>
 												<p className="folder-name">{project.label}</p>
 											</a>

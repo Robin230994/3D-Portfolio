@@ -5,6 +5,8 @@ import { GLTFResult } from "../types/GLTypes";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { useState } from "react";
+import { Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -20,28 +22,10 @@ import useCursorEffect from "../hooks/useCursorEffect";
 import Robbi from "./Targets/Robbi/Robbi";
 import ObjectT6 from "./ObjectT6/ObjectT6";
 import Outside from "./Outside/Outside";
-import { useCallback, useState } from "react";
-import { Vector3 } from "three";
 import ObjectT7 from "./ObjectT7/ObjectT7";
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const [outsideOffset, setOutsideOffset] = useState<[number, number, number]>([0, 0, 0]);
-	const alignOutsideToRoom = useCallback(
-		({
-			center,
-			horizontalAlignment,
-			verticalAlignment,
-			depthAlignment,
-		}: {
-			center: Vector3;
-			horizontalAlignment: number;
-			verticalAlignment: number;
-			depthAlignment: number;
-		}) => {
-			setOutsideOffset([-center.x + horizontalAlignment, -center.y + verticalAlignment, -center.z + depthAlignment]);
-		},
-		[],
-	);
 
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
@@ -101,6 +85,20 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 		environmentIntensity: { value: 0.9, step: 0.1, min: 0.1 },
 		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 	});
+
+	const alignOutsideToRoom = ({
+		center,
+		horizontalAlignment,
+		verticalAlignment,
+		depthAlignment,
+	}: {
+		center: Vector3;
+		horizontalAlignment: number;
+		verticalAlignment: number;
+		depthAlignment: number;
+	}) => {
+		setOutsideOffset([-center.x + horizontalAlignment, -center.y + verticalAlignment, -center.z + depthAlignment]);
+	};
 
 	return (
 		<>

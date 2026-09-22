@@ -13,11 +13,33 @@ export const VIRTUAL_DESKTOP_SIZE = {
 interface IVirtualCursorStore {
 	x: number; // Global virtual pixels from the desktop
 	y: number; // Global virtual pixels from the desktop
+	virtualWheel: {
+		wheelEventID: number;
+		deltaY: number;
+		x: number;
+		y: number;
+	};
 	setCursorPosition: (x: number, y: number) => void;
+	sendVirtualWheelData: (deltaY: number, cursorX: number, cursorY: number) => void;
 }
 
 export const useVirtualCursorStore = create<IVirtualCursorStore>((set) => ({
 	x: 0,
 	y: 0,
+	virtualWheel: {
+		wheelEventID: 0,
+		deltaY: 0,
+		x: 0,
+		y: 0,
+	},
 	setCursorPosition: (x, y) => set({ x, y }),
+	sendVirtualWheelData: (deltaY, cursorX, cursorY) =>
+		set((state) => ({
+			virtualWheel: {
+				wheelEventID: state.virtualWheel.wheelEventID + 1,
+				deltaY,
+				x: cursorX,
+				y: cursorY,
+			},
+		})),
 }));

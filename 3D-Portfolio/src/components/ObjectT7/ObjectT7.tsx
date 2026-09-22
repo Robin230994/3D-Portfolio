@@ -1,7 +1,7 @@
 import { Material, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { Outlines } from "@react-three/drei";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useFocusStore } from "../../Stores/useFocusStore";
 import { useControls } from "leva";
 import { useCameraStore } from "../../Stores/useCameraStore";
@@ -13,6 +13,9 @@ import Mouse from "../Targets/Mouse/Mouse";
 const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8: Mesh = nodes["object_t8"] as Mesh;
 	const ot7Material = ObjectT8.material as Material;
+
+	//memoize for the UI
+	const mouseMaterials = useMemo(() => ({ ot7Material }), [ot7Material]);
 
 	const ot7Ref = useRef<Mesh>(null);
 
@@ -62,7 +65,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 					{screenVisible && <ScreenDesktop />}
 				</mesh>
 			</group>
-			<Mouse name="Mouse" nodes={nodes} materials={{ ot7Material }} />
+			<Mouse name="Mouse" nodes={nodes} materials={mouseMaterials} />
 		</>
 	);
 };

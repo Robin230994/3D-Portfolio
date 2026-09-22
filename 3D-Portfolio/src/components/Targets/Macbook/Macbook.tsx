@@ -24,16 +24,16 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const initialZoom = useRef(camera instanceof PerspectiveCamera ? camera.zoom : 1);
 
 	// zoom in when the mouse hovers the macbook
-	useFrame((_, delta) => {
-		if (!(camera instanceof PerspectiveCamera)) return;
+	// useFrame((_, delta) => {
+	// 	if (!(camera instanceof PerspectiveCamera)) return;
 
-		const targetZoom = initialZoom.current * (isHovered ? 2 : 1);
-		const nextZoom = MathUtils.damp(camera.zoom, targetZoom, 7, delta);
+	// 	const targetZoom = initialZoom.current * (isHovered ? 2 : 1);
+	// 	const nextZoom = MathUtils.damp(camera.zoom, targetZoom, 7, delta);
 
-		if (Math.abs(nextZoom - camera.zoom) < 0.0001) return;
-		camera.zoom = nextZoom;
-		camera.updateProjectionMatrix();
-	});
+	// 	if (Math.abs(nextZoom - camera.zoom) < 0.0001) return;
+	// 	camera.zoom = nextZoom;
+	// 	camera.updateProjectionMatrix();
+	// });
 
 	useEffect(() => {
 		const animation = actions["MacbookOpen"];

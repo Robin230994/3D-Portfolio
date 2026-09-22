@@ -252,6 +252,9 @@
   color: #1479d1;
   transform: translateY(-2px) scale(1.03);
 }
+.finder-folder.virtual-hover {
+  transform: translateY(-2px) scale(1.03);
+}
 
 .folder-name {
   width: 50px;
