@@ -14,7 +14,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8: Mesh = nodes["object_t8"] as Mesh;
 	const ot7Material = ObjectT8.material as Material;
 
-	//memoize for the UI
+	// memoize to prevent Mouse from rerenders
 	const mouseMaterials = useMemo(() => ({ ot7Material }), [ot7Material]);
 
 	const ot7Ref = useRef<Mesh>(null);

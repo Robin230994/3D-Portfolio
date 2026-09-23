@@ -2,10 +2,7 @@ import { Material, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { useEffect } from "react";
 
-import MaterialCreator from "../../classes/MaterialCreator";
 import FloorLamp from "../Targets/FloorLamp/FloorLamp";
-
-const materialCreator = MaterialCreator.getInstance();
 
 const ObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT2: Mesh = nodes["object_t2"] as Mesh;
@@ -13,7 +10,6 @@ const ObjectT2: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	useEffect(() => {
 		t2Material.alphaTest = 0.5;
-		materialCreator.addInstanciatedMaterial("T2Material", t2Material);
 	}, [t2Material]);
 
 	return (

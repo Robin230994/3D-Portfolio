@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import PictureFrameUI from "./PictureFrameUI";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { useFocusStore } from "../../../Stores/useFocusStore";
@@ -42,4 +42,4 @@ const PictureFrame: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return <PictureFrameUI props={uiComponentProps} />;
 };
 
-export default PictureFrame;
+export default memo(PictureFrame);

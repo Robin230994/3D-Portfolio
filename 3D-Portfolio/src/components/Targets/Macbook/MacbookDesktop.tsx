@@ -1,7 +1,7 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useVirtualCursorStore, VIRTUAL_DISPLAYS } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
 import VirtualCursor from "../../VirtualCursor/VirtualCursor";
 
 const websites = [
@@ -16,61 +16,6 @@ const websites = [
 	{ label: "ALDUS Machines", href: "https://machines.aldusgroup.com" },
 	{ label: "ALDUS Inks", href: "https://inks.aldusgroup.com" },
 ];
-
-interface IVirtualFolderPositions {
-	FinderFolder: { x: [min: number, max: number]; y: [min: number, max: number] };
-	ProjectFolders: { [name: string]: { x: [min: number, max: number]; y: [min: number, max: number] } };
-}
-
-// Coordinates that determine the position of the folders and other elements inside the Desktop. X and Y always describe a range for the virtual cursor
-const virtualPositions: IVirtualFolderPositions = {
-	FinderFolder: {
-		x: [160, 435],
-		y: [74, 257],
-	},
-	ProjectFolders: {
-		"Alexander Dort GmbH": {
-			x: [177, 217],
-			y: [76, 142],
-		},
-		Pslzme: {
-			x: [253, 293],
-			y: [76, 142],
-		},
-		"Printers Lounge": {
-			x: [329, 369],
-			y: [76, 142],
-		},
-		"Dorji Sushi To Go": {
-			x: [177, 217],
-			y: [159, 225],
-		},
-		CYVED: {
-			x: [253, 293],
-			y: [159, 225],
-		},
-		"Matthias Holder": {
-			x: [329, 369],
-			y: [159, 225],
-		},
-		"ALDUS Group": {
-			x: [177, 217],
-			y: [242, 308],
-		},
-		"ALDUS Foils": {
-			x: [253, 293],
-			y: [242, 308],
-		},
-		"ALDUS Machines": {
-			x: [329, 369],
-			y: [242, 308],
-		},
-		"ALDUS Inks": {
-			x: [177, 217],
-			y: [325, 391],
-		},
-	},
-};
 
 interface IMacbookDesktopProps {
 	props: {
@@ -129,10 +74,10 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 
 		const virtualCursorInsideFinderFolder = () => {
 			return (
-				macbookCursorX >= virtualPositions.FinderFolder.x[0] &&
-				macbookCursorX <= virtualPositions.FinderFolder.x[1] &&
-				macbookCursorY >= virtualPositions.FinderFolder.y[0] &&
-				macbookCursorY <= virtualPositions.FinderFolder.y[1]
+				macbookCursorX >= VIRTUAL_POSITIONS.FinderFolder.x[0] &&
+				macbookCursorX <= VIRTUAL_POSITIONS.FinderFolder.x[1] &&
+				macbookCursorY >= VIRTUAL_POSITIONS.FinderFolder.y[0] &&
+				macbookCursorY <= VIRTUAL_POSITIONS.FinderFolder.y[1]
 			);
 		};
 
@@ -144,7 +89,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const virtualCursorOverFolder = (): string | null => {
 		let locatedFolder: string | null = null;
 
-		Object.entries(virtualPositions.ProjectFolders).forEach((position) => {
+		Object.entries(VIRTUAL_POSITIONS.ProjectFolders).forEach((position) => {
 			const folderXPosition = position[1].x;
 			const folderYPosition = position[1].y;
 			const scrollAdjustedCursorY = macbookCursorY + websiteFoldersScrollTop;
@@ -239,6 +184,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 									<div className="finder-folders">
 										{websites.map((project) => (
 											<a
+												data-virtual-clickable
 												key={project.href}
 												href={project.href}
 												target="_blank"

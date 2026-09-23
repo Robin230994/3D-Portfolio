@@ -1,9 +1,6 @@
 import { Material, Mesh } from "three";
 import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import MaterialCreator from "../../classes/MaterialCreator";
 import { useEffect } from "react";
-
-const materialCreator = MaterialCreator.getInstance();
 
 const Outside: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const Outside = nodes["outside"] as Mesh;
@@ -11,7 +8,6 @@ const Outside: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	useEffect(() => {
 		outsideMaterial.alphaTest = 0.5;
-		materialCreator.addInstanciatedMaterial("OutsideMaterial", outsideMaterial);
 	}, [outsideMaterial]);
 
 	return (

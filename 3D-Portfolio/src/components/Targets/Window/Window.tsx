@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
 import WindowUI from "./WindowUI";
 import useInteraction from "../../../hooks/useInteraction";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
@@ -43,14 +43,17 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		}
 	});
 
-	const uiComponentProps = {
-		data: {
-			myData: { name, nodes, hovered: interaction.hovered },
-		},
-		functions: { myFunctions: { events: interaction.events } },
-		refs: { myRefs: { windowRef, windowHandleRef } },
-	};
+	const uiComponentProps = useMemo(
+		() => ({
+			data: {
+				myData: { name, nodes, hovered: interaction.hovered },
+			},
+			functions: { myFunctions: { events: interaction.events } },
+			refs: { myRefs: { windowRef, windowHandleRef } },
+		}),
+		[name, nodes, interaction.hovered, interaction.events],
+	);
 	return <WindowUI props={uiComponentProps} />;
 };
 
-export default Window;
+export default memo(Window);

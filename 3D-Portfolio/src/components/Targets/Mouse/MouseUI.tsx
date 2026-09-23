@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import React, { MutableRefObject, RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { ArrowHelper, DirectionalLight, DoubleSide, Group, Material, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
@@ -23,6 +23,7 @@ interface MouseUIProps extends IUIComponentProps {
 				handleMouseDrag: (localMatrix: Matrix4) => void;
 				setAxisHelperVisible: React.Dispatch<React.SetStateAction<boolean>>;
 				sendVirtualWheelData: (deltaY: number, cursorX: number, cursorY: number) => void;
+				clickVirtualMouse: () => void;
 			};
 		};
 		refs: {
@@ -32,6 +33,7 @@ interface MouseUIProps extends IUIComponentProps {
 				leftAxisArrowRef: RefObject<ArrowHelper>;
 				rightAxisArrowRef: RefObject<ArrowHelper>;
 				mouseAreaMaterialRef: RefObject<ShaderMaterial>;
+				mouseIsDragging: MutableRefObject<boolean>;
 			};
 		};
 	};
@@ -46,8 +48,8 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, ot7Material, mouseAtEdge, mouseAreaPosition, axisHelperVisible, virtualCursorX, virtualCursorY } = myData;
-	const { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData } = myFunctions;
-	const { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef } = myRefs;
+	const { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData, clickVirtualMouse } = myFunctions;
+	const { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef, mouseIsDragging } = myRefs;
 
 	const Mouse: Mesh = nodes["Mouse"] as Mesh;
 
@@ -76,7 +78,9 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 					[0, 0],
 					[MOUSE_TRAVEL_Z[0], MOUSE_TRAVEL_Z[1]],
 				]}
-				onDrag={(localMatrix) => handleMouseDrag(localMatrix)}>
+				onDragStart={() => (mouseIsDragging.current = true)}
+				onDrag={(localMatrix) => handleMouseDrag(localMatrix)}
+				onDragEnd={() => (mouseIsDragging.current = false)}>
 				<mesh
 					ref={mouseRef}
 					geometry={Mouse.geometry}
@@ -95,6 +99,9 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 					onWheel={(event) => {
 						event.stopPropagation();
 						sendVirtualWheelData(event.deltaY, virtualCursorX, virtualCursorY);
+					}}
+					onClick={() => {
+						if (!mouseIsDragging.current) clickVirtualMouse();
 					}}
 				/>
 				<group>

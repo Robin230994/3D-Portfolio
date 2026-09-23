@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { ArrowHelper, Group, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
-import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
 import MouseUI from "./MouseUI";
 
 const MOUSE_TRAVEL_X = [-0.15, 0.15];
@@ -20,6 +20,7 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 	const leftAxisArrowRef = useRef<ArrowHelper>(null);
 	const rightAxisArrowRef = useRef<ArrowHelper>(null);
 	const mouseAreaMaterialRef = useRef<ShaderMaterial>(null);
+	const mouseIsDragging = useRef<boolean>(false);
 
 	const [axisHelperVisible, setAxisHelperVisible] = useState(false);
 	const [mouseAtEdge, setMouseAtEdge] = useState({ x: { min: false, max: false }, z: { min: false, max: false } });
@@ -61,13 +62,30 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 		[setCursorPosition],
 	);
 
+	const clickVirtualMouse = () => {
+		const { x, y } = useVirtualCursorStore.getState();
+		const display = VIRTUAL_DISPLAYS.macbook;
+		const localX = x - display.left;
+		const localY = y - display.top;
+
+		const clickedTarget =
+			localX >= VIRTUAL_POSITIONS.FinderFolder.x[0] &&
+			localX <= VIRTUAL_POSITIONS.FinderFolder.x[1] &&
+			localY >= VIRTUAL_POSITIONS.FinderFolder.y[0] &&
+			localY <= VIRTUAL_POSITIONS.FinderFolder.y[1];
+
+		if (!clickedTarget) return;
+
+		document.querySelector<HTMLElement>(".finder-folder[data-virtual-clickable].virtual-hover")?.click();
+	};
+
 	const uiComponentProps = useMemo(
 		() => ({
 			data: {
 				myData: { name, nodes, axisHelperVisible, ot7Material, mouseAtEdge, mouseAreaPosition, virtualCursorX, virtualCursorY },
 			},
-			functions: { myFunctions: { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData } },
-			refs: { myRefs: { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef } },
+			functions: { myFunctions: { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData, clickVirtualMouse } },
+			refs: { myRefs: { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef, mouseIsDragging } },
 		}),
 		[axisHelperVisible, handleMouseDrag, mouseAreaPosition, mouseAtEdge, name, nodes, ot7Material, sendVirtualWheelData, virtualCursorX, virtualCursorY],
 	);

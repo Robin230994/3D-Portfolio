@@ -3,16 +3,11 @@ import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
 import { Material } from "three";
 import { useEffect } from "react";
 
-import MaterialCreator from "../../classes/MaterialCreator";
-
-const materialCreator = MaterialCreator.getInstance();
-
 const ObjectT4: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT4: Mesh = nodes["object_t4"] as Mesh;
 	const t4Material = ObjectT4.material as Material;
 
 	useEffect(() => {
-		materialCreator.addInstanciatedMaterial("t4Material", t4Material);
 		t4Material.transparent = true;
 	}, [t4Material]);
 
