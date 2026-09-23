@@ -18,7 +18,6 @@ import ObjectT4 from "./ObjectT4/ObjectT4";
 import ObjectT5 from "./ObjectT5/ObjectT5";
 import ImageObjectT1 from "./ImageObjectT1/ImageObjectT1";
 import ImageObjectT2 from "./ImageObjectT2/ImageObjectT2";
-import useCursorEffect from "../hooks/useCursorEffect";
 import Robbi from "./Targets/Robbi/Robbi";
 import ObjectT6 from "./ObjectT6/ObjectT6";
 import Outside from "./Outside/Outside";
@@ -40,7 +39,6 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	/** REFS */
 
 	/** HOOKS */
-	useCursorEffect();
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
