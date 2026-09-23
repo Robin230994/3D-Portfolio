@@ -30,7 +30,6 @@ interface FCBoxUIProps extends IUIComponentProps {
 }
 
 const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
-	console.log("rendered");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;

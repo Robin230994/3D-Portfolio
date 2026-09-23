@@ -4,36 +4,19 @@ import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { Group, LoopOnce, Mesh } from "three";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useAnimations } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
-import { MathUtils, PerspectiveCamera } from "three";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const [activeTab, setActiveTab] = useState<"About me" | "Projects" | "Websites" | "Apps">("Websites");
 
 	const [screenVisible, setScreenVisible] = useState(false);
-	const [isHovered, setIsHovered] = useState(false);
+	const [, setIsHovered] = useState(false);
 
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
 	const lastFocusObjectScreen = useRef(false);
 
-	const { camera } = useThree();
 	const { actions } = useAnimations(animations!, macbookTopSideRef);
-
-	const initialZoom = useRef(camera instanceof PerspectiveCamera ? camera.zoom : 1);
-
-	// zoom in when the mouse hovers the macbook
-	// useFrame((_, delta) => {
-	// 	if (!(camera instanceof PerspectiveCamera)) return;
-
-	// 	const targetZoom = initialZoom.current * (isHovered ? 2 : 1);
-	// 	const nextZoom = MathUtils.damp(camera.zoom, targetZoom, 7, delta);
-
-	// 	if (Math.abs(nextZoom - camera.zoom) < 0.0001) return;
-	// 	camera.zoom = nextZoom;
-	// 	camera.updateProjectionMatrix();
-	// });
 
 	useEffect(() => {
 		const animation = actions["MacbookOpen"];

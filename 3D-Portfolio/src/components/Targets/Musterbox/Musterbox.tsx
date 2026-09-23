@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
 import { AnimationAction, Group, LoopOnce, MathUtils, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
@@ -6,8 +6,11 @@ import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
 import { useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { useControls } from "leva";
 import MusterboxUI from "./MusterboxUI";
 import useInteraction from "../../../hooks/useInteraction";
+import CloseLabel from "../../CloseLabel/CloseLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	/** REFS */
@@ -28,20 +31,17 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
 	const { actions } = useAnimations(animations!, musterboxRef);
 
+	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
+		backLabelPos: { value: { x: -3.75, y: 2.2, z: -2.4 }, step: 0.1 },
+		backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },
+	});
+
 	/** STATES */
 	const [isOpen, setIsOpen] = useState(false);
 	const [boxesVisible, setBoxesVisible] = useState(false);
 	const [hoveredBox, setHoveredBox] = useState<Mesh | null>(null);
 
 	/** FUNCTIONS */
-	const interaction = useInteraction({
-		onClick: () => {
-			if (musterboxRef.current) {
-				setSelectObjectFocus({ name: name, object: musterboxRef.current });
-				setActiveProject("Musterbox");
-			}
-		},
-	});
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
@@ -50,6 +50,12 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 	const toggleBox = useCallback(() => setIsOpen((open) => !open), []);
 	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);
+	const handleMusterboxClick = useCallback(() => {
+		if (musterboxRef.current) {
+			setSelectObjectFocus({ name: name, object: musterboxRef.current });
+			setActiveProject("Musterbox");
+		}
+	}, [name, setActiveProject, setSelectObjectFocus]);
 
 	const getBoxBaseY = useCallback((box: Mesh) => {
 		const storedBaseY = boxBaseYPositions.current.get(box);
@@ -116,6 +122,10 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		},
 		[getBoxBaseY, getBoxBaseZ, setActiveProject],
 	);
+
+	const interaction = useInteraction({
+		onClick: handleMusterboxClick,
+	});
 
 	const clearBoxHover = useCallback(() => setHoveredBox(null), [setHoveredBox]);
 
@@ -198,12 +208,48 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		setIsOpen(false);
 	}, [name, selectObjectFocus]);
 
-	const uiComponentProps = {
-		data: { myData: { name, nodes, isOpen, panelClosed, boxesVisible, cameraIsMoving, hovered: interaction.hovered, hoveredBox } },
-		functions: { myFunctions: { dispatch, toggleBox, switchPanel, handleBoxHover, clearBoxHover, handleBoxClick, events: interaction.events } },
-		refs: { myRefs: { musterboxRef } },
-	};
-	return <MusterboxUI props={uiComponentProps} />;
+	const uiComponentProps = useMemo(
+		() => ({
+			data: { myData: { name, nodes, boxesVisible, hovered: interaction.hovered, hoveredBox } },
+			functions: { myFunctions: { handleBoxHover, clearBoxHover, handleBoxClick, events: interaction.events } },
+			refs: { myRefs: { musterboxRef } },
+		}),
+		[boxesVisible, clearBoxHover, handleBoxClick, handleBoxHover, hoveredBox, interaction.events, interaction.hovered, name, nodes],
+	);
+	return (
+		<>
+			<MusterboxUI props={uiComponentProps} />
+
+			<CloseLabel
+				scaleFactor={0.15}
+				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+				labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+				visible={!cameraIsMoving && selectObjectFocus?.name === name}
+				dispatch={() => dispatch()}>
+				x
+			</CloseLabel>
+
+			<InteractionLabel
+				focusName={name}
+				shortcut={1}
+				label={!isOpen ? "Open Box" : "Close Box"}
+				position={[-2.55, 2.56, -2.51]}
+				rotation={[-Math.PI / 2, 0, 0]}
+				scale={1}
+				onTrigger={toggleBox}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				shortcut={2}
+				label={panelClosed ? "Open project description" : "Close project description"}
+				position={[-2.489, 2.45, -2.51]}
+				rotation={[-Math.PI / 2, 0, 0]}
+				scale={1}
+				onTrigger={switchPanel}
+			/>
+		</>
+	);
 };
 
 export default Musterbox;

@@ -1,14 +1,11 @@
-import React, { RefObject } from "react";
+import React, { memo, RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { BufferGeometry, DirectionalLight, EdgesGeometry, LineBasicMaterial, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
 import { Group } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
-import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 import { useFocusStore } from "../../../Stores/useFocusStore";
-import CloseLabel from "../../CloseLabel/CloseLabel";
-import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 // The contour is calculated once per source geometry, rather than once per
 // hover event. The box geometries are static for the lifetime of the scene.
@@ -30,19 +27,13 @@ interface MusterboxUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				isOpen: boolean;
-				panelClosed: boolean;
 				boxesVisible: boolean;
-				cameraIsMoving: boolean;
 				hovered: string | null;
 				hoveredBox: Mesh<BufferGeometry<NormalBufferAttributes>, Material | Material[], Object3DEventMap> | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				dispatch: () => void;
-				toggleBox: () => void;
-				switchPanel: () => void;
 				handleBoxHover: (event: ThreeEvent<PointerEvent>) => void;
 				clearBoxHover: () => void;
 				handleBoxClick: (event: ThreeEvent<MouseEvent>) => void;
@@ -58,12 +49,13 @@ interface MusterboxUIProps extends IUIComponentProps {
 }
 
 const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
+	console.log("rendered");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered, isOpen, panelClosed, boxesVisible, hoveredBox } = myData;
-	const { dispatch, toggleBox, switchPanel, handleBoxHover, clearBoxHover, handleBoxClick, events } = myFunctions;
+	const { name, nodes, hovered, boxesVisible, hoveredBox } = myData;
+	const { handleBoxHover, clearBoxHover, handleBoxClick, events } = myFunctions;
 	const { musterboxRef } = myRefs;
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -95,11 +87,6 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	const Musterbox23: Mesh = nodes["MusterboxBox23"] as Mesh;
 	const Musterbox24: Mesh = nodes["MusterboxBox24"] as Mesh;
 
-	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
-		backLabelPos: { value: { x: -3.7, y: 2.4, z: -2.3 }, step: 0.1 },
-		backLabelRot: { value: { x: 0, y: 0.2, z: 0 }, step: 0.1 },
-	});
-
 	return (
 		<group>
 			<group ref={musterboxRef} {...events} name={name}>
@@ -122,35 +109,6 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					material={MusterboxLasche.material}>
 					<Outlines thickness={2} scale={hovered === "MusterboxLasche" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 				</mesh>
-
-				<InteractionLabel
-					focusName={name}
-					shortcut={1}
-					label={!isOpen ? "Open Box" : "Close Box"}
-					position={[-2.55, 2.56, -2.51]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={1}
-					onTrigger={toggleBox}
-				/>
-
-				<InteractionLabel
-					focusName={name}
-					shortcut={2}
-					label={panelClosed ? "Open project description" : "Close project description"}
-					position={[-2.489, 2.45, -2.51]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={1}
-					onTrigger={switchPanel}
-				/>
-
-				<CloseLabel
-					scaleFactor={0.15}
-					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => dispatch()}>
-					x
-				</CloseLabel>
 
 				{/** Boxes */}
 				{boxesVisible && (
@@ -459,4 +417,4 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 	);
 };
 
-export default MusterboxUI;
+export default memo(MusterboxUI);
