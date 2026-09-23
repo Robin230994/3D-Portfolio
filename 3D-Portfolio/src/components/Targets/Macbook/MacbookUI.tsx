@@ -18,7 +18,6 @@ interface MacbookUIProps extends IUIComponentProps {
 		functions: {
 			myFunctions: {
 				setActiveTab: React.Dispatch<React.SetStateAction<"About me" | "Projects" | "Websites" | "Apps">>;
-				setIsHovered: React.Dispatch<React.SetStateAction<boolean>>;
 			};
 		};
 		refs: { myRefs: { macbookRef: RefObject<Group>; macbookTopSideRef: RefObject<Mesh> } };
@@ -31,7 +30,7 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, screenVisible, activeTab } = myData;
-	const { setActiveTab, setIsHovered } = myFunctions;
+	const { setActiveTab } = myFunctions;
 	const { macbookRef, macbookTopSideRef } = myRefs;
 
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
@@ -46,9 +45,8 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 				position={MacbookTopSide.position}
 				rotation={MacbookTopSide.rotation}
 				scale={MacbookTopSide.scale}
-				material={macbookTopSideMaterial}
-				onPointerLeave={() => setIsHovered(false)}>
-				{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab, setIsHovered }} />}
+				material={macbookTopSideMaterial}>
+				{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab }} />}
 			</mesh>
 		</group>
 	);

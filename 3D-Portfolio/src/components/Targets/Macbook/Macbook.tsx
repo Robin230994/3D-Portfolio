@@ -10,7 +10,6 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const [activeTab, setActiveTab] = useState<"About me" | "Projects" | "Websites" | "Apps">("Websites");
 
 	const [screenVisible, setScreenVisible] = useState(false);
-	const [, setIsHovered] = useState(false);
 
 	const macbookRef = useRef<Group>(null);
 	const macbookTopSideRef = useRef<Mesh>(null);
@@ -71,7 +70,7 @@ const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				activeTab,
 			},
 		},
-		functions: { myFunctions: { setActiveTab, setIsHovered } },
+		functions: { myFunctions: { setActiveTab } },
 		refs: { myRefs: { macbookRef, macbookTopSideRef } },
 	};
 	return <MacbookUI props={uiComponentProps} />;

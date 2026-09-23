@@ -1,8 +1,7 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useVirtualCursorStore, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
-import VirtualCursor from "../../VirtualCursor/VirtualCursor";
+import { useEffect, useRef, useState } from "react";
+import MacbookCursor from "./MacbookCursor";
 
 const websites = [
 	{ label: "Alexander Dort GmbH", href: "https://www.alexanderdort.com" },
@@ -21,34 +20,18 @@ interface IMacbookDesktopProps {
 	props: {
 		activeTab: "About me" | "Projects" | "Websites" | "Apps";
 		setActiveTab: React.Dispatch<React.SetStateAction<"About me" | "Projects" | "Websites" | "Apps">>;
-		setIsHovered: React.Dispatch<React.SetStateAction<boolean>>;
 	};
 }
 
 const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
-	const { activeTab, setActiveTab, setIsHovered } = props;
+	console.log("rendered");
+	const { activeTab, setActiveTab } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
 	const [websiteFoldersScrollTop, setWebsiteFoldersScrollTop] = useState(0);
-
-	const virtualCursorX = useVirtualCursorStore((state) => state.x);
-	const virtualCursorY = useVirtualCursorStore((state) => state.y);
-	const virtualWheel = useVirtualCursorStore((state) => state.virtualWheel);
+	const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
 
 	const websiteFoldersRef = useRef<HTMLDivElement>(null);
-
-	const macbookDisplay = VIRTUAL_DISPLAYS.macbook;
-	const macbookDisplayLeft = useMemo(() => VIRTUAL_DISPLAYS.macbook.left, []);
-	const macbookDisplayTop = useMemo(() => VIRTUAL_DISPLAYS.macbook.top, []);
-
-	const cursorInsideMacbook =
-		virtualCursorX >= macbookDisplay.left &&
-		virtualCursorX <= macbookDisplay.left + macbookDisplay.width &&
-		virtualCursorY >= macbookDisplay.top &&
-		virtualCursorY <= macbookDisplay.top + macbookDisplay.height;
-
-	const macbookCursorX = virtualCursorX - macbookDisplay.left;
-	const macbookCursorY = virtualCursorY - macbookDisplay.top;
 
 	const { uiPos, uiRot } = useControls("UIDesktop", {
 		uiPos: { value: { x: -0.01, y: 0.26, z: -0.08 } },
@@ -66,49 +49,6 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 		return () => window.clearTimeout(hideFinder);
 	}, [finderClosing]);
 
-	useEffect(() => {
-		if (!websiteFoldersRef.current) return;
-		const { x, y, deltaY } = virtualWheel;
-		const macbookCursorX = x - macbookDisplayLeft;
-		const macbookCursorY = y - macbookDisplayTop;
-
-		const virtualCursorInsideFinderFolder = () => {
-			return (
-				macbookCursorX >= VIRTUAL_POSITIONS.FinderFolder.x[0] &&
-				macbookCursorX <= VIRTUAL_POSITIONS.FinderFolder.x[1] &&
-				macbookCursorY >= VIRTUAL_POSITIONS.FinderFolder.y[0] &&
-				macbookCursorY <= VIRTUAL_POSITIONS.FinderFolder.y[1]
-			);
-		};
-
-		if (virtualCursorInsideFinderFolder() && deltaY !== 0) {
-			websiteFoldersRef.current.scrollBy({ top: deltaY, behavior: "auto" });
-		}
-	}, [macbookDisplayLeft, macbookDisplayTop, virtualWheel]);
-
-	const virtualCursorOverFolder = (): string | null => {
-		let locatedFolder: string | null = null;
-
-		Object.entries(VIRTUAL_POSITIONS.ProjectFolders).forEach((position) => {
-			const folderXPosition = position[1].x;
-			const folderYPosition = position[1].y;
-			const scrollAdjustedCursorY = macbookCursorY + websiteFoldersScrollTop;
-
-			if (
-				macbookCursorX >= folderXPosition[0] &&
-				macbookCursorX <= folderXPosition[1] &&
-				scrollAdjustedCursorY >= folderYPosition[0] &&
-				scrollAdjustedCursorY <= folderYPosition[1]
-			) {
-				locatedFolder = position[0];
-			}
-		});
-
-		return locatedFolder;
-	};
-
-	const hoveredFolder = virtualCursorOverFolder();
-
 	return (
 		<Html
 			transform
@@ -118,13 +58,8 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 			distanceFactor={1}
 			zIndexRange={[1, 1]}
 			pointerEvents="auto">
-			<div
-				className="mac-desktop"
-				onPointerDown={(event) => event.stopPropagation()}
-				onPointerEnter={() => setIsHovered(true)}
-				onPointerLeave={() => setIsHovered(false)}>
-				{cursorInsideMacbook && <VirtualCursor x={macbookCursorX} y={macbookCursorY} width={macbookDisplay.width} height={macbookDisplay.height} />}
-
+			<div className="mac-desktop" onPointerDown={(event) => event.stopPropagation()}>
+				<MacbookCursor scrollTop={websiteFoldersScrollTop} setHoveredFolder={setHoveredFolder} scrollContainerRef={websiteFoldersRef} />
 				<div className="mac-menu-bar">
 					<span className="mac-apple">●</span>
 					<strong>Finder</strong>
