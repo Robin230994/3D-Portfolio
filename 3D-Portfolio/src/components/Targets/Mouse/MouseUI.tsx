@@ -1,7 +1,6 @@
 import React, { MutableRefObject, RefObject } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { ArrowHelper, DirectionalLight, DoubleSide, Group, Material, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
-import { useFrame } from "@react-three/fiber";
 import { PivotControls } from "@react-three/drei";
 
 interface MouseUIProps extends IUIComponentProps {
@@ -11,18 +10,14 @@ interface MouseUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				ot7Material: Material | Material[];
-				mouseAtEdge: { x: { min: boolean; max: boolean }; z: { min: boolean; max: boolean } };
-				mouseAreaPosition: { x: number; z: number };
 				axisHelperVisible: boolean;
-				virtualCursorX: number;
-				virtualCursorY: number;
 			};
 		};
 		functions: {
 			myFunctions: {
 				handleMouseDrag: (localMatrix: Matrix4) => void;
 				setAxisHelperVisible: React.Dispatch<React.SetStateAction<boolean>>;
-				sendVirtualWheelData: (deltaY: number, cursorX: number, cursorY: number) => void;
+				handleVirtualWheel: (deltaY: number) => void;
 				clickVirtualMouse: () => void;
 			};
 		};
@@ -47,22 +42,11 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, ot7Material, mouseAtEdge, mouseAreaPosition, axisHelperVisible, virtualCursorX, virtualCursorY } = myData;
-	const { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData, clickVirtualMouse } = myFunctions;
+	const { name, nodes, ot7Material, axisHelperVisible } = myData;
+	const { handleMouseDrag, setAxisHelperVisible, handleVirtualWheel, clickVirtualMouse } = myFunctions;
 	const { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef, mouseIsDragging } = myRefs;
 
 	const Mouse: Mesh = nodes["Mouse"] as Mesh;
-
-	useFrame(() => {
-		if (!mouseAreaMaterialRef.current) return;
-
-		// adjust uniform according the mouse movement on edges
-		mouseAreaMaterialRef.current.uniforms.uLeft.value = mouseAtEdge.x.min ? 1.0 : 0;
-		mouseAreaMaterialRef.current.uniforms.uRight.value = mouseAtEdge.x.max ? 1.0 : 0;
-		mouseAreaMaterialRef.current.uniforms.uTop.value = mouseAtEdge.z.max ? 1.0 : 0;
-		mouseAreaMaterialRef.current.uniforms.uBottom.value = mouseAtEdge.z.min ? 1.0 : 0;
-		mouseAreaMaterialRef.current.uniforms.uMousePosition.value.set(mouseAreaPosition.x, mouseAreaPosition.z);
-	});
 
 	return (
 		<group name={name}>
@@ -98,7 +82,7 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 					}}
 					onWheel={(event) => {
 						event.stopPropagation();
-						sendVirtualWheelData(event.deltaY, virtualCursorX, virtualCursorY);
+						handleVirtualWheel(event.deltaY);
 					}}
 					onClick={() => {
 						if (!mouseIsDragging.current) clickVirtualMouse();

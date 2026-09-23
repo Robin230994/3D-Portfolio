@@ -12,8 +12,6 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 
 	const setCursorPosition = useVirtualCursorStore((state) => state.setCursorPosition);
 	const sendVirtualWheelData = useVirtualCursorStore((state) => state.sendVirtualWheelData);
-	const virtualCursorX = useVirtualCursorStore((state) => state.x);
-	const virtualCursorY = useVirtualCursorStore((state) => state.y);
 
 	const mouseRef = useRef<Mesh>(null);
 	const mousePivotRef = useRef<Group>(null);
@@ -21,14 +19,13 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 	const rightAxisArrowRef = useRef<ArrowHelper>(null);
 	const mouseAreaMaterialRef = useRef<ShaderMaterial>(null);
 	const mouseIsDragging = useRef<boolean>(false);
+	const dragPositionRef = useRef(new Vector3());
 
 	const [axisHelperVisible, setAxisHelperVisible] = useState(false);
-	const [mouseAtEdge, setMouseAtEdge] = useState({ x: { min: false, max: false }, z: { min: false, max: false } });
-	const [mouseAreaPosition, setMouseAreaPosition] = useState({ x: 0.5, z: 0.5 });
 
 	const handleMouseDrag = useCallback(
 		(localMatrix: Matrix4) => {
-			const position = new Vector3();
+			const position = dragPositionRef.current;
 			position.setFromMatrixPosition(localMatrix);
 
 			// Calculate the limit positions of the mouse area
@@ -43,26 +40,20 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 
 			setCursorPosition(normalizedX * VIRTUAL_DESKTOP_SIZE.width, normalizedZ * VIRTUAL_DESKTOP_SIZE.height);
 
-			setMouseAtEdge({
-				x: {
-					min: atMinX,
-					max: atMaxX,
-				},
-				z: {
-					min: atMinZ,
-					max: atMaxZ,
-				},
-			});
+			// Update shader material
+			const material = mouseAreaMaterialRef.current;
+			if (!material) return;
 
-			setMouseAreaPosition({
-				x: normalizedX,
-				z: normalizedZ,
-			});
+			material.uniforms.uLeft.value = atMinX ? 1 : 0;
+			material.uniforms.uRight.value = atMaxX ? 1 : 0;
+			material.uniforms.uTop.value = atMaxZ ? 1 : 0;
+			material.uniforms.uBottom.value = atMinZ ? 1 : 0;
+			material.uniforms.uMousePosition.value.set(normalizedX, normalizedZ);
 		},
 		[setCursorPosition],
 	);
 
-	const clickVirtualMouse = () => {
+	const clickVirtualMouse = useCallback(() => {
 		const { x, y } = useVirtualCursorStore.getState();
 		const display = VIRTUAL_DISPLAYS.macbook;
 		const localX = x - display.left;
@@ -77,17 +68,25 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 		if (!clickedTarget) return;
 
 		document.querySelector<HTMLElement>(".finder-folder[data-virtual-clickable].virtual-hover")?.click();
-	};
+	}, []);
+
+	const handleVirtualWheel = useCallback(
+		(deltaY: number) => {
+			const { x, y } = useVirtualCursorStore.getState();
+			sendVirtualWheelData(deltaY, x, y);
+		},
+		[sendVirtualWheelData],
+	);
 
 	const uiComponentProps = useMemo(
 		() => ({
 			data: {
-				myData: { name, nodes, axisHelperVisible, ot7Material, mouseAtEdge, mouseAreaPosition, virtualCursorX, virtualCursorY },
+				myData: { name, nodes, axisHelperVisible, ot7Material },
 			},
-			functions: { myFunctions: { handleMouseDrag, setAxisHelperVisible, sendVirtualWheelData, clickVirtualMouse } },
+			functions: { myFunctions: { handleMouseDrag, setAxisHelperVisible, handleVirtualWheel, clickVirtualMouse } },
 			refs: { myRefs: { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef, mouseIsDragging } },
 		}),
-		[axisHelperVisible, handleMouseDrag, mouseAreaPosition, mouseAtEdge, name, nodes, ot7Material, sendVirtualWheelData, virtualCursorX, virtualCursorY],
+		[axisHelperVisible, clickVirtualMouse, handleMouseDrag, handleVirtualWheel, name, nodes, ot7Material],
 	);
 	return <MouseUI props={uiComponentProps} />;
 };
