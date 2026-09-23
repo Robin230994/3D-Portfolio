@@ -49,7 +49,6 @@ interface MusterboxUIProps extends IUIComponentProps {
 }
 
 const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
-	console.log("rendered");
 	const { myData } = props.data;
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;

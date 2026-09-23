@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { Mesh } from "three";
 import { DirectionalLight } from "three";
@@ -154,4 +154,4 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	);
 };
 
-export default OfficeChairUI;
+export default memo(OfficeChairUI);
