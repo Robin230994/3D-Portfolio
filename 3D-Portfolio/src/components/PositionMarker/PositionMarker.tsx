@@ -1,8 +1,9 @@
 import { BufferGeometry, DirectionalLight, Group, Material, MathUtils, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import MaterialCreator from "../../classes/MaterialCreator";
 import { useCameraStore } from "../../Stores/useCameraStore";
+import { useFocusStore } from "../../Stores/useFocusStore";
 
 interface IPositionMarkerProps {
 	position: [number, number, number];
@@ -32,6 +33,7 @@ const AMPLITUDE = 0.25; // Amplitude of the up and down movement
 
 const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, areaPosition, positionKey, dispatch }) => {
 	const currentCameraPlaceKey = useCameraStore((state) => state.currentCameraPlaceKey);
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const PositionMarkerMesh = nodes["PositionMarker"] as Mesh;
 	const PositionMarkerBase = nodes["PositionMarkerBase"] as Mesh;
@@ -51,7 +53,7 @@ const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, areaP
 
 	return (
 		<group
-			visible={currentCameraPlaceKey !== positionKey}
+			visible={currentCameraPlaceKey !== positionKey && selectObjectFocus === null}
 			onClick={(event) => {
 				event.stopPropagation();
 				dispatch();
@@ -68,7 +70,7 @@ const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, areaP
 				<planeGeometry args={[3.5, 3.5]} />
 				<meshBasicMaterial transparent opacity={0} depthWrite={false} />
 			</mesh>
-			<group ref={positionGroupRef} position={position}>
+			<group ref={positionGroupRef} position={position} visible={pointerHovered}>
 				<mesh
 					ref={positionMarkerRef}
 					geometry={PositionMarkerMesh.geometry}
@@ -80,4 +82,4 @@ const PositionMarker: React.FC<IPositionMarkerProps> = ({ nodes, position, areaP
 	);
 };
 
-export default PositionMarker;
+export default memo(PositionMarker);

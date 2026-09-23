@@ -114,10 +114,10 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
-
+			{/* 
 			<EffectComposer multisampling={0}>
 				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
-			</EffectComposer>
+			</EffectComposer> */}
 
 			<Center onCentered={alignOutsideToRoom}>
 				<CameraController isDebugMode={isDebugMode} />

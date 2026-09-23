@@ -27,7 +27,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const interaction = useInteraction({
 		onClick: () => {
-			if (ot7Ref.current) {
+			if (ot7Ref.current && selectObjectFocus?.name !== "Screen") {
 				setSelectObjectFocus({ name: "Screen", object: ot7Ref.current });
 				setScreenVisible(true);
 			}
