@@ -18,7 +18,6 @@ type Instances = {
 
 const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, name }) => {
 	const instancedMeshRef = useRef<InstancedMesh>(null);
-	console.log("rendered");
 
 	useEffect(() => {
 		if (!instancedMeshRef.current) return;

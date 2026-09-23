@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 import { useFocusStore } from "../Stores/useFocusStore";
 
@@ -31,13 +31,18 @@ const useInteraction = ({ onClick }: IUseInteractionProps = {}) => {
 		[onClick],
 	);
 
-	return {
-		hovered,
-		events: {
+	const events = useMemo(
+		() => ({
 			onPointerEnter,
 			onPointerLeave,
 			onClick: handleClick,
-		},
+		}),
+		[handleClick, onPointerEnter, onPointerLeave],
+	);
+
+	return {
+		hovered,
+		events,
 	};
 };
 
