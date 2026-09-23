@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { IUIComponentProps } from "../../../types/GLTypes";
 import { DirectionalLight, Mesh } from "three";
 import { iot2Material } from "../../../Helper/GLMaterials";
@@ -45,4 +45,4 @@ const HomePodUI: React.FC<HomePodUIProps> = ({ props }) => {
 	);
 };
 
-export default HomePodUI;
+export default memo(HomePodUI);
