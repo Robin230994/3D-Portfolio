@@ -9,7 +9,7 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const CAMERA_RETURN_SPEED = 0.02;
 const CAMERA_ARRIVAL_EPSILON = 0.05;
-const DEG2RAD = Math.PI / 180;
+const DEG2_RAD = Math.PI / 180;
 
 const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
@@ -62,12 +62,12 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 				controls.minAzimuthAngle = -Infinity;
 				controls.maxAzimuthAngle = Infinity;
 			} else {
-				controls.minAzimuthAngle = (preset.azimuthal - preset.hdeg2rad) * DEG2RAD;
-				controls.maxAzimuthAngle = (preset.azimuthal + preset.hdeg2rad) * DEG2RAD;
+				controls.minAzimuthAngle = (preset.azimuthal - preset.hdeg2rad) * DEG2_RAD;
+				controls.maxAzimuthAngle = (preset.azimuthal + preset.hdeg2rad) * DEG2_RAD;
 			}
 
-			controls.minPolarAngle = (preset.polar - preset.vdeg2rad) * DEG2RAD;
-			controls.maxPolarAngle = (preset.polar + preset.vdeg2rad) * DEG2RAD;
+			controls.minPolarAngle = (preset.polar - preset.vdeg2rad) * DEG2_RAD;
+			controls.maxPolarAngle = (preset.polar + preset.vdeg2rad) * DEG2_RAD;
 			controls.enabled = true;
 			controls.update();
 		};
