@@ -9,10 +9,10 @@ const ScreenCursor: React.FC = () => {
 	const localY = y - VIRTUAL_DISPLAYS.screen.top;
 
 	const cursorInsideScreen =
-		localX >= VIRTUAL_DISPLAYS.screen.left &&
-		localX <= VIRTUAL_DISPLAYS.screen.left + VIRTUAL_DISPLAYS.screen.width &&
-		localY >= VIRTUAL_DISPLAYS.screen.top &&
-		localY <= VIRTUAL_DISPLAYS.screen.top + VIRTUAL_DISPLAYS.screen.height;
+		x >= VIRTUAL_DISPLAYS.screen.left &&
+		x <= VIRTUAL_DISPLAYS.screen.left + VIRTUAL_DISPLAYS.screen.width &&
+		y >= VIRTUAL_DISPLAYS.screen.top &&
+		y <= VIRTUAL_DISPLAYS.screen.top + VIRTUAL_DISPLAYS.screen.height;
 
 	if (!cursorInsideScreen) return null;
 

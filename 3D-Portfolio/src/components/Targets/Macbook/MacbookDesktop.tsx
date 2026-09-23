@@ -24,7 +24,6 @@ interface IMacbookDesktopProps {
 }
 
 const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
-	console.log("rendered");
 	const { activeTab, setActiveTab } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
