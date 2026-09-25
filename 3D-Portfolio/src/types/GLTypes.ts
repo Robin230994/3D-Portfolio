@@ -69,3 +69,5 @@ export type AnimationConfig<T extends keyof ActionMap> = {
 	action: UsableAction<T>;
 	options: AnimationOptions;
 };
+
+export type PlaygroundFile = "html" | "css" | "js";

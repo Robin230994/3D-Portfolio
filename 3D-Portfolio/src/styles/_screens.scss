@@ -91,6 +91,15 @@
 	bottom: 0;
 	width: 100%;
 	border-radius: 0px 0px 17px 17px;
+
+	.vs-code-btn {
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+		font: inherit;
+	}
 }
 
 .mac-dock-finder {
@@ -296,4 +305,34 @@
 	z-index: 9999;
 	transition: transform 40ms linear;
 	background: url("/images/cursor.svg");
+}
+
+.code-editor {
+	position: absolute;
+	inset: 24px 0 43px; // below menu bar, above dock
+	display: flex;
+	flex-direction: column;
+	background: #1e1e1e;
+
+	.code-editor-tabs {
+		flex: 0 0 30px;
+		display: flex;
+
+		.editor-tab {
+			background-color: #2b2b2b;
+			border: none;
+			color: #9d9d9d;
+			cursor: pointer;
+
+			&.is-active {
+				background-color: #222;
+				color: #ccc;
+			}
+		}
+	}
+
+	& > :last-child {
+		flex: 1;
+		min-height: 0;
+	}
 }

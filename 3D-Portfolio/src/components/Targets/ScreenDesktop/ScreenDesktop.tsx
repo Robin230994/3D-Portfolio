@@ -32,10 +32,10 @@ const ScreenDesktop: React.FC = () => {
 						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />
 					</span>
 					<span>
-						<img src="/images/Adobe_Photoshop_CC_icon.svg.png" width={"30px"} height={"30px"} />
+						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
 					</span>
 					<span>
-						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
+						<img src="/images/Adobe_Photoshop_CC_icon.svg.png" width={"30px"} height={"30px"} />
 					</span>
 				</div>
 			</div>

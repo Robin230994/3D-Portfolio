@@ -90,6 +90,14 @@
   width: 100%;
   border-radius: 0px 0px 17px 17px;
 }
+.mac-dock .vs-code-btn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
 
 .mac-dock-finder {
   padding: 0;
@@ -289,6 +297,32 @@
   z-index: 9999;
   transition: transform 40ms linear;
   background: url("/images/cursor.svg");
+}
+
+.code-editor {
+  position: absolute;
+  inset: 24px 0 43px;
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
+}
+.code-editor .code-editor-tabs {
+  flex: 0 0 30px;
+  display: flex;
+}
+.code-editor .code-editor-tabs .editor-tab {
+  background-color: #2b2b2b;
+  border: none;
+  color: #9d9d9d;
+  cursor: pointer;
+}
+.code-editor .code-editor-tabs .editor-tab.is-active {
+  background-color: #222;
+  color: #ccc;
+}
+.code-editor > :last-child {
+  flex: 1;
+  min-height: 0;
 }
 
 .music-menu-btn {

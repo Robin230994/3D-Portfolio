@@ -3,6 +3,7 @@ import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
 import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
 import MacbookCursor from "./MacbookCursor";
+import MacbookCodeEditor from "./MacbookCodeEditor";
 
 // IMPORTANT NOTE -> These files are to large commit. Change to path on server and store videos there to prevent LFS for github.
 const websites = [
@@ -29,6 +30,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const { activeTab, setActiveTab } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
+	const [editorVisible, setEditorVisible] = useState(false);
 	const [websiteFoldersScrollTop, setWebsiteFoldersScrollTop] = useState(0);
 	const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
 
@@ -71,7 +73,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 					<span>View</span>
 					<span>Go</span>
 				</div>
-				{finderVisible && (
+				{finderVisible && !editorVisible && (
 					<div className={`finder-window ${finderClosing ? "finder-window-closing" : ""}`}>
 						<div className="finder-titlebar">
 							<div className="finder-controls">
@@ -164,15 +166,29 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 						</div>
 					</div>
 				)}
+
+				{editorVisible && <MacbookCodeEditor />}
+
 				<div className="mac-dock">
-					<button className="mac-dock-finder" onClick={() => setFinderVisible(true)} aria-label="Open Finder">
+					<button
+						className="mac-dock-finder"
+						onClick={() => {
+							setEditorVisible(false);
+							setFinderVisible(true);
+						}}
+						aria-label="Open Finder">
 						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />
+					</button>
+					<button
+						className="vs-code-btn"
+						onClick={() => {
+							setFinderClosing(true);
+							setEditorVisible(true);
+						}}>
+						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
 					</button>
 					<span>
 						<img src="/images/Adobe_Photoshop_CC_icon.svg.png" width={"30px"} height={"30px"} />
-					</span>
-					<span>
-						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
 					</span>
 				</div>
 			</div>
