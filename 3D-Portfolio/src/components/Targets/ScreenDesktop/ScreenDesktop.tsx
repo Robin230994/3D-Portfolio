@@ -28,10 +28,15 @@ const ScreenDesktop: React.FC = () => {
 					<span>Go</span>
 				</div>
 				<div className="mac-dock">
-					<button className="mac-dock-finder">⌘</button>
-					<span>▣</span>
-					<span>◉</span>
-					<span>◌</span>
+					<span className="mac-dock-finder">
+						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />
+					</span>
+					<span>
+						<img src="/images/Adobe_Photoshop_CC_icon.svg.png" width={"30px"} height={"30px"} />
+					</span>
+					<span>
+						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
+					</span>
 				</div>
 			</div>
 		</Html>

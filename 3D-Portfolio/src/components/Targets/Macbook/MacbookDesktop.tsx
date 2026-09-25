@@ -166,11 +166,14 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 				)}
 				<div className="mac-dock">
 					<button className="mac-dock-finder" onClick={() => setFinderVisible(true)} aria-label="Open Finder">
-						⌘
+						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />
 					</button>
-					<span>▣</span>
-					<span>◉</span>
-					<span>◌</span>
+					<span>
+						<img src="/images/Adobe_Photoshop_CC_icon.svg.png" width={"30px"} height={"30px"} />
+					</span>
+					<span>
+						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
+					</span>
 				</div>
 			</div>
 		</Html>
