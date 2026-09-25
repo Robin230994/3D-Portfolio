@@ -48,7 +48,7 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		target: [0.09, 0.32, -6.4],
 		azimuthal: -0.6,
 		polar: 80.6,
-		hdeg2rad: 2,
+		hdeg2rad: 8,
 		vdeg2rad: 2,
 	},
 	Musterbox: {
@@ -56,8 +56,8 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		target: [-3.57, 0.45, -5.33],
 		azimuthal: -1.5,
 		polar: 77.4,
-		hdeg2rad: 2,
-		vdeg2rad: 2,
+		hdeg2rad: 10,
+		vdeg2rad: 5,
 	},
 	OcculusQuest: {
 		position: [2.93, 0.24, -0.75],

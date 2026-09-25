@@ -150,7 +150,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Macbook" position={[4.656, 1.502, -1.804]} rotation={[0, 0.734, 0]}>
-          <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[-0.001, -0.327, -0.25]} rotation={[0.089, 0, 0]} />
+          <mesh name="MacbookTopSide" geometry={nodes.MacbookTopSide.geometry} material={materials.ot5} position={[0.001, -0.33, -0.253]} rotation={[1.863, 0.004, -0.003]} />
           <mesh name="object_t5" geometry={nodes.object_t5.geometry} material={materials.ot5} position={[-0.007, -0.324, -0.072]} />
         </group>
         <group name="Robbi_Rig" position={[7.181, 1.231, 0.198]} rotation={[0, -1.49, 0]}>

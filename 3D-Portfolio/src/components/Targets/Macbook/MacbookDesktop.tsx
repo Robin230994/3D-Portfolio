@@ -1,19 +1,21 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
+import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
 import MacbookCursor from "./MacbookCursor";
 
+// IMPORTANT NOTE -> These files are to large commit. Change to path on server and store videos there to prevent LFS for github.
 const websites = [
-	{ label: "Alexander Dort GmbH", href: "https://www.alexanderdort.com" },
-	{ label: "Pslzme", href: "https://www.pslzme.com" },
-	{ label: "Printers Lounge", href: "https://www.printerslounge.com" },
-	{ label: "Dorji Sushi To Go", href: "https://www.dorji.de" },
-	{ label: "CYVED", href: "https://www.cyved.com" },
-	{ label: "Matthias Holder", href: "https://www.matthiasholder.com" },
-	{ label: "ALDUS Group", href: "https://aldusgroup.com" },
-	{ label: "ALDUS Foils", href: "https://foils.aldusgroup.com" },
-	{ label: "ALDUS Machines", href: "https://machines.aldusgroup.com" },
-	{ label: "ALDUS Inks", href: "https://inks.aldusgroup.com" },
+	{ label: "Alexander Dort GmbH", src: "/video/ad_website_showcase.mp4" },
+	{ label: "Pslzme", src: "/video/pslzme_website_showcase.mp4" },
+	{ label: "Printers Lounge", src: "/video/pl_website_showcase.mp4" },
+	{ label: "Dorji Sushi To Go", src: "/video/dorji_website_showcase.mp4" },
+	{ label: "CYVED", src: "/video/cyved_website_showcase.mp4" },
+	{ label: "Matthias Holder", src: "/video/mh_website_showcase.mp4" },
+	{ label: "ALDUS Group", src: "/video/aldus_group_website_showcase.mp4" },
+	{ label: "ALDUS Foils", src: "/video/aldus_foils_website_showcase.mp4" },
+	{ label: "ALDUS Machines", src: "/video/aldus_machines_website_showcase.mp4" },
+	{ label: "ALDUS Inks", src: "/video/aldus_inks_website_showcase.mp4" },
 ];
 
 interface IMacbookDesktopProps {
@@ -29,6 +31,8 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const [finderClosing, setFinderClosing] = useState(false);
 	const [websiteFoldersScrollTop, setWebsiteFoldersScrollTop] = useState(0);
 	const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
+
+	const setActiveVideo = useScreenMediaStore((state) => state.setActiveVideo);
 
 	const websiteFoldersRef = useRef<HTMLDivElement>(null);
 
@@ -81,17 +85,35 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 							<aside>
 								<span>Favorites</span>
 								<strong>⌂ Desktop</strong>
-								<strong className="finder-content-about" onClick={() => setActiveTab("About me")}>
+								<strong
+									className="finder-content-about"
+									onClick={() => {
+										setActiveTab("About me");
+										setActiveVideo(null);
+									}}>
 									⌂ About me
 								</strong>
-								<strong className="finder-content-projects" onClick={() => setActiveTab("Projects")}>
+								<strong
+									className="finder-content-projects"
+									onClick={() => {
+										setActiveTab("Projects");
+										setActiveVideo(null);
+									}}>
 									▣ My Projects
 								</strong>
 								<ul className="finder-content-projects">
-									<li onClick={() => setActiveTab("Websites")}>
+									<li
+										onClick={() => {
+											setActiveTab("Websites");
+											setActiveVideo(null);
+										}}>
 										<strong>▣ Websites</strong>
 									</li>
-									<li onClick={() => setActiveTab("Apps")}>
+									<li
+										onClick={() => {
+											setActiveTab("Apps");
+											setActiveVideo(null);
+										}}>
 										<strong>▣ Apps</strong>
 									</li>
 								</ul>
@@ -102,12 +124,22 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								onScroll={(element) => setWebsiteFoldersScrollTop(element.currentTarget.scrollTop)}>
 								{activeTab === "Projects" && (
 									<div className="finder-folders">
-										<div className="finder-folder" onClick={() => setActiveTab("Websites")}>
+										<div
+											className="finder-folder"
+											onClick={() => {
+												setActiveTab("Websites");
+												setActiveVideo(null);
+											}}>
 											<span>📁</span>
 											<p className="folder-name">Websites</p>
 										</div>
 
-										<div className="finder-folder" onClick={() => setActiveTab("Apps")}>
+										<div
+											className="finder-folder"
+											onClick={() => {
+												setActiveTab("Apps");
+												setActiveVideo(null);
+											}}>
 											<span>📁</span>
 											<p className="folder-name">Apps</p>
 										</div>
@@ -117,16 +149,14 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								{activeTab === "Websites" && (
 									<div className="finder-folders">
 										{websites.map((project) => (
-											<a
+											<div
 												data-virtual-clickable
-												key={project.href}
-												href={project.href}
-												target="_blank"
-												rel="noreferrer"
-												className={`finder-folder ${hoveredFolder === project.label && "virtual-hover"}`}>
+												key={project.src}
+												className={`finder-folder ${hoveredFolder === project.label && "virtual-hover"}`}
+												onClick={() => setActiveVideo(project.src)}>
 												<span>📁</span>
 												<p className="folder-name">{project.label}</p>
-											</a>
+											</div>
 										))}
 									</div>
 								)}

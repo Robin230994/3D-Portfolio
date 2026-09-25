@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export const VIRTUAL_DISPLAYS = {
 	macbook: { left: 0, top: 0, width: 532, height: 341 },
-	screen: { left: 532, top: 0, width: 560, height: 360 },
+	screen: { left: 532, top: 0, width: 780, height: 370 },
 } as const;
 
 export const VIRTUAL_DESKTOP_SIZE = {
