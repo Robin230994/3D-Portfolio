@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { ArrowHelper, Group, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
 import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
 import MouseUI from "./MouseUI";

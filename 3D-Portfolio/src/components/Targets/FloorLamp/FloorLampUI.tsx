@@ -1,5 +1,5 @@
 import React from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Material, Mesh, PointLight } from "three";
 import { Outlines } from "@react-three/drei";
 import { useControls } from "leva";

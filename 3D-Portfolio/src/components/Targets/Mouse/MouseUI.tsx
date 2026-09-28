@@ -1,5 +1,5 @@
 import React, { MutableRefObject, RefObject } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { ArrowHelper, DirectionalLight, DoubleSide, Group, Material, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
 import { PivotControls } from "@react-three/drei";
 

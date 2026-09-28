@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { ISong } from "../interfaces/GLlnterfaces";
-import { songs } from "../Presets/Presets";
+import { ISong } from "../utils/Interfaces";
+import { songs } from "../utils/Presets";
 
 interface IMusicStore {
 	songs: ISong[];

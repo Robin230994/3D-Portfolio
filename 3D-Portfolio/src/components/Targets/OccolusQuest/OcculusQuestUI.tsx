@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Mesh, Group } from "three";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { AnimationAction, Group, LoopOnce, MathUtils, Mesh } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";

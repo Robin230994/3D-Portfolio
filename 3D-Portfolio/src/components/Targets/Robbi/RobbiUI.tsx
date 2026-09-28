@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { AnimationConfig, IUIComponentProps } from "../../../types/GLTypes";
+import { AnimationConfig, IUIComponentProps } from "../../../utils/Types";
 import { Bone, DirectionalLight, Group, Material, Mesh, SkinnedMesh } from "three";
 import { useControls } from "leva";
 import MaterialCreator from "../../../classes/MaterialCreator";

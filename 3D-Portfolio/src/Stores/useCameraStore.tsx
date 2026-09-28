@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { CameraInfo } from "../types/GLTypes";
-import { cameraPresets } from "../Presets/Presets";
+import { CameraInfo } from "../utils/Types";
+import { cameraPresets } from "../utils/Presets";
 
 export const ROOM_POSITION_ORDER = ["IntroPoint", "RoomPointOne", "RoomPointTwo", "RoomPointThree", "RoomPointFour"];
 export type RoomPositionKey = (typeof ROOM_POSITION_ORDER)[number];

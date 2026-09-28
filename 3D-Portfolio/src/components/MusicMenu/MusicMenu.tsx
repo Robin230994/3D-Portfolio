@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, ListMusic, Music, Pause, Play, Volume2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { songs } from "../../Presets/Presets";
+import { songs } from "../../utils/Presets";
 import useMusicStore from "../../Stores/useMusicStore";
 
 const MusicMenu: React.FC = () => {

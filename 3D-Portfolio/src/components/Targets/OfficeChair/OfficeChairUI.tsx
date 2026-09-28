@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { Mesh } from "three";
 import { DirectionalLight } from "three";
-import { iot1Material, metalMaterial } from "../../../Helper/GLMaterials";
+import { iot1Material, metalMaterial } from "../../../utils/Materials";
 import { useControls } from "leva";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";

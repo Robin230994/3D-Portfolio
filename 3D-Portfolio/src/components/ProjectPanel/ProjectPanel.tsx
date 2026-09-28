@@ -1,4 +1,4 @@
-import { IProjectDescription } from "../../interfaces/GLlnterfaces";
+import { IProjectDescription } from "../../utils/Interfaces";
 import { useEffect, useRef } from "react";
 import { useProjectPanelStore } from "../../Stores/useProjectPanelStore";
 

@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { IUIComponentProps } from "../../types/GLTypes";
+import { IUIComponentProps } from "../../utils/Types";
 import { BoxGeometry, DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
-import { iot1Material } from "../../Helper/GLMaterials";
+import { iot1Material } from "../../utils/Materials";
 import MaterialCreator from "../../classes/MaterialCreator";
 import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 

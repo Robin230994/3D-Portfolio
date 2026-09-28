@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { PlaygroundFile } from "../types/GLTypes";
+import { PlaygroundFile } from "../utils/Types";
 
 interface ICodePlaygroundStore {
 	isOpen: boolean;

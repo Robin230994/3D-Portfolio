@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { IProjectDescription } from "../interfaces/GLlnterfaces";
+import { IProjectDescription } from "../utils/Interfaces";
 import { useProjectPanelStore } from "../Stores/useProjectPanelStore";
 
 const projectDescriptions: Record<string, IProjectDescription> = {

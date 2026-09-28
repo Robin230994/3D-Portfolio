@@ -1,5 +1,5 @@
 import { Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../utils/Interfaces";
 import { Material } from "three";
 import { useEffect } from "react";
 

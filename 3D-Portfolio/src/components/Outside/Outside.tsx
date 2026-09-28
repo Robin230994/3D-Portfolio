@@ -1,5 +1,5 @@
 import { Material, Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../utils/Interfaces";
 import { useEffect } from "react";
 
 const Outside: React.FC<CustomMeshProps> = ({ name, nodes }) => {

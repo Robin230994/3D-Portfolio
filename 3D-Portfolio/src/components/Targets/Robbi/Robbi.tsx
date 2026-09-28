@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import RobbiUI from "./RobbiUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Group, LoopOnce, LoopRepeat } from "three";
 import { useAnimations } from "@react-three/drei/core/useAnimations";
-import { AnimationConfig } from "../../../types/GLTypes";
-import { robbiAnimationPresets } from "../../../Presets/Presets";
+import { AnimationConfig } from "../../../utils/Types";
+import { robbiAnimationPresets } from "../../../utils/Presets";
 
 const Robbi: React.FC<CustomMeshProps> = ({ name, nodes, materials, animations }) => {
 	const rigRef = useRef<Group>(null);

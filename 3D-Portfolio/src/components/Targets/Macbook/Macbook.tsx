@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import MacbookUI from "./MacbookUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Group, LoopOnce, Mesh } from "three";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useAnimations } from "@react-three/drei";

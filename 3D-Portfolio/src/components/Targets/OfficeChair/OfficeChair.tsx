@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import OfficeChairUI from "./OfficeChairUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { LoopOnce, Mesh } from "three";
 import { useAnimations } from "@react-three/drei";
-import { AnimationConfig } from "../../../types/GLTypes";
-import { officeChairAnimationPresets } from "../../../Presets/Presets";
+import { AnimationConfig } from "../../../utils/Types";
+import { officeChairAnimationPresets } from "../../../utils/Presets";
 import useInteraction from "../../../hooks/useInteraction";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {

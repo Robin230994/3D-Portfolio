@@ -1,6 +1,6 @@
 import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
-import { PlaygroundFile } from "../../../types/GLTypes";
+import { PlaygroundFile } from "../../../utils/Types";
 import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
 
 const fileLabels: Record<PlaygroundFile, string> = {

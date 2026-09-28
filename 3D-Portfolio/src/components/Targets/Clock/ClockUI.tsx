@@ -1,5 +1,5 @@
 import React from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight } from "three/src/lights/DirectionalLight.js";
 import { Mesh } from "three/src/objects/Mesh.js";
 import { BufferGeometry, Material, NormalBufferAttributes, Object3DEventMap } from "three";

@@ -1,6 +1,6 @@
 import { Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { foundationMaterial } from "../../Helper/GLMaterials";
+import { CustomMeshProps } from "../../utils/Interfaces";
+import { foundationMaterial } from "../../utils/Materials";
 import { useCameraStore } from "../../Stores/useCameraStore";
 
 import PictureFrame from "../Targets/PictureFrame/PictureFrame";

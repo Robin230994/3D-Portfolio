@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { songs } from "../Presets/Presets";
+import { songs } from "../utils/Presets";
 
 interface IMusicMetadata {
 	songDurations: Record<number, number>;

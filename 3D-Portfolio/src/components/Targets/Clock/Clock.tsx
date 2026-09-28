@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import ClockUI from "./ClockUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 

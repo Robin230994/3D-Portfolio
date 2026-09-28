@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { Mesh, DirectionalLight, Material } from "three";
 import { Group } from "three";
 

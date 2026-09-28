@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import BillardTriangleUI from "./BillardTriangleUI";
 import useInteraction from "../../../hooks/useInteraction";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Group } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";

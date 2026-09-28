@@ -1,6 +1,6 @@
 import React, { memo, useRef } from "react";
 import PictureFrameUI from "./PictureFrameUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { Mesh } from "three";

@@ -1,6 +1,6 @@
 import { CircleGeometry, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, ShaderMaterial } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { iot1Material } from "../../Helper/GLMaterials";
+import { CustomMeshProps } from "../../utils/Interfaces";
+import { iot1Material } from "../../utils/Materials";
 import { useControls } from "leva";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";

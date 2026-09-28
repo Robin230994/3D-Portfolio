@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import HomePodUI from "./HomePodUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { useControls } from "leva";
-import { songs } from "../../../Presets/Presets";
+import { songs } from "../../../utils/Presets";
 import MusicNote from "../../MusicNote/MusicNote";
 import useMusicStore from "../../../Stores/useMusicStore";
 import useInteraction from "../../../hooks/useInteraction";

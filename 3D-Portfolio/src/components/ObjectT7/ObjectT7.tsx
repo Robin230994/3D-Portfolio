@@ -1,5 +1,5 @@
 import { Material, Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../utils/Interfaces";
 import { Outlines } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import { useFocusStore } from "../../Stores/useFocusStore";

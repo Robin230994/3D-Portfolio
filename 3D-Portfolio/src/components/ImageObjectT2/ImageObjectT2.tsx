@@ -1,6 +1,6 @@
 import { Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { iot2Material } from "../../Helper/GLMaterials";
+import { CustomMeshProps } from "../../utils/Interfaces";
+import { iot2Material } from "../../utils/Materials";
 
 import FCBox from "../Targets/FCBox/FCBox";
 import Musterbox from "../Targets/Musterbox/Musterbox";

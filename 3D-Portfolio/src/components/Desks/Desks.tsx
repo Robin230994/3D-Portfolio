@@ -1,4 +1,4 @@
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../utils/Interfaces";
 import DesksUI from "./DesksUI";
 
 const Desks: React.FC<CustomMeshProps> = ({ name, nodes }) => {

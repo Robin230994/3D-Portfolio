@@ -1,7 +1,7 @@
 import React, { memo, RefObject } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Group, Mesh } from "three";
-import { iot2Material } from "../../../Helper/GLMaterials";
+import { iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";

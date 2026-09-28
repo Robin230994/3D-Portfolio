@@ -1,5 +1,5 @@
 import { Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../utils/Interfaces";
 import { Material } from "three";
 
 const ObjectT1: React.FC<CustomMeshProps> = ({ name, nodes }) => {

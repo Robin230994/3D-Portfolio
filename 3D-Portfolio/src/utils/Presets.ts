@@ -1,5 +1,5 @@
-import { ISong } from "../interfaces/GLlnterfaces";
-import { AnimationConfig, CameraInfo } from "../types/GLTypes";
+import { ISong } from "./Interfaces";
+import { AnimationConfig, CameraInfo } from "./Types";
 
 export const cameraPresets: Record<string, CameraInfo> = {
 	IntroPoint: {

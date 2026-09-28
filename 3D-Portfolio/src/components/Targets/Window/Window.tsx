@@ -1,7 +1,7 @@
 import React, { memo, useRef } from "react";
 import WindowUI from "./WindowUI";
 import useInteraction from "../../../hooks/useInteraction";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
 

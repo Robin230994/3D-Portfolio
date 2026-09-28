@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import FloorLampUI from "./FloorLampUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { PointLight } from "three";
 import useInteraction from "../../../hooks/useInteraction";
 

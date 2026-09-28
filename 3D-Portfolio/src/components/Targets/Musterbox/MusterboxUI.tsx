@@ -1,8 +1,8 @@
 import React, { memo, RefObject } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { BufferGeometry, DirectionalLight, EdgesGeometry, LineBasicMaterial, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
 import { Group } from "three";
-import { iot2Material } from "../../../Helper/GLMaterials";
+import { iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 import { useFocusStore } from "../../../Stores/useFocusStore";

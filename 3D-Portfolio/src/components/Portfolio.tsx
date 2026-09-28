@@ -1,7 +1,7 @@
 import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { GLTFResult } from "../types/GLTypes";
+import { GLTFResult } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";

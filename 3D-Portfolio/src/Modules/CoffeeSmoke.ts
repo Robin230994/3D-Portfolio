@@ -1,5 +1,5 @@
 import { ReactThreeFiber } from "@react-three/fiber";
-import { CoffeeSmokeMaterial } from "../Helper/GLMaterials";
+import { CoffeeSmokeMaterial } from "../utils/Materials";
 
 declare module "@react-three/fiber" {
 	interface ThreeElements {

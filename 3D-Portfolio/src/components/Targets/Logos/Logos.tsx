@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import LogosUI from "./LogosUI";
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Mesh } from "three/src/objects/Mesh.js";
 import useInteraction from "../../../hooks/useInteraction";
 

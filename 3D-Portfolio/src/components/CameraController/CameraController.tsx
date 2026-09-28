@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { cameraPresets } from "../../Presets/Presets";
+import { cameraPresets } from "../../utils/Presets";
 import { useControls } from "leva";
 import { useFrame } from "@react-three/fiber";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";

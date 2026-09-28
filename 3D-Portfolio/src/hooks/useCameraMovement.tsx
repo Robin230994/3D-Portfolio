@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { Vector3 } from "three";
 import { useCameraStore } from "../Stores/useCameraStore";
 import { useFocusStore } from "../Stores/useFocusStore";
-import { CameraInfo } from "../types/GLTypes";
-import { cameraPresets } from "../Presets/Presets";
+import { CameraInfo } from "../utils/Types";
+import { cameraPresets } from "../utils/Presets";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const CAMERA_RETURN_SPEED = 0.02;

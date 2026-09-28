@@ -1,6 +1,6 @@
 import { Mesh } from "three";
-import { CustomMeshProps } from "../../interfaces/GLlnterfaces";
-import { t3Material } from "../../Helper/GLMaterials";
+import { CustomMeshProps } from "../../utils/Interfaces";
+import { t3Material } from "../../utils/Materials";
 
 import BambuLab from "../Targets/BambuLab/BambuLab";
 import BillardTriangle from "../Targets/BillardTriangle/BillardTriangle";

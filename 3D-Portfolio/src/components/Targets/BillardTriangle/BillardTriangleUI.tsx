@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
-import { IUIComponentProps } from "../../../types/GLTypes";
+import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Group, Mesh } from "three";
-import { t3Material } from "../../../Helper/GLMaterials";
+import { t3Material } from "../../../utils/Materials";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../Stores/useFocusStore";

@@ -1,4 +1,4 @@
-import { CustomMeshProps } from "../../../interfaces/GLlnterfaces";
+import { CustomMeshProps } from "../../../utils/Interfaces";
 import { AnimationAction, Group, LoopOnce } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
