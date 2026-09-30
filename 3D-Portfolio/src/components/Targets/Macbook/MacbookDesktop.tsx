@@ -90,6 +90,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								<span>Favorites</span>
 								<strong>⌂ Desktop</strong>
 								<strong
+									data-virtual-clickable
 									className="finder-content-about"
 									onClick={() => {
 										setActiveTab("About me");
@@ -98,6 +99,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 									⌂ About me
 								</strong>
 								<strong
+									data-virtual-clickable
 									className="finder-content-projects"
 									onClick={() => {
 										setActiveTab("Projects");
@@ -107,6 +109,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								</strong>
 								<ul className="finder-content-projects">
 									<li
+										data-virtual-clickable
 										onClick={() => {
 											setActiveTab("Websites");
 											setActiveVideo(null);
@@ -114,6 +117,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 										<strong>▣ Websites</strong>
 									</li>
 									<li
+										data-virtual-clickable
 										onClick={() => {
 											setActiveTab("Apps");
 											setActiveVideo(null);
@@ -129,6 +133,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 								{activeTab === "Projects" && (
 									<div className="finder-folders">
 										<div
+											data-virtual-clickable
 											className="finder-folder"
 											onClick={() => {
 												setActiveTab("Websites");
@@ -139,6 +144,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 										</div>
 
 										<div
+											data-virtual-clickable
 											className="finder-folder"
 											onClick={() => {
 												setActiveTab("Apps");
@@ -173,6 +179,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 
 				<div className="mac-dock">
 					<button
+						data-virtual-clickable
 						className="mac-dock-finder"
 						onClick={() => {
 							setIsOpen(false);
@@ -182,6 +189,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />
 					</button>
 					<button
+						data-virtual-clickable
 						className="vs-code-btn"
 						onClick={() => {
 							setFinderClosing(true);

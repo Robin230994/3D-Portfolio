@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { ArrowHelper, Group, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
-import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE } from "../../../Stores/useVirtualCursorStore";
 import MouseUI from "./MouseUI";
 
 const MOUSE_TRAVEL_X = [-0.15, 0.15];
@@ -54,20 +54,43 @@ const Mouse: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 	);
 
 	const clickVirtualMouse = useCallback(() => {
-		const { x, y } = useVirtualCursorStore.getState();
-		const display = VIRTUAL_DISPLAYS.macbook;
-		const localX = x - display.left;
-		const localY = y - display.top;
+		// restrict the click to the macbook desktop
+		const macbookDesktop = document.querySelector(".mac-desktop");
+		const virtualCursor = document.querySelector<HTMLElement>(".mac-desktop .virtual-cursor");
+		if (!macbookDesktop || !virtualCursor) return;
 
-		const clickedTarget =
-			localX >= VIRTUAL_POSITIONS.FinderFolder.x[0] &&
-			localX <= VIRTUAL_POSITIONS.FinderFolder.x[1] &&
-			localY >= VIRTUAL_POSITIONS.FinderFolder.y[0] &&
-			localY <= VIRTUAL_POSITIONS.FinderFolder.y[1];
+		const cursorRect = virtualCursor.getBoundingClientRect();
 
-		if (!clickedTarget) return;
+		const clientX = cursorRect.left + 4;
+		const clientY = cursorRect.top + 4;
 
-		document.querySelector<HTMLElement>(".finder-folder[data-virtual-clickable].virtual-hover")?.click();
+		// // increase the clickable area to prevent the cursor to be exactly at the elements position
+		const clickablePadding = 15;
+
+		const clickableTarget = [...macbookDesktop.querySelectorAll<HTMLElement>("[data-virtual-clickable]")]
+			.map((element) => {
+				const rect = element.getBoundingClientRect();
+				const insidePaddingArea =
+					clientX >= rect.left - clickablePadding &&
+					clientX <= rect.right + clickablePadding &&
+					clientY >= rect.top - clickablePadding &&
+					clientY <= rect.bottom + clickablePadding;
+
+				if (!insidePaddingArea) return null;
+
+				// Chooses the closest target if two padded areas overlap.
+				const distanceX = Math.max(rect.left - clientX, 0, clientX - rect.right);
+				const distanceY = Math.max(rect.top - clientY, 0, clientY - rect.bottom);
+
+				return {
+					element,
+					distance: Math.hypot(distanceX, distanceY),
+				};
+			})
+			.filter((target): target is { element: HTMLElement; distance: number } => target !== null)
+			.sort((a, b) => a.distance - b.distance)[0]?.element;
+
+		clickableTarget?.click();
 	}, []);
 
 	const handleVirtualWheel = useCallback(

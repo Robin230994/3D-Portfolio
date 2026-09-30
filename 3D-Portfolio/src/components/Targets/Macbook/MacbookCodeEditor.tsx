@@ -1,7 +1,8 @@
-import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import { Editor, OnMount } from "@monaco-editor/react";
+import { useRef, useState } from "react";
 import { PlaygroundFile } from "../../../utils/Types";
 import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import type { editor } from "monaco-editor";
 
 const fileLabels: Record<PlaygroundFile, string> = {
 	html: "index.html",
@@ -14,6 +15,12 @@ const MacbookCodeEditor: React.FC = () => {
 
 	const code = useCodePlaygroundStore((state) => state[activeFile]);
 	const setFile = useCodePlaygroundStore((state) => state.setFile);
+
+	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
+	const handleOnMount: OnMount = (editor) => {
+		editorRef.current = editor;
+	};
 
 	return (
 		<div className="code-editor">
@@ -31,6 +38,7 @@ const MacbookCodeEditor: React.FC = () => {
 				language={activeFile === "js" ? "javascript" : activeFile}
 				value={code}
 				onChange={(value) => setFile(activeFile, value ?? "")}
+				onMount={handleOnMount}
 				options={{ fontSize: 13, minimap: { enabled: false }, padding: { top: 12 }, scrollBeyondLastLine: false, wordWrap: "on", automaticLayout: true }}
 			/>
 		</div>
