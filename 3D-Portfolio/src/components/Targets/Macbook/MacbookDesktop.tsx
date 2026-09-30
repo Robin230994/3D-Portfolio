@@ -2,6 +2,7 @@ import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
 import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
+import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
 import MacbookCursor from "./MacbookCursor";
 import MacbookCodeEditor from "./MacbookCodeEditor";
 
@@ -30,10 +31,11 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 	const { activeTab, setActiveTab } = props;
 	const [finderVisible, setFinderVisible] = useState(true);
 	const [finderClosing, setFinderClosing] = useState(false);
-	const [editorVisible, setEditorVisible] = useState(false);
 	const [websiteFoldersScrollTop, setWebsiteFoldersScrollTop] = useState(0);
 	const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
 
+	const isOpen = useCodePlaygroundStore((state) => state.isOpen);
+	const setIsOpen = useCodePlaygroundStore((state) => state.setIsOpen);
 	const setActiveVideo = useScreenMediaStore((state) => state.setActiveVideo);
 
 	const websiteFoldersRef = useRef<HTMLDivElement>(null);
@@ -73,7 +75,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 					<span>View</span>
 					<span>Go</span>
 				</div>
-				{finderVisible && !editorVisible && (
+				{finderVisible && !isOpen && (
 					<div className={`finder-window ${finderClosing ? "finder-window-closing" : ""}`}>
 						<div className="finder-titlebar">
 							<div className="finder-controls">
@@ -167,13 +169,13 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 					</div>
 				)}
 
-				{editorVisible && <MacbookCodeEditor />}
+				{isOpen && <MacbookCodeEditor />}
 
 				<div className="mac-dock">
 					<button
 						className="mac-dock-finder"
 						onClick={() => {
-							setEditorVisible(false);
+							setIsOpen(false);
 							setFinderVisible(true);
 						}}
 						aria-label="Open Finder">
@@ -183,7 +185,7 @@ const MacbookDesktop: React.FC<IMacbookDesktopProps> = ({ props }) => {
 						className="vs-code-btn"
 						onClick={() => {
 							setFinderClosing(true);
-							setEditorVisible(true);
+							setIsOpen(true);
 						}}>
 						<img src="/images/Visual_Studio_Code_icon.svg.png" width={"30px"} height={"30px"} />
 					</button>

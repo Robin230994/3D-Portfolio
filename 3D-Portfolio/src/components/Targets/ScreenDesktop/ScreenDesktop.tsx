@@ -2,9 +2,12 @@ import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
 import ScreenCursor from "./ScreenCursor";
+import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import PlaygroundPreview from "./PlaygroundPreview";
 
 const ScreenDesktop: React.FC = () => {
 	const activeVideo = useScreenMediaStore((state) => state.activeVideo);
+	const isOpen = useCodePlaygroundStore((state) => state.isOpen);
 
 	const { screenPos } = useControls("ScreenUIDesktop", {
 		screenPos: { value: { x: 0.08, y: 0.72, z: -1.08 } },
@@ -14,7 +17,7 @@ const ScreenDesktop: React.FC = () => {
 		<Html transform position={[screenPos.x, screenPos.y, screenPos.z]} scale={1} distanceFactor={1} zIndexRange={[1, 1]} pointerEvents="auto">
 			<div className="screen-desktop">
 				<ScreenCursor />
-				{activeVideo && (
+				{activeVideo && !isOpen && (
 					<div className="video-container">
 						<video className="screen-desktop-video" key={activeVideo} src={activeVideo} playsInline muted autoPlay loop />
 					</div>
@@ -27,6 +30,7 @@ const ScreenDesktop: React.FC = () => {
 					<span>View</span>
 					<span>Go</span>
 				</div>
+				{isOpen && <PlaygroundPreview />}
 				<div className="mac-dock">
 					<span className="mac-dock-finder">
 						<img src="/images/Finder_Icon_macOS_Tahoe.png" width={"30px"} height={"30px"} />

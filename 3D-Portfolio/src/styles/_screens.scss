@@ -336,3 +336,14 @@
 		min-height: 0;
 	}
 }
+
+.screen-code-preview {
+	width: 780px;
+	height: 300px;
+	background-color: #222;
+
+	iframe {
+		width: 100%;
+		height: 100%;
+	}
+}
