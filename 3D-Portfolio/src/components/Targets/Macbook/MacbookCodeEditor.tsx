@@ -25,12 +25,13 @@ const MacbookCodeEditor: React.FC = () => {
 				))}
 			</div>
 			<Editor
+				width={"100%"}
 				height="100%"
 				theme="vs-dark"
 				language={activeFile === "js" ? "javascript" : activeFile}
 				value={code}
 				onChange={(value) => setFile(activeFile, value ?? "")}
-				options={{ fontSize: 13, minimap: { enabled: false }, padding: { top: 12 }, scrollBeyondLastLine: false }}
+				options={{ fontSize: 13, minimap: { enabled: false }, padding: { top: 12 }, scrollBeyondLastLine: false, wordWrap: "on", automaticLayout: true }}
 			/>
 		</div>
 	);
