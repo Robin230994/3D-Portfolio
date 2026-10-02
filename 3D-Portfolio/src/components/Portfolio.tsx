@@ -1,12 +1,12 @@
-import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, useHelper } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { useCallback, useState } from "react";
-import { Vector3 } from "three";
+import { useCallback, useRef, useState } from "react";
+import { DirectionalLight, DirectionalLightHelper, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -37,6 +37,8 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const [outsideOffset, setOutsideOffset] = useState<[number, number, number]>([0, 0, 0]);
 
 	/** REFS */
+	const directionalLightRef = useRef<DirectionalLight>(null!);
+	useHelper(directionalLightRef, DirectionalLightHelper, 1, "#ffcc66");
 
 	/** HOOKS */
 
@@ -65,7 +67,8 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				},
 
 				directionalPosition: {
-					value: { x: 15, y: 2, z: 0.3 },
+					// value: { x: 15, y: 2, z: 0.3 },
+					value: { x: 12, y: 2, z: -1.6 },
 					step: 0.1,
 				},
 
@@ -79,8 +82,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
 		// environmentIntensity: { value: 1.4, step: 0.1, min: 0.1 },
-		environmentIntensity: { value: 0.9, step: 0.1, min: 0.1 },
-		environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
+		environmentIntensity: { value: 0.4, step: 0.1, min: 0.1 },
+		// environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
+		environmentRotation: { value: { x: 11.5, y: 2, z: -1.6 }, step: 0.01 },
 	});
 
 	const alignOutsideToRoom = useCallback(
@@ -114,7 +118,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			/>
 
 			<EffectComposer multisampling={0}>
-				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
+				<Bloom luminanceThreshold={1.5} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
 			</EffectComposer>
 
 			<Center onCentered={alignOutsideToRoom}>
@@ -122,7 +126,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 				<ambientLight intensity={lightParams.ambientLightIntensity} />
 				<directionalLight
-					// ref={directionalLightRef}
+					ref={directionalLightRef}
 					intensity={lightParams.directionalIntensity}
 					color={lightParams.directionalColor}
 					position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
