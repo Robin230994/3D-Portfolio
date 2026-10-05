@@ -3,10 +3,10 @@ import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
-import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
+import { DRACOLoader, GLTFLoader, RectAreaLightHelper, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { useCallback, useRef, useState } from "react";
-import { DirectionalLight, DirectionalLightHelper, Vector3 } from "three";
+import { DirectionalLight, DirectionalLightHelper, RectAreaLight, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -22,6 +22,9 @@ import Robbi from "./Targets/Robbi/Robbi";
 import ObjectT6 from "./ObjectT6/ObjectT6";
 import Outside from "./Outside/Outside";
 import ObjectT7 from "./ObjectT7/ObjectT7";
+import GodRays from "./GodRays/GodRays";
+
+RectAreaLightUniformsLib.init();
 
 function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
@@ -40,6 +43,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	const directionalLightRef = useRef<DirectionalLight>(null!);
 	useHelper(directionalLightRef, DirectionalLightHelper, 1, "#ffcc66");
 
+	const ceilingLightRef = useRef<RectAreaLight>(null!);
+	useHelper(ceilingLightRef, RectAreaLightHelper, "#ffe1b3");
+
 	/** HOOKS */
 
 	/** Debug */
@@ -53,7 +59,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			AmbientLight: folder(
 				{
 					// ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
-					ambientLightIntensity: { value: 0.22, min: 0, max: 10, step: 0.01 },
+					ambientLightIntensity: { value: 0.75, min: 0, max: 10, step: 0.01 },
 				},
 				{ collapsed: false },
 			),
@@ -76,8 +82,45 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 					value: "#fff5e6",
 				},
 			}),
+
+			RectAreaLight: folder({
+				rectAreaLightIntensity: {
+					value: 7.0,
+					min: 0,
+					max: 10,
+					step: 0.1,
+				},
+
+				rectAreaLightPosition: {
+					value: { x: 0, y: 4.3, z: 0 },
+					step: 0.1,
+				},
+
+				rectAreaLightRotation: {
+					value: { x: -Math.PI / 2, y: 0, z: 0 },
+					step: 0.1,
+				},
+
+				rectAreaLightWidth: {
+					value: 2.4,
+					min: 0,
+					max: 10,
+					step: 0.1,
+				},
+
+				rectAreaLightHeight: {
+					value: 0.7,
+					min: 0,
+					max: 10,
+					step: 0.1,
+				},
+
+				rectAreaLightColor: {
+					value: "#ffffff",
+				},
+			}),
 		},
-		{ collapsed: true },
+		{ collapsed: false },
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
@@ -118,19 +161,30 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			/>
 
 			<EffectComposer multisampling={0}>
-				<Bloom luminanceThreshold={1.5} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
+				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
 			</EffectComposer>
 
 			<Center onCentered={alignOutsideToRoom}>
 				<CameraController isDebugMode={isDebugMode} />
 
-				<ambientLight intensity={lightParams.ambientLightIntensity} />
-				<directionalLight
-					ref={directionalLightRef}
-					intensity={lightParams.directionalIntensity}
-					color={lightParams.directionalColor}
-					position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
-				/>
+				<group name="lights">
+					<ambientLight intensity={lightParams.ambientLightIntensity} />
+					<directionalLight
+						ref={directionalLightRef}
+						intensity={lightParams.directionalIntensity}
+						color={lightParams.directionalColor}
+						position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
+					/>
+					{/** Rect Area Light */}
+					<rectAreaLight
+						ref={ceilingLightRef}
+						position={[lightParams.rectAreaLightPosition.x, lightParams.rectAreaLightPosition.y, lightParams.rectAreaLightPosition.z]}
+						rotation={[lightParams.rectAreaLightRotation.x, lightParams.rectAreaLightRotation.y, lightParams.rectAreaLightRotation.z]}
+						width={lightParams.rectAreaLightWidth}
+						height={lightParams.rectAreaLightHeight}
+						intensity={lightParams.rectAreaLightIntensity}
+					/>
+				</group>
 
 				<group name="office-room">
 					{/************ BASE (Walls + Roof + Floor) ************/}
@@ -156,6 +210,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 				</group>
 			</Center>
 			<group position={outsideOffset}>
+				<GodRays name="GodRays" nodes={nodes} />
 				<Outside name="Outside" nodes={nodes} />
 			</group>
 		</>
