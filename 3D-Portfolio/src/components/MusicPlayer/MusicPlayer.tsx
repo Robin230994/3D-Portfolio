@@ -17,15 +17,21 @@ const MusicPlayer: React.FC = () => {
 	}, [volume]);
 
 	useEffect(() => {
-		if (!currentSong || !playing) {
-			audioRef.current.pause();
-			return;
-		}
+		const audio = audioRef.current;
+		if (!currentSong) return;
 
-		audioRef.current.src = currentSong.file;
+		audio.src = currentSong.file;
+		audio.currentTime = 0;
+	}, [currentSong]);
+
+	useEffect(() => {
+		const audio = audioRef.current;
+		if (!currentSong) return;
 
 		if (playing) {
-			audioRef.current.play();
+			audio.play();
+		} else {
+			audio.pause();
 		}
 	}, [currentSong, playing]);
 
