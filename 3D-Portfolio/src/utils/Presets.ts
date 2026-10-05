@@ -80,7 +80,7 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		target: [5.33, 0.3, -1.21],
 		azimuthal: -2.04,
 		polar: 68.67,
-		hdeg2rad: 40,
+		hdeg2rad: 70,
 		vdeg2rad: 15,
 	},
 	BillardTriangle: {
