@@ -51,7 +51,7 @@ const InteractionLabel: React.FC<InteractionLabelProps> = ({ focusName, shortcut
 	if (!renderLabel) return null;
 
 	return (
-		<Html transform sprite position={position} rotation={rotation} scale={scale} distanceFactor={1} pointerEvents="auto">
+		<Html transform position={position} rotation={rotation} scale={scale} distanceFactor={1} pointerEvents="auto">
 			<button
 				className={`interaction-label ${isLeaving ? "is-leaving" : ""}`}
 				onPointerDown={(event) => event.stopPropagation()}

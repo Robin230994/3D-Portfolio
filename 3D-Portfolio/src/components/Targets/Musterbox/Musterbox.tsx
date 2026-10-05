@@ -233,9 +233,9 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				focusName={name}
 				shortcut={1}
 				label={!isOpen ? "Open Box" : "Close Box"}
-				position={[-2.55, 2.56, -2.51]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={1}
+				position={[-2.63, 2.56, -2.51]}
+				rotation={[0, 0, 0]}
+				scale={0.8}
 				onTrigger={toggleBox}
 			/>
 
@@ -243,9 +243,9 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				focusName={name}
 				shortcut={2}
 				label={panelClosed ? "Open project description" : "Close project description"}
-				position={[-2.489, 2.45, -2.51]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={1}
+				position={[-3.0, 2.21, -2.2]}
+				rotation={[-0.58, 0, 0]}
+				scale={0.8}
 				onTrigger={switchPanel}
 			/>
 		</>

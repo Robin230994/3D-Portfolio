@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { AnimationAction, Group, LoopOnce } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
@@ -6,7 +7,6 @@ import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
 import { useAnimations } from "@react-three/drei";
 import { useControls } from "leva";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useInteraction from "../../../hooks/useInteraction";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
@@ -109,6 +109,7 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		}),
 		[interaction.events, interaction.hovered, labelsVisible, name, nodes],
 	);
+
 	return (
 		<>
 			<FCBoxUI props={uiComponentProps} />
@@ -124,18 +125,18 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				focusName={name}
 				shortcut={1}
 				label={!isOpen ? "Open Box" : "Close Box"}
-				position={[1, 2.55, -2.4]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={1}
+				position={[0.95, 2.43, -2.4]}
+				rotation={[0, 0, 0]}
+				scale={0.8}
 				onTrigger={toggleBox}
 			/>
 			<InteractionLabel
 				focusName={name}
 				shortcut={2}
 				label={panelClosed ? "Open project description" : "Close project description"}
-				position={[1.055, 2.43, -2.4]}
-				rotation={[-Math.PI / 2, 0, 0]}
-				scale={1}
+				position={[0.67, 2.21, -2.22]}
+				rotation={[-0.58, 0.01, 0.01]}
+				scale={0.8}
 				onTrigger={switchPanel}
 			/>
 		</>
