@@ -57,7 +57,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			AmbientLight: folder(
 				{
 					// ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
-					ambientLightIntensity: { value: 0.75, min: 0, max: 10, step: 0.01 },
+					ambientLightIntensity: { value: 1, min: 0, max: 10, step: 0.01 },
 				},
 				{ collapsed: false },
 			),
