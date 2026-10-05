@@ -1,6 +1,6 @@
 import React from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { DirectionalLight, Material, Mesh, PointLight } from "three";
+import { DirectionalLight, Material, Mesh, Object3D, SpotLight } from "three";
 import { Outlines } from "@react-three/drei";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
@@ -29,7 +29,8 @@ interface FloorLampUIProps extends IUIComponentProps {
 		};
 		refs: {
 			myRefs: {
-				lampLightRef: React.MutableRefObject<PointLight | null>;
+				lampLightRef: React.MutableRefObject<SpotLight | null>;
+				lampTargetRef: React.MutableRefObject<Object3D | null>;
 			};
 		};
 	};
@@ -42,16 +43,20 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 
 	const { name, nodes, lightOn, hovered, materials } = myData;
 	const { events } = myFunctions;
-	const { lampLightRef } = myRefs;
+	const { lampLightRef, lampTargetRef } = myRefs;
 
 	const t2Material = materials?.t2Material;
 	const Lamp = nodes["lamp"] as Mesh;
 
-	const { lightPos } = useControls("Floor Lamp", {
-		lightPos: { value: { x: 1.85, y: 2.16, z: -2.4 } },
+	const { lightPos, lightTarget, lightIntensity, lightDistance, lightAngle, lightPenumbra, lightDecay } = useControls("Floor Lamp", {
+		lightPos: { value: { x: 1.82, y: 2.19, z: -2.57 } },
+		lightTarget: { value: { x: 1.8, y: 0.3, z: -2.6 }, step: 0.1 },
+		lightIntensity: { value: 1.5, min: 0, max: 10, step: 0.1 },
+		lightDistance: { value: 6.1, min: 0, max: 10, step: 0.1 },
+		lightAngle: { value: 3.13, min: 0, max: 10, step: 0.01 },
+		lightPenumbra: { value: 0.2, min: 0, max: 1, step: 0.01 },
+		lightDecay: { value: 0.2, min: 0, max: 10, step: 0.1 },
 	});
-
-	//useHelper(lampLightRef as React.MutableRefObject<PointLight>, PointLightHelper, 0.2, "yellow");
 
 	return (
 		<group {...events}>
@@ -59,8 +64,18 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
 			</mesh>
 
-			{/** point light bulp inside the lamp */}
-			<pointLight ref={lampLightRef} visible={lightOn} position={[lightPos.x, lightPos.y, lightPos.z]} intensity={2} distance={5} decay={2} color="#FFD7A3" />
+			<object3D ref={lampTargetRef} position={[lightTarget.x, lightTarget.y, lightTarget.z]} />
+			<spotLight
+				ref={lampLightRef}
+				position={[lightPos.x, lightPos.y, lightPos.z]}
+				intensity={lightIntensity}
+				distance={lightDistance}
+				angle={lightAngle}
+				penumbra={lightPenumbra}
+				decay={lightDecay}
+				color="#FFD7A3"
+				visible={lightOn}
+			/>
 		</group>
 	);
 };

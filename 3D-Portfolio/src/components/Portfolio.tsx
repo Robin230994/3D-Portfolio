@@ -1,12 +1,12 @@
-import { AdaptiveDpr, Center, Environment, useHelper } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
-import { DRACOLoader, GLTFLoader, RectAreaLightHelper, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
+import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { useCallback, useRef, useState } from "react";
-import { DirectionalLight, DirectionalLightHelper, RectAreaLight, Vector3 } from "three";
+import { DirectionalLight, RectAreaLight, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -41,10 +41,8 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 
 	/** REFS */
 	const directionalLightRef = useRef<DirectionalLight>(null!);
-	useHelper(directionalLightRef, DirectionalLightHelper, 1, "#ffcc66");
 
 	const ceilingLightRef = useRef<RectAreaLight>(null!);
-	useHelper(ceilingLightRef, RectAreaLightHelper, "#ffe1b3");
 
 	/** HOOKS */
 
