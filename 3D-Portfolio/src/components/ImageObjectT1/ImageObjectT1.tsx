@@ -7,6 +7,10 @@ import { useRef } from "react";
 
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
 import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
+import MaterialCreator from "../../classes/MaterialCreator";
+
+const materialCreator = MaterialCreator.getInstance();
+const coffeeTexture = materialCreator.loadTexture("/baked-textures/Objects/TI1/coffee-crema.png");
 
 const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const IObjectT1: Mesh = nodes["image_object_t1"] as Mesh;
@@ -34,12 +38,12 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes, animations }) =
 			{/** Coffee Texture */}
 			<mesh
 				geometry={new CircleGeometry(0.065, 32)}
-				material={new MeshStandardMaterial()}
+				material={new MeshStandardMaterial({ map: coffeeTexture })}
 				position={[coffeeTPos.x, coffeeTPos.y, coffeeTPos.z]}
 				rotation={[coffeeTRot.x, coffeeTRot.y, coffeeTRot.z]}>
 				{/** Coffee smoke shader */}
 				<mesh
-					geometry={new PlaneGeometry(0.125, 0.1, 16, 64)}
+					geometry={new PlaneGeometry(0.12, 0.2, 16, 64)}
 					position={[coffeeSPos.x, coffeeSPos.y, coffeeSPos.z]}
 					rotation={[coffeeSRot.x, coffeeSRot.y, coffeeSRot.z]}>
 					<coffeeSmokeMaterial ref={coffeeSmokeMatRef} transparent side={DoubleSide} depthWrite={false} />
