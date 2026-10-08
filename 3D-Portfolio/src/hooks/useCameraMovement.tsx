@@ -42,13 +42,11 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		if (!preset) return;
 
 		// dont move camera when user is dragging to move to another position
-
 		if (!isDragging && !userMovedCamera) moveCamera(preset, pos, target, controls);
 
 		// check if camera is still moving
 		const posTarget = new Vector3(...preset.position);
 
-		//const isMoving = pos.distanceTo(posTarget) > 0.5;
 		const isCameraTransitioning = !isDragging && !userMovedCamera && pos.distanceTo(posTarget) > 0.5;
 		setCameraIsMoving(isCameraTransitioning);
 	});

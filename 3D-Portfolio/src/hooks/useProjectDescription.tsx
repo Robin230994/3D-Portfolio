@@ -353,6 +353,27 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 			},
 		],
 	},
+
+	BillardTriangle: {
+		projectName: "Five-Ball App",
+		heading: "Five-Ball App for BC 1921 Elversverg billiard club",
+		text:
+			"Für meinen lokalen Billardverein habe ich für die neu hinzugekommene Spielvariante Five-Ball Carambol eine speziell darauf zugeschnittene App entwickelt.\n\n" +
+			"Five-Ball Carambol ist eine zugängliche Variante des Karambolage-Billards, bei der mit fünf Bällen gespielt wird. Die einfachen Grundregeln erleichtern den Einstieg, " +
+			"während zusätzliche Spielarten wie Serienspiel, Einband und Dreiband auch erfahrenen Spielern anspruchsvolle Partien ermöglichen.\n\n" +
+			"Die App digitalisiert den gesamten Spielablauf: Spielergebnisse lassen sich auch nachträglich rekonstruieren und sämtliche erzielten Punkte bleiben dauerhaft einsehbar. " +
+			"Das ist besonders bei Turnieren von Vorteil, da Spielstände, Verläufe und Ergebnisse nachvollziehbar dokumentiert werden können.\n\n Zusätzlich ermöglicht die App die Vernetzung mit anderen Vereinen. " +
+			"Über eine Suchfunktion lassen sich sowohl Vereine als auch Spieler finden. Für die Entwicklung kam React in Verbindung mit Framework7 zum Einsatz. " +
+			"React ermöglichte eine klar strukturierte, komponentenbasierte Anwendung mit wiederverwendbaren Ansichten für Spielstände, Spielmodi und Eingaben. Framework7 sorgte für eine mobile, " +
+			"plattformübergreifende Oberfläche mit einer nativen Bedienlogik für iOS und Android. So entstand eine schlanke Scoring-App, die den Spielablauf sinnvoll digital ergänzt.",
+		tags: ["App-Entwicklung", "React", "Framework7", "TypeScript", "SCSS", "iOS", "UX/UI Design"],
+		images: [
+			{
+				src: "images/FCBox/FCBox.jpg",
+				alt: "Francioan Coolness Box",
+			},
+		],
+	},
 };
 
 const useProjectDescription = () => {

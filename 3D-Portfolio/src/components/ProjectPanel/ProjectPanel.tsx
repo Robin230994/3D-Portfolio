@@ -15,8 +15,6 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 
-	const handleClose = () => setPanelClosed(true);
-
 	useEffect(() => {
 		const panel = mainPanelRef.current;
 		const tagsPanel = mainPanelTagsRef.current;
@@ -165,7 +163,7 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 						More about the project
 					</button>
 				)}
-				<button type="button" className="project-panel-close" onClick={handleClose}>
+				<button type="button" className="project-panel-close" onClick={() => setPanelClosed(true)}>
 					Close
 				</button>
 			</div>

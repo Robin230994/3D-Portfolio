@@ -22,10 +22,13 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
+	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
+
 	const interaction = useInteraction({
 		onClick: () => {
 			if (triangleRef.current) {
 				setSelectObjectFocus({ name: name, object: triangleRef.current });
+				setActiveProject("BillardTriangle");
 			}
 		},
 	});
@@ -41,6 +44,7 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
+		setActiveProject(null);
 	};
 
 	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);

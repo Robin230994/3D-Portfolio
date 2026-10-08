@@ -5,7 +5,7 @@ import { GLTFResult } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { useCallback, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { DirectionalLight, RectAreaLight, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
@@ -215,4 +215,4 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	);
 }
 
-export default Portfolio;
+export default memo(Portfolio);
