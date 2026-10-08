@@ -115,6 +115,14 @@ export const cameraPresets: Record<string, CameraInfo> = {
 		hdeg2rad: 10,
 		vdeg2rad: 8,
 	},
+	PaintingBoard: {
+		position: [-1.56, 0.45, 0.87],
+		target: [-1.57, 0.16, 1.44],
+		azimuthal: 178.57,
+		polar: 63.18,
+		hdeg2rad: 15,
+		vdeg2rad: 15,
+	},
 };
 
 export const robbiPresets: Record<string, { position: [number, number, number]; rotation: [number, number, number] }> = {

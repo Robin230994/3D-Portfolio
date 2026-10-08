@@ -43,10 +43,10 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 	/** FUNCTIONS */
 
-	const dispatch = () => {
+	const dispatch = useCallback(() => {
 		setSelectObjectFocus(null);
 		setActiveProject(null);
-	};
+	}, [setActiveProject, setSelectObjectFocus]);
 
 	const toggleBox = useCallback(() => setIsOpen((open) => !open), []);
 	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);

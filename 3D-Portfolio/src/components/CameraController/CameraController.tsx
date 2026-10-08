@@ -68,8 +68,8 @@ const CameraController: React.FC<CameraControllerProps> = ({ isDebugMode }) => {
 
 	useFrame(() => {
 		if (!isDebugMode) return;
-		const controls = controlsRef.current;
-		if (!controls) return;
+		// const controls = controlsRef.current;
+		// if (!controls) return;
 		// console.log("Camera Position:", controls.object.position);
 		// console.log("Camera Target:", controls.target);
 		// console.log("Azimuthal Angle:", (controls.getAzimuthalAngle() * 180) / Math.PI);

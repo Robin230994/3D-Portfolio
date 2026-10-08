@@ -1,5 +1,5 @@
 import { Text } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial } from "three";
 import { useSpring, a } from "@react-spring/three";
 import useInteraction from "../../hooks/useInteraction";
@@ -84,4 +84,4 @@ const CloseLabel: React.FC<ICloseLabelProps> = ({ visible, children, labelPos, d
 	);
 };
 
-export default CloseLabel;
+export default memo(CloseLabel);

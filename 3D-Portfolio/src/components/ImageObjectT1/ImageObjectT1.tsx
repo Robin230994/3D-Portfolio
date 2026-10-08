@@ -8,6 +8,7 @@ import { useRef } from "react";
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
 import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
+import PaintingBoard from "../PaintingBoard/PaintingBoard";
 
 const materialCreator = MaterialCreator.getInstance();
 const coffeeTexture = materialCreator.loadTexture("/baked-textures/Objects/TI1/coffee-crema.png");
@@ -52,6 +53,7 @@ const ImageObjectT1: React.FC<CustomMeshProps> = ({ name, nodes, animations }) =
 
 			<OfficeChair name="OfficeChair" nodes={nodes} animations={animations} />
 			<OcculusQuest name="OcculusQuest" nodes={nodes} />
+			<PaintingBoard name="PaintingBoard" nodes={nodes} />
 		</group>
 	);
 };
