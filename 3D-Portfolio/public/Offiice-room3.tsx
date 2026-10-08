@@ -210,7 +210,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
           <mesh name="WindowHandle" geometry={nodes.WindowHandle.geometry} material={materials['ft1.001']} position={[-0.075, 0.84, 0.991]} />
         </mesh>
         <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.972]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
-        <mesh name="Ball8" geometry={nodes.Ball8.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
+        <mesh name="Ball8" geometry={nodes.Ball8.geometry} material={materials.ot4} position={[-6.449, 2.565, -1.764]} rotation={[0, -1.105, 0]} />
         <mesh name="Rack" geometry={nodes.Rack.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
         <mesh name="BambuLab" geometry={nodes.BambuLab.geometry} material={materials.ot3} position={[-2.96, 1.927, 2.184]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
         <mesh name="BambuLabNozzle" geometry={nodes.BambuLabNozzle.geometry} material={materials.ot3} position={[-3.119, 2.075, 2.203]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />

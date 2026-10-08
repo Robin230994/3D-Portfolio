@@ -1,11 +1,8 @@
-import React, { RefObject } from "react";
+import React, { memo, RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { DirectionalLight, Group, Mesh } from "three";
-import { t3Material } from "../../../utils/Materials";
-import { useControls } from "leva";
+import { DirectionalLight, Group, Mesh, Object3D, Object3DEventMap } from "three";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
-import { useFocusStore } from "../../../Stores/useFocusStore";
-import CloseLabel from "../../CloseLabel/CloseLabel";
+import { Outlines } from "@react-three/drei/core/Outlines";
 
 interface BillardTriangleUIProps extends IUIComponentProps {
 	props: {
@@ -14,11 +11,15 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				cameraIsMoving: boolean;
+				hovered: string | null;
+				selectObjectFocus: {
+					name: string;
+					object: Object3D<Object3DEventMap>;
+				} | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				dispatch: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -26,7 +27,7 @@ interface BillardTriangleUIProps extends IUIComponentProps {
 				};
 			};
 		};
-		refs: { myRefs: { triangleRef: RefObject<Group> } };
+		refs: { myRefs: { triangleRef: RefObject<Group>; ball8Ref: RefObject<Mesh> } };
 	};
 }
 
@@ -35,33 +36,21 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving } = myData;
-	const { dispatch, events } = myFunctions;
-	const { triangleRef } = myRefs;
+	const { name, nodes, selectObjectFocus, hovered } = myData;
+	const { events } = myFunctions;
+	const { triangleRef, ball8Ref } = myRefs;
 
-	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
-
-	const PoolBall8: Mesh = nodes["PoolBall8"] as Mesh;
-
-	const { backLabelPos, backLabelRot } = useControls("BillardTriangle", {
-		backLabelPos: { value: { x: -0.15, y: 0, z: -0.3 }, step: 0.1 },
-		backLabelRot: { value: { x: 1.4, y: 3.1, z: -0.35 }, step: 0.1 },
-	});
+	const PoolBall8: Mesh = nodes["Ball8"] as Mesh;
+	const Rack: Mesh = nodes["Rack"] as Mesh;
 
 	return (
 		<group name={name} ref={triangleRef} {...events}>
-			<mesh geometry={PoolBall8.geometry} material={t3Material} position={PoolBall8.position} rotation={PoolBall8.rotation}>
-				<CloseLabel
-					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-					scaleFactor={0.2}
-					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => dispatch()}>
-					x
-				</CloseLabel>
+			<mesh ref={ball8Ref} geometry={PoolBall8.geometry} material={PoolBall8.material} position={PoolBall8.position} rotation={PoolBall8.rotation}></mesh>
+			<mesh name="Rack" geometry={Rack.geometry} material={Rack.material} position={Rack.position} rotation={Rack.rotation}>
+				<Outlines thickness={2} scale={hovered === "Rack" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 			</mesh>
 		</group>
 	);
 };
 
-export default BillardTriangleUI;
+export default memo(BillardTriangleUI);

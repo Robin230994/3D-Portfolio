@@ -29,8 +29,8 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
-	const { actions } = useAnimations(animations!, musterboxRef);
 
+	const { actions } = useAnimations(animations!, musterboxRef);
 	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
 		backLabelPos: { value: { x: -3.75, y: 2.2, z: -2.4 }, step: 0.1 },
 		backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },

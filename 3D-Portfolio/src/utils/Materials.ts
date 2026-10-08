@@ -29,13 +29,6 @@ glassMaterial.depthWrite = false;
 glassMaterial.normalScale = new Vector2(1, -1);
 export { glassMaterial };
 
-const t3Material = materialCreator.createStandardMaterialFromTexture("ObjectT3", {
-	diffuseT: "/baked-textures/Objects/T3/objects_t3_color.001.jpg",
-	roughnessT: "/baked-textures/Objects/T3/objects_t3_roughness.001.jpg",
-	metallnessT: "/baked-textures/Objects/T3/objects_t3_metallic.001.jpg",
-});
-export { t3Material };
-
 const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Material", {
 	diffuseT: "/baked-textures/Objects/TI1/objects_ti1_color.jpg",
 	roughnessT: "/baked-textures/Objects/TI1/objects_ti1_roughness.jpg",
