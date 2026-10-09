@@ -44,9 +44,10 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 	const { paintingBoardRef } = myRefs;
 
 	const PaintingBoard: Mesh = nodes["PaintingBoard"] as Mesh;
+	const Brush: Mesh = nodes["Brush"] as Mesh;
 
 	return (
-		<group name={name} {...events}>
+		<group name={name}>
 			{/* Painting Board */}
 			<mesh
 				name={name}
@@ -55,8 +56,20 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 				position={PaintingBoard.position}
 				rotation={PaintingBoard.rotation}
 				material={PaintingBoard.material}
-				scale={PaintingBoard.scale}>
+				scale={PaintingBoard.scale}
+				{...events}>
 				<Outlines thickness={2} scale={hovered === name && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+			</mesh>
+
+			{/** helper mesh to prevent specific pointer position to show outlines */}
+			<mesh name="Brush" visible={false} position={[-1.25, 1.18, 1.95]} rotation={[1.52, -3.16, 0.2]} {...events}>
+				<planeGeometry args={[0.2, 0.5]} />
+				<meshBasicMaterial transparent opacity={0} depthWrite={false} />
+			</mesh>
+
+			{/* Brush */}
+			<mesh name="Brush" geometry={Brush.geometry} position={Brush.position} rotation={Brush.rotation} scale={Brush.scale} material={Brush.material}>
+				<Outlines thickness={2} scale={hovered === "Brush" && selectObjectFocus?.name === name ? 1 : 0} color={"white"} />
 			</mesh>
 		</group>
 	);

@@ -5,8 +5,8 @@ import { CustomMeshProps } from "../../utils/Interfaces";
 import { useFocusStore } from "../../Stores/useFocusStore";
 import { Mesh } from "three";
 import { useCameraStore } from "../../Stores/useCameraStore";
-import CloseLabel from "../CloseLabel/CloseLabel";
 import { useControls } from "leva";
+import CloseLabel from "../CloseLabel/CloseLabel";
 
 const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const paintingBoardRef = useRef<Mesh>(null);
@@ -29,6 +29,8 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		backLabelPos: { value: { x: -0.08, y: 1.15, z: 1.67 }, step: 0.01 },
 		backLabelRot: { value: { x: 1.56, y: 3.14, z: 0.1 }, step: 0.01 },
 	});
+
+	console.log(interaction.hovered);
 
 	const uiComponentProps = useMemo(
 		() => ({
