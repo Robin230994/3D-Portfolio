@@ -1,5 +1,5 @@
-import { FC, memo, RefObject } from "react";
-import { DirectionalLight, Mesh, Object3D, Object3DEventMap, Group } from "three";
+import { FC, memo, RefObject, useEffect, useMemo } from "react";
+import { DirectionalLight, Mesh, Object3D, Object3DEventMap, Group, CanvasTexture, MeshStandardMaterial } from "three";
 import { IUIComponentProps } from "../../utils/Types";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
@@ -25,6 +25,9 @@ interface PaintingBoardUIProps extends IUIComponentProps {
 				startFigureRotation: (event: ThreeEvent<PointerEvent>) => void;
 				rotateFigure: (event: ThreeEvent<PointerEvent>) => void;
 				stopFigureRotation: (event: ThreeEvent<PointerEvent>) => void;
+				startPainting: () => void;
+				paintFigure: (event: ThreeEvent<PointerEvent>, paintContext: CanvasRenderingContext2D, paintTexture: CanvasTexture) => void;
+				stopPainting: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -48,12 +51,57 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 	const { myRefs } = props.refs;
 
 	const { name, nodes, hovered, selectObjectFocus, figureSelected, brushPickedUp } = myData;
-	const { events, handleBrushPointerMove, startFigureRotation, rotateFigure, stopFigureRotation } = myFunctions;
+	const { events, handleBrushPointerMove, startFigureRotation, rotateFigure, stopFigureRotation, startPainting, paintFigure, stopPainting } = myFunctions;
 	const { paintingBoardRef, brushRef, activeFigureRef } = myRefs;
 
 	const PaintingBoard: Mesh = nodes["PaintingBoard"] as Mesh;
 	const Brush: Mesh = nodes["Brush"] as Mesh;
 	const PaintingFigure01: Mesh = nodes["PaintingFigure01"] as Mesh;
+
+	const figureMaterial = PaintingFigure01.material as MeshStandardMaterial;
+	const clonedFigureMaterial = useMemo(() => figureMaterial.clone(), [figureMaterial]);
+	const { paintCanvas, paintContext, paintTexture } = useMemo(() => {
+		const sourceTexture = figureMaterial.map;
+		const sourceImage = sourceTexture?.image as { width?: number; height?: number } | undefined;
+		const canvas = document.createElement("canvas");
+		canvas.width = sourceImage?.width ?? 2048;
+		canvas.height = sourceImage?.height ?? 2048;
+
+		const context = canvas.getContext("2d")!;
+		const texture = new CanvasTexture(canvas);
+
+		if (sourceTexture) {
+			texture.colorSpace = sourceTexture.colorSpace;
+			texture.flipY = sourceTexture.flipY;
+			texture.wrapS = sourceTexture.wrapS;
+			texture.wrapT = sourceTexture.wrapT;
+			texture.repeat.copy(sourceTexture.repeat);
+			texture.offset.copy(sourceTexture.offset);
+			texture.center.copy(sourceTexture.center);
+			texture.rotation = sourceTexture.rotation;
+		}
+
+		return { paintCanvas: canvas, paintContext: context, paintTexture: texture };
+	}, [figureMaterial]);
+
+	useEffect(() => {
+		// Copy the figures material and baked map to the paintable canvas
+		const sourceImage = figureMaterial.map?.image as CanvasImageSource | undefined;
+		if (!sourceImage) return;
+
+		paintContext.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+		paintContext.drawImage(sourceImage, 0, 0, paintCanvas.width, paintCanvas.height);
+		clonedFigureMaterial.map = paintTexture;
+		clonedFigureMaterial.needsUpdate = true;
+		paintTexture.needsUpdate = true;
+	}, [clonedFigureMaterial, figureMaterial.map, paintCanvas, paintContext, paintTexture]);
+
+	useEffect(() => {
+		return () => {
+			clonedFigureMaterial.dispose();
+			paintTexture.dispose();
+		};
+	}, [clonedFigureMaterial, paintTexture]);
 
 	return (
 		<group name={name} onPointerMove={handleBrushPointerMove}>
@@ -77,11 +125,17 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 					geometry={PaintingFigure01.geometry}
 					rotation={PaintingFigure01.rotation}
 					scale={PaintingFigure01.scale}
-					material={PaintingFigure01.material}
+					material={clonedFigureMaterial}
 					{...events}
-					onPointerDown={startFigureRotation}
-					onPointerMove={rotateFigure}
-					onPointerUp={stopFigureRotation}>
+					onPointerDown={brushPickedUp ? startPainting : startFigureRotation}
+					onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+						if (brushPickedUp) {
+							paintFigure(event, paintContext, paintTexture);
+						}
+						rotateFigure(event);
+					}}
+					onPointerUp={brushPickedUp ? stopPainting : stopFigureRotation}
+					onPointerCancel={brushPickedUp ? stopPainting : stopFigureRotation}>
 					<Outlines
 						thickness={2}
 						scale={hovered === "Blacksmith" && selectObjectFocus?.name === name && !figureSelected && !brushPickedUp ? 1 : 0}

@@ -3,13 +3,14 @@ import PaintingBoardUI from "./PaintingBoardUI";
 import useInteraction from "../../hooks/useInteraction";
 import { CustomMeshProps } from "../../utils/Interfaces";
 import { useFocusStore } from "../../Stores/useFocusStore";
-import { Euler, Mesh, Vector3, Group } from "three";
+import { Euler, Mesh, Vector3, Group, CanvasTexture } from "three";
 import { useCameraStore } from "../../Stores/useCameraStore";
 import { useControls } from "leva";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import CloseLabel from "../CloseLabel/CloseLabel";
 import InteractionLabel from "../InteractionLabel/InteractionLabel";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import usePaintingStore from "../../Stores/usePaintingStore";
 
 const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	/** STATES */
@@ -22,12 +23,14 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const activeFigureRef = useRef<Group>(null);
 
 	const isRotatingFigure = useRef<boolean>(false);
+	const isPainting = useRef<boolean>(false);
 	const initialBrushPos = useRef<Vector3>(new Vector3());
 	const initialBrushRot = useRef<Euler>(new Euler());
 	const brushTargetWorld = useRef<Vector3>(new Vector3());
 	const brushTargetLocal = useRef<Vector3>(new Vector3());
 
 	/** HOOKS */
+	const gl = useThree((state) => state.gl);
 	const orbitControls = useThree((state) => state.controls as OrbitControlsImpl | undefined);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
@@ -57,6 +60,14 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		initialBrushRot.current = brushRef.current.rotation.clone();
 	}, []);
 
+	useEffect(() => {
+		/** when brush is picked up remove cursor from document */
+		gl.domElement.style.cursor = brushPickedUp ? "none" : "";
+		return () => {
+			gl.domElement.style.cursor = "";
+		};
+	}, [brushPickedUp, gl.domElement.style]);
+
 	useFrame((_, delta) => {
 		if (!brushRef.current || !brushRef.current.parent) return;
 
@@ -85,7 +96,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			if (!brushPickedUp) return;
 			const closestHit = event.intersections[0];
 
-			//ignore all calls behind the figure to glue the brush to the figure itself
+			// ignore all calls behind the figure to glue the brush to the figure itself
 			if (!closestHit || event.object !== closestHit.object) return;
 
 			brushTargetWorld.current.copy(event.point);
@@ -139,13 +150,53 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		[orbitControls],
 	);
 
+	const startPainting = useCallback(() => {
+		isPainting.current = true;
+	}, []);
+
+	const paintFigure = useCallback(
+		(event: ThreeEvent<PointerEvent>, paintContext: CanvasRenderingContext2D, paintTexture: CanvasTexture) => {
+			if (!brushPickedUp || !event.uv) return;
+
+			// First get the selected color from the store.
+			const selectedColor = usePaintingStore.getState().selectedColor;
+			if (!selectedColor) return;
+
+			// Limit the paintable area to the figures UVs
+			const paintableX = event.uv.x * paintContext.canvas.width;
+			const paintableY = event.uv.y * paintContext.canvas.height;
+
+			// Set the color
+			paintContext.fillStyle = `#${selectedColor.hexCode}`;
+			paintContext.beginPath();
+			paintContext.arc(paintableX, paintableY, 3, 0, Math.PI * 2);
+			paintContext.fill();
+			paintTexture.needsUpdate = true;
+		},
+		[brushPickedUp],
+	);
+
+	const stopPainting = useCallback(() => {
+		isPainting.current = false;
+	}, []);
+
 	const uiComponentProps = useMemo(
 		() => ({
 			data: {
 				myData: { name, nodes, selectObjectFocus, figureSelected, brushPickedUp, hovered: interaction.hovered },
 			},
 			functions: {
-				myFunctions: { setBrushPickedUp, handleBrushPointerMove, startFigureRotation, rotateFigure, stopFigureRotation, events: interaction.events },
+				myFunctions: {
+					setBrushPickedUp,
+					handleBrushPointerMove,
+					startFigureRotation,
+					rotateFigure,
+					stopFigureRotation,
+					startPainting,
+					paintFigure,
+					stopPainting,
+					events: interaction.events,
+				},
 			},
 			refs: { myRefs: { paintingBoardRef, brushRef, activeFigureRef } },
 		}),
@@ -161,6 +212,9 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			startFigureRotation,
 			rotateFigure,
 			stopFigureRotation,
+			startPainting,
+			paintFigure,
+			stopPainting,
 		],
 	);
 	return (
