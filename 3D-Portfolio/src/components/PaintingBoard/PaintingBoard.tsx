@@ -32,6 +32,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	/** HOOKS */
 	const gl = useThree((state) => state.gl);
 	const orbitControls = useThree((state) => state.controls as OrbitControlsImpl | undefined);
+	const brushSize = usePaintingStore((state) => state.brushSize);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
@@ -50,8 +51,8 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const { backLabelPos, backLabelRot, interactionPickUpPos, interactionPickupRot } = useControls("PaintingBoard", {
 		backLabelPos: { value: { x: -0.08, y: 1.15, z: 1.67 }, step: 0.01 },
 		backLabelRot: { value: { x: 1.56, y: 3.14, z: 0.1 }, step: 0.01 },
-		interactionPickUpPos: { value: { x: -1.31, y: 1.18, z: 1.97 }, step: 0.01 },
-		interactionPickupRot: { value: { x: -0.04, y: 1.76, z: 0.02 }, step: 0.01 },
+		interactionPickUpPos: { value: { x: -1.22, y: 1.19, z: 2.23 }, step: 0.01 },
+		interactionPickupRot: { value: { x: -0, y: -3.14, z: 0.0 }, step: 0.01 },
 	});
 
 	useEffect(() => {
@@ -169,11 +170,11 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			// Set the color
 			paintContext.fillStyle = `#${selectedColor.hexCode}`;
 			paintContext.beginPath();
-			paintContext.arc(paintableX, paintableY, 3, 0, Math.PI * 2);
+			paintContext.arc(paintableX, paintableY, brushSize, 0, Math.PI * 2);
 			paintContext.fill();
 			paintTexture.needsUpdate = true;
 		},
-		[brushPickedUp],
+		[brushPickedUp, brushSize],
 	);
 
 	const stopPainting = useCallback(() => {
@@ -234,7 +235,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				label={brushPickedUp ? "Drop brush" : "Pick up brush"}
 				position={[interactionPickUpPos.x, interactionPickUpPos.y, interactionPickUpPos.z]}
 				rotation={[interactionPickupRot.x, interactionPickupRot.y, interactionPickupRot.z]}
-				scale={0.8}
+				scale={0.6}
 				onTrigger={() => {
 					if (figureSelected) return;
 					setBrushPickedUp(!brushPickedUp);

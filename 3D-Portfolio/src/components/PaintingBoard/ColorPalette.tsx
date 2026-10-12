@@ -5,8 +5,10 @@ import usePaintingStore, { availableColors } from "../../Stores/usePaintingStore
 const ColorPalette: FC = () => {
 	/** HOOKS */
 	const selectedColor = usePaintingStore((state) => state.selectedColor);
-	const setSelectedColor = usePaintingStore((state) => state.setSelectedColor);
+	const brushSize = usePaintingStore((state) => state.brushSize);
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
+	const setSelectedColor = usePaintingStore((state) => state.setSelectedColor);
+	const setBrushSize = usePaintingStore((state) => state.setBrushSize);
 
 	/** STATES */
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -39,6 +41,22 @@ const ColorPalette: FC = () => {
 							)}
 						</div>
 						<div className="color-palette-body">
+							<div className="color-palette-brush-size-container">
+								<p>Brush size:</p>
+								<input
+									type="number"
+									min={1}
+									max={10}
+									step={1}
+									value={brushSize}
+									onChange={(event) => {
+										const value = Number(event.target.value);
+										if (!Number.isInteger(value)) return;
+										if (value > 10 || value < 1) return;
+										setBrushSize(value);
+									}}
+								/>
+							</div>
 							{availableColors.map((color) => (
 								<img
 									key={color.hexCode}
