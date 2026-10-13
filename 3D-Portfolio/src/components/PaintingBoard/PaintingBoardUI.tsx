@@ -119,12 +119,12 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 			</mesh>
 
 			{/** Painting Figures */}
-			<group position={PaintingFigure01.position} ref={activeFigureRef}>
+			<group position={[PaintingFigure01.position.x, PaintingFigure01.position.y + 0.07, PaintingFigure01.position.z]} ref={activeFigureRef}>
 				<mesh
 					name="Blacksmith"
 					geometry={PaintingFigure01.geometry}
 					rotation={PaintingFigure01.rotation}
-					scale={PaintingFigure01.scale}
+					scale={1.8}
 					material={clonedFigureMaterial}
 					{...events}
 					onPointerDown={brushPickedUp ? startPainting : startFigureRotation}

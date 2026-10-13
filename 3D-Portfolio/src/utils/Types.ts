@@ -71,3 +71,11 @@ export type AnimationConfig<T extends keyof ActionMap> = {
 };
 
 export type PlaygroundFile = "html" | "css" | "js";
+
+export type ColorMixDefinition = { name: string };
+
+export type ColorOption = {
+	id: string;
+	name: string;
+	hexCode: string;
+};

@@ -9,8 +9,8 @@ import { useControls } from "leva";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import CloseLabel from "../CloseLabel/CloseLabel";
 import InteractionLabel from "../InteractionLabel/InteractionLabel";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import usePaintingStore from "../../Stores/usePaintingStore";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	/** STATES */
@@ -90,6 +90,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const dispatch = useCallback(() => {
 		setSelectObjectFocus(null);
+		setBrushPickedUp(false);
 	}, [setSelectObjectFocus]);
 
 	const handleBrushPointerMove = useCallback(
@@ -163,12 +164,14 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			const selectedColor = usePaintingStore.getState().selectedColor;
 			if (!selectedColor) return;
 
+			const mixedColor = usePaintingStore.getState().mixedColor;
+
 			// Limit the paintable area to the figures UVs
 			const paintableX = event.uv.x * paintContext.canvas.width;
 			const paintableY = event.uv.y * paintContext.canvas.height;
 
 			// Set the color
-			paintContext.fillStyle = `#${selectedColor.hexCode}`;
+			paintContext.fillStyle = mixedColor ? `#${mixedColor.hexCode}` : `#${selectedColor.hexCode}`;
 			paintContext.beginPath();
 			paintContext.arc(paintableX, paintableY, brushSize, 0, Math.PI * 2);
 			paintContext.fill();
