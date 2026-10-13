@@ -6,6 +6,8 @@ import coffeeVertexShader from "./../shaders/CoffeeSmoke/vertex.glsl";
 import coffeeFragmentShader from "./../shaders/CoffeeSmoke/fragment.glsl";
 import mouseAreaFragmentShader from "./../shaders/MouseArea/fragment.glsl";
 import mouseAreaVertexShader from "./../shaders/MouseArea/vertex.glsl";
+import colorMixVertexShader from "./../shaders/MixColor/vertex.glsl";
+import colorMixFragmentShader from "./../shaders/MixColor/fragment.glsl";
 
 ColorManagement.enabled = true;
 
@@ -98,3 +100,18 @@ const MouseAreaShaderMaterial = materialCreator.createShaderMaterial(
 );
 extend({ MouseAreaShaderMaterial });
 export { MouseAreaShaderMaterial };
+
+const MixColorShaderMaterial = materialCreator.createShaderMaterial(
+	"MixColor",
+	{
+		uColorOne: new Color(),
+		uColorTwo: new Color(),
+		uProgress: 0,
+		uAspect: 1,
+		uTime: 0,
+	},
+	colorMixVertexShader,
+	colorMixFragmentShader,
+);
+extend({ MixColorShaderMaterial });
+export { MixColorShaderMaterial };

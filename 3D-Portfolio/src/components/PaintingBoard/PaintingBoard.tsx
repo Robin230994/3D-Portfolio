@@ -7,10 +7,41 @@ import { Euler, Mesh, Vector3, Group, CanvasTexture } from "three";
 import { useCameraStore } from "../../Stores/useCameraStore";
 import { useControls } from "leva";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
+import { ColorOption } from "../../utils/Types";
+import { colorMixPresets } from "../../utils/Presets";
 import CloseLabel from "../CloseLabel/CloseLabel";
 import InteractionLabel from "../InteractionLabel/InteractionLabel";
 import usePaintingStore from "../../Stores/usePaintingStore";
+import ColorMixOverlay from "./ColorMixOverlay";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+
+const getMixKey = (first: ColorOption, second: ColorOption) =>
+	[first.id, second.id]
+		.map((id) => id.toLowerCase())
+		.sort()
+		.join("__");
+
+const mixHexColors = (firstHex: string, secondHex: string) => {
+	const first = parseInt(firstHex, 16);
+	const second = parseInt(secondHex, 16);
+
+	const red = Math.round((((first >> 16) & 255) + ((second >> 16) & 255)) / 2);
+	const green = Math.round((((first >> 8) & 255) + ((second >> 8) & 255)) / 2);
+	const blue = Math.round(((first & 255) + (second & 255)) / 2);
+
+	return [red, green, blue].map((channel) => channel.toString(16).padStart(2, "0")).join("");
+};
+
+const getMixedColor = (first: ColorOption, second: ColorOption): ColorOption => {
+	const key = getMixKey(first, second);
+	const definition = colorMixPresets[key];
+
+	return {
+		id: key,
+		name: definition?.name,
+		hexCode: mixHexColors(first.hexCode, second.hexCode),
+	};
+};
 
 const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	/** STATES */
@@ -32,10 +63,19 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	/** HOOKS */
 	const gl = useThree((state) => state.gl);
 	const orbitControls = useThree((state) => state.controls as OrbitControlsImpl | undefined);
+
 	const brushSize = usePaintingStore((state) => state.brushSize);
+	const mixColorOne = usePaintingStore((state) => state.mixColorOne);
+	const mixColorTwo = usePaintingStore((state) => state.mixColorTwo);
+	const setMixColorOne = usePaintingStore((state) => state.setMixColorOne);
+	const setMixColorTwo = usePaintingStore((state) => state.setMixColorTwo);
+	const setMixedColor = usePaintingStore((state) => state.setMixedColor);
+
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+
 	const interaction = useInteraction({
 		onClick: (event: ThreeEvent<MouseEvent>) => {
 			if (!paintingBoardRef.current) return;
@@ -184,6 +224,13 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		isPainting.current = false;
 	}, []);
 
+	const completeMixAnimation = () => {
+		const mixedColor = getMixedColor(mixColorOne!, mixColorTwo!);
+		setMixedColor(mixedColor);
+		setMixColorOne(null);
+		setMixColorTwo(null);
+	};
+
 	const uiComponentProps = useMemo(
 		() => ({
 			data: {
@@ -224,6 +271,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<>
 			<PaintingBoardUI props={uiComponentProps} />
+			<ColorMixOverlay mixColorOne={mixColorOne} mixColorTwo={mixColorTwo} onComplete={() => completeMixAnimation()} />
 			<CloseLabel
 				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 				labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}

@@ -1,36 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useFocusStore } from "../../Stores/useFocusStore";
-import { ColorOption } from "../../utils/Types";
-import { colorMixPresets } from "../../utils/Presets";
 import usePaintingStore, { availableColors } from "../../Stores/usePaintingStore";
-
-const getMixKey = (first: ColorOption, second: ColorOption) =>
-	[first.id, second.id]
-		.map((id) => id.toLowerCase())
-		.sort()
-		.join("__");
-
-const mixHexColors = (firstHex: string, secondHex: string) => {
-	const first = parseInt(firstHex, 16);
-	const second = parseInt(secondHex, 16);
-
-	const red = Math.round((((first >> 16) & 255) + ((second >> 16) & 255)) / 2);
-	const green = Math.round((((first >> 8) & 255) + ((second >> 8) & 255)) / 2);
-	const blue = Math.round(((first & 255) + (second & 255)) / 2);
-
-	return [red, green, blue].map((channel) => channel.toString(16).padStart(2, "0")).join("");
-};
-
-const getMixedColor = (first: ColorOption, second: ColorOption): ColorOption => {
-	const key = getMixKey(first, second);
-	const definition = colorMixPresets[key];
-
-	return {
-		id: key,
-		name: definition?.name,
-		hexCode: mixHexColors(first.hexCode, second.hexCode),
-	};
-};
 
 const ColorPalette: FC = () => {
 	/** HOOKS */
@@ -52,13 +22,6 @@ const ColorPalette: FC = () => {
 	const [mixModeActive, setMixModeActive] = useState<boolean>(false);
 
 	const closeMenu = () => setMenuClosing(true);
-
-	useEffect(() => {
-		if (mixColorOne && mixColorTwo) {
-			const mixedColor = getMixedColor(mixColorOne, mixColorTwo);
-			setMixedColor(mixedColor);
-		}
-	}, [mixColorOne, mixColorTwo, setMixedColor]);
 
 	if (selectObjectFocus?.name !== "PaintingBoard") return;
 	return (
