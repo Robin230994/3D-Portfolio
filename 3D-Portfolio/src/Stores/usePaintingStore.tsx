@@ -37,7 +37,7 @@ const usePaintingStore = create<IPaintingStore>((set) => ({
 	mixColorOne: null,
 	mixColorTwo: null,
 	mixedColor: null,
-	brushSize: 3,
+	brushSize: 2,
 	setSelectedColor: (color) => set({ selectedColor: color }),
 	setMixColorOne: (color) => set({ mixColorOne: color }),
 	setMixColorTwo: (color) => set({ mixColorTwo: color }),

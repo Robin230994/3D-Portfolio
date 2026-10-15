@@ -8,7 +8,7 @@ import { useRef } from "react";
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
 import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
-import PaintingBoard from "../PaintingBoard/PaintingBoard";
+import PaintingBoard from "../Targets/PaintingBoard/PaintingBoard";
 
 const materialCreator = MaterialCreator.getInstance();
 const coffeeTexture = materialCreator.loadTexture("/baked-textures/Objects/TI1/coffee-crema.png");

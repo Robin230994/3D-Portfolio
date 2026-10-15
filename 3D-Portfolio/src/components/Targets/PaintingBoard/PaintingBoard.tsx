@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PaintingBoardUI from "./PaintingBoardUI";
-import useInteraction from "../../hooks/useInteraction";
-import { CustomMeshProps } from "../../utils/Interfaces";
-import { useFocusStore } from "../../Stores/useFocusStore";
+import useInteraction from "../../../hooks/useInteraction";
+import { CustomMeshProps } from "../../../utils/Interfaces";
+import { useFocusStore } from "../../../Stores/useFocusStore";
 import { Euler, Mesh, Vector3, Group, CanvasTexture } from "three";
-import { useCameraStore } from "../../Stores/useCameraStore";
+import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useControls } from "leva";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
-import { ColorOption } from "../../utils/Types";
-import { colorMixPresets } from "../../utils/Presets";
-import CloseLabel from "../CloseLabel/CloseLabel";
-import InteractionLabel from "../InteractionLabel/InteractionLabel";
-import usePaintingStore from "../../Stores/usePaintingStore";
+import { ColorOption } from "../../../utils/Types";
+import { colorMixPresets } from "../../../utils/Presets";
+import CloseLabel from "../../CloseLabel/CloseLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import usePaintingStore from "../../../Stores/usePaintingStore";
 import ColorMixOverlay from "./ColorMixOverlay";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
@@ -91,8 +91,8 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const { backLabelPos, backLabelRot, interactionPickUpPos, interactionPickupRot } = useControls("PaintingBoard", {
 		backLabelPos: { value: { x: -0.08, y: 1.15, z: 1.67 }, step: 0.01 },
 		backLabelRot: { value: { x: 1.56, y: 3.14, z: 0.1 }, step: 0.01 },
-		interactionPickUpPos: { value: { x: -1.22, y: 1.19, z: 2.23 }, step: 0.01 },
-		interactionPickupRot: { value: { x: -0, y: -3.14, z: 0.0 }, step: 0.01 },
+		interactionPickUpPos: { value: { x: -1.26, y: 1.19, z: 2.23 }, step: 0.01 },
+		interactionPickupRot: { value: { x: -0, y: 2.42, z: 0.0 }, step: 0.01 },
 	});
 
 	useEffect(() => {

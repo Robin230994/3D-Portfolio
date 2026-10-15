@@ -234,7 +234,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="HomePod" geometry={nodes.HomePod.geometry} material={materials.iot2} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="Mouse" geometry={nodes.Mouse.geometry} material={materials.ot6} position={[6.363, 1.164, -1.419]} />
         <mesh name="SimulatedGodRays" geometry={nodes.SimulatedGodRays.geometry} material={nodes.SimulatedGodRays.material} position={[8.73, 3.148, -0.077]} rotation={[0, 0, 0.412]} scale={[1.666, 0.646, 0.646]} />
-        <mesh name="Brush" geometry={nodes.Brush.geometry} material={materials.iot1} position={[-1.24, 1.174, 2.167]} />
+        <mesh name="Brush" geometry={nodes.Brush.geometry} material={materials.iot1} position={[-1.203, 1.177, 2.153]} rotation={[0, -0.23, 0]} />
         <mesh name="PaintingFigure01" geometry={nodes.PaintingFigure01.geometry} material={materials.ot3} position={[-0.77, 1.277, 1.987]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="PositionMarkerBase" geometry={nodes.PositionMarkerBase.geometry} material={materials['Material.007']} position={[-2.792, 0.121, -0.085]}>
           <mesh name="PositionMarker" geometry={nodes.PositionMarker.geometry} material={materials['Material.003']} position={[0, 0.653, -0.006]} />

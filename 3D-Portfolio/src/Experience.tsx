@@ -8,7 +8,7 @@ import MusicMenu from "./components/MusicMenu/MusicMenu";
 import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 import ProjectPanel from "./components/ProjectPanel/ProjectPanel";
 import useProjectDescription from "./hooks/useProjectDescription";
-import ColorPalette from "./components/PaintingBoard/ColorPalette";
+import ColorPalette from "./components/Targets/PaintingBoard/ColorPalette";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);

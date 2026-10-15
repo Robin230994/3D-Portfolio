@@ -1,6 +1,6 @@
 import { FC, memo, RefObject, useEffect, useMemo } from "react";
 import { DirectionalLight, Mesh, Object3D, Object3DEventMap, Group, CanvasTexture, MeshStandardMaterial } from "three";
-import { IUIComponentProps } from "../../utils/Types";
+import { IUIComponentProps } from "../../../utils/Types";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 
