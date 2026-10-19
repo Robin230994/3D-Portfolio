@@ -23,6 +23,7 @@ import ObjectT6 from "./ObjectT6/ObjectT6";
 import Outside from "./Outside/Outside";
 import ObjectT7 from "./ObjectT7/ObjectT7";
 import GodRays from "./GodRays/GodRays";
+import ObjectT8 from "./ObjectT8/ObjectT8";
 
 RectAreaLightUniformsLib.init();
 
@@ -198,6 +199,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<ObjectT5 name="ObjectT5" nodes={nodes} animations={animations} />
 						<ObjectT6 name="ObjectT6" nodes={nodes} />
 						<ObjectT7 name="ObjectT7" nodes={nodes} />
+						<ObjectT8 name="ObjectT8" nodes={nodes} />
 						<Robbi name="Robbi" nodes={nodes} materials={materials} animations={animations} />
 					</group>
 

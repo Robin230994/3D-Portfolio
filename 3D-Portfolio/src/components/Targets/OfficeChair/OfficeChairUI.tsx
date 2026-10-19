@@ -1,10 +1,10 @@
 import React, { memo, useMemo } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { Mesh } from "three";
+import { Group, Mesh } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../utils/Materials";
 import { useControls } from "leva";
-import { Outlines } from "@react-three/drei";
+import { Detailed, Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
 
@@ -13,7 +13,7 @@ interface OfficeChairUIProps extends IUIComponentProps {
 		data: {
 			myData: {
 				name: string;
-				nodes: { [key: string]: Mesh | DirectionalLight };
+				nodes: { [key: string]: Mesh | Group | DirectionalLight };
 				hovered: string | null;
 			};
 		};
@@ -26,7 +26,7 @@ interface OfficeChairUIProps extends IUIComponentProps {
 				};
 			};
 		};
-		refs: { myRefs: { upperChairRef: React.MutableRefObject<Mesh | null> } };
+		refs: { myRefs: { upperChairRef: React.MutableRefObject<Group | null> } };
 	};
 }
 
@@ -39,7 +39,9 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const { events } = myFunctions;
 	const { upperChairRef } = myRefs;
 
+	const ChairRoot: Group = nodes["ChairRoot"] as Group;
 	const UpperOfficeChair: Mesh = nodes["GamingChairUpper"] as Mesh;
+	const UpperOfficeChairLP: Mesh = nodes["GamingChairUpper_LP"] as Mesh;
 	const LowerOfficeChair: Mesh = nodes["GamingChairLower"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
 
@@ -58,10 +60,6 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			rotationFTH: { value: { x: 0, y: -7.35, z: 1.57 }, step: 0.01 },
 		},
 	);
-
-	const { chairRot } = useControls("OfficeChair", {
-		chairRot: { value: { x: UpperOfficeChair.rotation.x, y: UpperOfficeChair.rotation.y, z: UpperOfficeChair.rotation.z }, step: 0.01 },
-	});
 
 	const chairRollInstances = useMemo(
 		() => [
@@ -130,15 +128,17 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 
 	return (
 		<group name={name} {...events}>
-			<primitive
-				object={UpperOfficeChair}
-				ref={upperChairRef}
-				position={UpperOfficeChair.position}
-				rotation={[chairRot.x, chairRot.y, chairRot.z]}
-				scale={UpperOfficeChair.scale}
-				material={iot1Material}>
-				<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
-			</primitive>
+			<group name="ChairRoot" ref={upperChairRef} position={ChairRoot.position} rotation={ChairRoot.rotation} scale={ChairRoot.scale}>
+				<Detailed distances={[0, 4]}>
+					<mesh name="GamingChairUpper" geometry={UpperOfficeChair.geometry} material={iot1Material}>
+						<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
+					</mesh>
+
+					<mesh name="GamingChairUpper" geometry={UpperOfficeChairLP.geometry} material={iot1Material}>
+						<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
+					</mesh>
+				</Detailed>
+			</group>
 
 			<mesh
 				geometry={LowerOfficeChair.geometry}
