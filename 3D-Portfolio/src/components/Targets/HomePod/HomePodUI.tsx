@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Mesh } from "three";
 import { iot2Material } from "../../../utils/Materials";
-import { Outlines } from "@react-three/drei";
+import { Detailed, Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 
 interface HomePodUIProps extends IUIComponentProps {
@@ -35,12 +35,21 @@ const HomePodUI: React.FC<HomePodUIProps> = ({ props }) => {
 	const { events } = myFunctions;
 
 	const HomePod = nodes["HomePod"] as Mesh;
+	const HomePodLP = nodes["HomePod_LP"] as Mesh;
 
 	return (
 		<group {...events}>
-			<mesh name={name} geometry={HomePod.geometry} position={HomePod.position} rotation={HomePod.rotation} scale={HomePod.scale} material={iot2Material}>
-				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
-			</mesh>
+			<group position={HomePod.position} rotation={HomePod.rotation} scale={HomePod.scale}>
+				<Detailed distances={[0, 3]}>
+					<mesh name={name} geometry={HomePod.geometry} material={iot2Material}>
+						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+					</mesh>
+
+					<mesh name={name} geometry={HomePodLP.geometry} material={iot2Material}>
+						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+					</mesh>
+				</Detailed>
+			</group>
 		</group>
 	);
 };
