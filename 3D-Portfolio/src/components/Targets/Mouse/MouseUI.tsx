@@ -1,7 +1,7 @@
 import React, { MutableRefObject, RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
 import { ArrowHelper, DirectionalLight, DoubleSide, Group, Material, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
-import { PivotControls } from "@react-three/drei";
+import { Detailed, PivotControls } from "@react-three/drei";
 
 interface MouseUIProps extends IUIComponentProps {
 	props: {
@@ -47,6 +47,7 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 	const { mouseRef, mousePivotRef, leftAxisArrowRef, rightAxisArrowRef, mouseAreaMaterialRef, mouseIsDragging } = myRefs;
 
 	const Mouse: Mesh = nodes["Mouse"] as Mesh;
+	const MouseLP: Mesh = nodes["Mouse_LP"] as Mesh;
 
 	return (
 		<group name={name}>
@@ -65,29 +66,33 @@ const MouseUI: React.FC<MouseUIProps> = ({ props }) => {
 				onDragStart={() => (mouseIsDragging.current = true)}
 				onDrag={(localMatrix) => handleMouseDrag(localMatrix)}
 				onDragEnd={() => (mouseIsDragging.current = false)}>
-				<mesh
-					ref={mouseRef}
-					geometry={Mouse.geometry}
-					position={Mouse.position}
-					rotation={Mouse.rotation}
-					scale={Mouse.scale}
-					material={ot7Material}
-					onPointerEnter={() => {
-						setAxisHelperVisible(true);
-						document.body.style.cursor = "pointer";
-					}}
-					onPointerLeave={() => {
-						setAxisHelperVisible(false);
-						document.body.style.cursor = "default";
-					}}
-					onWheel={(event) => {
-						event.stopPropagation();
-						handleVirtualWheel(event.deltaY);
-					}}
-					onClick={() => {
-						if (!mouseIsDragging.current) clickVirtualMouse();
-					}}
-				/>
+				<Detailed distances={[0, 1]}>
+					<mesh
+						ref={mouseRef}
+						geometry={Mouse.geometry}
+						position={Mouse.position}
+						rotation={Mouse.rotation}
+						scale={Mouse.scale}
+						material={ot7Material}
+						onPointerEnter={() => {
+							setAxisHelperVisible(true);
+							document.body.style.cursor = "pointer";
+						}}
+						onPointerLeave={() => {
+							setAxisHelperVisible(false);
+							document.body.style.cursor = "default";
+						}}
+						onWheel={(event) => {
+							event.stopPropagation();
+							handleVirtualWheel(event.deltaY);
+						}}
+						onClick={() => {
+							if (!mouseIsDragging.current) clickVirtualMouse();
+						}}
+					/>
+
+					<mesh geometry={MouseLP.geometry} position={MouseLP.position} rotation={MouseLP.rotation} scale={MouseLP.scale} material={ot7Material} />
+				</Detailed>
 				<group>
 					<arrowHelper
 						ref={leftAxisArrowRef}
