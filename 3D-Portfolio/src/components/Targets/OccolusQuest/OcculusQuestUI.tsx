@@ -1,12 +1,10 @@
-import React, { RefObject } from "react";
-import CloseLabel from "../../CloseLabel/CloseLabel";
+import React, { memo, RefObject } from "react";
 
 import { IUIComponentProps } from "../../../utils/Types";
 import { DirectionalLight, Mesh, Group } from "three";
 import { useControls } from "leva";
 import { Detailed, Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
-import { useFocusStore } from "../../../Stores/useFocusStore";
 
 interface OccolusQuestUIProps extends IUIComponentProps {
 	props: {
@@ -14,14 +12,11 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-
-				cameraIsMoving: boolean;
 				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				dispatch: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -38,22 +33,19 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving, hovered } = myData;
-	const { events, dispatch } = myFunctions;
+	const { name, nodes, hovered } = myData;
+	const { events } = myFunctions;
 	const { occulusRef } = myRefs;
-
-	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
 	const OcculusHeadsetLP: Mesh = nodes["OcculusHeadset_LP"] as Mesh;
-	const OcculusControler: Mesh = nodes["OcculusController"] as Mesh;
-	const OcculusControlerLP: Mesh = nodes["OcculusController_LP"] as Mesh;
+	const OcculusController: Mesh = nodes["OcculusController"] as Mesh;
+	const OcculusControllerLP: Mesh = nodes["OcculusController_LP"] as Mesh;
 
-	const { occulusPosition, occulusRotation, backLabelPos, backLabelRot } = useControls("OcculusHeadset", {
+	const { occulusPosition, occulusRotation, secondControllerPosition } = useControls("OcculusHeadset", {
 		occulusPosition: { value: { x: 3.37, y: 1.28, z: -1.39 }, step: 0.01 },
 		occulusRotation: { value: { x: -1.75, y: -0.08, z: 0.43 }, step: 0.01 },
-		backLabelPos: { value: { x: -0.7, y: 0.1, z: -0.2 }, step: 0.1 },
-		backLabelRot: { value: { x: 0.2, y: 0, z: -0.3 }, step: 0.1 },
+		secondControllerPosition: { value: { x: 3.65, y: 1.21, z: -1.5 }, setp: 0.01 },
 	});
 
 	return (
@@ -65,14 +57,6 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				<Detailed distances={[0, 1.5]}>
 					<mesh name={name} geometry={OcculusHeadset.geometry} material={OcculusHeadset.material}>
 						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
-						<CloseLabel
-							labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-							labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-							scaleFactor={0.5}
-							visible={!cameraIsMoving && selectObjectFocus?.name === name}
-							dispatch={() => dispatch()}>
-							x
-						</CloseLabel>
 					</mesh>
 
 					<mesh name={name} geometry={OcculusHeadsetLP.geometry} material={OcculusHeadsetLP.material}>
@@ -81,14 +65,24 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				</Detailed>
 			</group>
 
-			<group position={OcculusControler.position} rotation={OcculusControler.rotation} scale={OcculusControler.scale}>
+			<group position={OcculusController.position} rotation={OcculusController.rotation} scale={OcculusController.scale}>
 				<Detailed distances={[0, 1.5]}>
-					<mesh geometry={OcculusControler.geometry} material={OcculusControler.material} />
-					<mesh geometry={OcculusControlerLP.geometry} material={OcculusControlerLP.material} />
+					<mesh geometry={OcculusController.geometry} material={OcculusController.material} />
+					<mesh geometry={OcculusControllerLP.geometry} material={OcculusControllerLP.material} />
+				</Detailed>
+			</group>
+
+			<group
+				position={[secondControllerPosition.x, secondControllerPosition.y, secondControllerPosition.z]}
+				rotation={OcculusController.rotation}
+				scale={OcculusController.scale}>
+				<Detailed distances={[0, 1.5]}>
+					<mesh geometry={OcculusController.geometry} material={OcculusController.material} />
+					<mesh geometry={OcculusControllerLP.geometry} material={OcculusControllerLP.material} />
 				</Detailed>
 			</group>
 		</group>
 	);
 };
 
-export default OccolusQuestUI;
+export default memo(OccolusQuestUI);
