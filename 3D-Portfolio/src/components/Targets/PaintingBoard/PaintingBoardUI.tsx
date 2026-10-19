@@ -1,7 +1,7 @@
 import { FC, memo, RefObject, useEffect, useMemo } from "react";
 import { DirectionalLight, Mesh, Object3D, Object3DEventMap, Group, CanvasTexture, MeshStandardMaterial } from "three";
 import { IUIComponentProps } from "../../../utils/Types";
-import { Outlines } from "@react-three/drei";
+import { Detailed, Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 
 interface PaintingBoardUIProps extends IUIComponentProps {
@@ -56,7 +56,9 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 
 	const PaintingBoard: Mesh = nodes["PaintingBoard"] as Mesh;
 	const Brush: Mesh = nodes["Brush"] as Mesh;
+	const BrushLP: Mesh = nodes["Brush_LP"] as Mesh;
 	const PaintingFigure01: Mesh = nodes["PaintingFigure01"] as Mesh;
+	const PaintingFigure01LP: Mesh = nodes["PaintingFigure01_LP"] as Mesh;
 
 	const figureMaterial = PaintingFigure01.material as MeshStandardMaterial;
 	const clonedFigureMaterial = useMemo(() => figureMaterial.clone(), [figureMaterial]);
@@ -120,28 +122,32 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 
 			{/** Painting Figures */}
 			<group position={[PaintingFigure01.position.x, PaintingFigure01.position.y + 0.07, PaintingFigure01.position.z]} ref={activeFigureRef}>
-				<mesh
-					name="Blacksmith"
-					geometry={PaintingFigure01.geometry}
-					rotation={PaintingFigure01.rotation}
-					scale={1.8}
-					material={clonedFigureMaterial}
-					{...events}
-					onPointerDown={brushPickedUp ? startPainting : startFigureRotation}
-					onPointerMove={(event: ThreeEvent<PointerEvent>) => {
-						if (brushPickedUp) {
-							paintFigure(event, paintContext, paintTexture);
-						}
-						rotateFigure(event);
-					}}
-					onPointerUp={brushPickedUp ? stopPainting : stopFigureRotation}
-					onPointerCancel={brushPickedUp ? stopPainting : stopFigureRotation}>
-					<Outlines
-						thickness={2}
-						scale={hovered === "Blacksmith" && selectObjectFocus?.name === name && !figureSelected && !brushPickedUp ? 1 : 0}
-						color={"white"}
-					/>
-				</mesh>
+				<Detailed distances={[0, 2]}>
+					<mesh
+						name="Blacksmith"
+						geometry={PaintingFigure01.geometry}
+						rotation={PaintingFigure01.rotation}
+						scale={1.8}
+						material={clonedFigureMaterial}
+						{...events}
+						onPointerDown={brushPickedUp ? startPainting : startFigureRotation}
+						onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+							if (brushPickedUp) {
+								paintFigure(event, paintContext, paintTexture);
+							}
+							rotateFigure(event);
+						}}
+						onPointerUp={brushPickedUp ? stopPainting : stopFigureRotation}
+						onPointerCancel={brushPickedUp ? stopPainting : stopFigureRotation}>
+						<Outlines
+							thickness={2}
+							scale={hovered === "Blacksmith" && selectObjectFocus?.name === name && !figureSelected && !brushPickedUp ? 1 : 0}
+							color={"white"}
+						/>
+					</mesh>
+
+					<mesh geometry={PaintingFigure01LP.geometry} scale={1.8} material={clonedFigureMaterial} rotation={PaintingFigure01.rotation} />
+				</Detailed>
 			</group>
 
 			{/** rotation group */}
@@ -160,16 +166,15 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 			</mesh>
 
 			{/* Brush */}
-			<mesh
-				name="Brush"
-				ref={brushRef}
-				geometry={Brush.geometry}
-				position={Brush.position}
-				rotation={Brush.rotation}
-				scale={Brush.scale}
-				material={Brush.material}>
-				<Outlines thickness={2} scale={hovered === "Brush" && selectObjectFocus?.name === name ? 1 : 0} color={"white"} />
-			</mesh>
+			<group position={Brush.position} rotation={Brush.rotation} scale={Brush.scale}>
+				<Detailed distances={[0, 2]}>
+					<mesh name="Brush" ref={brushRef} geometry={Brush.geometry} material={Brush.material}>
+						<Outlines thickness={2} scale={hovered === "Brush" && selectObjectFocus?.name === name ? 1 : 0} color={"white"} />
+					</mesh>
+
+					<mesh geometry={BrushLP.geometry} material={Brush.material} />
+				</Detailed>
+			</group>
 		</group>
 	);
 };

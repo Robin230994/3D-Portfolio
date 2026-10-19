@@ -4,6 +4,7 @@ import { DirectionalLight } from "three/src/lights/DirectionalLight.js";
 import { Mesh } from "three/src/objects/Mesh.js";
 import { Material, MeshStandardMaterial } from "three";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
+import { Detailed } from "@react-three/drei";
 
 interface LogosUIProps extends IUIComponentProps {
 	props: {
@@ -48,6 +49,7 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 
 	const LinkedInLogo = nodes["linkedInLogo"] as Mesh;
 	const GitHubLogo = nodes["GithubLogo"] as Mesh;
+	const GithubLogoLP = nodes["GithubLogo_LP"] as Mesh;
 
 	return (
 		<group name={name}>
@@ -60,15 +62,26 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
 				scale={hovered === "LinkedInLogo" ? 1.2 : 1}
 				{...events}></mesh>
-			<mesh
-				name="GitHubLogo"
-				ref={githubLogoRef}
-				geometry={GitHubLogo.geometry}
-				position={GitHubLogo.position}
-				rotation={GitHubLogo.rotation}
-				material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
-				scale={hovered === "GitHubLogo" ? 1.2 : 1}
-				{...events}></mesh>
+
+			<group position={GitHubLogo.position} rotation={GitHubLogo.rotation} scale={hovered === "GitHubLogo" ? 1.2 : 1}>
+				<Detailed distances={[0, 5]}>
+					<mesh
+						name="GitHubLogo"
+						ref={githubLogoRef}
+						geometry={GitHubLogo.geometry}
+						material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
+						{...events}
+					/>
+
+					<mesh
+						name="GitHubLogo"
+						ref={githubLogoRef}
+						geometry={GithubLogoLP.geometry}
+						material={t6Material ? t6Material : new MeshStandardMaterial({ color: "#ff0000" })}
+						{...events}
+					/>
+				</Detailed>
+			</group>
 		</group>
 	);
 };
