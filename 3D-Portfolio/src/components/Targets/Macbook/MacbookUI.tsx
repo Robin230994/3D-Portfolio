@@ -4,6 +4,7 @@ import { Mesh, DirectionalLight, Material } from "three";
 import { Group } from "three";
 
 import MacbookDesktop from "./MacbookDesktop";
+import { Detailed } from "@react-three/drei";
 
 interface MacbookUIProps extends IUIComponentProps {
 	props: {
@@ -34,20 +35,31 @@ const MacbookUI: React.FC<MacbookUIProps> = ({ props }) => {
 	const { macbookRef, macbookTopSideRef } = myRefs;
 
 	const MacbookTopSide: Mesh = nodes["MacbookTopSide"] as Mesh;
+	const MacbookTopSideLP: Mesh = nodes["MacbookTopSide_LP"] as Mesh;
 	const macbookTopSideMaterial = MacbookTopSide.material as Material;
 
 	return (
 		<group ref={macbookRef}>
-			<mesh
-				name={name}
-				ref={macbookTopSideRef}
-				geometry={MacbookTopSide.geometry}
-				position={MacbookTopSide.position}
-				rotation={MacbookTopSide.rotation}
-				scale={MacbookTopSide.scale}
-				material={macbookTopSideMaterial}>
-				{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab }} />}
-			</mesh>
+			<Detailed distances={[0, 5]}>
+				<mesh
+					name={name}
+					ref={macbookTopSideRef}
+					geometry={MacbookTopSide.geometry}
+					position={MacbookTopSide.position}
+					rotation={MacbookTopSide.rotation}
+					scale={MacbookTopSide.scale}
+					material={macbookTopSideMaterial}>
+					{screenVisible && <MacbookDesktop props={{ activeTab, setActiveTab }} />}
+				</mesh>
+
+				<mesh
+					geometry={MacbookTopSideLP.geometry}
+					position={MacbookTopSideLP.position}
+					rotation={MacbookTopSideLP.rotation}
+					scale={MacbookTopSideLP.scale}
+					material={macbookTopSideMaterial}
+				/>
+			</Detailed>
 		</group>
 	);
 };
