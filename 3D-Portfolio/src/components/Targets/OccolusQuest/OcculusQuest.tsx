@@ -8,6 +8,7 @@ import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useControls } from "leva";
 import useInteraction from "../../../hooks/useInteraction";
 import CloseLabel from "../../CloseLabel/CloseLabel";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const occulusRef = useRef<Group>(null);
@@ -23,9 +24,11 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot } = useControls("OcculusHeadset", {
-		backLabelPos: { value: { x: 2.98, y: 1.16, z: -1.37 }, step: 0.01 },
-		backLabelRot: { value: { x: -1.6, y: 0, z: 0.3 }, step: 0.01 },
+	const { backLabelPos, backLabelRot, interactionPosition, interactionRotation } = useControls("OcculusHeadset", {
+		backLabelPos: { value: { x: 3.08, y: 1.16, z: -1.37 }, step: 0.01 },
+		backLabelRot: { value: { x: -1.6, y: 0, z: 0.14 }, step: 0.01 },
+		interactionPosition: { value: { x: 3.71, y: 1.2, z: -1.23 }, step: 0.01 },
+		interactionRotation: { value: { x: 0, y: -0.32, z: 0 } },
 	});
 
 	const dispatch = () => {
@@ -45,11 +48,20 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			<CloseLabel
 				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 				labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-				scaleFactor={0.2}
+				scaleFactor={0.15}
 				visible={!cameraIsMoving && selectObjectFocus?.name === name}
 				dispatch={() => dispatch()}>
 				x
 			</CloseLabel>
+			<InteractionLabel
+				focusName={name}
+				shortcut={1}
+				label={"Show VR"}
+				position={[interactionPosition.x, interactionPosition.y, interactionPosition.z]}
+				rotation={[interactionRotation.x, interactionRotation.y, interactionRotation.z]}
+				scale={0.55}
+				onTrigger={() => {}}
+			/>
 		</>
 	);
 };
