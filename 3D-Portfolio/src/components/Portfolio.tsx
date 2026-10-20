@@ -24,6 +24,7 @@ import Outside from "./Outside/Outside";
 import ObjectT7 from "./ObjectT7/ObjectT7";
 import GodRays from "./GodRays/GodRays";
 import ObjectT8 from "./ObjectT8/ObjectT8";
+import AutoPerformance from "./AutoPerformance/AutoPerformance";
 
 RectAreaLightUniformsLib.init();
 
@@ -151,7 +152,9 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 			{isDebugMode && perfParams.visible && <Perf position="top-left" />}
 
 			{/** Scale pixel ratio based on performance */}
+			<AutoPerformance />
 			<AdaptiveDpr pixelated />
+
 			<Environment
 				background={true}
 				files={"./environment/environment_map.hdr"}
