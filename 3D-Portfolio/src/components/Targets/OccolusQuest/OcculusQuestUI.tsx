@@ -24,7 +24,14 @@ interface OccolusQuestUIProps extends IUIComponentProps {
 				};
 			};
 		};
-		refs: { myRefs: { occulusParentRef: RefObject<Group>; occulusHeadsetRef: RefObject<Group>; occulusControllerRef: RefObject<Group> } };
+		refs: {
+			myRefs: {
+				occulusParentRef: RefObject<Group>;
+				occulusHeadsetRef: RefObject<Group>;
+				occulusFirstControllerRef: RefObject<Group>;
+				occulusSecondControllerRef: RefObject<Group>;
+			};
+		};
 	};
 }
 
@@ -35,7 +42,7 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 
 	const { name, nodes, hovered } = myData;
 	const { events } = myFunctions;
-	const { occulusParentRef, occulusHeadsetRef, occulusControllerRef } = myRefs;
+	const { occulusParentRef, occulusHeadsetRef, occulusFirstControllerRef, occulusSecondControllerRef } = myRefs;
 
 	const OcculusHeadset: Mesh = nodes["OcculusHeadset"] as Mesh;
 	const OcculusHeadsetLP: Mesh = nodes["OcculusHeadset_LP"] as Mesh;
@@ -66,8 +73,12 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				</Detailed>
 			</group>
 
-			<group ref={occulusControllerRef}>
-				<group position={OcculusController.position} rotation={OcculusController.rotation} scale={OcculusController.scale}>
+			<group>
+				<group
+					ref={occulusFirstControllerRef}
+					scale={OcculusController.scale}
+					position={[OcculusController.position.x, OcculusController.position.y + 0.01, OcculusController.position.z]}
+					rotation={OcculusController.rotation}>
 					<Detailed distances={[0, 1.5]}>
 						<mesh geometry={OcculusController.geometry} material={OcculusController.material} />
 						<mesh geometry={OcculusControllerLP.geometry} material={OcculusControllerLP.material} />
@@ -75,9 +86,10 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				</group>
 
 				<group
+					ref={occulusSecondControllerRef}
+					scale={OcculusController.scale}
 					position={[secondControllerPosition.x, secondControllerPosition.y, secondControllerPosition.z]}
-					rotation={OcculusController.rotation}
-					scale={OcculusController.scale}>
+					rotation={OcculusController.rotation}>
 					<Detailed distances={[0, 1.5]}>
 						<mesh geometry={OcculusController.geometry} material={OcculusController.material} />
 						<mesh geometry={OcculusControllerLP.geometry} material={OcculusControllerLP.material} />

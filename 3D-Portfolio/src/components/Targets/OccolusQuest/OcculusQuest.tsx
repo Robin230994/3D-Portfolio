@@ -16,12 +16,21 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const occulusParentRef = useRef<Group>(null);
 	const occulusHeadsetRef = useRef<Group>(null);
-	const occulusControllerRef = useRef<Group>(null);
+	const occulusFirstControllerRef = useRef<Group>(null);
+	const occulusSecondControllerRef = useRef<Group>(null);
 
 	const startHeadsetPos = useRef(new Vector3());
 	const startHeadsetRotation = useRef(new Quaternion());
 	const targetHeadsetWorldPos = useRef(new Vector3());
 	const targetHeadsetWorldRotation = useRef(new Quaternion());
+	const startFirstControllerGroupPos = useRef(new Vector3());
+	const startFirstControllerGroupRot = useRef(new Quaternion());
+	const targetFirstControllerGroupPos = useRef(new Vector3());
+	const targetFirstControllerGroupRot = useRef(new Quaternion());
+	const startSecondControllerGroupPos = useRef(new Vector3());
+	const startSecondControllerGroupRot = useRef(new Quaternion());
+	const targetSecondControllerGroupPos = useRef(new Vector3());
+	const targetSecondControllerGroupRot = useRef(new Quaternion());
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
@@ -51,11 +60,17 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const playVRExperience = () => {
 		const orbitControls = controls as OrbitControlsImpl;
-		if (!orbitControls || !occulusHeadsetRef.current || !occulusControllerRef.current) return;
+		if (!orbitControls || !occulusHeadsetRef.current || !occulusFirstControllerRef.current || !occulusSecondControllerRef.current) return;
 
 		// first set the groups start position and rotation
 		startHeadsetPos.current.copy(occulusHeadsetRef.current.position);
 		startHeadsetRotation.current.copy(occulusHeadsetRef.current.quaternion);
+
+		startFirstControllerGroupPos.current.copy(occulusFirstControllerRef.current.position);
+		startFirstControllerGroupRot.current.copy(occulusFirstControllerRef.current.quaternion);
+
+		startSecondControllerGroupPos.current.copy(occulusSecondControllerRef.current.position);
+		startSecondControllerGroupRot.current.copy(occulusSecondControllerRef.current.quaternion);
 
 		// get the camera to set the target position for the headset and controllers
 		const cameraPosition = new Vector3();
@@ -68,30 +83,47 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		// calculate direction camera is currently looking
 		const cameraForward = new Vector3(0, 0, -1).applyQuaternion(cameraRotation);
 
-		// Set the target position to move the headset in front of the camera
-
+		// Set the target position to move the headset and controller in front of the camera
 		const targetWorldPosition = cameraPosition.clone().addScaledVector(cameraForward, 0.17);
 
-		const occulusHeadsetParent = occulusHeadsetRef.current.parent;
-		occulusHeadsetParent?.updateWorldMatrix(true, false);
-		targetHeadsetWorldPos.current.copy(targetWorldPosition);
+		const targetFirstControllerWorldPosition = cameraPosition.clone().add(new Vector3(-0.3, -0.3, 0).applyQuaternion(cameraRotation)); // place on camera position but slightly offset it on x and y axis
+		const targetSecondControllerWorldPosition = cameraPosition.clone().add(new Vector3(0.3, -0.3, 0).applyQuaternion(cameraRotation));
 
-		const targetWorldRotation = occulusHeadsetParent?.getWorldQuaternion(new Quaternion());
-		const offset = new Quaternion().setFromEuler(new Euler(Math.PI / 2, Math.PI, 0));
+		const occulusParent = occulusHeadsetRef.current.parent;
+		const controllerFirstParent = occulusFirstControllerRef.current.parent;
+		const controllerSecondParent = occulusSecondControllerRef.current.parent;
+
+		occulusParent?.updateWorldMatrix(true, false);
+		controllerFirstParent?.updateWorldMatrix(true, false);
+		controllerSecondParent?.updateWorldMatrix(true, false);
+
+		// Set final target position and rotation
+		targetHeadsetWorldPos.current.copy(targetWorldPosition);
+		targetFirstControllerGroupPos.current.copy(targetFirstControllerWorldPosition);
+		targetSecondControllerGroupPos.current.copy(targetSecondControllerWorldPosition);
+
+		const targetWorldRotation = occulusParent?.getWorldQuaternion(new Quaternion());
+		const targetFirstControllerWorldRotation = controllerFirstParent?.getWorldQuaternion(new Quaternion());
+		const targetSecondControllerWorldRotation = controllerSecondParent?.getWorldQuaternion(new Quaternion());
+
+		const offset = new Quaternion().setFromEuler(new Euler(Math.PI / 2, Math.PI, 0)); // rotate headset and controllers on x axis by 90 degrees and on y axis by 180 degrees.
 
 		// set the target position in local space. The current position is set to world space
-		occulusHeadsetParent?.worldToLocal(targetHeadsetWorldPos.current);
+		occulusParent?.worldToLocal(targetHeadsetWorldPos.current);
 		targetHeadsetWorldRotation.current.copy(targetWorldRotation!).invert().multiply(cameraRotation).multiply(offset);
 
-		// targetHeadsetWorldPos.current.copy(cameraPosition).addScaledVector(cameraForward, 0.03);
-		// targetHeadsetWorldRotation.current.copy(cameraRotation).multiply(new Quaternion().setFromEuler(new Euler(Math.PI / 2, -Math.PI, 0)));
+		controllerFirstParent?.worldToLocal(targetFirstControllerGroupPos.current);
+		targetFirstControllerGroupRot.current.copy(targetFirstControllerWorldRotation!).invert().multiply(cameraRotation).multiply(offset);
+
+		controllerSecondParent?.worldToLocal(targetSecondControllerGroupPos.current);
+		targetSecondControllerGroupRot.current.copy(targetSecondControllerWorldRotation!).invert().multiply(cameraRotation).multiply(offset);
 
 		orbitControls.enabled = false;
 		setVRPhase(VRTransition.ENTERING);
 	};
 
 	useFrame((_, delta) => {
-		if (!occulusHeadsetRef.current) return;
+		if (!occulusHeadsetRef.current || !occulusFirstControllerRef.current || !occulusSecondControllerRef.current) return;
 
 		const movementSpeed = 1 - Math.exp(-4 * delta);
 
@@ -99,6 +131,12 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			// Move the headset and controllers and rotate them
 			occulusHeadsetRef.current.position.lerp(targetHeadsetWorldPos.current, movementSpeed);
 			occulusHeadsetRef.current.quaternion.slerp(targetHeadsetWorldRotation.current, movementSpeed);
+
+			occulusFirstControllerRef.current.position.lerp(targetFirstControllerGroupPos.current, movementSpeed);
+			occulusFirstControllerRef.current.quaternion.slerp(targetFirstControllerGroupRot.current, movementSpeed);
+
+			occulusSecondControllerRef.current.position.lerp(targetSecondControllerGroupPos.current, movementSpeed);
+			occulusSecondControllerRef.current.quaternion.slerp(targetFirstControllerGroupRot.current, movementSpeed);
 
 			const movedToPosition =
 				occulusHeadsetRef.current.position.distanceTo(targetHeadsetWorldPos.current) <= 0.01 &&
@@ -116,9 +154,15 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			occulusHeadsetRef.current.position.lerp(startHeadsetPos.current, movementSpeed);
 			occulusHeadsetRef.current.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
 
+			occulusFirstControllerRef.current.position.lerp(startFirstControllerGroupPos.current, movementSpeed);
+			occulusFirstControllerRef.current.quaternion.slerp(startFirstControllerGroupRot.current, movementSpeed);
+
+			occulusSecondControllerRef.current.position.lerp(startSecondControllerGroupPos.current, movementSpeed);
+			occulusSecondControllerRef.current.quaternion.slerp(startSecondControllerGroupRot.current, movementSpeed);
+
 			const movedToPosition =
-				occulusHeadsetRef.current.position.distanceTo(startHeadsetPos.current) <= 0.01 &&
-				occulusHeadsetRef.current.quaternion.angleTo(startHeadsetRotation.current) <= 0.01;
+				occulusHeadsetRef.current.position.distanceTo(startHeadsetPos.current) <= 0.03 &&
+				occulusHeadsetRef.current.quaternion.angleTo(startHeadsetRotation.current) <= 0.03;
 
 			if (movedToPosition) {
 				setVRPhase(VRTransition.IDLE);
@@ -131,7 +175,7 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		return {
 			data: { myData: { name, nodes, hovered: interaction.hovered } },
 			functions: { myFunctions: { events: interaction.events } },
-			refs: { myRefs: { occulusParentRef, occulusHeadsetRef, occulusControllerRef } },
+			refs: { myRefs: { occulusParentRef, occulusHeadsetRef, occulusFirstControllerRef, occulusSecondControllerRef } },
 		};
 	}, [interaction.events, interaction.hovered, name, nodes]);
 
