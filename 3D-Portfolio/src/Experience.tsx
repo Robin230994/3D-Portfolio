@@ -9,6 +9,7 @@ import MusicPlayer from "./components/MusicPlayer/MusicPlayer";
 import ProjectPanel from "./components/ProjectPanel/ProjectPanel";
 import useProjectDescription from "./hooks/useProjectDescription";
 import ColorPalette from "./components/Targets/PaintingBoard/ColorPalette";
+import VRVideo from "./components/VRVideo/VRVideo";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
@@ -28,6 +29,7 @@ const Experience = () => {
 			<MusicMenu />
 			<MusicPlayer />
 			<ColorPalette />
+			<VRVideo />
 			{project !== null && <ProjectPanel project={project} />}
 			<Canvas shadows dpr={[1, 1.5]} performance={{ min: 0.15, max: 1, debounce: 300 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 65 }}>
 				<Portfolio isDebugMode={isDebugMode} />

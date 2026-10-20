@@ -1,10 +1,11 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import { useCameraStore } from "../Stores/useCameraStore";
 import { useFocusStore } from "../Stores/useFocusStore";
 import { CameraInfo } from "../utils/Types";
 import { cameraPresets } from "../utils/Presets";
+import { useVRStore, VRTransition } from "../Stores/useVRStore";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const CAMERA_RETURN_SPEED = 0.02;
@@ -20,8 +21,12 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	const setCameraIsMoving = useCameraStore((state) => state.setCameraIsMoving);
 	const setDragging = useCameraStore((state) => state.setDragging);
 	const setUserMovedCamera = useCameraStore((state) => state.setUserMovedCamera);
+	const controlsLocked = useVRStore((state) => state.vrPhase !== VRTransition.IDLE);
+
+	const hasSyncedTargetRef = useRef(false);
 
 	useEffect(() => {
+		hasSyncedTargetRef.current = false;
 		setDragging(false);
 		setUserMovedCamera(false);
 	}, [currentCameraPlaceKey, selectObjectFocus?.name, setDragging, setUserMovedCamera]);
@@ -29,6 +34,11 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 	useFrame(() => {
 		const controls = controlsRef.current;
 		if (!controls) return;
+
+		if (controlsLocked) {
+			controls.enabled = false;
+			return;
+		}
 
 		const pos = controls.object.position;
 		const target = controls.target;
@@ -47,7 +57,8 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 		// check if camera is still moving
 		const posTarget = new Vector3(...preset.position);
 
-		const isCameraTransitioning = !isDragging && !userMovedCamera && pos.distanceTo(posTarget) > 0.5;
+		const isCameraTransitioning = !isDragging && !userMovedCamera && pos.distanceTo(posTarget) > 0.03;
+
 		setCameraIsMoving(isCameraTransitioning);
 	});
 
@@ -66,15 +77,32 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 
 			controls.minPolarAngle = (preset.polar - preset.vdeg2rad) * DEG2_RAD;
 			controls.maxPolarAngle = (preset.polar + preset.vdeg2rad) * DEG2_RAD;
-			controls.enabled = true;
+		};
+
+		const finishTransition = () => {
+			applyOrbitLimits();
+			const dampingEnabled = controls.enableDamping;
+
+			controls.enableDamping = false;
+			cameraPos.copy(posTarget);
+			cameraTarget.copy(targetTarget);
 			controls.update();
+
+			controls.enableDamping = dampingEnabled;
+			controls.enabled = true;
+
+			hasSyncedTargetRef.current = true;
 		};
 
 		const isAlreadyAtTarget = cameraPos.distanceTo(posTarget) < CAMERA_ARRIVAL_EPSILON && cameraTarget.distanceTo(targetTarget) < CAMERA_ARRIVAL_EPSILON;
 		if (isAlreadyAtTarget) {
-			applyOrbitLimits();
+			if (!hasSyncedTargetRef.current) {
+				finishTransition();
+			}
 			return;
 		}
+
+		hasSyncedTargetRef.current = false;
 
 		// Keep OrbitControls out of the transition so its spherical angle limits cannot
 		// force the camera to take the long route around the target.
@@ -85,11 +113,9 @@ const useCameraMovement = (controlsRef: React.RefObject<OrbitControlsImpl>) => {
 
 		const hasReachedPosition = cameraPos.distanceTo(posTarget) < CAMERA_ARRIVAL_EPSILON;
 		const hasReachedTarget = cameraTarget.distanceTo(targetTarget) < CAMERA_ARRIVAL_EPSILON;
-		if (!hasReachedPosition || !hasReachedTarget) return;
-
-		cameraPos.copy(posTarget);
-		cameraTarget.copy(targetTarget);
-		applyOrbitLimits();
+		if (hasReachedPosition || hasReachedTarget) {
+			finishTransition();
+		}
 	};
 };
 
