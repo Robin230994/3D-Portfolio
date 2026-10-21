@@ -150,24 +150,27 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		if (vrPhase === VRTransition.EXITING) {
 			const orbitControls = controls as OrbitControlsImpl;
 
-			// return back to original position and rotation
-			occulusHeadsetRef.current.position.lerp(startHeadsetPos.current, movementSpeed);
-			occulusHeadsetRef.current.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
+			setTimeout(() => {
+				// wait 1 second to let the vr video container finish fade out animation;
+				// return back to original position and rotation
+				occulusHeadsetRef.current!.position.lerp(startHeadsetPos.current, movementSpeed);
+				occulusHeadsetRef.current!.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
 
-			occulusFirstControllerRef.current.position.lerp(startFirstControllerGroupPos.current, movementSpeed);
-			occulusFirstControllerRef.current.quaternion.slerp(startFirstControllerGroupRot.current, movementSpeed);
+				occulusFirstControllerRef.current!.position.lerp(startFirstControllerGroupPos.current, movementSpeed);
+				occulusFirstControllerRef.current!.quaternion.slerp(startFirstControllerGroupRot.current, movementSpeed);
 
-			occulusSecondControllerRef.current.position.lerp(startSecondControllerGroupPos.current, movementSpeed);
-			occulusSecondControllerRef.current.quaternion.slerp(startSecondControllerGroupRot.current, movementSpeed);
+				occulusSecondControllerRef.current!.position.lerp(startSecondControllerGroupPos.current, movementSpeed);
+				occulusSecondControllerRef.current!.quaternion.slerp(startSecondControllerGroupRot.current, movementSpeed);
 
-			const movedToPosition =
-				occulusHeadsetRef.current.position.distanceTo(startHeadsetPos.current) <= 0.03 &&
-				occulusHeadsetRef.current.quaternion.angleTo(startHeadsetRotation.current) <= 0.03;
+				const movedToPosition =
+					occulusHeadsetRef.current!.position.distanceTo(startHeadsetPos.current) <= 0.03 &&
+					occulusHeadsetRef.current!.quaternion.angleTo(startHeadsetRotation.current) <= 0.03;
 
-			if (movedToPosition) {
-				setVRPhase(VRTransition.IDLE);
-				orbitControls.enabled = true;
-			}
+				if (movedToPosition) {
+					setVRPhase(VRTransition.IDLE);
+					orbitControls.enabled = true;
+				}
+			}, 1500);
 		}
 	});
 

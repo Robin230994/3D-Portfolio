@@ -1,8 +1,12 @@
 .vr-video-container {
 	position: fixed;
-	width: 100%;
-	height: 100%;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: url("/images/vr-video-bg.jpg");
 	background-color: #000;
+	background-repeat: no-repeat;
+	background-size: cover;
 	z-index: 99;
 
 	&.entering {
@@ -11,6 +15,43 @@
 
 	&.exiting {
 		animation: fadeOut 1s both;
+	}
+
+	.vr-video-crop {
+		height: 100%;
+		aspect-ratio: 16 / 9;
+		display: flex;
+		justify-content: center;
+	}
+
+	button {
+		position: fixed;
+		right: 32px;
+		top: 32px;
+		width: 48px;
+		height: 48px;
+		border-radius: 100%;
+		z-index: 9999;
+		border: 1px solid rgba(255, 255, 255, 0.85);
+		background-color: rgba(255, 255, 255, 0.92);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+
+		&:hover {
+			cursor: pointer;
+			color: #fff;
+			background-color: #1c1c1e;
+			transform: translateY(-2px);
+		}
+	}
+
+	video {
+		display: block;
+		height: 100%;
+		width: auto;
+		transform: scale(1.8); // increase until the black side bars are outside
 	}
 }
 

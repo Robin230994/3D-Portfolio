@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, ListMusic, Music, Pause, Play, Volume2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { songs } from "../../utils/Presets";
+import { useVRStore, VRTransition } from "../../Stores/useVRStore";
 import useMusicStore from "../../Stores/useMusicStore";
 
 const MusicMenu: React.FC = () => {
@@ -8,6 +9,7 @@ const MusicMenu: React.FC = () => {
 		useMusicStore();
 	const [renderMenu, setRenderMenu] = useState(musicMenuOpen);
 	const [isClosing, setIsClosing] = useState(false);
+	const vrPhase = useVRStore((state) => state.vrPhase);
 
 	useEffect(() => {
 		if (musicMenuOpen) {
@@ -31,6 +33,8 @@ const MusicMenu: React.FC = () => {
 
 	const duration = currentSong ? (songDurations[currentSong.id] ?? 0) : 0;
 	const progress = duration > 0 ? (currentSongTime / duration) * 100 : 0;
+
+	if (vrPhase !== VRTransition.IDLE) return;
 
 	return (
 		<>
