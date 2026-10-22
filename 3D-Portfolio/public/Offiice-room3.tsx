@@ -22,10 +22,6 @@ type GLTFResult = GLTF & {
     MacbookTopSide: THREE.Mesh
     object_t5: THREE.Mesh
     MacbookTopSide_LP: THREE.Mesh
-    OcculusController: THREE.Mesh
-    OcculusController_LP: THREE.Mesh
-    OcculusHeadset: THREE.Mesh
-    OcculusHeadset_LP: THREE.Mesh
     Eye: THREE.Mesh
     Eye001: THREE.Mesh
     Robbi: THREE.SkinnedMesh
@@ -101,6 +97,10 @@ type GLTFResult = GLTF & {
     HomePod_LP: THREE.Mesh
     Mouse: THREE.Mesh
     Mouse_LP: THREE.Mesh
+    OcculusController: THREE.Mesh
+    OcculusHeadset: THREE.Mesh
+    OcculusController_LP: THREE.Mesh
+    OcculusHeadset_LP: THREE.Mesh
     object_t1: THREE.Mesh
     object_t2: THREE.Mesh
     object_t3: THREE.Mesh
@@ -124,8 +124,6 @@ type GLTFResult = GLTF & {
     ['iot1.005']: THREE.MeshStandardMaterial
     ot5: THREE.MeshStandardMaterial
     ['ot5.001']: THREE.MeshStandardMaterial
-    ['iot1.003']: THREE.MeshStandardMaterial
-    ['iot1.004']: THREE.MeshStandardMaterial
     Eyes: THREE.MeshStandardMaterial
     ['Material.011']: THREE.MeshStandardMaterial
     Lamp_Mat: THREE.MeshStandardMaterial
@@ -155,6 +153,8 @@ type GLTFResult = GLTF & {
     ['iot2.001']: THREE.MeshStandardMaterial
     ot6: THREE.MeshStandardMaterial
     ['ot6.001']: THREE.MeshStandardMaterial
+    ['iot1.003']: THREE.MeshStandardMaterial
+    ['iot1.004']: THREE.MeshStandardMaterial
     ot1: THREE.MeshStandardMaterial
     ot4: THREE.MeshStandardMaterial
     ot9: THREE.MeshStandardMaterial
@@ -184,12 +184,6 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         </group>
         <group name="Macbook001" position={[4.656, 1.502, -1.804]} rotation={[0, 0.734, 0]}>
           <mesh name="MacbookTopSide_LP" geometry={nodes.MacbookTopSide_LP.geometry} material={materials['ot5.001']} position={[0.001, -0.33, -0.253]} rotation={[1.863, 0.004, -0.003]} />
-        </group>
-        <group name="OcculusRig" position={[3.369, 1.234, -1.386]}>
-          <mesh name="OcculusController" geometry={nodes.OcculusController.geometry} material={materials.iot1} position={[0.178, -0.027, -0.384]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
-          <mesh name="OcculusController_LP" geometry={nodes.OcculusController_LP.geometry} material={materials['iot1.003']} position={[0.178, -0.027, -0.384]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
-          <mesh name="OcculusHeadset" geometry={nodes.OcculusHeadset.geometry} material={materials.iot1} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
-          <mesh name="OcculusHeadset_LP" geometry={nodes.OcculusHeadset_LP.geometry} material={materials['iot1.004']} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
         </group>
         <group name="Robbi_Rig" position={[7.181, 1.231, 0.198]} rotation={[0, -1.49, 0]}>
           <group name="metarig" position={[0, 0.035, 0]} rotation={[Math.PI, 0, Math.PI]} scale={0.24}>
@@ -277,6 +271,10 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="HomePod_LP" geometry={nodes.HomePod_LP.geometry} material={materials['iot2.001']} position={[-0.902, 2.364, -2.604]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="Mouse" geometry={nodes.Mouse.geometry} material={materials.ot6} position={[6.363, 1.164, -1.419]} />
         <mesh name="Mouse_LP" geometry={nodes.Mouse_LP.geometry} material={materials['ot6.001']} position={[6.363, 1.164, -1.419]} />
+        <mesh name="OcculusController" geometry={nodes.OcculusController.geometry} material={materials.iot1} position={[3.546, 1.207, -1.77]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
+        <mesh name="OcculusHeadset" geometry={nodes.OcculusHeadset.geometry} material={materials.iot1} position={[3.369, 1.234, -1.386]} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
+        <mesh name="OcculusController_LP" geometry={nodes.OcculusController_LP.geometry} material={materials['iot1.003']} position={[3.546, 1.207, -1.77]} rotation={[1.587, -0.001, 0.363]} scale={0.333} />
+        <mesh name="OcculusHeadset_LP" geometry={nodes.OcculusHeadset_LP.geometry} material={materials['iot1.004']} position={[3.369, 1.234, -1.386]} rotation={[-Math.PI / 2, 0, 0.679]} scale={0.333} />
         <mesh name="object_t1" geometry={nodes.object_t1.geometry} material={materials.ot1} position={[4.328, 1.268, -2.647]} />
         <mesh name="object_t2" geometry={nodes.object_t2.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
