@@ -374,6 +374,25 @@ const projectDescriptions: Record<string, IProjectDescription> = {
 			},
 		],
 	},
+
+	OcculusQuest: {
+		projectName: "Virtual Reality App",
+		heading: "VR App for Weilburger Graphics",
+		text:
+			"Für WEILBURGER Graphics habe ich meine erste Virtual-Reality-App entwickelt – und gleichzeitig zum ersten Mal intensiv mit 3D-Design gearbeitet. Eine besondere Idee dabei war, " +
+			"das WEILBURGER-Logo als begehbares Gebäude zu inszenieren. Statt das Logo nur zu sehen, können Nutzer es in der VR-App betreten und als räumliche Umgebung entdecken.\n\n" +
+			"Entwickelt wurde die Anwendung mit Unity. Alle Interaktionen, Bewegungen und Abläufe innerhalb der virtuellen Umgebung wurden mit der von Unity verwendeten Skriptsprache C# umgesetzt. " +
+			"Von den ersten 3D-Modellen über Materialien, Licht und Atmosphäre bis hin zur technischen Logik entstand so Schritt für Schritt eine interaktive VR-Erfahrung.\n\n" +
+			"Gerade diese Mischung aus Gestaltung, räumlichem Denken und Entwicklung hat das Projekt für mich besonders spannend gemacht. Es war mein Einstieg in die Arbeit mit Unity " +
+			"und 3D-Umgebungen – und hat mir gezeigt, wie viel Potenzial darin steckt, Marken und Produkte nicht nur zu präsentieren, sondern wirklich erlebbar zu machen.",
+		tags: ["App-Entwicklung", "Unity", "C#", "3D-Design", "Immersive Experience", "Gamification", "Occulus Quest 2"],
+		images: [
+			{
+				src: "images/Occulus/vr-showcase.jpg",
+				alt: "VR APP Development",
+			},
+		],
+	},
 };
 
 const useProjectDescription = () => {

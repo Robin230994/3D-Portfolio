@@ -8,6 +8,7 @@ import { useFocusStore } from "../../../Stores/useFocusStore";
 import { useVRStore, VRTransition } from "../../../Stores/useVRStore";
 import { useControls } from "leva";
 import { useFrame, useThree } from "@react-three/fiber";
+import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
 import useInteraction from "../../../hooks/useInteraction";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
@@ -34,7 +35,10 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
+	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
+	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 	const vrPhase = useVRStore((state) => state.vrPhase);
 	const setVRPhase = useVRStore((state) => state.setVRPhase);
 	const { camera, controls } = useThree();
@@ -43,19 +47,26 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		onClick: () => {
 			if (occulusParentRef.current) {
 				setSelectObjectFocus({ name: name, object: occulusParentRef.current });
+				setActiveProject(name);
 			}
 		},
 	});
 
-	const { backLabelPos, backLabelRot, interactionPosition, interactionRotation } = useControls("OcculusHeadset", {
-		backLabelPos: { value: { x: 3.08, y: 1.16, z: -1.37 }, step: 0.01 },
-		backLabelRot: { value: { x: -1.6, y: 0, z: 0.14 }, step: 0.01 },
-		interactionPosition: { value: { x: 3.71, y: 1.2, z: -1.23 }, step: 0.01 },
-		interactionRotation: { value: { x: 0, y: -0.32, z: 0 } },
-	});
+	const { backLabelPos, backLabelRot, interactionPosition, interactionRotation, interactionClosePanelPos, interactionClosePanelRot } = useControls(
+		"OcculusHeadset",
+		{
+			backLabelPos: { value: { x: 3.08, y: 1.16, z: -1.37 }, step: 0.01 },
+			backLabelRot: { value: { x: -1.6, y: 0, z: 0.14 }, step: 0.01 },
+			interactionPosition: { value: { x: 3.71, y: 1.2, z: -1.23 }, step: 0.01 },
+			interactionRotation: { value: { x: 0, y: -0.32, z: 0 } },
+			interactionClosePanelPos: { value: { x: 3.44, y: 1.2, z: -1.22 }, steo: 0.01 },
+			interactionClosePanelRot: { value: { x: 0, y: 0.32, z: 0 }, steo: 0.01 },
+		},
+	);
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
+		setActiveProject(null);
 	};
 
 	const playVRExperience = () => {
@@ -151,7 +162,7 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			const orbitControls = controls as OrbitControlsImpl;
 
 			setTimeout(() => {
-				// wait 1 second to let the vr video container finish fade out animation;
+				// wait 1.5 seconds to let the vr video container finish fade out animation;
 				// return back to original position and rotation
 				occulusHeadsetRef.current!.position.lerp(startHeadsetPos.current, movementSpeed);
 				occulusHeadsetRef.current!.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
@@ -202,7 +213,23 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 					rotation={[interactionRotation.x, interactionRotation.y, interactionRotation.z]}
 					scale={0.55}
 					onTrigger={() => {
-						if (!cameraIsMoving) playVRExperience();
+						if (!cameraIsMoving) {
+							setPanelClosed(true);
+							playVRExperience();
+						}
+					}}
+				/>
+			)}
+			{vrPhase === VRTransition.IDLE && (
+				<InteractionLabel
+					focusName={name}
+					shortcut={2}
+					label={panelClosed ? "Open project description" : "Close project description"}
+					position={[interactionClosePanelPos.x, interactionClosePanelPos.y, interactionClosePanelPos.z]}
+					rotation={[interactionClosePanelRot.x, interactionClosePanelRot.y, interactionClosePanelRot.z]}
+					scale={0.55}
+					onTrigger={() => {
+						setPanelClosed(!panelClosed);
 					}}
 				/>
 			)}

@@ -47,8 +47,6 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		setActiveProject(null);
 	};
 
-	const switchPanel = useCallback(() => setPanelClosed(!panelClosed), [panelClosed, setPanelClosed]);
-
 	const spinBall = useCallback(() => {
 		if (!ball8Ref.current) return;
 		initialRotationRef.current = ball8Ref.current.rotation.y;
@@ -112,7 +110,7 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				position={[interactionPanelPos.x, interactionPanelPos.y, interactionPanelPos.z]}
 				rotation={[interactionPanelRot.x, interactionPanelRot.y, interactionPanelRot.z]}
 				scale={0.7}
-				onTrigger={switchPanel}
+				onTrigger={() => setPanelClosed(true)}
 			/>
 		</>
 	);

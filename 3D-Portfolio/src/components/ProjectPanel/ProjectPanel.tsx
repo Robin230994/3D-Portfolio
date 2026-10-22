@@ -2,6 +2,7 @@ import { IProjectDescription } from "../../utils/Interfaces";
 import { useEffect, useRef } from "react";
 import { useProjectPanelStore } from "../../Stores/useProjectPanelStore";
 import { useCameraStore } from "../../Stores/useCameraStore";
+import { useVRStore, VRTransition } from "../../Stores/useVRStore";
 
 interface IProjectPanel {
 	project: IProjectDescription;
@@ -16,6 +17,7 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+	const vrPhase = useVRStore((state) => state.vrPhase);
 
 	useEffect(() => {
 		const panel = mainPanelRef.current;
@@ -139,7 +141,7 @@ const ProjectPanel: React.FC<IProjectPanel> = ({ project }) => {
 		};
 	}, [project]);
 
-	if (cameraIsMoving) return;
+	if (cameraIsMoving || vrPhase !== VRTransition.IDLE) return;
 
 	return (
 		<aside className={`project-panel${panelClosed ? " project-panel--closing" : ""}`}>

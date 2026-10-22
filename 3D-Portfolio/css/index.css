@@ -1060,7 +1060,7 @@
   inset: 0;
   display: grid;
   place-items: center;
-  background: url("/images/vr-video-bg.jpg");
+  background: url("/images/Occulus/vr-video-bg.jpg");
   background-color: #000;
   background-repeat: no-repeat;
   background-size: cover;

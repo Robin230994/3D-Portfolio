@@ -56,7 +56,7 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 	});
 
 	return (
-		<group ref={occulusParentRef} {...events}>
+		<group ref={occulusParentRef} {...events} name={name}>
 			<group
 				ref={occulusHeadsetRef}
 				position={[occulusPosition.x, occulusPosition.y, occulusPosition.z]}
