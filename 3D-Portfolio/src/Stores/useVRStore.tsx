@@ -6,6 +6,7 @@ export enum VRTransition {
 	BLACKOUT,
 	PLAYING,
 	EXITING,
+	RETURNING,
 }
 
 interface IVRStore {

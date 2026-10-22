@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { AnimationEvent, FC, useRef } from "react";
 import { useVRStore, VRTransition } from "../../Stores/useVRStore";
 import { SquareX } from "lucide-react";
 
@@ -9,15 +9,24 @@ const VRVideo: FC = () => {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const shouldShowOverlay = vrPhase === VRTransition.BLACKOUT || vrPhase === VRTransition.PLAYING || vrPhase === VRTransition.EXITING;
 
-	const handlePhaseChange = () => {
+	const handleAnimationEnd = (event: AnimationEvent<HTMLDivElement>) => {
 		if (!videoRef.current) return;
-		if (vrPhase === VRTransition.BLACKOUT) {
+
+		if (event.animationName === "fadeIn" && vrPhase === VRTransition.BLACKOUT) {
 			setVRPhase(VRTransition.PLAYING);
 			videoRef.current.play();
-		} else if (vrPhase === VRTransition.PLAYING) {
-			setVRPhase(VRTransition.EXITING);
+		}
+
+		if (event.animationName === "fadeOut" && vrPhase === VRTransition.EXITING) {
+			setVRPhase(VRTransition.RETURNING);
 			videoRef.current.pause();
 		}
+	};
+
+	const closeVRExperience = () => {
+		if (vrPhase !== VRTransition.PLAYING || !videoRef.current) return;
+		videoRef.current.pause();
+		setVRPhase(VRTransition.EXITING);
 	};
 
 	return (
@@ -25,20 +34,11 @@ const VRVideo: FC = () => {
 			{shouldShowOverlay && (
 				<div
 					className={`vr-video-container ${vrPhase === VRTransition.BLACKOUT ? "entering" : ""} ${vrPhase === VRTransition.EXITING ? "exiting" : ""}`}
-					onAnimationEnd={() => handlePhaseChange()}>
+					onAnimationEnd={handleAnimationEnd}>
 					<div className="vr-video-crop">
-						<video
-							src="/video/VR_video.mp4"
-							ref={videoRef}
-							playsInline
-							onEnded={() => {
-								setTimeout(() => {
-									setVRPhase(VRTransition.EXITING);
-								}, 1000);
-							}}
-						/>
+						<video src="/video/VR_video.mp4" ref={videoRef} playsInline onEnded={closeVRExperience} />
 					</div>
-					<button onClick={() => handlePhaseChange()}>
+					<button onClick={closeVRExperience}>
 						<SquareX />
 					</button>
 				</div>

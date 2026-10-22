@@ -35,12 +35,16 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
-	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
-	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+
 	const panelClosed = useProjectPanelStore((state) => state.panelClosed);
+	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
+
+	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+
 	const vrPhase = useVRStore((state) => state.vrPhase);
 	const setVRPhase = useVRStore((state) => state.setVRPhase);
+
 	const { camera, controls } = useThree();
 
 	const interaction = useInteraction({
@@ -158,30 +162,27 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			}
 		}
 
-		if (vrPhase === VRTransition.EXITING) {
+		if (vrPhase === VRTransition.RETURNING) {
 			const orbitControls = controls as OrbitControlsImpl;
 
-			setTimeout(() => {
-				// wait 1.5 seconds to let the vr video container finish fade out animation;
-				// return back to original position and rotation
-				occulusHeadsetRef.current!.position.lerp(startHeadsetPos.current, movementSpeed);
-				occulusHeadsetRef.current!.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
+			// return back to original position and rotation
+			occulusHeadsetRef.current!.position.lerp(startHeadsetPos.current, movementSpeed);
+			occulusHeadsetRef.current!.quaternion.slerp(startHeadsetRotation.current, movementSpeed);
 
-				occulusFirstControllerRef.current!.position.lerp(startFirstControllerGroupPos.current, movementSpeed);
-				occulusFirstControllerRef.current!.quaternion.slerp(startFirstControllerGroupRot.current, movementSpeed);
+			occulusFirstControllerRef.current!.position.lerp(startFirstControllerGroupPos.current, movementSpeed);
+			occulusFirstControllerRef.current!.quaternion.slerp(startFirstControllerGroupRot.current, movementSpeed);
 
-				occulusSecondControllerRef.current!.position.lerp(startSecondControllerGroupPos.current, movementSpeed);
-				occulusSecondControllerRef.current!.quaternion.slerp(startSecondControllerGroupRot.current, movementSpeed);
+			occulusSecondControllerRef.current!.position.lerp(startSecondControllerGroupPos.current, movementSpeed);
+			occulusSecondControllerRef.current!.quaternion.slerp(startSecondControllerGroupRot.current, movementSpeed);
 
-				const movedToPosition =
-					occulusHeadsetRef.current!.position.distanceTo(startHeadsetPos.current) <= 0.03 &&
-					occulusHeadsetRef.current!.quaternion.angleTo(startHeadsetRotation.current) <= 0.03;
+			const movedToPosition =
+				occulusHeadsetRef.current!.position.distanceTo(startHeadsetPos.current) <= 0.03 &&
+				occulusHeadsetRef.current!.quaternion.angleTo(startHeadsetRotation.current) <= 0.03;
 
-				if (movedToPosition) {
-					setVRPhase(VRTransition.IDLE);
-					orbitControls.enabled = true;
-				}
-			}, 1500);
+			if (movedToPosition) {
+				setVRPhase(VRTransition.IDLE);
+				orbitControls.enabled = true;
+			}
 		}
 	});
 
