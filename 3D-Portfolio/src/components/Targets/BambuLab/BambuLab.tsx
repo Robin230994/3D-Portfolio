@@ -23,6 +23,7 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 	const [action, setAction] = useState<AnimationConfig<"BambuLab">>(bambuLabAnimationPresets.Idle);
 	const [doorOpen, setDoorOpen] = useState<boolean>(false);
+	const [amsOpen, setAMSOpen] = useState<boolean>(false);
 
 	const interaction = useInteraction({
 		onClick: () => {
@@ -32,11 +33,13 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot, interactionDoorOpenPos, interactionDoorOpenRot } = useControls("BambuLab", {
+	const { backLabelPos, backLabelRot, interactionDoorOpenPos, interactionDoorOpenRot, interactionAMSOpenPos, interactionAMSOpenRot } = useControls("BambuLab", {
 		backLabelPos: { value: { x: -3.67, y: 2.38, z: 1.57 }, step: 0.01 },
 		backLabelRot: { value: { x: 0, y: 2.8, z: 0 }, step: 0.01 },
 		interactionDoorOpenPos: { value: { x: -3.65, y: 2.19, z: 1.43 }, step: 0.01 },
 		interactionDoorOpenRot: { value: { x: 0, y: 2.69, z: 0 }, step: 0.01 },
+		interactionAMSOpenPos: { value: { x: -2.43, y: 2.81, z: 2.12 }, step: 0.01 },
+		interactionAMSOpenRot: { value: { x: 0, y: -2.76, z: 0 }, step: 0.01 },
 	});
 
 	useEffect(() => {
@@ -78,6 +81,17 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		setDoorOpen((open) => !open);
 	};
 
+	const switchAMSAnimation = () => {
+		reverseAnimationRef.current = amsOpen;
+
+		setAction({
+			action: "AMSOpen",
+			options: { loop: false, loopCount: 1 },
+		});
+
+		setAMSOpen((open) => !open);
+	};
+
 	const uiComponentProps = useMemo(
 		() => ({
 			data: { myData: { name, nodes, hovered: interaction.hovered } },
@@ -100,11 +114,21 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 			<InteractionLabel
 				focusName={name}
 				shortcut={1}
-				label={doorOpen ? "Close Bambu Door" : "Open Bambu Door"}
+				label={doorOpen ? "Close Door" : "Open Door"}
 				position={[interactionDoorOpenPos.x, interactionDoorOpenPos.y, interactionDoorOpenPos.z]}
 				rotation={[interactionDoorOpenRot.x, interactionDoorOpenRot.y, interactionDoorOpenRot.z]}
 				scale={0.7}
 				onTrigger={() => switchDoorAnimation()}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				shortcut={2}
+				label={doorOpen ? "Close AMS" : "Open AMS"}
+				position={[interactionAMSOpenPos.x, interactionAMSOpenPos.y, interactionAMSOpenPos.z]}
+				rotation={[interactionAMSOpenRot.x, interactionAMSOpenRot.y, interactionAMSOpenRot.z]}
+				scale={0.7}
+				onTrigger={() => switchAMSAnimation()}
 			/>
 		</>
 	);

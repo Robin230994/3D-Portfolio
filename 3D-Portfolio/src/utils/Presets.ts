@@ -191,6 +191,13 @@ export const bambuLabAnimationPresets: Record<string, AnimationConfig<"BambuLab"
 			loopCount: 1,
 		},
 	},
+	AMSOpen: {
+		action: "AMSOpen",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
 };
 
 export const robbiAnimationPresets: Record<string, AnimationConfig<"Robbi">> = {

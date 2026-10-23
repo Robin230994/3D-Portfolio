@@ -18,9 +18,9 @@ glassMaterial.color = new Color("#ffffff");
 glassMaterial.transparent = true;
 glassMaterial.transmission = 1;
 glassMaterial.opacity = 1;
-glassMaterial.roughness = 0;
+glassMaterial.roughness = 0.0;
 glassMaterial.metalness = 0;
-glassMaterial.thickness = 0.1;
+glassMaterial.thickness = 0.05;
 glassMaterial.ior = 1.3;
 glassMaterial.specularIntensity = 1;
 glassMaterial.specularColor = new Color("#ffffff");
@@ -54,8 +54,9 @@ export { blackPlasticMaterial };
 
 const metalMaterial = materialCreator.createEmptyStandardMaterial("Metal");
 metalMaterial.color = new Color("#ffffff");
-metalMaterial.roughness = 0;
-metalMaterial.metalness = 1;
+metalMaterial.roughness = 0.4;
+metalMaterial.metalness = 0.65;
+metalMaterial.envMapIntensity = 0.3;
 export { metalMaterial };
 
 const foundationMaterial = materialCreator.createStandardMaterialFromTexture("Foundation", {

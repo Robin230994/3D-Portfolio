@@ -44,23 +44,24 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const BambuLabAMS: Mesh = nodes["BambuAMSTop"] as Mesh;
 	const BambuLabDoor: Mesh = nodes["BambuFrontDoor"] as Mesh;
 	const BambuLab: Mesh = nodes["BambuLab"] as Mesh;
-	// const BambuLabNozzle: Mesh = nodes["BambuLabNozzle"] as Mesh;
+	const BambuLabBed: Mesh = nodes["BambuLabPrintBed"] as Mesh;
+	const BambuLabNozzle: Mesh = nodes["BambuLabNozzle"] as Mesh;
 	const PLARollHolder: Mesh = nodes["Circle001"] as Mesh;
 	const PLARoll: Mesh = nodes["PLARoll"] as Mesh;
 
-	const { matHolder1Pos, matHolder2Pos, matHolder3Pos, matHolder4Pos, matHolderRot } = useControls("AMSMaterialHolder", {
-		matHolder1Pos: { value: { x: -2.75, y: 2.8, z: 2.45 }, step: 0.01 },
-		matHolder2Pos: { value: { x: -2.97, y: 2.8, z: 2.45 }, step: 0.01 },
-		matHolder3Pos: { value: { x: -3.21, y: 2.8, z: 2.45 }, step: 0.01 },
-		matHolder4Pos: { value: { x: -3.44, y: 2.8, z: 2.45 }, step: 0.01 },
+	const { matHolder1Pos, matHolder2Pos, matHolder3Pos, matHolder4Pos, matHolderRot } = useControls("BambuLab", {
+		matHolder1Pos: { value: { x: 0.36, y: 0.87, z: 0.26 }, step: 0.01 },
+		matHolder2Pos: { value: { x: 0.13, y: 0.87, z: 0.26 }, step: 0.01 },
+		matHolder3Pos: { value: { x: -0.1, y: 0.87, z: 0.26 }, step: 0.01 },
+		matHolder4Pos: { value: { x: -0.33, y: 0.87, z: 0.26 }, step: 0.01 },
 		matHolderRot: { value: { x: 0, y: 0, z: -Math.PI / 2 } },
 	});
 
-	const { rollMat1Pos, rollMat2Pos, rollMat3Pos, rollMat4Pos, rollMatRot } = useControls("AMSRollMaterial", {
-		rollMat1Pos: { value: { x: -2.75, y: 2.8, z: 2.44 }, step: 0.01 },
-		rollMat2Pos: { value: { x: -2.975, y: 2.8, z: 2.44 }, step: 0.001 },
-		rollMat3Pos: { value: { x: -3.205, y: 2.8, z: 2.44 }, step: 0.001 },
-		rollMat4Pos: { value: { x: -3.435, y: 2.8, z: 2.44 }, step: 0.001 },
+	const { rollMat1Pos, rollMat2Pos, rollMat3Pos, rollMat4Pos, rollMatRot } = useControls("BambuLab", {
+		rollMat1Pos: { value: { x: 0.36, y: 0.87, z: 0.26 }, step: 0.001 },
+		rollMat2Pos: { value: { x: 0.13, y: 0.87, z: 0.26 }, step: 0.001 },
+		rollMat3Pos: { value: { x: -0.1, y: 0.87, z: 0.26 }, step: 0.001 },
+		rollMat4Pos: { value: { x: -0.33, y: 0.87, z: 0.26 }, step: 0.001 },
 		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
 	});
 
@@ -176,6 +177,24 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 						scale={BambuLab.scale}>
 						<Outlines thickness={2} scale={hovered === "BambuLab" ? 1 : 0} color={"white"} />
 					</mesh>
+
+					<mesh
+						name="BambuLabNozzle"
+						geometry={BambuLabNozzle.geometry}
+						position={BambuLabNozzle.position}
+						rotation={BambuLabNozzle.rotation}
+						scale={BambuLabNozzle.scale}
+						material={BambuLab.material}
+					/>
+
+					<mesh
+						name="BambuLabPrintBed"
+						geometry={BambuLabBed.geometry}
+						position={BambuLabBed.position}
+						rotation={BambuLabBed.rotation}
+						scale={BambuLabBed.scale}
+						material={BambuLab.material}
+					/>
 
 					{/** BambuLab Door */}
 					<mesh
