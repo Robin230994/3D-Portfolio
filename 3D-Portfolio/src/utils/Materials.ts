@@ -29,6 +29,7 @@ glassMaterial.clearcoat = 1;
 glassMaterial.clearcoatRoughness = 0;
 glassMaterial.depthWrite = false;
 glassMaterial.normalScale = new Vector2(1, -1);
+glassMaterial.side = 2;
 export { glassMaterial };
 
 const iot1Material = materialCreator.createStandardMaterialFromTexture("iot1Material", {

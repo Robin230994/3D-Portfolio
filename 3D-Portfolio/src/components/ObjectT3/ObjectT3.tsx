@@ -4,13 +4,13 @@ import { CustomMeshProps } from "../../utils/Interfaces";
 import BambuLab from "../Targets/BambuLab/BambuLab";
 import BillardTriangle from "../Targets/BillardTriangle/BillardTriangle";
 
-const ObjectT3: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+const ObjectT3: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const ObjectT3: Mesh = nodes["object_t3"] as Mesh;
 
 	return (
 		<group name={name}>
 			<mesh geometry={ObjectT3.geometry} position={ObjectT3.position} rotation={ObjectT3.rotation} material={ObjectT3.material} scale={ObjectT3.scale} />
-			<BambuLab name="BambuLab" nodes={nodes} />
+			<BambuLab name="BambuLab" nodes={nodes} animations={animations} />
 			<BillardTriangle name="BillardTriangle" nodes={nodes} />
 		</group>
 	);

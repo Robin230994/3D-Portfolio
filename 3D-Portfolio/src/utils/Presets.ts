@@ -176,6 +176,23 @@ export const musterboxAnimationPresets: Record<string, AnimationConfig<"Musterbo
 	},
 };
 
+export const bambuLabAnimationPresets: Record<string, AnimationConfig<"BambuLab">> = {
+	Idle: {
+		action: "Idle",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+	BambuOpen: {
+		action: "BambuOpen",
+		options: {
+			loop: false,
+			loopCount: 1,
+		},
+	},
+};
+
 export const robbiAnimationPresets: Record<string, AnimationConfig<"Robbi">> = {
 	Idle: {
 		action: "Idle",

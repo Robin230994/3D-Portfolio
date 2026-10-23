@@ -1,4 +1,4 @@
-import React, { RefObject, useMemo } from "react";
+import React, { memo, RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
 import { Color, Mesh, MeshBasicMaterial } from "three";
 import { DirectionalLight } from "three";
@@ -6,10 +6,9 @@ import { glassMaterial, metalMaterial } from "../../../utils/Materials";
 import { Group } from "three";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { Outlines } from "@react-three/drei";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
-import CloseLabel from "../../CloseLabel/CloseLabel";
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
@@ -17,12 +16,11 @@ interface BambuLabUIProps extends IUIComponentProps {
 			myData: {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
-				cameraIsMoving: boolean;
+				hovered: string | null;
 			};
 		};
 		functions: {
 			myFunctions: {
-				dispatch: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -30,7 +28,7 @@ interface BambuLabUIProps extends IUIComponentProps {
 				};
 			};
 		};
-		refs: { myRefs: { bambuLabRef: RefObject<Group> } };
+		refs: { myRefs: { bambuLabGroupRef: RefObject<Group> } };
 	};
 }
 
@@ -39,11 +37,9 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, cameraIsMoving } = myData;
-	const { dispatch, events } = myFunctions;
-	const { bambuLabRef } = myRefs;
-
-	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
+	const { name, nodes, hovered } = myData;
+	const { events } = myFunctions;
+	const { bambuLabGroupRef } = myRefs;
 
 	const BambuLabAMS: Mesh = nodes["BambuAMSTop"] as Mesh;
 	const BambuLabDoor: Mesh = nodes["BambuFrontDoor"] as Mesh;
@@ -66,11 +62,6 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 		rollMat3Pos: { value: { x: -3.205, y: 2.8, z: 2.44 }, step: 0.001 },
 		rollMat4Pos: { value: { x: -3.435, y: 2.8, z: 2.44 }, step: 0.001 },
 		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
-	});
-
-	const { backLabelPos, backLabelRot } = useControls("BambuLab", {
-		backLabelPos: { value: { x: 0.7, y: 0.49, z: -0.09 }, step: 0.01 },
-		backLabelRot: { value: { x: 0, y: -0.5, z: 0.05 }, step: 0.01 },
 	});
 
 	const plaMaterialHolderInstances = useMemo(
@@ -162,46 +153,50 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	);
 
 	return (
-		<React.Fragment>
-			<group name={name} ref={bambuLabRef} {...events}>
-				{/** AMS */}
-				<mesh
-					geometry={BambuLabAMS.geometry}
-					position={BambuLabAMS.position}
-					rotation={BambuLabAMS.rotation}
-					material={glassMaterial}
-					scale={BambuLabAMS.scale}
-				/>
+		<>
+			<group name={name} {...events}>
+				<group name="BambuLabGroup" ref={bambuLabGroupRef} position={[-3.107, 1.927, 2.184]}>
+					{/** AMS */}
+					<mesh
+						name="BambuAMSTop"
+						geometry={BambuLabAMS.geometry}
+						position={BambuLabAMS.position}
+						rotation={BambuLabAMS.rotation}
+						material={glassMaterial}
+						scale={BambuLabAMS.scale}
+					/>
 
-				{/** Bambu Lab */}
-				<mesh geometry={BambuLab.geometry} position={BambuLab.position} rotation={BambuLab.rotation} material={BambuLab.material} scale={BambuLab.scale} />
+					{/** Bambu Lab */}
+					<mesh
+						name="BambuLab"
+						geometry={BambuLab.geometry}
+						position={BambuLab.position}
+						rotation={BambuLab.rotation}
+						material={BambuLab.material}
+						scale={BambuLab.scale}>
+						<Outlines thickness={2} scale={hovered === "BambuLab" ? 1 : 0} color={"white"} />
+					</mesh>
 
-				{/** BambuLab Door */}
-				<mesh
-					geometry={BambuLabDoor.geometry}
-					position={BambuLabDoor.position}
-					rotation={BambuLabDoor.rotation}
-					material={glassMaterial}
-					scale={BambuLabDoor.scale}>
-					<CloseLabel
-						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-						scaleFactor={0.22}
-						visible={!cameraIsMoving && selectObjectFocus?.name === name}
-						dispatch={() => dispatch()}>
-						x
-					</CloseLabel>
-				</mesh>
+					{/** BambuLab Door */}
+					<mesh
+						name="BambuFrontDoor"
+						geometry={BambuLabDoor.geometry}
+						position={BambuLabDoor.position}
+						rotation={BambuLabDoor.rotation}
+						material={glassMaterial}
+						scale={BambuLabDoor.scale}
+					/>
 
-				{/** PLA Material holder */}
-				<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLARollHolder.geometry} material={metalMaterial} />
+					{/** PLA Material holder */}
+					<InstantiatedMesh name="PLAMaterialHolder" instance={plaMaterialHolderInstances} geometry={PLARollHolder.geometry} material={metalMaterial} />
 
-				{/** PLA Roll Material */}
-				<InstantiatedMesh name="PLARoll" instance={plaRollMaterialInstances} geometry={PLARoll.geometry} material={new MeshBasicMaterial()} />
+					{/** PLA Roll Material */}
+					<InstantiatedMesh name="PLARoll" instance={plaRollMaterialInstances} geometry={PLARoll.geometry} material={new MeshBasicMaterial()} />
+				</group>
 			</group>
 			{/* </Select> */}
-		</React.Fragment>
+		</>
 	);
 };
 
-export default BambuLabUI;
+export default memo(BambuLabUI);

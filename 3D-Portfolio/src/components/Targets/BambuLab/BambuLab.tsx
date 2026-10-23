@@ -1,35 +1,113 @@
-import React, { useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import BambuLabUI from "./BambuLabUI";
+import { useControls } from "leva";
 import { CustomMeshProps } from "../../../utils/Interfaces";
-import { Group } from "three";
+import { Group, LoopOnce, LoopRepeat } from "three";
 import { useCameraStore } from "../../../Stores/useCameraStore";
 import { useFocusStore } from "../../../Stores/useFocusStore";
+import { AnimationConfig } from "../../../utils/Types";
+import { bambuLabAnimationPresets } from "../../../utils/Presets";
+import { useAnimations } from "@react-three/drei";
 import useInteraction from "../../../hooks/useInteraction";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
-const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes }) => {
+const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
+	const bambuLabGroupRef = useRef<Group | null>(null);
+	const reverseAnimationRef = useRef(false);
+
+	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 	const setSelectObjectFocus = useFocusStore((state) => state.setSelectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
+	const { actions } = useAnimations(animations!, bambuLabGroupRef);
 
-	const bambuLabRef = useRef<Group | null>(null);
+	const [action, setAction] = useState<AnimationConfig<"BambuLab">>(bambuLabAnimationPresets.Idle);
+	const [doorOpen, setDoorOpen] = useState<boolean>(false);
 
 	const interaction = useInteraction({
 		onClick: () => {
-			if (bambuLabRef.current) {
-				setSelectObjectFocus({ name: name, object: bambuLabRef.current });
+			if (bambuLabGroupRef.current) {
+				setSelectObjectFocus({ name: name, object: bambuLabGroupRef.current });
 			}
 		},
 	});
+
+	const { backLabelPos, backLabelRot, interactionDoorOpenPos, interactionDoorOpenRot } = useControls("BambuLab", {
+		backLabelPos: { value: { x: -3.67, y: 2.38, z: 1.57 }, step: 0.01 },
+		backLabelRot: { value: { x: 0, y: 2.8, z: 0 }, step: 0.01 },
+		interactionDoorOpenPos: { value: { x: -3.65, y: 2.19, z: 1.43 }, step: 0.01 },
+		interactionDoorOpenRot: { value: { x: 0, y: 2.69, z: 0 }, step: 0.01 },
+	});
+
+	useEffect(() => {
+		const playAction = () => {
+			if (action.action === "Idle") return;
+			const animation = actions[action.action];
+			if (!animation) return;
+
+			if (reverseAnimationRef.current) {
+				animation.time = animation.getClip().duration;
+				animation.timeScale = -1;
+			} else {
+				animation.reset();
+				animation.timeScale = 1;
+			}
+
+			animation.paused = false;
+			animation.setLoop(action.options.loop ? LoopRepeat : LoopOnce, action.options.loopCount);
+			animation.clampWhenFinished = true;
+			animation.play();
+		};
+
+		playAction();
+		setAction(bambuLabAnimationPresets.Idle);
+	}, [action.action, action.options.loop, action.options.loopCount, actions]);
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
 	};
 
-	const uiComponentProps = {
-		data: { myData: { name, nodes, cameraIsMoving } },
-		functions: { myFunctions: { dispatch, events: interaction.events } },
-		refs: { myRefs: { bambuLabRef } },
+	const switchDoorAnimation = () => {
+		reverseAnimationRef.current = doorOpen;
+
+		setAction({
+			action: "BambuOpen",
+			options: { loop: false, loopCount: 1 },
+		});
+
+		setDoorOpen((open) => !open);
 	};
-	return <BambuLabUI props={uiComponentProps} />;
+
+	const uiComponentProps = useMemo(
+		() => ({
+			data: { myData: { name, nodes, hovered: interaction.hovered } },
+			functions: { myFunctions: { events: interaction.events } },
+			refs: { myRefs: { bambuLabGroupRef } },
+		}),
+		[interaction.events, interaction.hovered, name, nodes],
+	);
+	return (
+		<>
+			<BambuLabUI props={uiComponentProps} />
+			<CloseLabel
+				labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
+				labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
+				scaleFactor={0.16}
+				visible={!cameraIsMoving && selectObjectFocus?.name === name}
+				dispatch={() => dispatch()}>
+				x
+			</CloseLabel>
+			<InteractionLabel
+				focusName={name}
+				shortcut={1}
+				label={doorOpen ? "Close Bambu Door" : "Open Bambu Door"}
+				position={[interactionDoorOpenPos.x, interactionDoorOpenPos.y, interactionDoorOpenPos.z]}
+				rotation={[interactionDoorOpenRot.x, interactionDoorOpenRot.y, interactionDoorOpenRot.z]}
+				scale={0.7}
+				onTrigger={() => switchDoorAnimation()}
+			/>
+		</>
+	);
 };
 
 export default BambuLab;

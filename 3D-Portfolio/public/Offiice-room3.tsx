@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'BambuPlay' | 'AMSOpen' | 'BambuOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'AMSOpen' | 'BambuOpen' | 'BambuPlay' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -22,6 +22,16 @@ type GLTFResult = GLTF & {
     MacbookTopSide: THREE.Mesh
     object_t5: THREE.Mesh
     MacbookTopSide_LP: THREE.Mesh
+    BambuAMSTop: THREE.Mesh
+    BambuFrontDoor: THREE.Mesh
+    BambuLabNozzle: THREE.Mesh
+    BambuLab: THREE.Mesh
+    BambuLab_LP: THREE.Mesh
+    PLARoll: THREE.Mesh
+    Circle001: THREE.Mesh
+    Circle001_1: THREE.Mesh
+    Circle001_2: THREE.Mesh
+    Circle001_3: THREE.Mesh
     Eye: THREE.Mesh
     Eye001: THREE.Mesh
     Robbi: THREE.SkinnedMesh
@@ -67,16 +77,7 @@ type GLTFResult = GLTF & {
     WindowHandle: THREE.Mesh
     Picture_Frame001: THREE.Mesh
     Rack: THREE.Mesh
-    BambuLab: THREE.Mesh
-    BambuLabNozzle: THREE.Mesh
-    BambuAMSTop: THREE.Mesh
-    BambuFrontDoor: THREE.Mesh
     PaintingBoard: THREE.Mesh
-    PLARoll: THREE.Mesh
-    Circle001: THREE.Mesh
-    Circle001_1: THREE.Mesh
-    Circle001_2: THREE.Mesh
-    Circle001_3: THREE.Mesh
     lamp: THREE.Mesh
     HourHand: THREE.Mesh
     MinuteHand: THREE.Mesh
@@ -124,6 +125,15 @@ type GLTFResult = GLTF & {
     ['iot1.005']: THREE.MeshStandardMaterial
     ot5: THREE.MeshStandardMaterial
     ['ot5.001']: THREE.MeshStandardMaterial
+    ['Glass_Mat.001']: THREE.MeshPhysicalMaterial
+    ot3: THREE.MeshStandardMaterial
+    ot3: THREE.MeshStandardMaterial
+    ['ot3.002']: THREE.MeshStandardMaterial
+    ['First_Roll_Mat.001']: THREE.MeshStandardMaterial
+    ['Material.029']: THREE.MeshStandardMaterial
+    ['Aufkleber-Rund.001']: THREE.MeshStandardMaterial
+    ['Aufkleber-silber..001']: THREE.MeshStandardMaterial
+    ['Lot.001']: THREE.MeshBasicMaterial
     Eyes: THREE.MeshStandardMaterial
     ['Material.011']: THREE.MeshStandardMaterial
     Lamp_Mat: THREE.MeshStandardMaterial
@@ -131,15 +141,7 @@ type GLTFResult = GLTF & {
     iot2: THREE.MeshStandardMaterial
     ['ft1.001']: THREE.MeshStandardMaterial
     ot4: THREE.MeshStandardMaterial
-    ot3: THREE.MeshStandardMaterial
-    ot3: THREE.MeshStandardMaterial
-    ['Glass_Mat.001']: THREE.MeshPhysicalMaterial
     ['Paper.002']: THREE.MeshStandardMaterial
-    ['First_Roll_Mat.001']: THREE.MeshStandardMaterial
-    ['Material.029']: THREE.MeshStandardMaterial
-    ['Aufkleber-Rund.001']: THREE.MeshStandardMaterial
-    ['Aufkleber-silber..001']: THREE.MeshStandardMaterial
-    ['Lot.001']: THREE.MeshBasicMaterial
     ot2: THREE.MeshStandardMaterial
     ['ot7.001']: THREE.MeshStandardMaterial
     ['ot4.001']: THREE.MeshStandardMaterial
@@ -184,6 +186,20 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         </group>
         <group name="Macbook001" position={[4.656, 1.502, -1.804]} rotation={[0, 0.734, 0]}>
           <mesh name="MacbookTopSide_LP" geometry={nodes.MacbookTopSide_LP.geometry} material={materials['ot5.001']} position={[0.001, -0.33, -0.253]} rotation={[1.863, 0.004, -0.003]} />
+        </group>
+        <group name="BambuLabGroup" position={[-3.107, 1.927, 2.184]}>
+          <mesh name="BambuAMSTop" geometry={nodes.BambuAMSTop.geometry} material={materials['Glass_Mat.001']} position={[0.079, 0.744, 0.478]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
+          <mesh name="BambuFrontDoor" geometry={nodes.BambuFrontDoor.geometry} material={materials['Glass_Mat.001']} position={[0.006, -0.159, -0.483]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
+          <mesh name="BambuLabNozzle" geometry={nodes.BambuLabNozzle.geometry} material={materials.ot3} position={[-0.012, 0.148, 0.018]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
+          <mesh name="BambuLab" geometry={nodes.BambuLab.geometry} material={materials.ot3} position={[0.147, 0, 0]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
+          <mesh name="BambuLab_LP" geometry={nodes.BambuLab_LP.geometry} material={materials['ot3.002']} position={[0.147, 0, 0]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
+          <mesh name="PLARoll" geometry={nodes.PLARoll.geometry} material={materials['First_Roll_Mat.001']} position={[0.356, 0.877, 0.255]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} />
+          <group name="PLARollHolder" position={[0.358, 0.87, 0.269]} rotation={[0, 0, -Math.PI / 2]}>
+            <mesh name="Circle001" geometry={nodes.Circle001.geometry} material={materials['Material.029']} />
+            <mesh name="Circle001_1" geometry={nodes.Circle001_1.geometry} material={materials['Aufkleber-Rund.001']} />
+            <mesh name="Circle001_2" geometry={nodes.Circle001_2.geometry} material={materials['Aufkleber-silber..001']} />
+            <mesh name="Circle001_3" geometry={nodes.Circle001_3.geometry} material={materials['Lot.001']} />
+          </group>
         </group>
         <group name="Robbi_Rig" position={[7.181, 1.231, 0.198]} rotation={[0, -1.49, 0]}>
           <group name="metarig" position={[0, 0.035, 0]} rotation={[Math.PI, 0, Math.PI]} scale={0.24}>
@@ -238,18 +254,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         </mesh>
         <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.972]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
         <mesh name="Rack" geometry={nodes.Rack.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
-        <mesh name="BambuLab" geometry={nodes.BambuLab.geometry} material={materials.ot3} position={[-2.96, 1.927, 2.184]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
-        <mesh name="BambuLabNozzle" geometry={nodes.BambuLabNozzle.geometry} material={materials.ot3} position={[-3.119, 2.075, 2.203]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-        <mesh name="BambuAMSTop" geometry={nodes.BambuAMSTop.geometry} material={materials['Glass_Mat.001']} position={[-3.028, 2.671, 2.662]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
-        <mesh name="BambuFrontDoor" geometry={nodes.BambuFrontDoor.geometry} material={materials['Glass_Mat.001']} position={[-3.101, 1.767, 1.701]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="PaintingBoard" geometry={nodes.PaintingBoard.geometry} material={materials['Paper.002']} position={[-0.789, 1.152, 2.02]} />
-        <mesh name="PLARoll" geometry={nodes.PLARoll.geometry} material={materials['First_Roll_Mat.001']} position={[-2.751, 2.804, 2.439]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} />
-        <group name="PLARollHolder" position={[-2.749, 2.797, 2.453]} rotation={[0, 0, -Math.PI / 2]}>
-          <mesh name="Circle001" geometry={nodes.Circle001.geometry} material={materials['Material.029']} />
-          <mesh name="Circle001_1" geometry={nodes.Circle001_1.geometry} material={materials['Aufkleber-Rund.001']} />
-          <mesh name="Circle001_2" geometry={nodes.Circle001_2.geometry} material={materials['Aufkleber-silber..001']} />
-          <mesh name="Circle001_3" geometry={nodes.Circle001_3.geometry} material={materials['Lot.001']} />
-        </group>
         <mesh name="lamp" geometry={nodes.lamp.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="HourHand" geometry={nodes.HourHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />

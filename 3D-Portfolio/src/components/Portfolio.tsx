@@ -197,7 +197,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 						<Desks name="Desks" nodes={nodes} />
 						<ObjectT1 name="ObjectT1" nodes={nodes} />
 						<ObjectT2 name="ObjectT2" nodes={nodes} />
-						<ObjectT3 name="ObjectT3" nodes={nodes} />
+						<ObjectT3 name="ObjectT3" nodes={nodes} animations={animations} />
 						<ObjectT4 name="ObjectT4" nodes={nodes} />
 						<ObjectT5 name="ObjectT5" nodes={nodes} animations={animations} />
 						<ObjectT6 name="ObjectT6" nodes={nodes} />
