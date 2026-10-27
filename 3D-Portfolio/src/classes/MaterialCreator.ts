@@ -16,8 +16,8 @@ import {
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
-import NullMaterialException from "../Exceptions/NullMaterialException";
-import NonAccessibleTexturePathException from "../Exceptions/NonAccessibleTexturePathException";
+import NullMaterialException from "../exceptions/NullMaterialException";
+import NonAccessibleTexturePathException from "../exceptions/NonAccessibleTexturePathException";
 
 type StandardTextureParams = {
 	diffuseT: string | Texture;

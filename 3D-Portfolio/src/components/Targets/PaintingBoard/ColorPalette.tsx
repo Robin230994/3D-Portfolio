@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import { useFocusStore } from "../../../Stores/useFocusStore";
-import usePaintingStore, { availableColors } from "../../../Stores/usePaintingStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
+import usePaintingStore, { availableColors } from "../../../stores/usePaintingStore";
 
 const ColorPalette: FC = () => {
 	/** HOOKS */

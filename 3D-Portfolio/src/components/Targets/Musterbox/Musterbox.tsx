@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { AnimationAction, Group, LoopOnce, MathUtils, Mesh } from "three";
-import { useCameraStore } from "../../../Stores/useCameraStore";
-import { useFocusStore } from "../../../Stores/useFocusStore";
-import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
+import { useCameraStore } from "../../../stores/useCameraStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
+import { useProjectPanelStore } from "../../../stores/useProjectPanelStore";
 import { useAnimations } from "@react-three/drei";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { useControls } from "leva";

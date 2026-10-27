@@ -1,8 +1,8 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { useEffect, useRef, useState } from "react";
-import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
-import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import { useScreenMediaStore } from "../../../stores/useScreenMediaStore";
+import { useCodePlaygroundStore } from "../../../stores/useCodePlaygroundStore";
 import MacbookCursor from "./MacbookCursor";
 import MacbookCodeEditor from "./MacbookCodeEditor";
 

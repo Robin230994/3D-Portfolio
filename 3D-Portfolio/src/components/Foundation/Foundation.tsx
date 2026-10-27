@@ -1,7 +1,7 @@
 import { Mesh } from "three";
 import { CustomMeshProps } from "../../utils/Interfaces";
 import { foundationMaterial } from "../../utils/Materials";
-import { useCameraStore } from "../../Stores/useCameraStore";
+import { useCameraStore } from "../../stores/useCameraStore";
 
 import PictureFrame from "../Targets/PictureFrame/PictureFrame";
 import Window from "../Targets/Window/Window";

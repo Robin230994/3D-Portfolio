@@ -1,7 +1,7 @@
 import { AdaptiveDpr, Center, Environment, useGLTF } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { GLTFResult } from "../utils/Types";
+import { GLTFResult, LoadingState } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
@@ -28,7 +28,7 @@ import AutoPerformance from "./AutoPerformance/AutoPerformance";
 
 RectAreaLightUniformsLib.init();
 
-function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
+function Portfolio({ loadingState, isDebugMode }: { loadingState: LoadingState; isDebugMode: boolean }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
@@ -124,9 +124,7 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
-		// environmentIntensity: { value: 1.4, step: 0.1, min: 0.1 },
 		environmentIntensity: { value: 0.4, step: 0.1, min: 0.1 },
-		// environmentRotation: { value: { x: 0.11, y: 1.2, z: -2.8 }, step: 0.01 },
 		environmentRotation: { value: { x: 11.5, y: 2, z: -1.6 }, step: 0.01 },
 	});
 

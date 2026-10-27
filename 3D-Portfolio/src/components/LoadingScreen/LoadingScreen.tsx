@@ -1,19 +1,22 @@
 import { useProgress } from "@react-three/drei";
 import { Volume2, VolumeOff } from "lucide-react";
 import { FC, useState } from "react";
+import { LoadingState } from "../../utils/Types";
 
 interface ILoadingScreen {
+	loadingState: LoadingState;
 	onLoaded: () => void;
+	onFadeComplete: () => void;
 }
 
-const LoadingScreen: FC<ILoadingScreen> = ({ onLoaded }) => {
+const LoadingScreen: FC<ILoadingScreen> = ({ loadingState, onLoaded, onFadeComplete }) => {
 	const { active, progress } = useProgress();
 	const isReady = !active && progress === 100;
 
 	const [soundOn, setSoundOn] = useState(true);
 
 	return (
-		<div className="loading-screen" style={{ opacity: 1 }}>
+		<div className={`loading-screen ${loadingState === "Revealing" ? "is-fading" : ""}`} onAnimationEnd={onFadeComplete}>
 			<div>
 				<div className="logo-container">
 					<img src="/images/ROBIN_DORT_LOGO_BLUE_DARK_BG.png" />

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MacbookUI from "./MacbookUI";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Group, LoopOnce, Mesh } from "three";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
 import { useAnimations } from "@react-three/drei";
 
 const Macbook: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {

@@ -4,7 +4,7 @@ import { DirectionalLight, Group, Mesh } from "three";
 import { iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
 
 interface FCBoxUIProps extends IUIComponentProps {
 	props: {

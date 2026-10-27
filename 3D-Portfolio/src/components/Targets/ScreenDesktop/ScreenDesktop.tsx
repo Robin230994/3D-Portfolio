@@ -1,7 +1,7 @@
 import { Html } from "@react-three/drei";
 import { useControls } from "leva";
-import { useScreenMediaStore } from "../../../Stores/useScreenMediaStore";
-import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import { useScreenMediaStore } from "../../../stores/useScreenMediaStore";
+import { useCodePlaygroundStore } from "../../../stores/useCodePlaygroundStore";
 import ScreenCursor from "./ScreenCursor";
 import PlaygroundPreview from "./PlaygroundPreview";
 

@@ -4,7 +4,7 @@ import { CustomMeshProps } from "../../../utils/Interfaces";
 import { useControls } from "leva";
 import { songs } from "../../../utils/Presets";
 import MusicNote from "../../MusicNote/MusicNote";
-import useMusicStore from "../../../Stores/useMusicStore";
+import useMusicStore from "../../../stores/useMusicStore";
 import useInteraction from "../../../hooks/useInteraction";
 
 const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {

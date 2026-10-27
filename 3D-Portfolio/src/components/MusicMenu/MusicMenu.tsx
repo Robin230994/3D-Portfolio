@@ -1,8 +1,8 @@
 import { ChevronLeft, ChevronRight, ListMusic, Music, Pause, Play, Volume2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { songs } from "../../utils/Presets";
-import { useVRStore, VRTransition } from "../../Stores/useVRStore";
-import useMusicStore from "../../Stores/useMusicStore";
+import { useVRStore, VRTransition } from "../../stores/useVRStore";
+import useMusicStore from "../../stores/useMusicStore";
 
 const MusicMenu: React.FC = () => {
 	const { musicMenuOpen, playing, currentSong, currentSongTime, songDurations, volume, setVolume, play, toggle, openMenu, closeMenu, playNext, playPrevious } =

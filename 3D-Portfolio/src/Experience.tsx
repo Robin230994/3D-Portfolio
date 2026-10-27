@@ -1,7 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { Leva } from "leva";
 import { Suspense, useEffect, useState } from "react";
-import { useProjectPanelStore } from "./Stores/useProjectPanelStore";
+import { useProjectPanelStore } from "./stores/useProjectPanelStore";
+import { Preload } from "@react-three/drei";
+import { LoadingState } from "./utils/Types";
 
 import Portfolio from "./components/Portfolio";
 import MusicMenu from "./components/MusicMenu/MusicMenu";
@@ -11,7 +13,6 @@ import useProjectDescription from "./hooks/useProjectDescription";
 import ColorPalette from "./components/Targets/PaintingBoard/ColorPalette";
 import VRVideo from "./components/VRVideo/VRVideo";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
-import { Preload } from "@react-three/drei";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
@@ -19,7 +20,7 @@ const Experience = () => {
 	const { project } = useProjectDescription();
 	const setPanelClosed = useProjectPanelStore((state) => state.setPanelClosed);
 
-	const [sceneLoaded, setSceneLoaded] = useState<boolean>(false);
+	const [loadingState, setLoadingState] = useState<LoadingState>("Loading");
 
 	useEffect(() => {
 		if (project) {
@@ -32,8 +33,8 @@ const Experience = () => {
 			<Leva hidden={!isDebugMode} />
 			{project !== null && <ProjectPanel project={project} />}
 
-			{!sceneLoaded ? (
-				<LoadingScreen onLoaded={() => setSceneLoaded(true)} />
+			{loadingState !== "Finished" ? (
+				<LoadingScreen loadingState={loadingState} onLoaded={() => setLoadingState("Revealing")} onFadeComplete={() => setLoadingState("Finished")} />
 			) : (
 				<>
 					<MusicMenu />
@@ -45,7 +46,7 @@ const Experience = () => {
 
 			<Canvas shadows dpr={[0.75, 1.5]} performance={{ min: 0.65, max: 1, debounce: 1000 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 65 }}>
 				<Suspense fallback={null}>
-					<Portfolio isDebugMode={isDebugMode} />
+					<Portfolio loadingState={loadingState} isDebugMode={isDebugMode} />
 					<Preload all />
 				</Suspense>
 			</Canvas>

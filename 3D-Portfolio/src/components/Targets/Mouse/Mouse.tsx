@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { ArrowHelper, Group, Matrix4, Mesh, ShaderMaterial, Vector3 } from "three";
-import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DESKTOP_SIZE } from "../../../stores/useVirtualCursorStore";
 import MouseUI from "./MouseUI";
 
 const MOUSE_TRAVEL_X = [-0.15, 0.15];

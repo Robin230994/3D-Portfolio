@@ -5,7 +5,7 @@ import { Group } from "three";
 import { iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
 
 // The contour is calculated once per source geometry, rather than once per
 // hover event. The box geometries are static for the lifetime of the scene.

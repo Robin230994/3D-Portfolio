@@ -1,4 +1,4 @@
-import { useVirtualCursorStore, VIRTUAL_DISPLAYS } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DISPLAYS } from "../../../stores/useVirtualCursorStore";
 import VirtualCursor from "../../VirtualCursor/VirtualCursor";
 
 const ScreenCursor: React.FC = () => {

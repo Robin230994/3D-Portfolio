@@ -1,7 +1,7 @@
 import { Editor, OnMount } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { PlaygroundFile } from "../../../utils/Types";
-import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import { useCodePlaygroundStore } from "../../../stores/useCodePlaygroundStore";
 import type { editor } from "monaco-editor";
 
 const fileLabels: Record<PlaygroundFile, string> = {

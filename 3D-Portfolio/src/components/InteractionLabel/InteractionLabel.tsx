@@ -1,7 +1,7 @@
 import { Html } from "@react-three/drei";
 import { useEffect, useState } from "react";
-import { useCameraStore } from "../../Stores/useCameraStore";
-import { useFocusStore } from "../../Stores/useFocusStore";
+import { useCameraStore } from "../../stores/useCameraStore";
+import { useFocusStore } from "../../stores/useFocusStore";
 
 export interface InteractionLabelProps {
 	focusName: string;

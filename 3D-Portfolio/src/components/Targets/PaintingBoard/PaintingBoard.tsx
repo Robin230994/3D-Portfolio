@@ -2,16 +2,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PaintingBoardUI from "./PaintingBoardUI";
 import useInteraction from "../../../hooks/useInteraction";
 import { CustomMeshProps } from "../../../utils/Interfaces";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
 import { Euler, Mesh, Vector3, Group, CanvasTexture } from "three";
-import { useCameraStore } from "../../../Stores/useCameraStore";
+import { useCameraStore } from "../../../stores/useCameraStore";
 import { useControls } from "leva";
 import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { ColorOption } from "../../../utils/Types";
 import { colorMixPresets } from "../../../utils/Presets";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
-import usePaintingStore from "../../../Stores/usePaintingStore";
+import usePaintingStore from "../../../stores/usePaintingStore";
 import ColorMixOverlay from "./ColorMixOverlay";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 

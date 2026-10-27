@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { ThreeEvent } from "@react-three/fiber";
-import { useFocusStore } from "../Stores/useFocusStore";
+import { useFocusStore } from "../stores/useFocusStore";
 
 interface IUseInteractionProps {
 	onClick?: (e: ThreeEvent<MouseEvent>) => void;

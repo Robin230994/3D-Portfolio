@@ -1,5 +1,5 @@
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { useCameraStore } from "../Stores/useCameraStore";
+import { useCameraStore } from "../stores/useCameraStore";
 import { useEffect } from "react";
 
 const useOrbitControlsEvents = (controlsRef: React.RefObject<OrbitControlsImpl>) => {

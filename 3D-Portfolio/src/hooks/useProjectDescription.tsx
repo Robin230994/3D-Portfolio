@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { IProjectDescription } from "../utils/Interfaces";
-import { useProjectPanelStore } from "../Stores/useProjectPanelStore";
+import { useProjectPanelStore } from "../stores/useProjectPanelStore";
 
 const projectDescriptions: Record<string, IProjectDescription> = {
 	Musterbox: {

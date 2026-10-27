@@ -1,8 +1,8 @@
 import { IProjectDescription } from "../../utils/Interfaces";
 import { useEffect, useRef } from "react";
-import { useProjectPanelStore } from "../../Stores/useProjectPanelStore";
-import { useCameraStore } from "../../Stores/useCameraStore";
-import { useVRStore, VRTransition } from "../../Stores/useVRStore";
+import { useProjectPanelStore } from "../../stores/useProjectPanelStore";
+import { useCameraStore } from "../../stores/useCameraStore";
+import { useVRStore, VRTransition } from "../../stores/useVRStore";
 
 interface IProjectPanel {
 	project: IProjectDescription;

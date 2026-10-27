@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useVirtualCursorStore, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../Stores/useVirtualCursorStore";
+import { useVirtualCursorStore, VIRTUAL_DISPLAYS, VIRTUAL_POSITIONS } from "../../../stores/useVirtualCursorStore";
 import VirtualCursor from "../../VirtualCursor/VirtualCursor";
 
 interface IMacbookCursor {

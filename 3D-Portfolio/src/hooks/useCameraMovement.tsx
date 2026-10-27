@@ -1,11 +1,11 @@
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
-import { useCameraStore } from "../Stores/useCameraStore";
-import { useFocusStore } from "../Stores/useFocusStore";
+import { useCameraStore } from "../stores/useCameraStore";
+import { useFocusStore } from "../stores/useFocusStore";
 import { CameraInfo } from "../utils/Types";
 import { cameraPresets } from "../utils/Presets";
-import { useVRStore, VRTransition } from "../Stores/useVRStore";
+import { useVRStore, VRTransition } from "../stores/useVRStore";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const CAMERA_RETURN_SPEED = 0.02;

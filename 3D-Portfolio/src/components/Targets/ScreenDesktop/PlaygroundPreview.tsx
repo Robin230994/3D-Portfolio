@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useCodePlaygroundStore } from "../../../Stores/useCodePlaygroundStore";
+import { useCodePlaygroundStore } from "../../../stores/useCodePlaygroundStore";
 
 const PlaygroundPreview: React.FC = () => {
 	const html = useCodePlaygroundStore((state) => state.html);

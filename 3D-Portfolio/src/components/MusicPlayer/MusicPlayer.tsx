@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import useMusicStore from "../../Stores/useMusicStore";
+import useMusicStore from "../../stores/useMusicStore";
 import useMusicMetatadata from "../../hooks/useMusicMetadata";
 import useMusicProgress from "../../hooks/useMusicProgress";
 import useMusicPlaylist from "../../hooks/useMusicPlaylist";

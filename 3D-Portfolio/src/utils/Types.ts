@@ -80,3 +80,5 @@ export type ColorOption = {
 	name: string;
 	hexCode: string;
 };
+
+export type LoadingState = "Loading" | "Ready" | "Revealing" | "Finished";

@@ -3,12 +3,12 @@ import OcculusQuestUI from "./OcculusQuestUI";
 
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Euler, Group, Quaternion, Vector3 } from "three";
-import { useCameraStore } from "../../../Stores/useCameraStore";
-import { useFocusStore } from "../../../Stores/useFocusStore";
-import { useVRStore, VRTransition } from "../../../Stores/useVRStore";
+import { useCameraStore } from "../../../stores/useCameraStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
+import { useVRStore, VRTransition } from "../../../stores/useVRStore";
 import { useControls } from "leva";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useProjectPanelStore } from "../../../Stores/useProjectPanelStore";
+import { useProjectPanelStore } from "../../../stores/useProjectPanelStore";
 import useInteraction from "../../../hooks/useInteraction";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";

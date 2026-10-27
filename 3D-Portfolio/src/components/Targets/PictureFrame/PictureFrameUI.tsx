@@ -7,7 +7,7 @@ import MaterialCreator from "../../../classes/MaterialCreator";
 import { ThreeEvent } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
 import CloseLabel from "../../CloseLabel/CloseLabel";
-import { useFocusStore } from "../../../Stores/useFocusStore";
+import { useFocusStore } from "../../../stores/useFocusStore";
 import { useControls } from "leva";
 
 const materialCreator = MaterialCreator.getInstance();

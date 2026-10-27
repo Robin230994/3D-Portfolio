@@ -1,5 +1,5 @@
 import { AnimationEvent, FC, useRef } from "react";
-import { useVRStore, VRTransition } from "../../Stores/useVRStore";
+import { useVRStore, VRTransition } from "../../stores/useVRStore";
 import { SquareX } from "lucide-react";
 
 const VRVideo: FC = () => {

@@ -2,8 +2,8 @@ import { BufferGeometry, DirectionalLight, Group, Material, MathUtils, Mesh, Nor
 import { memo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import MaterialCreator from "../../classes/MaterialCreator";
-import { useCameraStore } from "../../Stores/useCameraStore";
-import { useFocusStore } from "../../Stores/useFocusStore";
+import { useCameraStore } from "../../stores/useCameraStore";
+import { useFocusStore } from "../../stores/useFocusStore";
 
 interface IPositionMarkerProps {
 	position: [number, number, number];
