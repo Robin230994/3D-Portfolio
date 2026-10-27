@@ -1267,6 +1267,36 @@
   background-color: #1c1f22;
   padding: 3px;
 }
+.bambu-interface-container .bambu-interface-footer .bambu-process input[type=range] {
+  width: 100%;
+  height: 3px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process input[type=range]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: #20c878;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 0;
+  height: 0;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process input[type=range]::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: #20c878;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process input[type=range]::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border: 0;
+}
 .bambu-interface-container .bambu-interface-footer .bambu-process p {
   color: #fff;
   font-size: 6px;

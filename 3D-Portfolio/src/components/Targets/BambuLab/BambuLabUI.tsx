@@ -2,7 +2,7 @@ import React, { memo, RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
 import { Color, Mesh, MeshBasicMaterial, Object3D, Object3DEventMap } from "three";
 import { DirectionalLight } from "three";
-import { glassMaterial, metalMaterial } from "../../../utils/Materials";
+import { blackPlasticMaterial, glassMaterial, metalMaterial } from "../../../utils/Materials";
 import { Group } from "three";
 import { useControls } from "leva";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
@@ -67,7 +67,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 		rollMat2Pos: { value: { x: 0.13, y: 0.87, z: 0.26 }, step: 0.001 },
 		rollMat3Pos: { value: { x: -0.1, y: 0.87, z: 0.26 }, step: 0.001 },
 		rollMat4Pos: { value: { x: -0.33, y: 0.87, z: 0.26 }, step: 0.001 },
-		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.01 },
+		rollMatRot: { value: { x: Math.PI / 2, y: 0, z: -Math.PI / 2 }, step: 0.001 },
 	});
 
 	const plaMaterialHolderInstances = useMemo(
@@ -183,14 +183,21 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 						<Outlines thickness={2} scale={hovered === "BambuLab" ? 1 : 0} color={"white"} />
 					</mesh>
 
-					<mesh
-						name="BambuLabNozzle"
-						geometry={BambuLabNozzle.geometry}
-						position={BambuLabNozzle.position}
-						rotation={BambuLabNozzle.rotation}
-						scale={BambuLabNozzle.scale}
-						material={BambuLab.material}
-					/>
+					<group>
+						<mesh
+							name="BambuLabNozzle"
+							geometry={BambuLabNozzle.geometry}
+							position={BambuLabNozzle.position}
+							rotation={BambuLabNozzle.rotation}
+							scale={BambuLabNozzle.scale}
+							material={BambuLab.material}
+						/>
+
+						{/** Nozzle black material */}
+						<mesh material={blackPlasticMaterial} position={[-0.012, 0.275, -0.01]}>
+							<circleGeometry args={[0.038, 32]} />
+						</mesh>
+					</group>
 
 					<mesh
 						name="BambuLabPrintBed"
