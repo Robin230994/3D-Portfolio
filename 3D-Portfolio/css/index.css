@@ -1122,6 +1122,184 @@
     opacity: 0;
   }
 }
+.bambu-interface-container {
+  width: 156px;
+  height: 70px;
+  border-radius: 20px;
+  background-color: #15181b;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0px;
+  overflow: hidden;
+}
+.bambu-interface-container .bambu-interface-header {
+  flex: 0 0 15%;
+  box-sizing: border-box;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  background-color: #1c1f22;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding-left: 8px;
+}
+.bambu-interface-container .bambu-interface-header div {
+  padding: 0 3px;
+  gap: 6px;
+  display: flex;
+}
+.bambu-interface-container .bambu-interface-header div:first-of-type {
+  width: 80%;
+}
+.bambu-interface-container .bambu-interface-header div:nth-of-type(2) {
+  width: 20%;
+}
+.bambu-interface-container .bambu-interface-main {
+  display: flex;
+  flex: 0 0 55%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: 2px;
+  background-color: #15181b;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  min-height: 0;
+}
+.bambu-interface-container .bambu-interface-main .bambu-interface-content {
+  display: flex;
+  flex: 2 1 0;
+  gap: 2px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-print-file-container {
+  flex: 2 1 0;
+  display: flex;
+  align-items: center;
+  background-color: #1c1f22;
+  padding-right: 6px;
+  height: auto;
+}
+.bambu-interface-container .bambu-interface-main .bambu-print-file-container img {
+  width: 40px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-print-file-container button {
+  width: 100%;
+  height: 15px;
+  font-size: 5px;
+  cursor: pointer;
+  background-color: #20c878;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  height: auto;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background-color: #1c1f22;
+  padding: 3px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting img {
+  width: 10px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting p {
+  font-size: 3px;
+  color: #aaa;
+  margin: 0;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting .bambu-setting-heading {
+  font-size: 3px;
+  color: #aaa;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting .temperature {
+  font-size: 6px;
+  font-weight: bold;
+  color: #fff;
+}
+.bambu-interface-container .bambu-interface-main .bambu-settings-container .bambu-setting:last-child {
+  grid-column: 1/-1;
+}
+.bambu-interface-container .bambu-interface-main .bambu-options {
+  flex: 1 1 0;
+  display: flex;
+  text-align: center;
+  gap: 2px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-options div {
+  flex: 1;
+  background-color: #1c1f22;
+  padding: 0px 8px;
+}
+.bambu-interface-container .bambu-interface-main .bambu-options div p {
+  font-size: 6px;
+  color: #aaa;
+  margin: 0;
+}
+.bambu-interface-container .bambu-interface-footer {
+  display: flex;
+  flex: 0 0 30%;
+  box-sizing: border-box;
+  overflow: hidden;
+  gap: 2px;
+  background-color: #15181b;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 1px 2px 5px;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1f22;
+  padding: 3px;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-process p {
+  color: #fff;
+  font-size: 6px;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-print-controls {
+  width: 100%;
+  flex: 1;
+  background-color: #1c1f22;
+  padding: 0px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  gap: 2px;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-print-controls div {
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  background-color: #30363a;
+  border: 0.1px solid #4e5055;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.bambu-interface-container .bambu-interface-footer .bambu-print-controls div.active {
+  background-color: #d2823b;
+}
+
 #root {
   position: fixed;
   width: 100%;

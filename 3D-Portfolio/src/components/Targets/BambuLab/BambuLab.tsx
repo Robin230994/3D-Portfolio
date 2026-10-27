@@ -94,11 +94,11 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 
 	const uiComponentProps = useMemo(
 		() => ({
-			data: { myData: { name, nodes, hovered: interaction.hovered } },
+			data: { myData: { name, nodes, selectObjectFocus, hovered: interaction.hovered } },
 			functions: { myFunctions: { events: interaction.events } },
 			refs: { myRefs: { bambuLabGroupRef } },
 		}),
-		[interaction.events, interaction.hovered, name, nodes],
+		[interaction.events, interaction.hovered, name, nodes, selectObjectFocus],
 	);
 	return (
 		<>

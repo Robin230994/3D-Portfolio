@@ -1,6 +1,6 @@
 import React, { memo, RefObject, useMemo } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { Color, Mesh, MeshBasicMaterial } from "three";
+import { Color, Mesh, MeshBasicMaterial, Object3D, Object3DEventMap } from "three";
 import { DirectionalLight } from "three";
 import { glassMaterial, metalMaterial } from "../../../utils/Materials";
 import { Group } from "three";
@@ -9,6 +9,7 @@ import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events
 import { Outlines } from "@react-three/drei";
 
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
+import BambuInterface from "./BambuInterface";
 
 interface BambuLabUIProps extends IUIComponentProps {
 	props: {
@@ -17,6 +18,10 @@ interface BambuLabUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				hovered: string | null;
+				selectObjectFocus: {
+					name: string;
+					object: Object3D<Object3DEventMap>;
+				} | null;
 			};
 		};
 		functions: {
@@ -37,7 +42,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, hovered } = myData;
+	const { name, nodes, selectObjectFocus, hovered } = myData;
 	const { events } = myFunctions;
 	const { bambuLabGroupRef } = myRefs;
 
@@ -212,6 +217,8 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 					{/** PLA Roll Material */}
 					<InstantiatedMesh name="PLARoll" instance={plaRollMaterialInstances} geometry={PLARoll.geometry} material={new MeshBasicMaterial()} />
 				</group>
+
+				{selectObjectFocus?.name === name && <BambuInterface />}
 			</group>
 			{/* </Select> */}
 		</>
