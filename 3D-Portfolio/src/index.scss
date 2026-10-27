@@ -90,3 +90,117 @@ canvas {
 		/* stronger inset */ 0 2px 4px rgba(0, 0, 0, 0.2);
 	transform: translateY(1px);
 }
+
+.loading-screen {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	position: fixed;
+	box-sizing: border-box;
+	background: linear-gradient(to right top, #8a6434 0%, #131314 80%);
+	z-index: 99;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+
+	.logo-container {
+		max-width: 500px;
+		margin-bottom: 50px;
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	.progress-loader {
+		width: 50%;
+		input[type="range"] {
+			width: 100%;
+			transform-origin: left center;
+			max-width: 100%;
+			height: 7px;
+			appearance: none;
+			border-radius: 999px;
+			pointer-events: none;
+			margin-bottom: 20px;
+
+			&::-webkit-slider-runnable-track {
+				height: 7px;
+				border-radius: 999px;
+				background: transparent;
+			}
+
+			&::-webkit-slider-thumb {
+				appearance: none;
+				width: 0;
+				height: 0;
+			}
+
+			&::-moz-range-track {
+				height: 7px;
+				border-radius: 999px;
+				background: transparent;
+			}
+
+			&::-moz-range-thumb {
+				width: 0;
+				height: 0;
+				border: 0;
+			}
+		}
+
+		p {
+			width: 100%;
+			text-align: center;
+			text-transform: uppercase;
+			color: #ccc;
+			font-family: "Sora";
+			font-weight: 500;
+			letter-spacing: 0.32em;
+			font-size: 0.8rem;
+		}
+	}
+
+	.sound-container {
+		text-align: center;
+		p {
+			color: #ccc;
+			font-family: "Sora";
+			text-transform: uppercase;
+			font-weight: 500;
+			letter-spacing: 0.32em;
+			font-size: 0.8rem;
+		}
+	}
+
+	button {
+		background-color: #20c878;
+		border: none;
+		padding: 10px 30px;
+		border-radius: 20px;
+		font-family: "Sora";
+		text-transform: uppercase;
+		font-weight: 500;
+		font-size: 0.65rem;
+		letter-spacing: 0.32em;
+		color: #fff;
+		cursor: pointer;
+
+		&:disabled {
+			color: #ccc;
+			background-color: #288357;
+		}
+	}
+}
+
+@font-face {
+	font-family: "Fredoka";
+	src: url("/fonts/Fredoka-VariableFont.ttf");
+}
+
+@font-face {
+	font-family: "Sora";
+	src: url("/fonts/Sora-VariableFont.ttf");
+}

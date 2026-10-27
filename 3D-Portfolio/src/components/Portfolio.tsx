@@ -1,4 +1,4 @@
-import { AdaptiveDpr, Center, Environment } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, useGLTF } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult } from "../utils/Types";
@@ -221,3 +221,4 @@ function Portfolio({ isDebugMode }: { isDebugMode: boolean }) {
 }
 
 export default memo(Portfolio);
+useGLTF.preload("./offiice-room3.glb");
