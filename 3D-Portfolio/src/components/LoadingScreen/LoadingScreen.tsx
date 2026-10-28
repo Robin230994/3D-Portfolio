@@ -6,17 +6,16 @@ import { LoadingState } from "../../utils/Types";
 interface ILoadingScreen {
 	loadingState: LoadingState;
 	onLoaded: () => void;
-	onFadeComplete: () => void;
 }
 
-const LoadingScreen: FC<ILoadingScreen> = ({ loadingState, onLoaded, onFadeComplete }) => {
+const LoadingScreen: FC<ILoadingScreen> = ({ loadingState, onLoaded }) => {
 	const { active, progress } = useProgress();
 	const isReady = !active && progress === 100;
 
 	const [soundOn, setSoundOn] = useState(true);
 
 	return (
-		<div className={`loading-screen ${loadingState === "Revealing" ? "is-fading" : ""}`} onAnimationEnd={onFadeComplete}>
+		<div className={`loading-screen ${loadingState === "Revealing" ? "is-fading" : ""}`}>
 			<div>
 				<div className="logo-container">
 					<img src="/images/ROBIN_DORT_LOGO_BLUE_DARK_BG.png" />

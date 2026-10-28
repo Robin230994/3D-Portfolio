@@ -28,7 +28,7 @@ import AutoPerformance from "./AutoPerformance/AutoPerformance";
 
 RectAreaLightUniformsLib.init();
 
-function Portfolio({ loadingState, isDebugMode }: { loadingState: LoadingState; isDebugMode: boolean }) {
+function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingState: LoadingState; isDebugMode: boolean; onWorldRevealEnd: () => void }) {
 	const officeModel = useLoader(GLTFLoader, "./offiice-room3.glb", (loader) => {
 		const dracoLoader = new DRACOLoader();
 		dracoLoader.setDecoderPath("./draco/");
@@ -148,21 +148,20 @@ function Portfolio({ loadingState, isDebugMode }: { loadingState: LoadingState; 
 	return (
 		<>
 			{isDebugMode && perfParams.visible && <Perf position="top-left" />}
-
 			{/** Scale pixel ratio based on performance */}
 			<AutoPerformance />
 			<AdaptiveDpr pixelated />
-
 			<Environment
 				background={true}
 				files={"./environment/environment_map.hdr"}
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
-
-			<EffectComposer multisampling={0}>
+			<EffectComposer multisampling={0} depthBuffer>
 				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
 			</EffectComposer>
+
+			{/* {loadingState === "Revealing" && <WorldReveal />} */}
 
 			<Center onCentered={alignOutsideToRoom}>
 				<CameraController isDebugMode={isDebugMode} />

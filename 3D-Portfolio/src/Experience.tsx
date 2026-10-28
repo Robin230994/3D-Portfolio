@@ -34,7 +34,7 @@ const Experience = () => {
 			{project !== null && <ProjectPanel project={project} />}
 
 			{loadingState !== "Finished" ? (
-				<LoadingScreen loadingState={loadingState} onLoaded={() => setLoadingState("Revealing")} onFadeComplete={() => setLoadingState("Finished")} />
+				<LoadingScreen loadingState={loadingState} onLoaded={() => setLoadingState("Finished")} />
 			) : (
 				<>
 					<MusicMenu />
@@ -46,7 +46,7 @@ const Experience = () => {
 
 			<Canvas shadows dpr={[0.75, 1.5]} performance={{ min: 0.65, max: 1, debounce: 1000 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 65 }}>
 				<Suspense fallback={null}>
-					<Portfolio loadingState={loadingState} isDebugMode={isDebugMode} />
+					<Portfolio loadingState={loadingState} isDebugMode={isDebugMode} onWorldRevealEnd={() => setLoadingState("Finished")} />
 					<Preload all />
 				</Suspense>
 			</Canvas>

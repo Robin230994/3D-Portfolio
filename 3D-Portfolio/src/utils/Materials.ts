@@ -1,4 +1,4 @@
-import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2 } from "three";
+import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2, Vector3 } from "three";
 import { extend } from "@react-three/fiber";
 
 import MaterialCreator from "../classes/MaterialCreator";
@@ -8,6 +8,8 @@ import mouseAreaFragmentShader from "./../shaders/MouseArea/fragment.glsl";
 import mouseAreaVertexShader from "./../shaders/MouseArea/vertex.glsl";
 import colorMixVertexShader from "./../shaders/MixColor/vertex.glsl";
 import colorMixFragmentShader from "./../shaders/MixColor/fragment.glsl";
+import worldRevealVertexShader from "./../shaders/WorldReveal/vertex.glsl";
+import worldRevealFragmentShader from "./../shaders/WorldReveal/fragment.glsl";
 
 ColorManagement.enabled = true;
 
@@ -117,3 +119,16 @@ const MixColorShaderMaterial = materialCreator.createShaderMaterial(
 );
 extend({ MixColorShaderMaterial });
 export { MixColorShaderMaterial };
+
+const WorldRevealShaderMaterial = materialCreator.createShaderMaterial(
+	"WorldRevealMaterial",
+	{
+		uRevealCenter: new Vector3(0.008, 1.06, -0.135),
+		uRadius: 0,
+		uSoftness: 0.5,
+	},
+	worldRevealVertexShader,
+	worldRevealFragmentShader,
+);
+extend({ WorldRevealShaderMaterial });
+export { WorldRevealShaderMaterial };
