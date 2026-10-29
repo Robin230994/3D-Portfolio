@@ -64,6 +64,12 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				{ collapsed: false },
 			),
 
+			HemisPhereLight: folder({
+				hemisphereSkyColor: { value: "#ffedb9" },
+				hemisphereGroundColor: { value: "#6f6045" },
+				hemisphereIntensity: { value: 0.8, step: 0.1 },
+			}),
+
 			DirectionalLight: folder({
 				directionalIntensity: {
 					value: 1,
@@ -124,7 +130,7 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
-		environmentIntensity: { value: 0.4, step: 0.1, min: 0.1 },
+		environmentIntensity: { value: 0.4, step: 0.1, min: 0.01 },
 		environmentRotation: { value: { x: 11.5, y: 2, z: -1.6 }, step: 0.01 },
 	});
 
@@ -156,7 +162,9 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				files={"./environment/environment_map.hdr"}
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
+				backgroundRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
+
 			<EffectComposer multisampling={0} depthBuffer>
 				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
 			</EffectComposer>
@@ -167,13 +175,16 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				<CameraController isDebugMode={isDebugMode} />
 
 				<group name="lights">
-					<ambientLight intensity={lightParams.ambientLightIntensity} />
+					{/* <ambientLight intensity={lightParams.ambientLightIntensity} /> */}
 					<directionalLight
 						ref={directionalLightRef}
 						intensity={lightParams.directionalIntensity}
 						color={lightParams.directionalColor}
 						position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
+						castShadow
 					/>
+					<hemisphereLight args={[lightParams.hemisphereSkyColor, lightParams.hemisphereGroundColor, lightParams.hemisphereIntensity]} />
+
 					{/** Rect Area Light */}
 					<rectAreaLight
 						ref={ceilingLightRef}

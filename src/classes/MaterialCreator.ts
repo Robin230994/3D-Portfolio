@@ -13,6 +13,8 @@ import {
 	ShaderMaterial,
 	MeshPhysicalMaterial,
 	NoColorSpace,
+	ClampToEdgeWrapping,
+	LinearSRGBColorSpace,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
@@ -27,6 +29,7 @@ type StandardTextureParams = {
 	aoT?: string | Texture;
 	displacementT?: string | Texture;
 	metallnessT?: string | Texture;
+	lightMapT?: string | Texture;
 };
 
 export default class MaterialCreator {
@@ -117,6 +120,20 @@ export default class MaterialCreator {
 				: undefined,
 		);
 
+		const lightMap = textures.lightMapT
+			? typeof textures.lightMapT === "string"
+				? this.textureLoader.load(textures.lightMapT)
+				: textures.lightMapT
+			: undefined;
+
+		if (lightMap) {
+			lightMap.colorSpace = LinearSRGBColorSpace;
+			lightMap.wrapS = ClampToEdgeWrapping;
+			lightMap.wrapT = ClampToEdgeWrapping;
+			lightMap.flipY = false;
+			lightMap.channel = 1;
+		}
+
 		const metalnessTexture = this.configureDataTexture(
 			textures.metallnessT ? (typeof textures.metallnessT === "string" ? this.textureLoader.load(textures.metallnessT) : textures.metallnessT) : undefined,
 		);
@@ -129,6 +146,7 @@ export default class MaterialCreator {
 			aoMap: aoTexture,
 			displacementMap: displacementTexture,
 			metalnessMap: metalnessTexture,
+			lightMap: lightMap,
 		};
 		const createdMaterial = new MeshStandardMaterial(materialParams);
 

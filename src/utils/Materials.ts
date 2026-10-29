@@ -65,9 +65,10 @@ const foundationMaterial = materialCreator.createStandardMaterialFromTexture("Fo
 	diffuseT: "/baked-textures/Foundation/foundation_t1_color.jpg",
 	normalT: "/baked-textures/Foundation/foundation_t1_normal.png",
 	roughnessT: "/baked-textures/Foundation/foundation_t1_roughness.jpg",
+	lightMapT: "/baked-textures/Foundation/lightmap.png",
 });
-foundationMaterial.toneMapped = false;
-foundationMaterial.emissiveIntensity = 1.2;
+// foundationMaterial.toneMapped = false;
+// foundationMaterial.emissiveIntensity = 1.2;
 export { foundationMaterial };
 
 const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Objects/TI1/perlin-noise-texture.png", (loadedTexture) => {
