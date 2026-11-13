@@ -14,7 +14,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Foundation */}
-			<mesh geometry={Foundation.geometry} position={Foundation.position} material={foundationMaterial} scale={Foundation.scale} />
+			<mesh geometry={Foundation.geometry} position={Foundation.position} material={foundationMaterial} scale={Foundation.scale} receiveShadow />
 
 			{/** Emissive Ceiling lamp */}
 			<mesh position={[0, 4.22, 0]}>

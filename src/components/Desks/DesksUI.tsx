@@ -8,9 +8,8 @@ import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
-	diffuseT: "/baked-textures/Desks/desks_color.003.jpg",
-	roughnessT: "/baked-textures/Desks/desks_roughness.003.jpg",
-	normalT: "/baked-textures/Desks/desks_normal.003.png",
+	diffuseT: "/baked-textures/Desks/desks_color.webp",
+	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
 });
 
 interface DesksUIProps extends IUIComponentProps {
@@ -110,7 +109,7 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	return (
 		<group name={name}>
 			{/** Desk object */}
-			<mesh geometry={DeskObjects.geometry} position={DeskObjects.position} rotation={DeskObjects.rotation} material={deskMaterial} />
+			<mesh geometry={DeskObjects.geometry} position={DeskObjects.position} rotation={DeskObjects.rotation} material={DeskObjects.material} />
 
 			{/** Roof lamp emission */}
 			<mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>

@@ -39,7 +39,7 @@ const GodRays: React.FC<CustomMeshProps> = ({ nodes }) => {
 			},
 
 			godRaysScale: {
-				value: { x: 3.5, y: 0.6, z: 0.9 },
+				value: { x: 2.6, y: 0.6, z: 0.9 },
 				step: 0.1,
 			},
 		}),
@@ -49,7 +49,7 @@ const GodRays: React.FC<CustomMeshProps> = ({ nodes }) => {
 				value: "#fff4df",
 			},
 			uIntensity: {
-				value: 0.05,
+				value: 0.02,
 				min: 0,
 				max: 1,
 				step: 0.01,

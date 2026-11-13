@@ -1,4 +1,4 @@
-import { AdaptiveDpr, Center, Environment, useGLTF } from "@react-three/drei";
+import { AdaptiveDpr, Center, Environment, useGLTF, useHelper } from "@react-three/drei";
 import { folder, useControls } from "leva";
 import { Perf } from "r3f-perf";
 import { GLTFResult, LoadingState } from "../utils/Types";
@@ -6,7 +6,7 @@ import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { memo, useCallback, useRef, useState } from "react";
-import { DirectionalLight, RectAreaLight, Vector3 } from "three";
+import { DirectionalLight, DirectionalLightHelper, RectAreaLight, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -43,6 +43,7 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 
 	/** REFS */
 	const directionalLightRef = useRef<DirectionalLight>(null!);
+	useHelper(directionalLightRef, DirectionalLightHelper, 0.5, 0xff0000);
 
 	const ceilingLightRef = useRef<RectAreaLight>(null!);
 
@@ -175,7 +176,7 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				<CameraController isDebugMode={isDebugMode} />
 
 				<group name="lights">
-					{/* <ambientLight intensity={lightParams.ambientLightIntensity} /> */}
+					<ambientLight intensity={lightParams.ambientLightIntensity} />
 					<directionalLight
 						ref={directionalLightRef}
 						intensity={lightParams.directionalIntensity}
@@ -186,14 +187,14 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 					<hemisphereLight args={[lightParams.hemisphereSkyColor, lightParams.hemisphereGroundColor, lightParams.hemisphereIntensity]} />
 
 					{/** Rect Area Light */}
-					<rectAreaLight
+					{/* <rectAreaLight
 						ref={ceilingLightRef}
 						position={[lightParams.rectAreaLightPosition.x, lightParams.rectAreaLightPosition.y, lightParams.rectAreaLightPosition.z]}
 						rotation={[lightParams.rectAreaLightRotation.x, lightParams.rectAreaLightRotation.y, lightParams.rectAreaLightRotation.z]}
 						width={lightParams.rectAreaLightWidth}
 						height={lightParams.rectAreaLightHeight}
 						intensity={lightParams.rectAreaLightIntensity}
-					/>
+					/> */}
 				</group>
 
 				<group name="office-room">

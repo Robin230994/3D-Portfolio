@@ -27,6 +27,7 @@ type GLTFResult = GLTF & {
     BambuLabNozzle: THREE.Mesh
     BambuLab: THREE.Mesh
     BambuLab_LP: THREE.Mesh
+    BambuLabPrintBed: THREE.Mesh
     PLARoll: THREE.Mesh
     Circle001: THREE.Mesh
     Circle001_1: THREE.Mesh
@@ -193,6 +194,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
           <mesh name="BambuLabNozzle" geometry={nodes.BambuLabNozzle.geometry} material={materials.ot3} position={[-0.012, 0.148, 0.018]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
           <mesh name="BambuLab" geometry={nodes.BambuLab.geometry} material={materials.ot3} position={[0.147, 0, 0]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
           <mesh name="BambuLab_LP" geometry={nodes.BambuLab_LP.geometry} material={materials['ot3.002']} position={[0.147, 0, 0]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
+          <mesh name="BambuLabPrintBed" geometry={nodes.BambuLabPrintBed.geometry} material={materials.ot3} position={[0.147, 0.275, 0]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} scale={1.871} />
           <mesh name="PLARoll" geometry={nodes.PLARoll.geometry} material={materials['First_Roll_Mat.001']} position={[0.356, 0.877, 0.255]} rotation={[Math.PI / 2, 0, -Math.PI / 2]} />
           <group name="PLARollHolder" position={[0.358, 0.87, 0.269]} rotation={[0, 0, -Math.PI / 2]}>
             <mesh name="Circle001" geometry={nodes.Circle001.geometry} material={materials['Material.029']} />

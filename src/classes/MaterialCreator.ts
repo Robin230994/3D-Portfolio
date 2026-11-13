@@ -13,13 +13,12 @@ import {
 	ShaderMaterial,
 	MeshPhysicalMaterial,
 	NoColorSpace,
-	ClampToEdgeWrapping,
-	LinearSRGBColorSpace,
 } from "three";
 import { shaderMaterial } from "@react-three/drei";
 
 import NullMaterialException from "../exceptions/NullMaterialException";
 import NonAccessibleTexturePathException from "../exceptions/NonAccessibleTexturePathException";
+import { RGBELoader } from "three-stdlib";
 
 type StandardTextureParams = {
 	diffuseT: string | Texture;
@@ -37,12 +36,14 @@ export default class MaterialCreator {
 
 	private loadingManager: LoadingManager;
 	private textureLoader: TextureLoader;
+	private rgbeLoader: RGBELoader;
 	private storedMaterials: Map<string, Material>;
 
 	private constructor() {
 		this.storedMaterials = new Map();
 		this.loadingManager = new LoadingManager();
 		this.textureLoader = new TextureLoader(this.loadingManager);
+		this.rgbeLoader = new RGBELoader(this.loadingManager);
 	}
 
 	public static getInstance(): MaterialCreator {
@@ -77,6 +78,20 @@ export default class MaterialCreator {
 		}
 
 		return null;
+	}
+
+	public loadHDRTexture(path: string, callback?: (texture: Texture) => void): Texture | null {
+		try {
+			return this.rgbeLoader.load(
+				path,
+				(loadedTexture) => callback?.(loadedTexture),
+				undefined,
+				() => console.error(new NonAccessibleTexturePathException(`Unable to access given texture path: ${path}`).getExceptionMessage()),
+			);
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
 	}
 
 	private configureDataTexture(texture: Texture | undefined): Texture | undefined {
@@ -122,17 +137,13 @@ export default class MaterialCreator {
 
 		const lightMap = textures.lightMapT
 			? typeof textures.lightMapT === "string"
-				? this.textureLoader.load(textures.lightMapT)
+				? this.rgbeLoader.load(textures.lightMapT, (loadedMap) => {
+						loadedMap.flipY = false;
+						loadedMap.colorSpace = NoColorSpace;
+						loadedMap.needsUpdate = true;
+					})
 				: textures.lightMapT
 			: undefined;
-
-		if (lightMap) {
-			lightMap.colorSpace = LinearSRGBColorSpace;
-			lightMap.wrapS = ClampToEdgeWrapping;
-			lightMap.wrapT = ClampToEdgeWrapping;
-			lightMap.flipY = false;
-			lightMap.channel = 1;
-		}
 
 		const metalnessTexture = this.configureDataTexture(
 			textures.metallnessT ? (typeof textures.metallnessT === "string" ? this.textureLoader.load(textures.metallnessT) : textures.metallnessT) : undefined,
@@ -146,9 +157,13 @@ export default class MaterialCreator {
 			aoMap: aoTexture,
 			displacementMap: displacementTexture,
 			metalnessMap: metalnessTexture,
-			lightMap: lightMap,
 		};
 		const createdMaterial = new MeshStandardMaterial(materialParams);
+
+		if (lightMap) {
+			createdMaterial.lightMap = lightMap;
+			createdMaterial.lightMapIntensity = 2.0;
+		}
 
 		if (transparent) {
 			createdMaterial.transparent = true;
