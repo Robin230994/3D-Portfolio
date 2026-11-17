@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { IUIComponentProps } from "../../utils/Types";
-import { BoxGeometry, DirectionalLight, Mesh } from "three";
+import { DirectionalLight, Mesh } from "three";
 import { useControls } from "leva";
 import { iot1Material } from "../../utils/Materials";
 import MaterialCreator from "../../classes/MaterialCreator";
@@ -8,8 +8,9 @@ import InstantiatedMesh from "../InstanciatedMesh/InstantiatedMesh";
 
 const materialCreator = MaterialCreator.getInstance();
 const deskMaterial = materialCreator.createStandardMaterialFromTexture("deskMaterial", {
-	diffuseT: "/baked-textures/Desks/desks_color.webp",
+	diffuseT: "/baked-textures/Desks/desks_color.jpg",
 	roughnessT: "/baked-textures/Desks/desks_roughness.jpg",
+	normalT: "/baked-textures/Desks/desks_normal.png",
 });
 
 interface DesksUIProps extends IUIComponentProps {
@@ -32,14 +33,6 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 
 	const DeskObjects: Mesh = nodes["desk_objects_t1"] as Mesh;
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
-
-	const { width, height, depth, position, rotation } = useControls("LampEmission", {
-		width: { value: 2.5, step: 0.1 },
-		height: { value: 0.1, step: 0.1 },
-		depth: { value: 0.63, step: 0.1 },
-		position: { value: { x: 0, y: 4.25, z: 0 }, step: 0.1 },
-		rotation: { value: { x: 0, y: 0, z: 0 } },
-	});
 
 	const { positionFR, rotationFR, positionSR, rotationSR, positionTR, rotationTR, positionFTR, rotationFTR } = useControls("DeskRolls", {
 		positionFR: { value: { x: 1.56, y: 0.13, z: 2.12 }, step: 0.01 },
@@ -109,12 +102,12 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 	return (
 		<group name={name}>
 			{/** Desk object */}
-			<mesh geometry={DeskObjects.geometry} position={DeskObjects.position} rotation={DeskObjects.rotation} material={DeskObjects.material} />
+			<mesh geometry={DeskObjects.geometry} position={DeskObjects.position} rotation={DeskObjects.rotation} material={deskMaterial} />
 
 			{/** Roof lamp emission */}
-			<mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>
-				<meshStandardMaterial color={"#fff3d6"} />
-			</mesh>
+			{/* <mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>
+				<meshStandardMaterial color={"#fff3d6"} emissive={"#FFE0AE"} emissiveIntensity={0.8} />
+			</mesh> */}
 
 			{/** Desk chair roll instances  */}
 			<InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} />

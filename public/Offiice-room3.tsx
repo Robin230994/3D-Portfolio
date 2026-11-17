@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'AMSOpen' | 'BambuOpen' | 'BambuPlay' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'WindowOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'AMSOpen' | 'BambuOpen' | 'BambuPlay' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'high-wave.003' | 'high-wave.004' | 'high-wave.005' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -36,9 +36,9 @@ type GLTFResult = GLTF & {
     Eye: THREE.Mesh
     Eye001: THREE.Mesh
     Robbi: THREE.SkinnedMesh
-    RoofLampEmission: THREE.Mesh
     LeftLED: THREE.Mesh
     RightLED: THREE.Mesh
+    RoofLampEmission001: THREE.Mesh
     ChairRoll: THREE.Mesh
     SenolithWB: THREE.Mesh
     SenolithWB02: THREE.Mesh
@@ -74,8 +74,8 @@ type GLTFResult = GLTF & {
     MusterboxDeckel: THREE.Mesh
     MusterboxLasche: THREE.Mesh
     Window: THREE.Mesh
-    WindowGlass: THREE.Mesh
     WindowHandle: THREE.Mesh
+    WindowGlass: THREE.Mesh
     Picture_Frame001: THREE.Mesh
     Rack: THREE.Mesh
     PaintingBoard: THREE.Mesh
@@ -137,10 +137,11 @@ type GLTFResult = GLTF & {
     ['Lot.001']: THREE.MeshBasicMaterial
     Eyes: THREE.MeshStandardMaterial
     ['Material.011']: THREE.MeshStandardMaterial
-    Lamp_Mat: THREE.MeshStandardMaterial
     BambuLabLED: THREE.MeshStandardMaterial
+    Lamp_Mat: THREE.MeshStandardMaterial
     iot2: THREE.MeshStandardMaterial
-    ['ft1.001']: THREE.MeshStandardMaterial
+    Desk_Mat_Textures: THREE.MeshStandardMaterial
+    ['black.005']: THREE.MeshStandardMaterial
     ot4: THREE.MeshStandardMaterial
     ['Paper.002']: THREE.MeshStandardMaterial
     ot2: THREE.MeshStandardMaterial
@@ -163,6 +164,7 @@ type GLTFResult = GLTF & {
     ot9: THREE.MeshStandardMaterial
     ot6: THREE.MeshStandardMaterial
     dt1: THREE.MeshStandardMaterial
+    ft1: THREE.MeshStandardMaterial
     outside: THREE.MeshStandardMaterial
   }
   animations: GLTFAction[]
@@ -177,6 +179,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
+        <group name="RoofLampEmission" position={[0, 4.233, 0]} rotation={[0, 0, Math.PI]} />
         <group name="ChairRoot" position={[5.773, 1.078, -0.357]}>
           <mesh name="GamingChairUpper" geometry={nodes.GamingChairUpper.geometry} material={materials.iot1} />
           <mesh name="GamingChairUpper_LP" geometry={nodes.GamingChairUpper_LP.geometry} material={materials['iot1.005']} />
@@ -213,9 +216,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
             <skinnedMesh name="Robbi" geometry={nodes.Robbi.geometry} material={materials['Material.011']} skeleton={nodes.Robbi.skeleton} />
           </group>
         </group>
-        <mesh name="RoofLampEmission" geometry={nodes.RoofLampEmission.geometry} material={materials.Lamp_Mat} position={[0, 4.233, 0]} rotation={[0, 0, Math.PI]} />
         <mesh name="LeftLED" geometry={nodes.LeftLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="RightLED" geometry={nodes.RightLED.geometry} material={materials.BambuLabLED} position={[-2.985, 2.243, 2.234]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
+        <mesh name="RoofLampEmission001" geometry={nodes.RoofLampEmission001.geometry} material={materials.Lamp_Mat} position={[0, 4.233, -0.01]} rotation={[0, 0, Math.PI]} scale={[1, 1, 1.521]} />
         <mesh name="ChairRoll" geometry={nodes.ChairRoll.geometry} material={materials.iot1} position={[5.334, 0.145, -0.59]} rotation={[0, -1.18, Math.PI / 2]} scale={0.034} />
         <mesh name="SenolithWB" geometry={nodes.SenolithWB.geometry} material={materials.iot2} position={[0.649, 2.401, -2.441]} rotation={[-Math.PI / 2, 0, 0]} scale={[0.033, 0.001, 0.05]} />
         <mesh name="SenolithWB02" geometry={nodes.SenolithWB02.geometry} material={materials.iot2} position={[0.472, 2.438, -2.441]} rotation={[-Math.PI / 2, 0, Math.PI]} scale={[0.033, 0.001, 0.05]} />
@@ -250,9 +253,9 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="MusterboxBox24" geometry={nodes.MusterboxBox24.geometry} material={materials.iot2} position={[-2.962, 2.334, -2.383]} rotation={[-Math.PI / 2, 0, 1.556]} scale={0.011} />
         <mesh name="MusterboxDeckel" geometry={nodes.MusterboxDeckel.geometry} material={materials.iot2} position={[-3.222, 2.469, -2.815]} rotation={[0.786, -0.007, -3.136]} scale={0.007} />
         <mesh name="MusterboxLasche" geometry={nodes.MusterboxLasche.geometry} material={materials.iot2} position={[-3.291, 2.63, -2.69]} rotation={[1.593, -0.002, -3.136]} scale={0.007} />
-        <mesh name="Window" geometry={nodes.Window.geometry} material={materials['ft1.001']} position={[7.984, 1.401, -0.041]} scale={[1, 1, 1.002]}>
+        <mesh name="Window" geometry={nodes.Window.geometry} material={materials.Desk_Mat_Textures} position={[7.984, 1.401, -0.041]} scale={[1, 1, 1.002]}>
+          <mesh name="WindowHandle" geometry={nodes.WindowHandle.geometry} material={materials['black.005']} position={[-0.075, 0.84, 0.991]} />
           <mesh name="WindowGlass" geometry={nodes.WindowGlass.geometry} material={nodes.WindowGlass.material} />
-          <mesh name="WindowHandle" geometry={nodes.WindowHandle.geometry} material={materials['ft1.001']} position={[-0.075, 0.84, 0.991]} />
         </mesh>
         <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.972]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
         <mesh name="Rack" geometry={nodes.Rack.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
@@ -292,7 +295,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="image_object_t1" geometry={nodes.image_object_t1.geometry} material={materials.iot1} position={[-1.089, 1.392, 2.811]} rotation={[-1.52, 0.274, -2.72]} />
         <mesh name="image_object_t2" geometry={nodes.image_object_t2.geometry} material={materials.iot2} position={[-0.513, 2.367, -2.654]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.01} />
         <mesh name="desk_objects_t1" geometry={nodes.desk_objects_t1.geometry} material={materials.dt1} position={[-3.296, 1.606, -0.653]} rotation={[Math.PI, 0, Math.PI]} />
-        <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials['ft1.001']} position={[3.984, 1.959, 2.945]} />
+        <mesh name="foundation_t1" geometry={nodes.foundation_t1.geometry} material={materials.ft1} position={[3.984, 1.959, 2.938]} />
         <mesh name="outside" geometry={nodes.outside.geometry} material={materials.outside} position={[0.002, 0.01, -0.001]} />
       </group>
     </group>

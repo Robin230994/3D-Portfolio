@@ -5,8 +5,8 @@ import { GLTFResult, LoadingState } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import { memo, useCallback, useRef, useState } from "react";
-import { DirectionalLight, DirectionalLightHelper, RectAreaLight, Vector3 } from "three";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { DirectionalLight, DirectionalLightHelper, Object3D, RectAreaLight, Vector3 } from "three";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -45,7 +45,13 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 	const directionalLightRef = useRef<DirectionalLight>(null!);
 	useHelper(directionalLightRef, DirectionalLightHelper, 0.5, 0xff0000);
 
-	const ceilingLightRef = useRef<RectAreaLight>(null!);
+	const sunTargetRef = useRef<Object3D>(null!);
+
+	useEffect(() => {
+		if (directionalLightRef.current && sunTargetRef.current) {
+			directionalLightRef.current.target = sunTargetRef.current;
+		}
+	}, []);
 
 	/** HOOKS */
 
@@ -60,79 +66,53 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 			AmbientLight: folder(
 				{
 					// ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
-					ambientLightIntensity: { value: 1, min: 0, max: 10, step: 0.01 },
+					ambientLightIntensity: { value: 0.18, min: 0, max: 10, step: 0.01 },
 				},
 				{ collapsed: false },
 			),
 
 			HemisPhereLight: folder({
-				hemisphereSkyColor: { value: "#ffedb9" },
-				hemisphereGroundColor: { value: "#6f6045" },
-				hemisphereIntensity: { value: 0.8, step: 0.1 },
+				hemisphereSkyColor: { value: "#DCE6EE" },
+				hemisphereGroundColor: { value: "#625E59" },
+				hemisphereIntensity: { value: 0.42, step: 0.01 },
 			}),
 
 			DirectionalLight: folder({
 				directionalIntensity: {
-					value: 1,
+					value: 2.2,
 					min: 0,
 					max: 10,
 					step: 0.1,
 				},
 
 				directionalPosition: {
-					// value: { x: 15, y: 2, z: 0.3 },
-					value: { x: 12, y: 2, z: -1.6 },
+					// Outside and above the window on the room's right-hand wall.
+					value: { x: 10.5, y: 6, z: -0.2 },
+					step: 0.1,
+				},
+
+				directionalTarget: {
+					value: { x: 1.5, y: 1.2, z: 0 },
 					step: 0.1,
 				},
 
 				directionalColor: {
-					value: "#fff5e6",
+					value: "#FFF0D8",
 				},
 			}),
 
-			RectAreaLight: folder({
-				rectAreaLightIntensity: {
-					value: 7.0,
-					min: 0,
-					max: 10,
-					step: 0.1,
-				},
-
-				rectAreaLightPosition: {
-					value: { x: 0, y: 4.3, z: 0 },
-					step: 0.1,
-				},
-
-				rectAreaLightRotation: {
-					value: { x: -Math.PI / 2, y: 0, z: 0 },
-					step: 0.1,
-				},
-
-				rectAreaLightWidth: {
-					value: 2.4,
-					min: 0,
-					max: 10,
-					step: 0.1,
-				},
-
-				rectAreaLightHeight: {
-					value: 0.7,
-					min: 0,
-					max: 10,
-					step: 0.1,
-				},
-
-				rectAreaLightColor: {
-					value: "#ffffff",
-				},
+			WindowFill: folder({
+				windowFillPos: { value: { x: 7.72, y: 2.15, z: -0.04 }, step: 0.01 },
+				windowFillIntensity: { value: 8, min: 0, max: 30, step: 0.1 },
+				windowFillColor: { value: "#E6F0FA" },
 			}),
 		},
 		{ collapsed: false },
 	);
 
 	const { environmentIntensity, environmentRotation } = useControls("Environment", {
-		environmentIntensity: { value: 0.4, step: 0.1, min: 0.01 },
-		environmentRotation: { value: { x: 11.5, y: 2, z: -1.6 }, step: 0.01 },
+		environmentIntensity: { value: 0.38, step: 0.05, min: 0.01 },
+		environmentRotation: { value: { x: 0, y: 0, z: 0 }, step: 0.01 },
 	});
 
 	const alignOutsideToRoom = useCallback(
@@ -160,14 +140,14 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 			<AdaptiveDpr pixelated />
 			<Environment
 				background={true}
-				files={"./environment/environment_map.hdr"}
+				files={"./environment/sisulu_2k.hdr"}
 				environmentIntensity={environmentIntensity}
 				environmentRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 				backgroundRotation={[environmentRotation.x, environmentRotation.y, environmentRotation.z]}
 			/>
 
 			<EffectComposer multisampling={0} depthBuffer>
-				<Bloom luminanceThreshold={1.1} luminanceSmoothing={0} intensity={0.45} mipmapBlur={false} />
+				<Bloom luminanceThreshold={1.2} luminanceSmoothing={0} intensity={0.25} mipmapBlur={true} />
 			</EffectComposer>
 
 			{/* {loadingState === "Revealing" && <WorldReveal />} */}
@@ -176,25 +156,29 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				<CameraController isDebugMode={isDebugMode} />
 
 				<group name="lights">
-					<ambientLight intensity={lightParams.ambientLightIntensity} />
+					<ambientLight color="#F4F3EF" intensity={lightParams.ambientLightIntensity} />
 					<directionalLight
 						ref={directionalLightRef}
 						intensity={lightParams.directionalIntensity}
 						color={lightParams.directionalColor}
 						position={[lightParams.directionalPosition.x, lightParams.directionalPosition.y, lightParams.directionalPosition.z]}
 						castShadow
+						shadow-mapSize-width={2048}
+						shadow-mapSize-height={2048}
+						shadow-bias={-0.00015}
 					/>
+					<object3D ref={sunTargetRef} position={[lightParams.directionalTarget.x, lightParams.directionalTarget.y, lightParams.directionalTarget.z]} />
 					<hemisphereLight args={[lightParams.hemisphereSkyColor, lightParams.hemisphereGroundColor, lightParams.hemisphereIntensity]} />
 
-					{/** Rect Area Light */}
-					{/* <rectAreaLight
-						ref={ceilingLightRef}
-						position={[lightParams.rectAreaLightPosition.x, lightParams.rectAreaLightPosition.y, lightParams.rectAreaLightPosition.z]}
-						rotation={[lightParams.rectAreaLightRotation.x, lightParams.rectAreaLightRotation.y, lightParams.rectAreaLightRotation.z]}
-						width={lightParams.rectAreaLightWidth}
-						height={lightParams.rectAreaLightHeight}
-						intensity={lightParams.rectAreaLightIntensity}
-					/> */}
+					{/* Soft daylight entering from the rear/right-side window. */}
+					<rectAreaLight
+						position={[lightParams.windowFillPos.x, lightParams.windowFillPos.y, lightParams.windowFillPos.z]}
+						rotation={[0, Math.PI / 2, 0]}
+						width={1.6}
+						height={2.1}
+						intensity={lightParams.windowFillIntensity}
+						color={lightParams.windowFillColor}
+					/>
 				</group>
 
 				<group name="office-room">
