@@ -71,14 +71,14 @@ const LogosUI: React.FC<LogosUIProps> = ({ props }) => {
 			logoPLLinkedInPosition: { value: { x: 3.8, y: 3.3, z: -2.9 }, step: 0.1 },
 			logoPLLinkedInIntensity: { value: 4.6, step: 0.1 },
 			logoPLLinkedInDistance: { value: 1, step: 0.1 },
-			logoPLLinkedInDecay: { value: 1.8, step: 0.1 },
+			logoPLLinkedInDecay: { value: 0.8, step: 0.1 },
 		}),
 
 		GithubLogo: folder({
 			logoPLGitPosition: { value: { x: 4.65, y: 3.3, z: -2.8 }, step: 0.01 },
 			logoPLGitIntensity: { value: 4.6, step: 0.1 },
 			logoPLGitDistance: { value: 1, step: 0.1 },
-			logoPLGitDecay: { value: 3.7, step: 0.1 },
+			logoPLGitDecay: { value: 2.5, step: 0.1 },
 		}),
 	});
 

@@ -104,11 +104,6 @@ const DesksUI: React.FC<DesksUIProps> = ({ props }) => {
 			{/** Desk object */}
 			<mesh geometry={DeskObjects.geometry} position={DeskObjects.position} rotation={DeskObjects.rotation} material={deskMaterial} />
 
-			{/** Roof lamp emission */}
-			{/* <mesh geometry={new BoxGeometry(width, height, depth)} position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]}>
-				<meshStandardMaterial color={"#fff3d6"} emissive={"#FFE0AE"} emissiveIntensity={0.8} />
-			</mesh> */}
-
 			{/** Desk chair roll instances  */}
 			<InstantiatedMesh name="Desk-Rolls" geometry={ChairRoll.geometry} instance={deskRollsInstance} material={iot1Material} />
 		</group>
