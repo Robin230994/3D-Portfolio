@@ -55,7 +55,7 @@ const BillardTriangleUI: React.FC<BillardTriangleUIProps> = ({ props }) => {
 			</group>
 
 			<mesh name="Rack" geometry={Rack.geometry} material={Rack.material} position={Rack.position} rotation={Rack.rotation}>
-				<Outlines thickness={2} scale={hovered === "Rack" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+				<Outlines thickness={3} scale={hovered === "Rack" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 			</mesh>
 		</group>
 	);

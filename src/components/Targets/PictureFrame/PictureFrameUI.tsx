@@ -78,7 +78,7 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 				rotation={[Math.PI / 2, Math.PI / 2, Math.PI]}
 				material={PictureFrame.material}
 				scale={PictureFrame.scale}>
-				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 				<CloseLabel
 					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}

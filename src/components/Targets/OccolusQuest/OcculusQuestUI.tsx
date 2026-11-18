@@ -64,11 +64,11 @@ const OccolusQuestUI: React.FC<OccolusQuestUIProps> = ({ props }) => {
 				scale={OcculusHeadset.scale}>
 				<Detailed distances={[0, 1.5]}>
 					<mesh name={name} geometry={OcculusHeadset.geometry} material={OcculusHeadset.material}>
-						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 					</mesh>
 
 					<mesh name={name} geometry={OcculusHeadsetLP.geometry} material={OcculusHeadsetLP.material}>
-						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 					</mesh>
 				</Detailed>
 			</group>

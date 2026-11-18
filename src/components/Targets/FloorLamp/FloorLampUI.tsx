@@ -61,7 +61,7 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 	return (
 		<group {...events}>
 			<mesh name={name} geometry={Lamp.geometry} position={Lamp.position} rotation={Lamp.rotation} material={t2Material}>
-				<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+				<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 			</mesh>
 
 			<object3D ref={lampTargetRef} position={[lightTarget.x, lightTarget.y, lightTarget.z]} />

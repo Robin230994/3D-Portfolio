@@ -96,7 +96,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					rotation={MusterboxDeckel.rotation}
 					scale={MusterboxDeckel.scale}
 					material={MusterboxDeckel.material}>
-					<Outlines thickness={2} scale={hovered === "MusterboxDeckel" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+					<Outlines thickness={3} scale={hovered === "MusterboxDeckel" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 				</mesh>
 
 				<mesh
@@ -106,7 +106,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					rotation={MusterboxLasche.rotation}
 					scale={MusterboxLasche.scale}
 					material={MusterboxLasche.material}>
-					<Outlines thickness={2} scale={hovered === "MusterboxLasche" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+					<Outlines thickness={3} scale={hovered === "MusterboxLasche" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 				</mesh>
 
 				{/** Boxes */}

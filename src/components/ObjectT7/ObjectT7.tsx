@@ -50,7 +50,7 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 					rotation={ObjectT8.rotation}
 					material={ot7Material}
 					scale={ObjectT8.scale}>
-					<Outlines thickness={2} scale={interaction.hovered === "Screen" ? 1 : 0} color={"white"} />
+					<Outlines thickness={3} scale={interaction.hovered === "Screen" ? 1 : 0} color={"white"} />
 					<CloseLabel
 						labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
 						labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}

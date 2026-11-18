@@ -44,9 +44,12 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 
 	/** REFS */
 	const directionalLightRef = useRef<DirectionalLight>(null!);
-	useHelper(directionalLightRef, DirectionalLightHelper, 0.5, 0xff0000);
-
 	const sunTargetRef = useRef<Object3D>(null!);
+
+	/** Debug */
+	const perfParams = useControls("Perf", {
+		visible: true,
+	});
 
 	useEffect(() => {
 		if (directionalLightRef.current && sunTargetRef.current) {
@@ -54,19 +57,11 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 		}
 	}, []);
 
-	/** HOOKS */
-
-	/** Debug */
-	const perfParams = useControls("Perf", {
-		visible: true,
-	});
-
 	const lightParams = useControls(
 		"Lights",
 		{
 			AmbientLight: folder(
 				{
-					// ambientLightIntensity: { value: 0.55, min: 0, max: 10, step: 0.01 },
 					ambientLightIntensity: { value: 0.18, min: 0, max: 10, step: 0.01 },
 				},
 				{ collapsed: false },

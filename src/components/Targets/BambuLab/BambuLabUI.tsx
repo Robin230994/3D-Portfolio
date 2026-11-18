@@ -180,7 +180,7 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 						rotation={BambuLab.rotation}
 						material={BambuLab.material}
 						scale={BambuLab.scale}>
-						<Outlines thickness={2} scale={hovered === "BambuLab" ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === "BambuLab" ? 1 : 0} color={"white"} />
 					</mesh>
 
 					<group>
@@ -227,7 +227,6 @@ const BambuLabUI: React.FC<BambuLabUIProps> = ({ props }) => {
 
 				{selectObjectFocus?.name === name && <BambuInterface />}
 			</group>
-			{/* </Select> */}
 		</>
 	);
 };

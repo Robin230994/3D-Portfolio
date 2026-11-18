@@ -117,7 +117,7 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 				material={PaintingBoard.material}
 				scale={PaintingBoard.scale}
 				{...events}>
-				<Outlines thickness={2} scale={hovered === name && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+				<Outlines thickness={3} scale={hovered === name && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 			</mesh>
 
 			{/** Painting Figures */}
@@ -140,7 +140,7 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 						onPointerUp={brushPickedUp ? stopPainting : stopFigureRotation}
 						onPointerCancel={brushPickedUp ? stopPainting : stopFigureRotation}>
 						<Outlines
-							thickness={2}
+							thickness={3}
 							scale={hovered === "Blacksmith" && selectObjectFocus?.name === name && !figureSelected && !brushPickedUp ? 1 : 0}
 							color={"white"}
 						/>
@@ -169,7 +169,7 @@ const PaintingBoardUI: FC<PaintingBoardUIProps> = ({ props }) => {
 			<group position={Brush.position} rotation={Brush.rotation} scale={Brush.scale}>
 				<Detailed distances={[0, 2]}>
 					<mesh name="Brush" ref={brushRef} geometry={Brush.geometry} material={Brush.material}>
-						<Outlines thickness={2} scale={hovered === "Brush" && selectObjectFocus?.name === name ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === "Brush" && selectObjectFocus?.name === name ? 1 : 0} color={"white"} />
 					</mesh>
 
 					<mesh geometry={BrushLP.geometry} material={Brush.material} />

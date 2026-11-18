@@ -76,7 +76,7 @@ const WindowUI: React.FC<WindowUIProps> = ({ props }) => {
 				name={name}
 			/>
 
-			<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+			<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 		</mesh>
 	);
 };

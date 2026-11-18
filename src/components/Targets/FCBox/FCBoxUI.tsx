@@ -111,7 +111,7 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					rotation={FCBoxTop.rotation}
 					scale={FCBoxTop.scale}
 					material={iot2Material}>
-					<Outlines thickness={2} scale={hovered === "FCBoxTop" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
+					<Outlines thickness={3} scale={hovered === "FCBoxTop" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
 				</mesh>
 			</group>
 		</>

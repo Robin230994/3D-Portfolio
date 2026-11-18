@@ -42,11 +42,11 @@ const HomePodUI: React.FC<HomePodUIProps> = ({ props }) => {
 			<group position={HomePod.position} rotation={HomePod.rotation} scale={HomePod.scale}>
 				<Detailed distances={[0, 3]}>
 					<mesh name={name} geometry={HomePod.geometry} material={iot2Material}>
-						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 					</mesh>
 
 					<mesh name={name} geometry={HomePodLP.geometry} material={iot2Material}>
-						<Outlines thickness={2} scale={hovered === name ? 1 : 0} color={"white"} />
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
 					</mesh>
 				</Detailed>
 			</group>
