@@ -1,7 +1,7 @@
 import React, { memo, RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { DirectionalLight, Group, Mesh } from "three";
-import { iot2Material } from "../../../utils/Materials";
+import { BoxGeometry, DirectionalLight, Group, Mesh } from "three";
+import { geometryOutlineHelperMaterial, iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { useFocusStore } from "../../../stores/useFocusStore";
@@ -28,6 +28,8 @@ interface FCBoxUIProps extends IUIComponentProps {
 		refs: { myRefs: { fcBoxRef: RefObject<Group> } };
 	};
 }
+
+const fcBoxOutlineHelperGeometry = new BoxGeometry(0.45, 0.45, 0.26);
 
 const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 	const { myData } = props.data;
@@ -110,9 +112,17 @@ const FCBoxUI: React.FC<FCBoxUIProps> = ({ props }) => {
 					position={FCBoxTop.position}
 					rotation={FCBoxTop.rotation}
 					scale={FCBoxTop.scale}
-					material={iot2Material}>
-					<Outlines thickness={3} scale={hovered === "FCBoxTop" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
-				</mesh>
+					material={iot2Material}></mesh>
+
+				{selectObjectFocus === null && (
+					<mesh
+						name={name}
+						geometry={fcBoxOutlineHelperGeometry}
+						position={[FCBoxTop.position.x, FCBoxTop.position.y - 0.1, FCBoxTop.position.z]}
+						material={geometryOutlineHelperMaterial}>
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
+					</mesh>
+				)}
 			</group>
 		</>
 	);

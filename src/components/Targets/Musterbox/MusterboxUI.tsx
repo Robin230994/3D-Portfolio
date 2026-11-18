@@ -1,8 +1,18 @@
 import React, { memo, RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { BufferGeometry, DirectionalLight, EdgesGeometry, LineBasicMaterial, Material, Mesh, NormalBufferAttributes, Object3DEventMap } from "three";
+import {
+	BoxGeometry,
+	BufferGeometry,
+	DirectionalLight,
+	EdgesGeometry,
+	LineBasicMaterial,
+	Material,
+	Mesh,
+	NormalBufferAttributes,
+	Object3DEventMap,
+} from "three";
 import { Group } from "three";
-import { iot2Material } from "../../../utils/Materials";
+import { geometryOutlineHelperMaterial, iot2Material } from "../../../utils/Materials";
 import { Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
 import { useFocusStore } from "../../../stores/useFocusStore";
@@ -20,6 +30,8 @@ const getOutlineGeometry = (geometry: BufferGeometry) => {
 	}
 	return outlineGeometry;
 };
+
+const musterboxOutlineHelperGeometry = new BoxGeometry(0.85, 0.3, 0.5);
 
 interface MusterboxUIProps extends IUIComponentProps {
 	props: {
@@ -95,9 +107,7 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					position={MusterboxDeckel.position}
 					rotation={MusterboxDeckel.rotation}
 					scale={MusterboxDeckel.scale}
-					material={MusterboxDeckel.material}>
-					<Outlines thickness={3} scale={hovered === "MusterboxDeckel" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
-				</mesh>
+					material={MusterboxDeckel.material}></mesh>
 
 				<mesh
 					name={"MusterboxLasche"}
@@ -105,9 +115,17 @@ const MusterboxUI: React.FC<MusterboxUIProps> = ({ props }) => {
 					position={MusterboxLasche.position}
 					rotation={MusterboxLasche.rotation}
 					scale={MusterboxLasche.scale}
-					material={MusterboxLasche.material}>
-					<Outlines thickness={3} scale={hovered === "MusterboxLasche" && selectObjectFocus?.name !== name ? 1 : 0} color={"white"} />
-				</mesh>
+					material={MusterboxLasche.material}></mesh>
+
+				{selectObjectFocus === null && (
+					<mesh
+						name={name}
+						geometry={musterboxOutlineHelperGeometry}
+						position={[MusterboxDeckel.position.x, MusterboxDeckel.position.y - 0.14, MusterboxDeckel.position.z + 0.26]}
+						material={geometryOutlineHelperMaterial}>
+						<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
+					</mesh>
+				)}
 
 				{/** Boxes */}
 				{boxesVisible && (

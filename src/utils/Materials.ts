@@ -1,4 +1,4 @@
-import { Color, ColorManagement, DoubleSide, RepeatWrapping, Vector2, Vector3 } from "three";
+import { Color, ColorManagement, DoubleSide, MeshBasicMaterial, RepeatWrapping, Vector2, Vector3 } from "three";
 import { extend } from "@react-three/fiber";
 
 import MaterialCreator from "../classes/MaterialCreator";
@@ -68,6 +68,9 @@ const foundationMaterial = materialCreator.createStandardMaterialFromTexture("Fo
 });
 foundationMaterial.toneMapped = true;
 export { foundationMaterial };
+
+const geometryOutlineHelperMaterial = new MeshBasicMaterial({ colorWrite: false, depthWrite: false });
+export { geometryOutlineHelperMaterial };
 
 const perlinNoiseCoffeeTexture = materialCreator.loadTexture("./baked-textures/Objects/TI1/perlin-noise-texture.png", (loadedTexture) => {
 	loadedTexture.wrapS = RepeatWrapping;

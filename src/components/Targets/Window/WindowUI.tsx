@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { DirectionalLight, Mesh } from "three";
-import { foundationMaterial, glassMaterial } from "../../../utils/Materials";
+import { BoxGeometry, DirectionalLight, Mesh } from "three";
+import { foundationMaterial, geometryOutlineHelperMaterial, glassMaterial } from "../../../utils/Materials";
 import { ThreeEvent } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
 
@@ -75,8 +75,7 @@ const WindowUI: React.FC<WindowUIProps> = ({ props }) => {
 				material={glassMaterial}
 				name={name}
 			/>
-
-			<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
+			<Outlines thickness={4} scale={hovered === name ? 1 : 0} color={"white"} />
 		</mesh>
 	);
 };

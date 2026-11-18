@@ -35,8 +35,8 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	});
 
 	const { backLabelPos, backLabelRot } = useControls("Screen", {
-		backLabelPos: { value: { x: 0.6, y: 0, z: -0.4 }, step: 0.1 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.1 },
+		backLabelPos: { value: { x: 0.6, y: -0.04, z: -0.4 }, step: 0.01 },
+		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.01 },
 	});
 
 	return (
