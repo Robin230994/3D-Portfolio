@@ -131,11 +131,11 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 			<group name="ChairRoot" ref={upperChairRef} position={ChairRoot.position} rotation={ChairRoot.rotation} scale={ChairRoot.scale}>
 				<Detailed distances={[0, 4]}>
 					<mesh name="GamingChairUpper" geometry={UpperOfficeChair.geometry} material={iot1Material}>
-						<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
+						<Outlines thickness={3} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
 					</mesh>
 
 					<mesh name="GamingChairUpper" geometry={UpperOfficeChairLP.geometry} material={iot1Material}>
-						<Outlines thickness={2} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
+						<Outlines thickness={3} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
 					</mesh>
 				</Detailed>
 			</group>

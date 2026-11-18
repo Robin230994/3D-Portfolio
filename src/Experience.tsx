@@ -13,6 +13,7 @@ import useProjectDescription from "./hooks/useProjectDescription";
 import ColorPalette from "./components/Targets/PaintingBoard/ColorPalette";
 import VRVideo from "./components/VRVideo/VRVideo";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import { NoToneMapping } from "three";
 
 const Experience = () => {
 	const urlParams = new URLSearchParams(window.location.search);
@@ -44,7 +45,12 @@ const Experience = () => {
 				</>
 			)}
 
-			<Canvas shadows dpr={[0.75, 1.5]} performance={{ min: 0.65, max: 1, debounce: 1000 }} gl={{ antialias: false }} camera={{ near: 0.1, far: 30, fov: 65 }}>
+			<Canvas
+				shadows
+				dpr={[0.75, 1.5]}
+				performance={{ min: 0.65, max: 1, debounce: 1000 }}
+				gl={{ antialias: false, toneMapping: NoToneMapping }}
+				camera={{ near: 0.1, far: 30, fov: 65 }}>
 				<Suspense fallback={null}>
 					<Portfolio loadingState={loadingState} isDebugMode={isDebugMode} onWorldRevealEnd={() => setLoadingState("Finished")} />
 					{/* <Preload all /> */}

@@ -9,7 +9,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'WindowOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'AMSOpen' | 'BambuOpen' | 'BambuPlay' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'high-wave.003' | 'high-wave.004' | 'high-wave.005' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
+type ActionName = 'FCBoxOpen' | 'MusterboxOpen' | 'WindowOpen' | 'PositionMarkerAction' | 'ChairRotation' | 'MacbookOpen' | 'MacbookOpen.001' | 'AMSOpen' | 'BambuOpen' | 'BambuPlay' | 'blink' | 'doubleblink' | 'eyeblink' | 'high-wave.001' | 'high-wave.002' | 'high-wave.005' | 'Idle' | 'Idle02' | 'idle03' | 'sit' | 'sit02' | 'T-Pose' | 'walk' | 'wave' | 'EyeAction' | 'Eye.001Action'
 
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
@@ -83,6 +83,7 @@ type GLTFResult = GLTF & {
     HourHand: THREE.Mesh
     MinuteHand: THREE.Mesh
     SimulatedGodRays: THREE.Mesh
+    LED_Lamp_Lighting: THREE.Mesh
     Ball8: THREE.Mesh
     Ball8_LP: THREE.Mesh
     PositionMarkerBase: THREE.Mesh
@@ -108,6 +109,8 @@ type GLTFResult = GLTF & {
     object_t3: THREE.Mesh
     object_t4: THREE.Mesh
     object_t6: THREE.Mesh
+    Logo_BG_Li: THREE.Mesh
+    Logo_BG_Git: THREE.Mesh
     object_t7: THREE.Mesh
     object_t8: THREE.Mesh
     image_object_t1: THREE.Mesh
@@ -257,13 +260,14 @@ export function Model(props: JSX.IntrinsicElements['group']) {
           <mesh name="WindowHandle" geometry={nodes.WindowHandle.geometry} material={materials['black.005']} position={[-0.075, 0.84, 0.991]} />
           <mesh name="WindowGlass" geometry={nodes.WindowGlass.geometry} material={nodes.WindowGlass.material} />
         </mesh>
-        <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.972]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
+        <mesh name="Picture_Frame001" geometry={nodes.Picture_Frame001.geometry} material={materials.ot4} position={[1.637, 2.784, 2.965]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} />
         <mesh name="Rack" geometry={nodes.Rack.geometry} material={materials.ot4} position={[-6.459, 2.542, -1.751]} rotation={[0, -1.105, 0]} />
         <mesh name="PaintingBoard" geometry={nodes.PaintingBoard.geometry} material={materials['Paper.002']} position={[-0.789, 1.152, 2.02]} />
         <mesh name="lamp" geometry={nodes.lamp.geometry} material={materials.ot2} position={[1.852, 0.687, -2.602]} />
         <mesh name="HourHand" geometry={nodes.HourHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="MinuteHand" geometry={nodes.MinuteHand.geometry} material={materials['ot7.001']} position={[2.288, 3.352, -2.927]} />
         <mesh name="SimulatedGodRays" geometry={nodes.SimulatedGodRays.geometry} material={nodes.SimulatedGodRays.material} position={[8.73, 3.148, -0.077]} rotation={[0, 0, 0.412]} scale={[1.666, 0.646, 0.646]} />
+        <mesh name="LED_Lamp_Lighting" geometry={nodes.LED_Lamp_Lighting.geometry} material={nodes.LED_Lamp_Lighting.material} position={[6.488, 0.122, 2.664]} scale={0.122} />
         <mesh name="Ball8" geometry={nodes.Ball8.geometry} material={materials.ot4} position={[-6.449, 2.565, -1.764]} rotation={[0, -1.105, 0]} />
         <mesh name="Ball8_LP" geometry={nodes.Ball8_LP.geometry} material={materials['ot4.001']} position={[-6.449, 2.565, -1.764]} rotation={[0, -1.105, 0]} />
         <mesh name="PositionMarkerBase" geometry={nodes.PositionMarkerBase.geometry} material={materials['Material.007']} position={[-2.792, 0.121, -0.085]}>
@@ -290,6 +294,8 @@ export function Model(props: JSX.IntrinsicElements['group']) {
         <mesh name="object_t3" geometry={nodes.object_t3.geometry} material={materials.ot3} position={[-3.113, 2.107, 2.335]} rotation={[Math.PI, 0, Math.PI]} scale={1.113} />
         <mesh name="object_t4" geometry={nodes.object_t4.geometry} material={materials.ot4} position={[-0.314, 1.112, -2.329]} rotation={[1.57, 0.005, -1.573]} scale={1.743} />
         <mesh name="object_t6" geometry={nodes.object_t6.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
+        <mesh name="Logo_BG_Li" geometry={nodes.Logo_BG_Li.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
+        <mesh name="Logo_BG_Git" geometry={nodes.Logo_BG_Git.geometry} material={materials['ot7.001']} position={[3.357, 3.313, -2.937]} />
         <mesh name="object_t7" geometry={nodes.object_t7.geometry} material={materials.ot9} position={[-0.847, 0.073, 0.915]} />
         <mesh name="object_t8" geometry={nodes.object_t8.geometry} material={materials.ot6} position={[5.844, 1.199, -1.501]} />
         <mesh name="image_object_t1" geometry={nodes.image_object_t1.geometry} material={materials.iot1} position={[-1.089, 1.392, 2.811]} rotation={[-1.52, 0.274, -2.72]} />

@@ -18,8 +18,8 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 
 			{/** Emissive Ceiling lamp */}
 			<mesh position={[0, 4.22, 0]}>
-				<boxGeometry args={[2.48, 0.05, 0.96]} />
-				<meshStandardMaterial color="#fff4df" emissive="#ffe0ad" emissiveIntensity={1.4} toneMapped={false} />
+				<boxGeometry args={[2.48, 0.015, 0.98]} />
+				<meshStandardMaterial color="#fff4df" emissive="#f4ac5a" emissiveIntensity={8} toneMapped={false} />
 			</mesh>
 
 			{/** Window */}

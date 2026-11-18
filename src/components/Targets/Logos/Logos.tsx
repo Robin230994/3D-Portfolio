@@ -4,7 +4,7 @@ import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Mesh } from "three/src/objects/Mesh.js";
 import useInteraction from "../../../hooks/useInteraction";
 
-const Logos: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
+const Logos: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const interaction = useInteraction({
 		onClick: (e) => {
 			if (e.object.name === "LinkedInLogo") {
@@ -20,7 +20,7 @@ const Logos: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 
 	const uiComponentProps = {
 		data: {
-			myData: { name, nodes, hovered: interaction.hovered, materials },
+			myData: { name, nodes, hovered: interaction.hovered },
 		},
 		functions: {
 			myFunctions: {

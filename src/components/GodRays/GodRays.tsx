@@ -29,17 +29,17 @@ const GodRays: React.FC<CustomMeshProps> = ({ nodes }) => {
 	const { godRaysPosition, godRaysRotation, godRaysScale, uColor, uIntensity, uRayCount } = useControls("SimulatedGodRays", {
 		General: folder({
 			godRaysPosition: {
-				value: { x: 9.2, y: 3.3, z: -0.1 },
+				value: { x: 8.3, y: 3.0, z: -0.1 },
 				step: 0.1,
 			},
 
 			godRaysRotation: {
-				value: { x: 0, y: 0, z: 0.4 },
+				value: { x: 0, y: 0, z: 0.8 },
 				step: 0.1,
 			},
 
 			godRaysScale: {
-				value: { x: 2.6, y: 0.6, z: 0.9 },
+				value: { x: 1.5, y: 0.6, z: 1.0 },
 				step: 0.1,
 			},
 		}),
@@ -49,13 +49,13 @@ const GodRays: React.FC<CustomMeshProps> = ({ nodes }) => {
 				value: "#fff4df",
 			},
 			uIntensity: {
-				value: 0.04,
+				value: 0.025,
 				min: 0,
 				max: 1,
 				step: 0.01,
 			},
 			uRayCount: {
-				value: 6,
+				value: 3,
 				min: 1,
 				max: 10,
 				step: 1,

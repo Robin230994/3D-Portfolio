@@ -51,7 +51,7 @@ const FloorLampUI: React.FC<FloorLampUIProps> = ({ props }) => {
 	const { lightPos, lightTarget, lightIntensity, lightDistance, lightAngle, lightPenumbra, lightDecay } = useControls("Floor Lamp", {
 		lightPos: { value: { x: 1.82, y: 2.19, z: -2.57 } },
 		lightTarget: { value: { x: 1.8, y: 0.3, z: -2.6 }, step: 0.1 },
-		lightIntensity: { value: 5.3, min: 0, max: 10, step: 0.1 },
+		lightIntensity: { value: 10, min: 0, max: 10, step: 0.1 },
 		lightDistance: { value: 3.4, min: 0, max: 10, step: 0.1 },
 		lightAngle: { value: 1.3, min: 0, max: Math.PI / 2, step: 0.01 },
 		lightPenumbra: { value: 0.6, min: 0, max: 1, step: 0.01 },

@@ -4,7 +4,7 @@ import { Perf } from "r3f-perf";
 import { GLTFResult, LoadingState } from "../utils/Types";
 import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { Bloom, EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { DirectionalLight, DirectionalLightHelper, Object3D, RectAreaLight, Vector3 } from "three";
 
@@ -25,6 +25,7 @@ import ObjectT7 from "./ObjectT7/ObjectT7";
 import GodRays from "./GodRays/GodRays";
 import ObjectT8 from "./ObjectT8/ObjectT8";
 import AutoPerformance from "./AutoPerformance/AutoPerformance";
+import { ToneMappingMode } from "postprocessing";
 
 RectAreaLightUniformsLib.init();
 
@@ -103,8 +104,8 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 
 			WindowFill: folder({
 				windowFillPos: { value: { x: 7.72, y: 2.15, z: -0.04 }, step: 0.01 },
-				windowFillIntensity: { value: 8, min: 0, max: 30, step: 0.1 },
-				windowFillColor: { value: "#E6F0FA" },
+				windowFillIntensity: { value: 6.5, min: 0, max: 30, step: 0.1 },
+				windowFillColor: { value: "#fff0d8" },
 			}),
 		},
 		{ collapsed: false },
@@ -147,7 +148,8 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 			/>
 
 			<EffectComposer multisampling={0} depthBuffer>
-				<Bloom luminanceThreshold={1.2} luminanceSmoothing={0} intensity={0.25} mipmapBlur={true} />
+				<Bloom luminanceThreshold={1.2} luminanceSmoothing={0} intensity={0.35} mipmapBlur={true} />
+				<ToneMapping mode={ToneMappingMode.REINHARD} />
 			</EffectComposer>
 
 			{/* {loadingState === "Revealing" && <WorldReveal />} */}

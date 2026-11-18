@@ -18,7 +18,7 @@ const ObjectT6: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		<group name={name}>
 			<mesh geometry={ObjectT6.geometry} position={ObjectT6.position} rotation={ObjectT6.rotation} material={t6Material} scale={ObjectT6.scale} />
 			<Clock name="Clock" nodes={nodes} materials={{ t6Material }} />
-			<Logos name="Logos" nodes={nodes} materials={{ t6Material }} />
+			<Logos name="Logos" nodes={nodes} />
 		</group>
 	);
 };
