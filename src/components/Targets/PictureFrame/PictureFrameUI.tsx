@@ -3,12 +3,12 @@ import { IUIComponentProps } from "../../../utils/Types";
 import { Mesh } from "three/src/objects/Mesh.js";
 import { DirectionalLight } from "three/src/lights/DirectionalLight.js";
 import { Material, PlaneGeometry, Texture } from "three";
-import MaterialCreator from "../../../classes/MaterialCreator";
 import { ThreeEvent } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
-import CloseLabel from "../../CloseLabel/CloseLabel";
 import { useFocusStore } from "../../../stores/useFocusStore";
 import { useControls } from "leva";
+import MaterialCreator from "../../../classes/MaterialCreator";
+import CloseLabel from "../../CloseLabel/CloseLabel";
 
 const materialCreator = MaterialCreator.getInstance();
 const glassMat = materialCreator.getMaterialByName("Glass") as Material;
@@ -60,11 +60,11 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const PictureFrame: Mesh = nodes["Picture_Frame001"] as Mesh;
-	const Certificate: Mesh = nodes["Certificate"] as Mesh;
 
-	const { backLabelPos, backLabelRot } = useControls("PictureFrame", {
+	const { backLabelPos, backLabelRot, certificatePos } = useControls("PictureFrame", {
 		backLabelPos: { value: { x: 0, y: 0.03, z: -0.58 }, step: 0.01 },
 		backLabelRot: { value: { x: -1.5, y: 0, z: 1.59 }, step: 0.01 },
+		certificatePos: { value: { x: 1.64, y: 2.78, z: 2.93 }, step: 0.01 },
 	});
 
 	return (
@@ -88,7 +88,7 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 					x
 				</CloseLabel>
 			</mesh>
-			{/* <mesh position={Certificate.position} rotation={[0, 0, -Math.PI]} material={certificateMat} geometry={planeGeometry} /> */}
+			<mesh position={[certificatePos.x, certificatePos.y, certificatePos.z]} rotation={[0, 0, -Math.PI]} material={certificateMat} geometry={planeGeometry} />
 			<mesh material={glassMat} position={[1.64, 2.77, 2.92]} rotation={[0, Math.PI, 0]} geometry={planeGeometry} />
 		</group>
 	);
