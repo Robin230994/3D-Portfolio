@@ -599,6 +599,10 @@
   text-align: left;
   backdrop-filter: blur(8px);
   transition: box-shadow 180ms ease, filter 180ms ease;
+  animation: interaction-label-in 180ms ease-out both;
+}
+.interaction-label.floating {
+  animation: interaction-label-in 180ms ease-out both, interaction-label-float 5s 180ms ease-in-out infinite;
 }
 
 .interaction-label::before {
@@ -658,10 +662,18 @@
 
 @keyframes interaction-label-float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(-1deg);
   }
   50% {
-    transform: translateY(-3px);
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+@keyframes interaction-label-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 @keyframes interaction-label-out {

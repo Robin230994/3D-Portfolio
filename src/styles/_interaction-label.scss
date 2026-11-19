@@ -9,7 +9,6 @@
 	overflow: hidden;
 	border: none;
 	border-radius: 10px;
-	// background: linear-gradient(135deg, rgba(255, 249, 234, 0.94), rgba(221, 205, 174, 0.9));
 	background-color: rgba(255, 255, 255, 0.1);
 	box-shadow:
 		0 9px 20px rgba(25, 28, 24, 0.25),
@@ -25,10 +24,17 @@
 		sans-serif;
 	text-align: left;
 	backdrop-filter: blur(8px);
-	// animation: interaction-label-float 4.6s ease-in-out infinite;
 	transition:
 		box-shadow 180ms ease,
 		filter 180ms ease;
+
+	animation: interaction-label-in 180ms ease-out both;
+
+	&.floating {
+		animation:
+			interaction-label-in 180ms ease-out both,
+			interaction-label-float 5s 180ms ease-in-out infinite;
+	}
 }
 
 .interaction-label::before {
@@ -92,10 +98,20 @@
 @keyframes interaction-label-float {
 	0%,
 	100% {
-		transform: translateY(0);
+		transform: translateY(0) rotate(-1deg);
 	}
 	50% {
-		transform: translateY(-3px);
+		transform: translateY(-5px) rotate(1deg);
+	}
+}
+
+@keyframes interaction-label-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
 	}
 }
 

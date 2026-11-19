@@ -4,6 +4,8 @@ import useInteraction from "../../../hooks/useInteraction";
 import { CustomMeshProps } from "../../../utils/Interfaces";
 import { Mesh } from "three";
 import { useFrame } from "@react-three/fiber";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
+import { useControls } from "leva";
 
 const moveTowards = (current: number, target: number, step: number) => {
 	if (Math.abs(target - current) <= step) return target;
@@ -20,6 +22,14 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			windowOpenRef.current = windowOpenRef.current ? false : true;
 		},
 	});
+
+	const { interactionLabelPos } = useControls(
+		"Window",
+		{
+			interactionLabelPos: { value: { x: 8, y: 2.5, z: 1.0 }, step: 0.1 },
+		},
+		{ collapsed: true },
+	);
 
 	useFrame((_, delta) => {
 		if (!windowRef.current || !windowHandleRef.current) return;
@@ -51,7 +61,21 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		refs: { myRefs: { windowRef, windowHandleRef } },
 	};
 
-	return <WindowUI props={uiComponentProps} />;
+	return (
+		<>
+			<WindowUI props={uiComponentProps} />
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={2}
+				label={windowOpenRef.current ? "Close window" : "Open window"}
+				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				onTrigger={() => (windowOpenRef.current = windowOpenRef.current ? false : true)}
+			/>
+		</>
+	);
 };
 
 export default memo(Window);

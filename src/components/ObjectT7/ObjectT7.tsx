@@ -9,6 +9,7 @@ import useInteraction from "../../hooks/useInteraction";
 import CloseLabel from "../CloseLabel/CloseLabel";
 import ScreenDesktop from "../Targets/ScreenDesktop/ScreenDesktop";
 import Mouse from "../Targets/Mouse/Mouse";
+import InteractionLabel from "../InteractionLabel/InteractionLabel";
 
 const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8: Mesh = nodes["object_t8"] as Mesh;
@@ -34,9 +35,10 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot } = useControls("Screen", {
+	const { backLabelPos, backLabelRot, interactionLabelPos } = useControls("Screen", {
 		backLabelPos: { value: { x: 0.6, y: -0.04, z: -0.4 }, step: 0.01 },
 		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: 0 }, step: 0.01 },
+		interactionLabelPos: { value: { x: 6, y: 2.6, z: -2.7 }, step: 0.1 },
 	});
 
 	return (
@@ -66,6 +68,19 @@ const ObjectT7: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				</mesh>
 			</group>
 			<Mouse name="Mouse" nodes={nodes} materials={mouseMaterials} />
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={2}
+				label={"Inspect"}
+				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				onTrigger={() => {
+					setSelectObjectFocus({ name: "Screen", object: ot7Ref.current! });
+					setScreenVisible(true);
+				}}
+			/>
 		</>
 	);
 };

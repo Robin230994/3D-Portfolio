@@ -19,7 +19,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				ceilingLightRot: { value: { x: -Math.PI / 2, y: -Math.PI, z: 0 }, step: 0.1 },
 				ceilingLightWidth: { value: 3.41, step: 0.01 },
 				ceilingLightHeight: { value: 2.67, step: 0.01 },
-				ceilingLightIntensity: { value: 1.5, step: 0.1 },
+				ceilingLightIntensity: { value: 2.5, step: 0.1 },
 			},
 			{ collapsed: true },
 		),

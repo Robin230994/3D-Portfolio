@@ -3,7 +3,7 @@ import { IUIComponentProps } from "../../../utils/Types";
 import { Group, Mesh } from "three";
 import { DirectionalLight } from "three";
 import { iot1Material, metalMaterial } from "../../../utils/Materials";
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
 import { Detailed, Outlines } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import InstantiatedMesh from "../../InstanciatedMesh/InstantiatedMesh";
@@ -46,18 +46,23 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 	const ChairRoll: Mesh = nodes["ChairRoll"] as Mesh;
 
 	const { positionFR, positionSR, positionTR, positionFTR, positionFTH, rotationFR, rotationSR, rotationTR, rotationFTR, rotationFTH } = useControls(
-		"ChairRollsOfficeChair",
+		"OfficeChair",
 		{
-			positionFR: { value: { x: 5.33, y: 0.13, z: -0.59 }, step: 0.01 },
-			positionSR: { value: { x: 5.85, y: 0.13, z: -0.85 }, step: 0.01 },
-			positionTR: { value: { x: 6.26, y: 0.13, z: -0.43 }, step: 0.01 },
-			positionFTR: { value: { x: 5.99, y: 0.13, z: 0.09 }, step: 0.01 },
-			positionFTH: { value: { x: 5.41, y: 0.13, z: -0.01 }, step: 0.01 },
-			rotationFR: { value: { x: 0, y: -1.18, z: 1.57 }, step: 0.01 },
-			rotationSR: { value: { x: 0, y: -3.1, z: 1.57 }, step: 0.01 },
-			rotationTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
-			rotationFTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
-			rotationFTH: { value: { x: 0, y: -7.35, z: 1.57 }, step: 0.01 },
+			ChairRollsOfficeChair: folder(
+				{
+					positionFR: { value: { x: 5.33, y: 0.13, z: -0.59 }, step: 0.01 },
+					positionSR: { value: { x: 5.85, y: 0.13, z: -0.85 }, step: 0.01 },
+					positionTR: { value: { x: 6.26, y: 0.13, z: -0.43 }, step: 0.01 },
+					positionFTR: { value: { x: 5.99, y: 0.13, z: 0.09 }, step: 0.01 },
+					positionFTH: { value: { x: 5.41, y: 0.13, z: -0.01 }, step: 0.01 },
+					rotationFR: { value: { x: 0, y: -1.18, z: 1.57 }, step: 0.01 },
+					rotationSR: { value: { x: 0, y: -3.1, z: 1.57 }, step: 0.01 },
+					rotationTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
+					rotationFTR: { value: { x: 0, y: -5.23, z: 1.57 }, step: 0.01 },
+					rotationFTH: { value: { x: 0, y: -7.35, z: 1.57 }, step: 0.01 },
+				},
+				{ collapsed: true },
+			),
 		},
 	);
 

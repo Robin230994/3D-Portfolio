@@ -1,7 +1,7 @@
 import React, { RefObject } from "react";
 import { IUIComponentProps } from "../../../utils/Types";
-import { BoxGeometry, DirectionalLight, Mesh } from "three";
-import { foundationMaterial, geometryOutlineHelperMaterial, glassMaterial } from "../../../utils/Materials";
+import { DirectionalLight, Mesh } from "three";
+import { foundationMaterial, glassMaterial } from "../../../utils/Materials";
 import { ThreeEvent } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
 

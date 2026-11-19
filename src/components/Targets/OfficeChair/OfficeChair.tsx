@@ -5,7 +5,9 @@ import { Group, LoopOnce } from "three";
 import { useAnimations } from "@react-three/drei";
 import { AnimationConfig } from "../../../utils/Types";
 import { officeChairAnimationPresets } from "../../../utils/Presets";
+import { useControls } from "leva";
 import useInteraction from "../../../hooks/useInteraction";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const [action, setAction] = useState<AnimationConfig<"OfficeChair">>(officeChairAnimationPresets.Idle);
@@ -40,6 +42,10 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 		setAction(officeChairAnimationPresets.Idle);
 	}, [action, actions, animations]);
 
+	const { interactionLabelPos } = useControls("OfficeChair", {
+		interactionLabelPos: { value: { x: 5.6, y: 1.4, z: 0.5 }, step: 0.1 },
+	});
+
 	const uiComponentProps = useMemo(
 		() => ({
 			data: { myData: { name, nodes, animations, hovered: interactions.hovered } },
@@ -49,7 +55,21 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 		[animations, interactions.events, interactions.hovered, name, nodes],
 	);
 
-	return <OfficeChairUI props={uiComponentProps} />;
+	return (
+		<>
+			<OfficeChairUI props={uiComponentProps} />
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interactions.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={2}
+				label={"Spin around"}
+				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				onTrigger={() => handleChairClick()}
+			/>
+		</>
+	);
 };
 
 export default OfficeChair;

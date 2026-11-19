@@ -3,20 +3,34 @@ import { useEffect, useState } from "react";
 import { useCameraStore } from "../../stores/useCameraStore";
 import { useFocusStore } from "../../stores/useFocusStore";
 
+type VisibilityMode = "focus" | "hover";
+
 export interface InteractionLabelProps {
 	focusName: string;
 	shortcut: number;
 	label: string;
 	position: [number, number, number];
+	visibilityMode?: VisibilityMode;
+	hoveredObject?: string | null;
 	rotation?: [number, number, number];
 	scale?: number;
 	onTrigger: () => void;
 }
 
-const InteractionLabel: React.FC<InteractionLabelProps> = ({ focusName, shortcut, label, position, rotation = [0, 0, 0], scale = 1, onTrigger }) => {
+const InteractionLabel: React.FC<InteractionLabelProps> = ({
+	focusName,
+	shortcut,
+	label,
+	position,
+	visibilityMode = "focus",
+	hoveredObject,
+	rotation = [0, 0, 0],
+	scale = 1,
+	onTrigger,
+}) => {
 	const focusedObject = useFocusStore((state) => state.selectObjectFocus);
 	const cameraIsMoving = useCameraStore((state) => state.cameraIsMoving);
-	const isVisible = focusedObject?.name === focusName && !cameraIsMoving;
+	const isVisible = !cameraIsMoving && (visibilityMode === "focus" ? focusedObject?.name === focusName : hoveredObject !== null && focusedObject === null);
 	const [renderLabel, setRenderLabel] = useState(isVisible);
 	const [isLeaving, setIsLeaving] = useState(false);
 
@@ -51,9 +65,9 @@ const InteractionLabel: React.FC<InteractionLabelProps> = ({ focusName, shortcut
 	if (!renderLabel) return null;
 
 	return (
-		<Html transform position={position} rotation={rotation} scale={scale} distanceFactor={1} pointerEvents="auto">
+		<Html transform sprite={visibilityMode === "hover"} position={position} rotation={rotation} scale={scale} distanceFactor={1} pointerEvents="auto">
 			<button
-				className={`interaction-label ${isLeaving ? "is-leaving" : ""}`}
+				className={`interaction-label ${isLeaving ? "is-leaving" : ""} ${visibilityMode === "hover" ? "floating" : ""}`}
 				onPointerDown={(event) => event.stopPropagation()}
 				onClick={(event) => {
 					event.stopPropagation();
