@@ -130,11 +130,11 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 		<group name={name} {...events}>
 			<group name="ChairRoot" ref={upperChairRef} position={ChairRoot.position} rotation={ChairRoot.rotation} scale={ChairRoot.scale}>
 				<Detailed distances={[0, 4]}>
-					<mesh name="GamingChairUpper" geometry={UpperOfficeChair.geometry} material={iot1Material}>
+					<mesh name="GamingChairUpper" geometry={UpperOfficeChair.geometry} material={iot1Material} castShadow>
 						<Outlines thickness={3} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
 					</mesh>
 
-					<mesh name="GamingChairUpper" geometry={UpperOfficeChairLP.geometry} material={iot1Material}>
+					<mesh name="GamingChairUpper" geometry={UpperOfficeChairLP.geometry} material={iot1Material} castShadow>
 						<Outlines thickness={3} scale={hovered === "GamingChairUpper" ? 1 : 0} color="white" />
 					</mesh>
 				</Detailed>
@@ -146,10 +146,11 @@ const OfficeChairUI: React.FC<OfficeChairUIProps> = ({ props }) => {
 				rotation={LowerOfficeChair.rotation}
 				scale={LowerOfficeChair.scale}
 				material={metalMaterial}
+				castShadow
 			/>
 
 			{/** Chair roll instances */}
-			<InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} />
+			<InstantiatedMesh name="Chair-Roll-Instances" geometry={ChairRoll.geometry} instance={chairRollInstances} material={iot1Material} shadows />
 		</group>
 	);
 };

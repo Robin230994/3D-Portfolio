@@ -46,7 +46,7 @@ const Experience = () => {
 			)}
 
 			<Canvas
-				shadows
+				shadows="percentage"
 				dpr={[0.75, 1.5]}
 				performance={{ min: 0.65, max: 1, debounce: 1000 }}
 				gl={{ antialias: false, toneMapping: NoToneMapping }}

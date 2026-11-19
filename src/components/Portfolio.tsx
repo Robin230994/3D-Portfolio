@@ -6,7 +6,8 @@ import { useLoader } from "@react-three/fiber";
 import { DRACOLoader, GLTFLoader, RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js";
 import { Bloom, EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { DirectionalLight, DirectionalLightHelper, Object3D, RectAreaLight, Vector3 } from "three";
+import { DirectionalLight, DirectionalLightHelper, Object3D, Vector3 } from "three";
+import { ToneMappingMode } from "postprocessing";
 
 import Foundation from "./Foundation/Foundation";
 import Desks from "./Desks/Desks";
@@ -25,7 +26,6 @@ import ObjectT7 from "./ObjectT7/ObjectT7";
 import GodRays from "./GodRays/GodRays";
 import ObjectT8 from "./ObjectT8/ObjectT8";
 import AutoPerformance from "./AutoPerformance/AutoPerformance";
-import { ToneMappingMode } from "postprocessing";
 
 RectAreaLightUniformsLib.init();
 
@@ -45,6 +45,8 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 	/** REFS */
 	const directionalLightRef = useRef<DirectionalLight>(null!);
 	const sunTargetRef = useRef<Object3D>(null!);
+
+	useHelper(directionalLightRef, DirectionalLightHelper, 0.8, "#ff0000");
 
 	/** Debug */
 	const perfParams = useControls("Perf", {
@@ -95,6 +97,8 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 				directionalColor: {
 					value: "#FFF0D8",
 				},
+
+				directionalShadowRadius: { value: 2, step: 0.1 },
 			}),
 
 			WindowFill: folder({
@@ -162,7 +166,14 @@ function Portfolio({ loadingState, isDebugMode, onWorldRevealEnd }: { loadingSta
 						castShadow
 						shadow-mapSize-width={2048}
 						shadow-mapSize-height={2048}
+						shadow-camera-near={0.1}
+						shadow-camera-far={35}
+						shadow-camera-left={-10}
+						shadow-camera-right={10}
+						shadow-camera-top={8}
+						shadow-camera-bottom={-8}
 						shadow-bias={-0.00015}
+						shadow-radius={lightParams.directionalShadowRadius}
 					/>
 					<object3D ref={sunTargetRef} position={[lightParams.directionalTarget.x, lightParams.directionalTarget.y, lightParams.directionalTarget.z]} />
 					<hemisphereLight args={[lightParams.hemisphereSkyColor, lightParams.hemisphereGroundColor, lightParams.hemisphereIntensity]} />

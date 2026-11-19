@@ -1,7 +1,7 @@
 import { FC, useRef } from "react";
 import { CustomMeshProps } from "../../utils/Interfaces";
 import { Mesh, PointLight } from "three";
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
 
 const ObjectT8: FC<CustomMeshProps> = ({ name, nodes }) => {
 	const ObjectT8 = nodes["object_t7"] as Mesh;
@@ -10,10 +10,15 @@ const ObjectT8: FC<CustomMeshProps> = ({ name, nodes }) => {
 	const pointLightRef = useRef<PointLight>(null!);
 
 	const { LED_pointLightPos, LED_pointLightIntensity, LED_pointLightDistance, LED_pointLightDecay } = useControls("Lights", {
-		LED_pointLightPos: { value: { x: 6.5, y: 1.8, z: 2.6 }, step: 0.1 },
-		LED_pointLightIntensity: { value: 4.8, step: 0.1 },
-		LED_pointLightDistance: { value: 2.8, step: 0.1 },
-		LED_pointLightDecay: { value: 2.6, step: 0.1 },
+		LED_Lamp: folder(
+			{
+				LED_pointLightPos: { value: { x: 6.5, y: 1.8, z: 2.6 }, step: 0.1 },
+				LED_pointLightIntensity: { value: 4.8, step: 0.1 },
+				LED_pointLightDistance: { value: 2.8, step: 0.1 },
+				LED_pointLightDecay: { value: 2.6, step: 0.1 },
+			},
+			{ collapsed: true },
+		),
 	});
 
 	return (
@@ -31,7 +36,6 @@ const ObjectT8: FC<CustomMeshProps> = ({ name, nodes }) => {
 				distance={LED_pointLightDistance}
 				decay={LED_pointLightDecay}
 				intensity={LED_pointLightIntensity}
-				castShadow
 			/>
 		</group>
 	);

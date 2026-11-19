@@ -15,7 +15,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const { ceilingLightPos, ceilingLightRot, ceilingLightWidth, ceilingLightHeight, ceilingLightIntensity } = useControls("Lights", {
 		Ceiling: folder(
 			{
-				ceilingLightPos: { value: { x: 0, y: 2.8, z: 0 }, step: 0.1 },
+				ceilingLightPos: { value: { x: 0, y: 1.9, z: 0 }, step: 0.1 },
 				ceilingLightRot: { value: { x: -Math.PI / 2, y: -Math.PI, z: 0 }, step: 0.1 },
 				ceilingLightWidth: { value: 3.41, step: 0.01 },
 				ceilingLightHeight: { value: 2.67, step: 0.01 },
@@ -28,7 +28,7 @@ const Foundation: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	return (
 		<group name={name}>
 			{/** Foundation */}
-			<mesh geometry={Foundation.geometry} position={Foundation.position} material={foundationMaterial} scale={Foundation.scale} receiveShadow />
+			<mesh geometry={Foundation.geometry} position={Foundation.position} material={foundationMaterial} scale={Foundation.scale} receiveShadow castShadow />
 
 			{/** Emissive Ceiling lamp */}
 			<mesh position={[0, 4.22, 0]}>

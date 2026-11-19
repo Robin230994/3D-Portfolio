@@ -14,9 +14,10 @@ type Instances = {
 	geometry: BufferGeometry<NormalBufferAttributes> | undefined;
 	material?: Material | Material[] | undefined;
 	name?: string;
+	shadows?: boolean;
 };
 
-const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, name }) => {
+const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, name, shadows }) => {
 	const instancedMeshRef = useRef<InstancedMesh>(null);
 
 	useEffect(() => {
@@ -57,6 +58,7 @@ const InstantiatedMesh: React.FC<Instances> = ({ instance, geometry, material, n
 			name={name ? name : ""}
 			ref={instancedMeshRef}
 			frustumCulled={false}
+			castShadow={shadows ? true : false}
 			args={[geometry ? geometry : new BoxGeometry(), material === undefined ? new MeshStandardMaterial({ vertexColors: true }) : material, instance.length]}
 		/>
 	);
