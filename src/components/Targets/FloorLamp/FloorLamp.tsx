@@ -52,7 +52,7 @@ const FloorLamp: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 				hoveredObject={interaction.hovered}
 				visibilityMode="hover"
 				shortcut={1}
-				scale={2}
+				scale={1.8}
 				label={lightOn ? "Turn light off" : "Turn light on"}
 				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
 				onTrigger={() => (lightOn ? setLightOn(false) : setLightOn(true))}

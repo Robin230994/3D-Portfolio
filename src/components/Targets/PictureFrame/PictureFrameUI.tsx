@@ -5,10 +5,8 @@ import { DirectionalLight } from "three/src/lights/DirectionalLight.js";
 import { Material, PlaneGeometry, Texture } from "three";
 import { ThreeEvent } from "@react-three/fiber";
 import { Outlines } from "@react-three/drei";
-import { useFocusStore } from "../../../stores/useFocusStore";
 import { useControls } from "leva";
 import MaterialCreator from "../../../classes/MaterialCreator";
-import CloseLabel from "../../CloseLabel/CloseLabel";
 
 const materialCreator = MaterialCreator.getInstance();
 const glassMat = materialCreator.getMaterialByName("Glass") as Material;
@@ -27,12 +25,10 @@ interface PictureFrameUIProps extends IUIComponentProps {
 				name: string;
 				nodes: { [key: string]: Mesh | DirectionalLight };
 				hovered: string | null;
-				cameraIsMoving: boolean;
 			};
 		};
 		functions: {
 			myFunctions: {
-				dispatch: () => void;
 				events: {
 					onPointerEnter: (e: ThreeEvent<PointerEvent>) => void;
 					onPointerLeave: () => void;
@@ -53,17 +49,13 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 	const { myFunctions } = props.functions;
 	const { myRefs } = props.refs;
 
-	const { name, nodes, hovered, cameraIsMoving } = myData;
-	const { dispatch, events } = myFunctions;
+	const { name, nodes, hovered } = myData;
+	const { events } = myFunctions;
 	const { pictureFrameRef } = myRefs;
-
-	const selectObjectFocus = useFocusStore((state) => state.selectObjectFocus);
 
 	const PictureFrame: Mesh = nodes["Picture_Frame001"] as Mesh;
 
-	const { backLabelPos, backLabelRot, certificatePos } = useControls("PictureFrame", {
-		backLabelPos: { value: { x: 0, y: 0.03, z: -0.58 }, step: 0.01 },
-		backLabelRot: { value: { x: -1.5, y: 0, z: 1.59 }, step: 0.01 },
+	const { certificatePos } = useControls("PictureFrame", {
 		certificatePos: { value: { x: 1.64, y: 2.78, z: 2.93 }, step: 0.01 },
 	});
 
@@ -79,14 +71,6 @@ const PictureFrameUI: React.FC<PictureFrameUIProps> = ({ props }) => {
 				material={PictureFrame.material}
 				scale={PictureFrame.scale}>
 				<Outlines thickness={3} scale={hovered === name ? 1 : 0} color={"white"} />
-				<CloseLabel
-					labelPos={[backLabelPos.x, backLabelPos.y, backLabelPos.z]}
-					labelRot={[backLabelRot.x, backLabelRot.y, backLabelRot.z]}
-					scaleFactor={0.2}
-					visible={!cameraIsMoving && selectObjectFocus?.name === name}
-					dispatch={() => dispatch()}>
-					x
-				</CloseLabel>
 			</mesh>
 			<mesh position={[certificatePos.x, certificatePos.y, certificatePos.z]} rotation={[0, 0, -Math.PI]} material={certificateMat} geometry={planeGeometry} />
 			<mesh material={glassMat} position={[1.64, 2.77, 2.92]} rotation={[0, Math.PI, 0]} geometry={planeGeometry} />

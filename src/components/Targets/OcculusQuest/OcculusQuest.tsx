@@ -9,10 +9,10 @@ import { useVRStore, VRTransition } from "../../../stores/useVRStore";
 import { useControls } from "leva";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useProjectPanelStore } from "../../../stores/useProjectPanelStore";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import useInteraction from "../../../hooks/useInteraction";
 import CloseLabel from "../../CloseLabel/CloseLabel";
 import InteractionLabel from "../../InteractionLabel/InteractionLabel";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const occulusParentRef = useRef<Group>(null);
@@ -56,17 +56,20 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot, interactionPosition, interactionRotation, interactionClosePanelPos, interactionClosePanelRot } = useControls(
-		"OcculusHeadset",
-		{
-			backLabelPos: { value: { x: 3.08, y: 1.16, z: -1.37 }, step: 0.01 },
-			backLabelRot: { value: { x: -1.6, y: 0, z: 0.14 }, step: 0.01 },
-			interactionPosition: { value: { x: 3.71, y: 1.2, z: -1.23 }, step: 0.01 },
-			interactionRotation: { value: { x: 0, y: -0.32, z: 0 } },
-			interactionClosePanelPos: { value: { x: 3.44, y: 1.2, z: -1.22 }, steo: 0.01 },
-			interactionClosePanelRot: { value: { x: 0, y: 0.32, z: 0 }, steo: 0.01 },
-		},
-	);
+	const { backLabelPos, backLabelRot, interactionPosition, interactionRotation, interactionClosePanelPos, interactionClosePanelRot, interactionHoverPosition } =
+		useControls(
+			"OcculusHeadset",
+			{
+				backLabelPos: { value: { x: 3.08, y: 1.16, z: -1.37 }, step: 0.01 },
+				backLabelRot: { value: { x: -1.6, y: 0, z: 0.14 }, step: 0.01 },
+				interactionPosition: { value: { x: 3.71, y: 1.2, z: -1.23 }, step: 0.01 },
+				interactionRotation: { value: { x: 0, y: -0.32, z: 0 } },
+				interactionClosePanelPos: { value: { x: 3.44, y: 1.2, z: -1.22 }, steo: 0.01 },
+				interactionClosePanelRot: { value: { x: 0, y: 0.32, z: 0 }, steo: 0.01 },
+				interactionHoverPosition: { value: { x: 3.35, y: 1.5, z: -1.3 }, step: 0.1 },
+			},
+			{ collapsed: true },
+		);
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
@@ -234,6 +237,20 @@ const OcculusQuest: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 					}}
 				/>
 			)}
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.5}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => {
+					setSelectObjectFocus({ name: name, object: occulusParentRef.current! });
+					setActiveProject(name);
+				}}
+			/>
 		</>
 	);
 };

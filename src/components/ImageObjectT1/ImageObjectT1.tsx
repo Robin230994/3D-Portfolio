@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 
 import OfficeChair from "../Targets/OfficeChair/OfficeChair";
-import OcculusQuest from "../Targets/OccolusQuest/OcculusQuest";
+import OcculusQuest from "../Targets/OcculusQuest/OcculusQuest";
 import MaterialCreator from "../../classes/MaterialCreator";
 import PaintingBoard from "../Targets/PaintingBoard/PaintingBoard";
 

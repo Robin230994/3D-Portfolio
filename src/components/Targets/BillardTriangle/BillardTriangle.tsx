@@ -33,14 +33,16 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot, interactionPanelPos, interactionPanelRot, interactionBallPos, interactionBallRot } = useControls("BillardTriangle", {
-		backLabelPos: { value: { x: -6.23, y: 2.51, z: -1.51 }, step: 0.01 },
-		backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: -1.4 }, step: 0.01 },
-		interactionPanelPos: { value: { x: -6.28, y: 2.55, z: -1.7 }, step: 0.01 },
-		interactionPanelRot: { value: { x: -0.61, y: 0.87, z: 0.49 }, step: 0.01 },
-		interactionBallPos: { value: { x: -6.32, y: 2.53, z: -2.07 }, step: 0.01 },
-		interactionBallRot: { value: { x: 0, y: 1.6, z: 0 }, step: 0.01 },
-	});
+	const { backLabelPos, backLabelRot, interactionPanelPos, interactionPanelRot, interactionBallPos, interactionBallRot, interactionHoverPosition } =
+		useControls("BillardTriangle", {
+			backLabelPos: { value: { x: -6.23, y: 2.51, z: -1.51 }, step: 0.01 },
+			backLabelRot: { value: { x: -Math.PI / 2, y: 0, z: -1.4 }, step: 0.01 },
+			interactionPanelPos: { value: { x: -6.28, y: 2.55, z: -1.7 }, step: 0.01 },
+			interactionPanelRot: { value: { x: -0.61, y: 0.87, z: 0.49 }, step: 0.01 },
+			interactionBallPos: { value: { x: -6.32, y: 2.53, z: -2.07 }, step: 0.01 },
+			interactionBallRot: { value: { x: 0, y: 1.6, z: 0 }, step: 0.01 },
+			interactionHoverPosition: { value: { x: -6.5, y: 2.7, z: -1.7 }, step: 0.1 },
+		});
 
 	const dispatch = () => {
 		setSelectObjectFocus(null);
@@ -111,6 +113,22 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				rotation={[interactionPanelRot.x, interactionPanelRot.y, interactionPanelRot.z]}
 				scale={0.7}
 				onTrigger={() => setPanelClosed(true)}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.8}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => {
+					if (triangleRef.current) {
+						setSelectObjectFocus({ name: name, object: triangleRef.current });
+						setActiveProject("BillardTriangle");
+					}
+				}}
 			/>
 		</>
 	);

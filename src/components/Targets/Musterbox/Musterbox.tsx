@@ -31,10 +31,15 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 	const setActiveProject = useProjectPanelStore((state) => state.setActiveProject);
 
 	const { actions } = useAnimations(animations!, musterboxRef);
-	const { backLabelPos, backLabelRot } = useControls("Musterbox", {
-		backLabelPos: { value: { x: -3.75, y: 2.2, z: -2.4 }, step: 0.1 },
-		backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },
-	});
+	const { backLabelPos, backLabelRot, interactionHoverPosition } = useControls(
+		"Musterbox",
+		{
+			backLabelPos: { value: { x: -3.75, y: 2.2, z: -2.4 }, step: 0.1 },
+			backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },
+			interactionHoverPosition: { value: { x: -3.2, y: 2.6, z: -2.6 }, step: 0.1 },
+		},
+		{ collapsed: true },
+	);
 
 	/** STATES */
 	const [isOpen, setIsOpen] = useState(false);
@@ -247,6 +252,17 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				rotation={[-0.58, 0, 0]}
 				scale={0.8}
 				onTrigger={switchPanel}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.5}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => handleMusterboxClick()}
 			/>
 		</>
 	);

@@ -33,14 +33,16 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		},
 	});
 
-	const { backLabelPos, backLabelRot, interactionDoorOpenPos, interactionDoorOpenRot, interactionAMSOpenPos, interactionAMSOpenRot } = useControls("BambuLab", {
-		backLabelPos: { value: { x: -3.67, y: 2.38, z: 1.57 }, step: 0.01 },
-		backLabelRot: { value: { x: 0, y: 2.8, z: 0 }, step: 0.01 },
-		interactionDoorOpenPos: { value: { x: -3.65, y: 2.19, z: 1.43 }, step: 0.01 },
-		interactionDoorOpenRot: { value: { x: 0, y: 2.69, z: 0 }, step: 0.01 },
-		interactionAMSOpenPos: { value: { x: -2.43, y: 2.81, z: 2.12 }, step: 0.01 },
-		interactionAMSOpenRot: { value: { x: 0, y: -2.76, z: 0 }, step: 0.01 },
-	});
+	const { backLabelPos, backLabelRot, interactionDoorOpenPos, interactionDoorOpenRot, interactionAMSOpenPos, interactionAMSOpenRot, interactionHoverPosition } =
+		useControls("BambuLab", {
+			backLabelPos: { value: { x: -3.67, y: 2.38, z: 1.57 }, step: 0.01 },
+			backLabelRot: { value: { x: 0, y: 2.8, z: 0 }, step: 0.01 },
+			interactionDoorOpenPos: { value: { x: -3.65, y: 2.19, z: 1.43 }, step: 0.01 },
+			interactionDoorOpenRot: { value: { x: 0, y: 2.69, z: 0 }, step: 0.01 },
+			interactionAMSOpenPos: { value: { x: -2.43, y: 2.81, z: 2.12 }, step: 0.01 },
+			interactionAMSOpenRot: { value: { x: 0, y: -2.76, z: 0 }, step: 0.01 },
+			interactionHoverPosition: { value: { x: -3.15, y: 2.5, z: 2 }, step: 0.1 },
+		});
 
 	useEffect(() => {
 		const playAction = () => {
@@ -129,6 +131,21 @@ const BambuLab: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				rotation={[interactionAMSOpenRot.x, interactionAMSOpenRot.y, interactionAMSOpenRot.z]}
 				scale={0.7}
 				onTrigger={() => switchAMSAnimation()}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.8}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => {
+					if (bambuLabGroupRef.current) {
+						setSelectObjectFocus({ name: name, object: bambuLabGroupRef.current });
+					}
+				}}
 			/>
 		</>
 	);

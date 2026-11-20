@@ -88,11 +88,12 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 			}
 		},
 	});
-	const { backLabelPos, backLabelRot, interactionPickUpPos, interactionPickupRot } = useControls("PaintingBoard", {
+	const { backLabelPos, backLabelRot, interactionPickUpPos, interactionPickupRot, interactionHoverPosition } = useControls("PaintingBoard", {
 		backLabelPos: { value: { x: -0.08, y: 1.15, z: 1.67 }, step: 0.01 },
 		backLabelRot: { value: { x: 1.56, y: 3.14, z: 0.1 }, step: 0.01 },
 		interactionPickUpPos: { value: { x: -1.26, y: 1.19, z: 2.23 }, step: 0.01 },
 		interactionPickupRot: { value: { x: -0, y: 2.42, z: 0.0 }, step: 0.01 },
+		interactionHoverPosition: { value: { x: -0.8, y: 1.6, z: 2 }, step: 0.1 },
 	});
 
 	useEffect(() => {
@@ -280,6 +281,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				dispatch={() => dispatch()}>
 				x
 			</CloseLabel>
+
 			<InteractionLabel
 				focusName={name}
 				shortcut={1}
@@ -290,6 +292,20 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				onTrigger={() => {
 					if (figureSelected) return;
 					setBrushPickedUp(!brushPickedUp);
+				}}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.8}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => {
+					if (!paintingBoardRef.current) return;
+					setSelectObjectFocus({ name: name, object: paintingBoardRef.current });
 				}}
 			/>
 		</>

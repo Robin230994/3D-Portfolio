@@ -6,6 +6,7 @@ import { songs } from "../../../utils/Presets";
 import MusicNote from "../../MusicNote/MusicNote";
 import useMusicStore from "../../../stores/useMusicStore";
 import useInteraction from "../../../hooks/useInteraction";
+import InteractionLabel from "../../InteractionLabel/InteractionLabel";
 
 const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 	const playing = useMusicStore((state) => state.playing);
@@ -25,8 +26,9 @@ const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		onClick: handleHomePodClick,
 	});
 
-	const { notePos } = useControls("MusicNotes", {
+	const { notePos, interactionHoverPosition } = useControls("MusicNotes", {
 		notePos: { value: { x: -0.9, y: 2.7, z: -2.6 } },
+		interactionHoverPosition: { value: { x: -0.9, y: 2.65, z: -2.6 }, step: 0.01 },
 	});
 
 	const uiComponentProps = useMemo(
@@ -43,6 +45,16 @@ const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 		<>
 			<HomePodUI props={uiComponentProps} />
 			<MusicNote playing={playing} position={[notePos.x, notePos.y, notePos.z]} />
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.5}
+				label={playing ? "Stop music" : "Play music"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => handleHomePodClick()}
+			/>
 		</>
 	);
 };

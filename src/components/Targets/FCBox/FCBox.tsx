@@ -49,10 +49,15 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 		setActiveProject(null);
 	};
 
-	const { backLabelPos, backLabelRot } = useControls("FCBoxLabel", {
-		backLabelPos: { value: { x: 0.1, y: 2.2, z: -2.4 }, step: 0.1 },
-		backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },
-	});
+	const { backLabelPos, backLabelRot, interactionHoverPosition } = useControls(
+		"FCBoxLabel",
+		{
+			backLabelPos: { value: { x: 0.1, y: 2.2, z: -2.4 }, step: 0.1 },
+			backLabelRot: { value: { x: -1.6, y: 0, z: 0.1 }, step: 0.1 },
+			interactionHoverPosition: { value: { x: 0.55, y: 2.75, z: -2.5 }, step: 0.01 },
+		},
+		{ collapsed: true },
+	);
 
 	useEffect(() => {
 		const animation = actions.FCBoxOpen;
@@ -138,6 +143,17 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				rotation={[-0.58, 0.01, 0.01]}
 				scale={0.8}
 				onTrigger={switchPanel}
+			/>
+
+			<InteractionLabel
+				focusName={name}
+				hoveredObject={interaction.hovered}
+				visibilityMode="hover"
+				shortcut={1}
+				scale={1.4}
+				label={"Inspect"}
+				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				onTrigger={() => handleFCBoxClick()}
 			/>
 		</>
 	);
