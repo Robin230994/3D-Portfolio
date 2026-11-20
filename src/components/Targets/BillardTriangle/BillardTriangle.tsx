@@ -102,6 +102,7 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				position={[interactionBallPos.x, interactionBallPos.y, interactionBallPos.z]}
 				rotation={[interactionBallRot.x, interactionBallRot.y, interactionBallRot.z]}
 				scale={0.7}
+				staticCameraMovement
 				onTrigger={spinBall}
 			/>
 
@@ -112,7 +113,8 @@ const BillardTriangle: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				position={[interactionPanelPos.x, interactionPanelPos.y, interactionPanelPos.z]}
 				rotation={[interactionPanelRot.x, interactionPanelRot.y, interactionPanelRot.z]}
 				scale={0.7}
-				onTrigger={() => setPanelClosed(true)}
+				staticCameraMovement
+				onTrigger={() => setPanelClosed(!panelClosed)}
 			/>
 
 			<InteractionLabel

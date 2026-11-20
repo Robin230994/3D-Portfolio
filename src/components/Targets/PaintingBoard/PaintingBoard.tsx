@@ -289,6 +289,7 @@ const PaintingBoard: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				position={[interactionPickUpPos.x, interactionPickUpPos.y, interactionPickUpPos.z]}
 				rotation={[interactionPickupRot.x, interactionPickupRot.y, interactionPickupRot.z]}
 				scale={0.6}
+				staticCameraMovement
 				onTrigger={() => {
 					if (figureSelected) return;
 					setBrushPickedUp(!brushPickedUp);

@@ -241,6 +241,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				position={[-2.63, 2.56, -2.51]}
 				rotation={[0, 0, 0]}
 				scale={0.8}
+				staticCameraMovement
 				onTrigger={toggleBox}
 			/>
 
@@ -251,6 +252,7 @@ const Musterbox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				position={[-3.0, 2.21, -2.2]}
 				rotation={[-0.58, 0, 0]}
 				scale={0.8}
+				staticCameraMovement
 				onTrigger={switchPanel}
 			/>
 

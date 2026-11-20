@@ -46,7 +46,7 @@
 	pointer-events: none;
 }
 
-.interaction-label::after {
+.interaction-label:not(.static)::after {
 	margin-left: auto;
 	color: white;
 	content: "↗";

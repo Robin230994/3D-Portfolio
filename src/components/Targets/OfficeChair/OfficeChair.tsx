@@ -66,6 +66,7 @@ const OfficeChair: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => 
 				scale={2}
 				label={"Spin around"}
 				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				staticCameraMovement={true}
 				onTrigger={() => handleChairClick()}
 			/>
 		</>

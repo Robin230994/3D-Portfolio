@@ -72,6 +72,7 @@ const Window: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				scale={2}
 				label={windowOpenRef.current ? "Close window" : "Open window"}
 				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				staticCameraMovement
 				onTrigger={() => (windowOpenRef.current = windowOpenRef.current ? false : true)}
 			/>
 		</>

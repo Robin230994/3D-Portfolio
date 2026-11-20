@@ -55,6 +55,7 @@ const FloorLamp: React.FC<CustomMeshProps> = ({ name, nodes, materials }) => {
 				scale={1.8}
 				label={lightOn ? "Turn light off" : "Turn light on"}
 				position={[interactionLabelPos.x, interactionLabelPos.y, interactionLabelPos.z]}
+				staticCameraMovement
 				onTrigger={() => (lightOn ? setLightOn(false) : setLightOn(true))}
 			/>
 		</>

@@ -53,6 +53,7 @@ const HomePod: React.FC<CustomMeshProps> = ({ name, nodes }) => {
 				scale={1.5}
 				label={playing ? "Stop music" : "Play music"}
 				position={[interactionHoverPosition.x, interactionHoverPosition.y, interactionHoverPosition.z]}
+				staticCameraMovement
 				onTrigger={() => handleHomePodClick()}
 			/>
 		</>

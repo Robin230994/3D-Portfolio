@@ -133,6 +133,7 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				position={[0.95, 2.43, -2.4]}
 				rotation={[0, 0, 0]}
 				scale={0.8}
+				staticCameraMovement
 				onTrigger={toggleBox}
 			/>
 			<InteractionLabel
@@ -142,6 +143,7 @@ const FCBox: React.FC<CustomMeshProps> = ({ name, nodes, animations }) => {
 				position={[0.67, 2.21, -2.22]}
 				rotation={[-0.58, 0.01, 0.01]}
 				scale={0.8}
+				staticCameraMovement
 				onTrigger={switchPanel}
 			/>
 

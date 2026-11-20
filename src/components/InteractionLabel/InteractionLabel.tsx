@@ -14,6 +14,7 @@ export interface InteractionLabelProps {
 	hoveredObject?: string | null;
 	rotation?: [number, number, number];
 	scale?: number;
+	staticCameraMovement?: boolean;
 	onTrigger: () => void;
 }
 
@@ -26,6 +27,7 @@ const InteractionLabel: React.FC<InteractionLabelProps> = ({
 	hoveredObject,
 	rotation = [0, 0, 0],
 	scale = 1,
+	staticCameraMovement = false,
 	onTrigger,
 }) => {
 	const focusedObject = useFocusStore((state) => state.selectObjectFocus);
@@ -67,7 +69,7 @@ const InteractionLabel: React.FC<InteractionLabelProps> = ({
 	return (
 		<Html transform sprite={visibilityMode === "hover"} position={position} rotation={rotation} scale={scale} distanceFactor={1} pointerEvents="auto">
 			<button
-				className={`interaction-label ${isLeaving ? "is-leaving" : ""} ${visibilityMode === "hover" ? "floating" : ""}`}
+				className={`interaction-label ${isLeaving ? "is-leaving" : ""} ${visibilityMode === "hover" ? "floating" : ""} ${staticCameraMovement ? "static" : ""}`}
 				onPointerDown={(event) => event.stopPropagation()}
 				onClick={(event) => {
 					event.stopPropagation();
